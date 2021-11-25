@@ -41,4 +41,7 @@ ptree<-keep.tip(mtree, to.keep)
 
 write.tree(ptree, file="tree_herve.tre")
 
+genus<-gsub("_.*", "", mtree$tip.label)
+mtree$tip.label[which(genus=="Oxalis")]
+
 ```
