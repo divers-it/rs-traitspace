@@ -35,6 +35,10 @@ head(sp)
 
 mtree<-read.tree(file="GBMB.tre")
 
-tiplabels(mtree)
+to.keep<-intersect(sp,mtree$tip.label)
+
+ptree<-keep.tip(mtree, to.keep)
+
+write.tree(ptree, file="tree_herve.tre")
 
 ```
