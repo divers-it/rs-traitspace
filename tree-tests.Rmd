@@ -37,11 +37,28 @@ mtree<-read.tree(file="GBMB.tre")
 
 to.keep<-intersect(sp,mtree$tip.label)
 
-ptree<-keep.tip(mtree, to.keep)
+tree.genus<-gsub("_.*", "", mtree$tip.label)
+#mtree$tip.label[which(tree.genus=="Oxalis")]
+
+to.graft<-setdiff(sp,mtree$tip.label)
+to.graft.genus<-gsub("_.*", "", to.graft)
+
+#Pick a random species per genus from the tree that has not been picked yet:
+left.sp<-setdiff(mtree$tip.label,sp)
+
+add.sp<-rep(NA, length(to.graft))
+
+#Find species in the same genus as the target species to add (to.graft)
+for(i in 1:length(to.graft)){
+  add.sp[i]<-left.sp[which(gsub("_.*","",left.sp)==to.graft.genus[i])][1]
+}
+
+cbind(add.sp, to.graft) #Species in tree / species in trait list
+
+to.add<-add.sp[!is.na(add.sp)]
+
+ptree<-keep.tip(mtree, c(to.keep, to.add))
 
 write.tree(ptree, file="tree_herve.tre")
-
-genus<-gsub("_.*", "", mtree$tip.label)
-mtree$tip.label[which(genus=="Oxalis")]
 
 ```
