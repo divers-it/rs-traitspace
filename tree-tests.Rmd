@@ -29,9 +29,12 @@ library(ape)
 dat<-read.csv(file="data extracted from PROTEUS on 22_11_2021.csv", header=T)
 
 sp<-dat$species
+sp<-gsub(" ", "_", sp)
 
 head(sp)
 
 mtree<-read.tree(file="GBMB.tre")
+
+tiplabels(mtree)
 
 ```
