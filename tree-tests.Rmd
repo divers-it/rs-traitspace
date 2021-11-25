@@ -21,5 +21,17 @@ output:
 
 
 ```{r libraries, message=FALSE}
+library(ape)
+```
+
+```{r read.data, message=FALSE}
+
+dat<-read.csv(file="data extracted from PROTEUS on 22_11_2021.csv", header=T)
+
+sp<-dat$species
+
+head(sp)
+
+mtree<-read.tree(file="GBMB.tre")
 
 ```
