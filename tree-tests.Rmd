@@ -58,6 +58,8 @@ cbind(add.sp, to.graft) #Species in tree / species in trait list
 to.add<-add.sp[!is.na(add.sp)]
 
 ptree<-keep.tip(mtree, c(to.keep, to.add))
+#Replace 
+na.omit(data.frame(add.sp, to.graft))
 
 write.tree(ptree, file="tree_herve.tre")
 
