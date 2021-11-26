@@ -1,0 +1,3975 @@
+ [1] R version 4.1.0 (2021-05-18)                                                                        
+ [2] Platform: x86_64-apple-darwin17.0 (64-bit)                                                          
+ [3] Running under: macOS Big Sur 11.2.2                                                                 
+ [4]                                                                                                     
+ [5] Matrix products: default                                                                            
+ [6] LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib                 
+ [7]                                                                                                     
+ [8] locale:                                                                                             
+ [9] [1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8                                   
+[10]                                                                                                     
+[11] attached base packages:                                                                             
+[12] [1] stats     graphics  grDevices utils     datasets  methods   base                                
+[13]                                                                                                     
+[14] other attached packages:                                                                            
+[15]  [1] boa_1.1.8-2    numbers_0.8-2  xlsx_0.6.5     plotrix_3.8-1  geiger_2.0.7   phangorn_2.7.1      
+[16]  [7] corHMM_2.7     GenSA_1.1.7    nloptr_1.2.2.2 ape_5.5                                           
+[17]                                                                                                     
+[18] loaded via a namespace (and not attached):                                                          
+[19]  [1] deSolve_1.28            subplex_1.6             rJava_1.0-4             lattice_0.20-44        
+[20]  [5] phytools_0.7-80         colorspace_2.0-2        vctrs_0.3.8             expm_0.999-6           
+[21]  [9] viridisLite_0.4.0       gmp_0.6-2               utf8_1.2.2              rlang_0.4.11           
+[22] [13] pillar_1.6.1            glue_1.4.2              Rmpfr_0.8-4             lifecycle_1.0.0        
+[23] [17] munsell_0.5.0           combinat_0.0-8          gtable_0.3.0            mvtnorm_1.1-2          
+[24] [21] codetools_0.2-18        coda_0.19-4             parallel_4.1.0          xlsxjars_0.6.1         
+[25] [25] fansi_0.5.0             Rcpp_1.0.7              corpcor_1.6.9           scales_1.1.1           
+[26] [29] clusterGeneration_1.3.7 scatterplot3d_0.3-41    tmvnsim_1.0-2           gridExtra_2.3          
+[27] [33] fastmatch_1.1-3         mnormt_2.0.2            ggplot2_3.3.5           digest_0.6.27          
+[28] [37] numDeriv_2016.8-1.1     grid_4.1.0              quadprog_1.5-8          tools_4.1.0            
+[29] [41] magrittr_2.0.1          maps_3.3.0              tibble_3.1.3            crayon_1.4.1           
+[30] [45] pkgconfig_2.0.3         MASS_7.3-54             ellipsis_0.3.2          Matrix_1.3-3           
+[31] [49] viridis_0.6.1           R6_2.5.0                nnet_7.3-16             igraph_1.2.6           
+[32] [53] nlme_3.1-152            compiler_4.1.0                                                         
+
+
+     [,1]                       [,2]                       
+[1,] Tree file                  tree_298.tre               
+[2,] Data file                  cleandata.csv              
+[3,] Character names file       datanames.csv              
+[4,] Clade definition file      CladeDefinitions_DiveRS.csv
+[5,] Nr of taxa in tree         298                        
+[6,] Nr of taxa in matrix       313                        
+[7,] Nr of characters in matrix 12                         
+[8,] Nr of clades to map        5                          
+
+
+
+
+****************************************************************************************************
+
+Analyzing character: sexmorphs
+
+This character has 2 states: monomorphic, dimorphic
+
+Performing maximum parsimony ASR using ancestral.pars (character sexmorphs)...
+
+Parsimony score: 56 steps
+
+Ancestral states for key nodes
+  Node             monomorphic dimorphic
+1 Angiospermae     0.5         0.5      
+2 Mesangiospermae  1.0         0.0      
+3 Magnoliidae      1.0         0.0      
+4 Monocotyledoneae 1.0         0.0      
+5 Eudicotyledoneae 1.0         0.0      
+
+Summary: most parsimonious state(s) at key nodes
+  Node             MP state(s)            
+1 Angiospermae     monomorphic / dimorphic
+2 Mesangiospermae        monomorphic      
+3 Magnoliidae            monomorphic      
+4 Monocotyledoneae       monomorphic      
+5 Eudicotyledoneae       monomorphic      
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charsexmorphs_fantree_MP.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charsexmorphs_fulltree_MP.pdf
+
+Performing maximum likelihood ASR (using rayDISC) with model ARD (character sexmorphs)...
+
+State distribution in data:
+States:	0	1	
+Counts:	224	66	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -152.2278 308.4556 308.4963  298
+
+Rates
+           0           1
+0         NA 0.004106089
+1 0.01677532          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             monomorphic dimorphic
+1 Angiospermae     0.1868      0.8132   
+2 Mesangiospermae  0.1853      0.8147   
+3 Magnoliidae      0.2411      0.7589   
+4 Monocotyledoneae 0.2316      0.7684   
+5 Eudicotyledoneae 0.1597      0.8403   
+
+Summary: most likely state at key nodes
+  Node             ML state  Prob  
+1 Angiospermae     dimorphic 0.8132
+2 Mesangiospermae  dimorphic 0.8147
+3 Magnoliidae      dimorphic 0.7589
+4 Monocotyledoneae dimorphic 0.7684
+5 Eudicotyledoneae dimorphic 0.8403
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ARDeq (character sexmorphs)...
+
+State distribution in data:
+States:	0	1	
+Counts:	224	66	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -151.6798 307.3597 307.4003  298
+
+Rates
+           0           1
+0         NA 0.004435948
+1 0.01038812          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             monomorphic dimorphic
+1 Angiospermae     0.9989      0.0011   
+2 Mesangiospermae  0.9998      0.0002   
+3 Magnoliidae      0.9950      0.0050   
+4 Monocotyledoneae 0.9984      0.0016   
+5 Eudicotyledoneae 0.9990      0.0010   
+
+Summary: most likely state at key nodes
+  Node             ML state    Prob  
+1 Angiospermae     monomorphic 0.9989
+2 Mesangiospermae  monomorphic 0.9998
+3 Magnoliidae      monomorphic 0.995 
+4 Monocotyledoneae monomorphic 0.9984
+5 Eudicotyledoneae monomorphic 0.999 
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ER (character sexmorphs)...
+
+State distribution in data:
+States:	0	1	
+Counts:	224	66	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -153.6943 309.3886 309.4021  298
+
+Rates
+            0           1
+0          NA 0.003658274
+1 0.003658274          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             monomorphic dimorphic
+1 Angiospermae     0.9942      0.0058   
+2 Mesangiospermae  1.0000      0.0000   
+3 Magnoliidae      0.9999      0.0001   
+4 Monocotyledoneae 0.9999      0.0001   
+5 Eudicotyledoneae 1.0000      0.0000   
+
+Summary: most likely state at key nodes
+  Node             ML state    Prob  
+1 Angiospermae     monomorphic 0.9942
+2 Mesangiospermae  monomorphic   1   
+3 Magnoliidae      monomorphic 0.9999
+4 Monocotyledoneae monomorphic 0.9999
+5 Eudicotyledoneae monomorphic   1   
+
+
+Performing maximum likelihood ASR (using rayDISC) with model UNI01 (character sexmorphs)...
+
+Rate matrix
+   1  2
+1 NA  1
+2 NA NA
+
+State distribution in data:
+States:	0	1	
+Counts:	224	66	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC   AICc ntax
+ -155.1282 312.2565 312.27  298
+
+Rates
+   0           1
+0 NA 0.003161319
+1 NA          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             monomorphic dimorphic
+1 Angiospermae     1           0        
+2 Mesangiospermae  1           0        
+3 Magnoliidae      1           0        
+4 Monocotyledoneae 1           0        
+5 Eudicotyledoneae 1           0        
+
+Summary: most likely state at key nodes
+  Node             ML state    Prob
+1 Angiospermae     monomorphic 1   
+2 Mesangiospermae  monomorphic 1   
+3 Magnoliidae      monomorphic 1   
+4 Monocotyledoneae monomorphic 1   
+5 Eudicotyledoneae monomorphic 1   
+
+
+Performing maximum likelihood ASR (using rayDISC) with model UNI10 (character sexmorphs)...
+
+Rate matrix
+   1  2
+1 NA NA
+2  1 NA
+
+State distribution in data:
+States:	0	1	
+Counts:	224	66	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL     AIC     AICc ntax
+ -163.4355 328.871 328.8845  298
+
+Rates
+           0  1
+0         NA NA
+1 0.01377185 NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             monomorphic dimorphic
+1 Angiospermae     0           1        
+2 Mesangiospermae  0           1        
+3 Magnoliidae      0           1        
+4 Monocotyledoneae 0           1        
+5 Eudicotyledoneae 0           1        
+
+Summary: most likely state at key nodes
+  Node             ML state  Prob
+1 Angiospermae     dimorphic 1   
+2 Mesangiospermae  dimorphic 1   
+3 Magnoliidae      dimorphic 1   
+4 Monocotyledoneae dimorphic 1   
+5 Eudicotyledoneae dimorphic 1   
+
+
+Summary table of model comparison
+        Model  LogL    Npar AIC    AICc   DeltaAICc w    q01    q10   
+rates   ARD    -152.23 2    308.46 308.50  1.10     0.28 0.0041 0.0168
+rates.1 ARDeq* -151.68 2    307.36 307.40  0.00     0.49 0.0044 0.0104
+rates.2 ER     -153.69 1    309.39 309.40  2.00     0.18 0.0037 0.0037
+rates.3 UNI01  -155.13 1    312.26 312.27  4.87     0.04 0.0032     NA
+rates.4 UNI10  -163.44 1    328.87 328.88 21.48     0.00     NA 0.0138
+
+The best standard model found by AICc is ARDeq
+
+Most likely states at key nodes for best standard model (ARDeq)
+  Node             ML state    Prob  
+1 Angiospermae     monomorphic 0.9989
+2 Mesangiospermae  monomorphic 0.9998
+3 Magnoliidae      monomorphic 0.995 
+4 Monocotyledoneae monomorphic 0.9984
+5 Eudicotyledoneae monomorphic 0.999 
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charsexmorphs_fantree_ML.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charsexmorphs_fulltree_ML.pdf
+
+
+SUMMARY: reconstructed ancestral states for this character
+
+  Character Node             MP state(s)             ML state    Prob  
+1                                                                      
+2 sexmorphs                                                            
+3 sexmorphs                                                            
+4           Angiospermae     monomorphic / dimorphic monomorphic 0.9989
+5           Mesangiospermae        monomorphic       monomorphic 0.9998
+6           Magnoliidae            monomorphic       monomorphic 0.995 
+7           Monocotyledoneae       monomorphic       monomorphic 0.9984
+8           Eudicotyledoneae       monomorphic       monomorphic 0.999 
+
+
+
+****************************************************************************************************
+
+Analyzing character: flowersex
+
+This character has 3 states: polymorphic, unisexual, bisexual
+
+Performing maximum parsimony ASR using ancestral.pars (character flowersex)...
+
+Parsimony score: 82 steps
+
+Ancestral states for key nodes
+  Node             polymorphic unisexual bisexual
+1 Angiospermae     0           0.5       0.5     
+2 Mesangiospermae  0           0.0       1.0     
+3 Magnoliidae      0           0.0       1.0     
+4 Monocotyledoneae 0           0.0       1.0     
+5 Eudicotyledoneae 0           0.0       1.0     
+
+Summary: most parsimonious state(s) at key nodes
+  Node             MP state(s)         
+1 Angiospermae     unisexual / bisexual
+2 Mesangiospermae        bisexual      
+3 Magnoliidae            bisexual      
+4 Monocotyledoneae       bisexual      
+5 Eudicotyledoneae       bisexual      
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charflowersex_fantree_MP.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charflowersex_fulltree_MP.pdf
+
+Performing maximum likelihood ASR (using rayDISC) with model ARD (character flowersex)...
+
+State distribution in data:
+States:	0	1	2	
+Counts:	23	82	191	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL     AIC     AICc ntax
+ -232.0885 476.177 476.4657  298
+
+Rates
+             0           1           2
+0           NA 0.008525245 0.294688349
+1 7.582560e-10          NA 0.002142883
+2 3.614946e-02 0.003269191          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             polymorphic unisexual bisexual
+1 Angiospermae     0.4980      0.0020    0.5001  
+2 Mesangiospermae  0.2267      0.0000    0.7733  
+3 Magnoliidae      0.1415      0.0000    0.8585  
+4 Monocotyledoneae 0.1584      0.0007    0.8409  
+5 Eudicotyledoneae 0.1328      0.0000    0.8672  
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     bisexual 0.5001
+2 Mesangiospermae  bisexual 0.7733
+3 Magnoliidae      bisexual 0.8585
+4 Monocotyledoneae bisexual 0.8409
+5 Eudicotyledoneae bisexual 0.8672
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ARDeq (character flowersex)...
+
+State distribution in data:
+States:	0	1	2	
+Counts:	23	82	191	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -230.5426 473.0852 473.3738  298
+
+Rates
+             0            1           2
+0           NA 4.120616e-02 0.007940746
+1 7.582560e-10           NA 0.002220999
+2 5.827064e-03 7.582560e-10          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             polymorphic unisexual bisexual
+1 Angiospermae     4e-04       0         0.9996  
+2 Mesangiospermae  0e+00       0         1.0000  
+3 Magnoliidae      2e-04       0         0.9998  
+4 Monocotyledoneae 3e-03       0         0.9970  
+5 Eudicotyledoneae 1e-04       0         0.9999  
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     bisexual 0.9996
+2 Mesangiospermae  bisexual   1   
+3 Magnoliidae      bisexual 0.9998
+4 Monocotyledoneae bisexual 0.997 
+5 Eudicotyledoneae bisexual 0.9999
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ER (character flowersex)...
+
+State distribution in data:
+States:	0	1	2	
+Counts:	23	82	191	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -250.6569 503.3139 503.3274  298
+
+Rates
+            0           1           2
+0          NA 0.002580362 0.002580362
+1 0.002580362          NA 0.002580362
+2 0.002580362 0.002580362          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             polymorphic unisexual bisexual
+1 Angiospermae     0.0019      0.0069    0.9912  
+2 Mesangiospermae  0.0000      0.0002    0.9998  
+3 Magnoliidae      0.0002      0.0002    0.9996  
+4 Monocotyledoneae 0.0001      0.0030    0.9970  
+5 Eudicotyledoneae 0.0000      0.0000    1.0000  
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     bisexual 0.9912
+2 Mesangiospermae  bisexual 0.9998
+3 Magnoliidae      bisexual 0.9996
+4 Monocotyledoneae bisexual 0.997 
+5 Eudicotyledoneae bisexual   1   
+
+
+Performing maximum likelihood ASR (using rayDISC) with model SYM (character flowersex)...
+
+Rate matrix
+   1  2  3
+1 NA  1  2
+2  1 NA  3
+3  2  3 NA
+
+State distribution in data:
+States:	0	1	2	
+Counts:	23	82	191	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -240.4363 486.8726 486.9542  298
+
+Rates
+             0            1           2
+0           NA 0.0006211043 0.001269357
+1 0.0006211043           NA 0.004179358
+2 0.0012693574 0.0041793579          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             polymorphic unisexual bisexual
+1 Angiospermae     2e-04       0.0113    0.9885  
+2 Mesangiospermae  0e+00       0.0005    0.9995  
+3 Magnoliidae      0e+00       0.0007    0.9993  
+4 Monocotyledoneae 0e+00       0.0045    0.9955  
+5 Eudicotyledoneae 0e+00       0.0002    0.9998  
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     bisexual 0.9885
+2 Mesangiospermae  bisexual 0.9995
+3 Magnoliidae      bisexual 0.9993
+4 Monocotyledoneae bisexual 0.9955
+5 Eudicotyledoneae bisexual 0.9998
+
+
+Performing maximum likelihood ASR (using rayDISC) with model SYMeq (character flowersex)...
+
+Rate matrix
+   1  2  3
+1 NA  1  2
+2  1 NA  3
+3  2  3 NA
+
+State distribution in data:
+States:	0	1	2	
+Counts:	23	82	191	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -239.3606 484.7213 484.8029  298
+
+Rates
+            0           1           2
+0          NA 0.000622834 0.001268973
+1 0.000622834          NA 0.004177439
+2 0.001268973 0.004177439          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             polymorphic unisexual bisexual
+1 Angiospermae     0           0.0001    0.9999  
+2 Mesangiospermae  0           0.0000    1.0000  
+3 Magnoliidae      0           0.0004    0.9996  
+4 Monocotyledoneae 0           0.0041    0.9959  
+5 Eudicotyledoneae 0           0.0001    0.9999  
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     bisexual 0.9999
+2 Mesangiospermae  bisexual   1   
+3 Magnoliidae      bisexual 0.9996
+4 Monocotyledoneae bisexual 0.9959
+5 Eudicotyledoneae bisexual 0.9999
+
+
+Summary table of model comparison
+        Model   LogL    Npar AIC    AICc   DeltaAICc w    q01    q02    q10    q12    q20    q21   
+rates   ARD     -232.09 6    476.18 476.47  3.09     0.18 0.0085 0.2947 0.0000 0.0021 0.0361 0.0033
+rates.1 ARDeq** -230.54 6    473.09 473.37  0.00     0.82 0.0412 0.0079 0.0000 0.0022 0.0058 0.0000
+rates.2 ER      -250.66 1    503.31 503.33 29.95     0.00 0.0026 0.0026 0.0026 0.0026 0.0026 0.0026
+rates.3 SYM     -240.44 3    486.87 486.95 13.58     0.00 0.0006 0.0013 0.0006 0.0042 0.0013 0.0042
+rates.4 SYMeq   -239.36 3    484.72 484.80 11.43     0.00 0.0006 0.0013 0.0006 0.0042 0.0013 0.0042
+
+The best standard model found by AICc is ARDeq
+
+Most likely states at key nodes for best standard model (ARDeq)
+  Node             ML state Prob  
+1 Angiospermae     bisexual 0.9996
+2 Mesangiospermae  bisexual   1   
+3 Magnoliidae      bisexual 0.9998
+4 Monocotyledoneae bisexual 0.997 
+5 Eudicotyledoneae bisexual 0.9999
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charflowersex_fantree_ML.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charflowersex_fulltree_ML.pdf
+
+
+SUMMARY: reconstructed ancestral states for this character
+
+  Character Node             MP state(s)          ML state Prob  
+1                                                                
+2 flowersex                                                      
+3 flowersex                                                      
+4           Angiospermae     unisexual / bisexual bisexual 0.9996
+5           Mesangiospermae        bisexual       bisexual   1   
+6           Magnoliidae            bisexual       bisexual 0.9998
+7           Monocotyledoneae       bisexual       bisexual 0.997 
+8           Eudicotyledoneae       bisexual       bisexual 0.9999
+
+
+
+****************************************************************************************************
+
+Analyzing character: symmetry
+
+This character has 2 states: actinomorphic, zygomorphic
+
+Performing maximum parsimony ASR using ancestral.pars (character symmetry)...
+
+Parsimony score: 33 steps
+
+Ancestral states for key nodes
+  Node             actinomorphic zygomorphic
+1 Angiospermae     1             0          
+2 Mesangiospermae  1             0          
+3 Magnoliidae      1             0          
+4 Monocotyledoneae 1             0          
+5 Eudicotyledoneae 1             0          
+
+Summary: most parsimonious state(s) at key nodes
+  Node             MP state(s)  
+1 Angiospermae     actinomorphic
+2 Mesangiospermae  actinomorphic
+3 Magnoliidae      actinomorphic
+4 Monocotyledoneae actinomorphic
+5 Eudicotyledoneae actinomorphic
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charsymmetry_fantree_MP.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charsymmetry_fulltree_MP.pdf
+
+Performing maximum likelihood ASR (using rayDISC) with model ARD (character symmetry)...
+
+State distribution in data:
+States:	0	1	
+Counts:	188	46	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -103.8163 211.6326 211.6733  298
+
+Rates
+            0           1
+0          NA 0.002414569
+1 0.007946502          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             actinomorphic zygomorphic
+1 Angiospermae     0.9890        0.0110     
+2 Mesangiospermae  0.9980        0.0020     
+3 Magnoliidae      0.9984        0.0016     
+4 Monocotyledoneae 0.9801        0.0199     
+5 Eudicotyledoneae 0.9995        0.0005     
+
+Summary: most likely state at key nodes
+  Node             ML state      Prob  
+1 Angiospermae     actinomorphic 0.989 
+2 Mesangiospermae  actinomorphic 0.998 
+3 Magnoliidae      actinomorphic 0.9984
+4 Monocotyledoneae actinomorphic 0.9801
+5 Eudicotyledoneae actinomorphic 0.9995
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ARDeq (character symmetry)...
+
+State distribution in data:
+States:	0	1	
+Counts:	188	46	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -103.1446 210.2892 210.3299  298
+
+Rates
+            0           1
+0          NA 0.002405052
+1 0.007825849          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             actinomorphic zygomorphic
+1 Angiospermae     0.9999        0.0001     
+2 Mesangiospermae  0.9999        0.0001     
+3 Magnoliidae      0.9996        0.0004     
+4 Monocotyledoneae 0.9829        0.0171     
+5 Eudicotyledoneae 0.9999        0.0001     
+
+Summary: most likely state at key nodes
+  Node             ML state      Prob  
+1 Angiospermae     actinomorphic 0.9999
+2 Mesangiospermae  actinomorphic 0.9999
+3 Magnoliidae      actinomorphic 0.9996
+4 Monocotyledoneae actinomorphic 0.9829
+5 Eudicotyledoneae actinomorphic 0.9999
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ER (character symmetry)...
+
+State distribution in data:
+States:	0	1	
+Counts:	188	46	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -106.6699 215.3398 215.3533  298
+
+Rates
+            0           1
+0          NA 0.002236476
+1 0.002236476          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             actinomorphic zygomorphic
+1 Angiospermae     0.9996        0.0004     
+2 Mesangiospermae  1.0000        0.0000     
+3 Magnoliidae      1.0000        0.0000     
+4 Monocotyledoneae 0.9998        0.0002     
+5 Eudicotyledoneae 1.0000        0.0000     
+
+Summary: most likely state at key nodes
+  Node             ML state      Prob  
+1 Angiospermae     actinomorphic 0.9996
+2 Mesangiospermae  actinomorphic   1   
+3 Magnoliidae      actinomorphic   1   
+4 Monocotyledoneae actinomorphic 0.9998
+5 Eudicotyledoneae actinomorphic   1   
+
+
+Performing maximum likelihood ASR (using rayDISC) with model UNI01 (character symmetry)...
+
+Rate matrix
+   1  2
+1 NA  1
+2 NA NA
+
+State distribution in data:
+States:	0	1	
+Counts:	188	46	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -122.1203 246.2406 246.2541  298
+
+Rates
+   0           1
+0 NA 0.002442517
+1 NA          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             actinomorphic zygomorphic
+1 Angiospermae     1             0          
+2 Mesangiospermae  1             0          
+3 Magnoliidae      1             0          
+4 Monocotyledoneae 1             0          
+5 Eudicotyledoneae 1             0          
+
+Summary: most likely state at key nodes
+  Node             ML state      Prob
+1 Angiospermae     actinomorphic 1   
+2 Mesangiospermae  actinomorphic 1   
+3 Magnoliidae      actinomorphic 1   
+4 Monocotyledoneae actinomorphic 1   
+5 Eudicotyledoneae actinomorphic 1   
+
+
+Performing maximum likelihood ASR (using rayDISC) with model UNI10 (character symmetry)...
+
+Rate matrix
+   1  2
+1 NA NA
+2  1 NA
+
+State distribution in data:
+States:	0	1	
+Counts:	188	46	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -103.7991 209.5983 209.6118  298
+
+Rates
+           0  1
+0         NA NA
+1 0.01530237 NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             actinomorphic zygomorphic
+1 Angiospermae     0.0000        1.0000     
+2 Mesangiospermae  0.0000        1.0000     
+3 Magnoliidae      0.1811        0.8189     
+4 Monocotyledoneae 0.0000        1.0000     
+5 Eudicotyledoneae 0.0000        1.0000     
+
+Summary: most likely state at key nodes
+  Node             ML state    Prob  
+1 Angiospermae     zygomorphic   1   
+2 Mesangiospermae  zygomorphic   1   
+3 Magnoliidae      zygomorphic 0.8189
+4 Monocotyledoneae zygomorphic   1   
+5 Eudicotyledoneae zygomorphic   1   
+
+
+Summary table of model comparison
+        Model  LogL    Npar AIC    AICc   DeltaAICc w    q01    q10   
+rates   ARD    -103.82 2    211.63 211.67  2.06     0.17 0.0024 0.0079
+rates.1 ARDeq  -103.14 2    210.29 210.33  0.72     0.33 0.0024 0.0078
+rates.2 ER     -106.67 1    215.34 215.35  5.74     0.03 0.0022 0.0022
+rates.3 UNI01  -122.12 1    246.24 246.25 36.64     0.00 0.0024     NA
+rates.4 UNI10* -103.80 1    209.60 209.61  0.00     0.47     NA 0.0153
+
+The best standard model found by AICc is UNI10
+
+Most likely states at key nodes for best standard model (UNI10)
+  Node             ML state    Prob  
+1 Angiospermae     zygomorphic   1   
+2 Mesangiospermae  zygomorphic   1   
+3 Magnoliidae      zygomorphic 0.8189
+4 Monocotyledoneae zygomorphic   1   
+5 Eudicotyledoneae zygomorphic   1   
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charsymmetry_fantree_ML.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charsymmetry_fulltree_ML.pdf
+
+
+SUMMARY: reconstructed ancestral states for this character
+
+  Character Node             MP state(s)   ML state    Prob  
+1                                                            
+2 symmetry                                                   
+3 symmetry                                                   
+4           Angiospermae     actinomorphic zygomorphic   1   
+5           Mesangiospermae  actinomorphic zygomorphic   1   
+6           Magnoliidae      actinomorphic zygomorphic 0.8189
+7           Monocotyledoneae actinomorphic zygomorphic   1   
+8           Eudicotyledoneae actinomorphic zygomorphic   1   
+
+
+
+****************************************************************************************************
+
+Analyzing character: pollination
+
+This character has 2 states: abiotic, biotic
+
+Performing maximum parsimony ASR using ancestral.pars (character pollination)...
+
+Parsimony score: 18 steps
+
+Ancestral states for key nodes
+  Node             abiotic biotic
+1 Angiospermae     0       1     
+2 Mesangiospermae  0       1     
+3 Magnoliidae      0       1     
+4 Monocotyledoneae 0       1     
+5 Eudicotyledoneae 0       1     
+
+Summary: most parsimonious state(s) at key nodes
+  Node             MP state(s)
+1 Angiospermae     biotic     
+2 Mesangiospermae  biotic     
+3 Magnoliidae      biotic     
+4 Monocotyledoneae biotic     
+5 Eudicotyledoneae biotic     
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charpollination_fantree_MP.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charpollination_fulltree_MP.pdf
+
+Performing maximum likelihood ASR (using rayDISC) with model ARD (character pollination)...
+
+State distribution in data:
+States:	0	0&1	1	
+Counts:	32	9	185	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -71.86193 147.7239 147.7645  298
+
+Rates
+            0           1
+0          NA 0.002150523
+1 0.001288478          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             abiotic biotic
+1 Angiospermae     0.0014  0.9986
+2 Mesangiospermae  0.0000  1.0000
+3 Magnoliidae      0.0001  0.9999
+4 Monocotyledoneae 0.0000  1.0000
+5 Eudicotyledoneae 0.0000  1.0000
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     biotic   0.9986
+2 Mesangiospermae  biotic     1   
+3 Magnoliidae      biotic   0.9999
+4 Monocotyledoneae biotic     1   
+5 Eudicotyledoneae biotic     1   
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ARDeq (character pollination)...
+
+State distribution in data:
+States:	0	0&1	1	
+Counts:	32	9	185	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -71.17161 146.3432 146.3839  298
+
+Rates
+            0           1
+0          NA 0.002138871
+1 0.001288404          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             abiotic biotic
+1 Angiospermae     0e+00   1.0000
+2 Mesangiospermae  0e+00   1.0000
+3 Magnoliidae      1e-04   0.9999
+4 Monocotyledoneae 0e+00   1.0000
+5 Eudicotyledoneae 0e+00   1.0000
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     biotic     1   
+2 Mesangiospermae  biotic     1   
+3 Magnoliidae      biotic   0.9999
+4 Monocotyledoneae biotic     1   
+5 Eudicotyledoneae biotic     1   
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ER (character pollination)...
+
+State distribution in data:
+States:	0	0&1	1	
+Counts:	32	9	185	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -71.95246 145.9049 145.9184  298
+
+Rates
+           0          1
+0         NA 0.00129485
+1 0.00129485         NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             abiotic biotic
+1 Angiospermae     7e-04   0.9993
+2 Mesangiospermae  0e+00   1.0000
+3 Magnoliidae      0e+00   1.0000
+4 Monocotyledoneae 0e+00   1.0000
+5 Eudicotyledoneae 0e+00   1.0000
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     biotic   0.9993
+2 Mesangiospermae  biotic     1   
+3 Magnoliidae      biotic     1   
+4 Monocotyledoneae biotic     1   
+5 Eudicotyledoneae biotic     1   
+
+
+Performing maximum likelihood ASR (using rayDISC) with model UNI01 (character pollination)...
+
+Rate matrix
+   1  2
+1 NA  1
+2 NA NA
+
+State distribution in data:
+States:	0	0&1	1	
+Counts:	32	9	185	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -78.61059 159.2212 159.2347  298
+
+Rates
+   0          1
+0 NA 0.01447689
+1 NA         NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             abiotic biotic
+1 Angiospermae     1       0     
+2 Mesangiospermae  1       0     
+3 Magnoliidae      1       0     
+4 Monocotyledoneae 1       0     
+5 Eudicotyledoneae 1       0     
+
+Summary: most likely state at key nodes
+  Node             ML state Prob
+1 Angiospermae     abiotic  1   
+2 Mesangiospermae  abiotic  1   
+3 Magnoliidae      abiotic  1   
+4 Monocotyledoneae abiotic  1   
+5 Eudicotyledoneae abiotic  1   
+
+
+Performing maximum likelihood ASR (using rayDISC) with model UNI10 (character pollination)...
+
+Rate matrix
+   1  2
+1 NA NA
+2  1 NA
+
+State distribution in data:
+States:	0	0&1	1	
+Counts:	32	9	185	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC    AICc ntax
+ -73.01024 148.0205 148.034  298
+
+Rates
+            0  1
+0          NA NA
+1 0.001296497 NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             abiotic biotic
+1 Angiospermae     0       1     
+2 Mesangiospermae  0       1     
+3 Magnoliidae      0       1     
+4 Monocotyledoneae 0       1     
+5 Eudicotyledoneae 0       1     
+
+Summary: most likely state at key nodes
+  Node             ML state Prob
+1 Angiospermae     biotic   1   
+2 Mesangiospermae  biotic   1   
+3 Magnoliidae      biotic   1   
+4 Monocotyledoneae biotic   1   
+5 Eudicotyledoneae biotic   1   
+
+
+Summary table of model comparison
+        Model LogL   Npar AIC    AICc   DeltaAICc w    q01    q10   
+rates   ARD   -71.86 2    147.72 147.76  1.85     0.16 0.0022 0.0013
+rates.1 ARDeq -71.17 2    146.34 146.38  0.47     0.31 0.0021 0.0013
+rates.2 ER*   -71.95 1    145.90 145.92  0.00     0.39 0.0013 0.0013
+rates.3 UNI01 -78.61 1    159.22 159.23 13.32     0.00 0.0145     NA
+rates.4 UNI10 -73.01 1    148.02 148.03  2.12     0.14     NA 0.0013
+
+The best standard model found by AICc is ER
+
+Most likely states at key nodes for best standard model (ER)
+  Node             ML state Prob  
+1 Angiospermae     biotic   0.9993
+2 Mesangiospermae  biotic     1   
+3 Magnoliidae      biotic     1   
+4 Monocotyledoneae biotic     1   
+5 Eudicotyledoneae biotic     1   
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charpollination_fantree_ML.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charpollination_fulltree_ML.pdf
+
+
+SUMMARY: reconstructed ancestral states for this character
+
+  Character   Node             MP state(s) ML state Prob  
+1                                                         
+2 pollination                                             
+3 pollination                                             
+4             Angiospermae     biotic      biotic   0.9993
+5             Mesangiospermae  biotic      biotic     1   
+6             Magnoliidae      biotic      biotic     1   
+7             Monocotyledoneae biotic      biotic     1   
+8             Eudicotyledoneae biotic      biotic     1   
+
+
+
+****************************************************************************************************
+
+Analyzing character: habit
+
+This character has 2 states: herb, woody
+
+Performing maximum parsimony ASR using ancestral.pars (character habit)...
+
+Parsimony score: 57 steps
+
+Ancestral states for key nodes
+  Node             herb woody
+1 Angiospermae     0.5  0.5  
+2 Mesangiospermae  1.0  0.0  
+3 Magnoliidae      0.0  1.0  
+4 Monocotyledoneae 1.0  0.0  
+5 Eudicotyledoneae 1.0  0.0  
+
+Summary: most parsimonious state(s) at key nodes
+  Node             MP state(s) 
+1 Angiospermae     herb / woody
+2 Mesangiospermae      herb    
+3 Magnoliidae         woody    
+4 Monocotyledoneae     herb    
+5 Eudicotyledoneae     herb    
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charhabit_fantree_MP.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charhabit_fulltree_MP.pdf
+
+Performing maximum likelihood ASR (using rayDISC) with model ARD (character habit)...
+
+State distribution in data:
+States:	0	1	
+Counts:	147	130	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -161.0123 326.0246 326.0653  298
+
+Rates
+            0           1
+0          NA 0.003279046
+1 0.005011268          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             herb   woody 
+1 Angiospermae     0.2767 0.7233
+2 Mesangiospermae  0.2567 0.7433
+3 Magnoliidae      0.0727 0.9273
+4 Monocotyledoneae 0.7071 0.2929
+5 Eudicotyledoneae 0.2171 0.7829
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     woody    0.7233
+2 Mesangiospermae  woody    0.7433
+3 Magnoliidae      woody    0.9273
+4 Monocotyledoneae herb     0.7071
+5 Eudicotyledoneae woody    0.7829
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ARDeq (character habit)...
+
+State distribution in data:
+States:	0	1	
+Counts:	147	130	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -160.7611 325.5222 325.5629  298
+
+Rates
+            0           1
+0          NA 0.003018067
+1 0.005201151          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             herb   woody 
+1 Angiospermae     0.0565 0.9435
+2 Mesangiospermae  0.0528 0.9472
+3 Magnoliidae      0.0137 0.9863
+4 Monocotyledoneae 0.6194 0.3806
+5 Eudicotyledoneae 0.0465 0.9535
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     woody    0.9435
+2 Mesangiospermae  woody    0.9472
+3 Magnoliidae      woody    0.9863
+4 Monocotyledoneae herb     0.6194
+5 Eudicotyledoneae woody    0.9535
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ER (character habit)...
+
+State distribution in data:
+States:	0	1	
+Counts:	147	130	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -161.7661 325.5321 325.5456  298
+
+Rates
+            0           1
+0          NA 0.004241993
+1 0.004241993          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             herb   woody 
+1 Angiospermae     0.7160 0.2840
+2 Mesangiospermae  0.7047 0.2953
+3 Magnoliidae      0.2588 0.7412
+4 Monocotyledoneae 0.8934 0.1066
+5 Eudicotyledoneae 0.6500 0.3500
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     herb     0.716 
+2 Mesangiospermae  herb     0.7047
+3 Magnoliidae      woody    0.7412
+4 Monocotyledoneae herb     0.8934
+5 Eudicotyledoneae herb      0.65 
+
+
+Performing maximum likelihood ASR (using rayDISC) with model UNI01 (character habit)...
+
+Rate matrix
+   1  2
+1 NA  1
+2 NA NA
+
+State distribution in data:
+States:	0	1	
+Counts:	147	130	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -166.6583 335.3166 335.3301  298
+
+Rates
+   0           1
+0 NA 0.006163151
+1 NA          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             herb   woody 
+1 Angiospermae     1.0000 0.0000
+2 Mesangiospermae  1.0000 0.0000
+3 Magnoliidae      0.4402 0.5598
+4 Monocotyledoneae 1.0000 0.0000
+5 Eudicotyledoneae 1.0000 0.0000
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     herb       1   
+2 Mesangiospermae  herb       1   
+3 Magnoliidae      woody    0.5598
+4 Monocotyledoneae herb       1   
+5 Eudicotyledoneae herb       1   
+
+
+Performing maximum likelihood ASR (using rayDISC) with model UNI10 (character habit)...
+
+Rate matrix
+   1  2
+1 NA NA
+2  1 NA
+
+State distribution in data:
+States:	0	1	
+Counts:	147	130	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -172.5404 347.0808 347.0943  298
+
+Rates
+            0  1
+0          NA NA
+1 0.006359511 NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             herb woody
+1 Angiospermae     0    1    
+2 Mesangiospermae  0    1    
+3 Magnoliidae      0    1    
+4 Monocotyledoneae 0    1    
+5 Eudicotyledoneae 0    1    
+
+Summary: most likely state at key nodes
+  Node             ML state Prob
+1 Angiospermae     woody    1   
+2 Mesangiospermae  woody    1   
+3 Magnoliidae      woody    1   
+4 Monocotyledoneae woody    1   
+5 Eudicotyledoneae woody    1   
+
+
+Summary table of model comparison
+        Model LogL    Npar AIC    AICc   DeltaAICc w    q01    q10   
+rates   ARD   -161.01 2    326.02 326.07  0.52     0.28 0.0033 0.0050
+rates.1 ARDeq -160.76 2    325.52 325.56  0.02     0.36 0.0030 0.0052
+rates.2 ER*   -161.77 1    325.53 325.55  0.00     0.36 0.0042 0.0042
+rates.3 UNI01 -166.66 1    335.32 335.33  9.78     0.00 0.0062     NA
+rates.4 UNI10 -172.54 1    347.08 347.09 21.55     0.00     NA 0.0064
+
+The best standard model found by AICc is ER
+
+Most likely states at key nodes for best standard model (ER)
+  Node             ML state Prob  
+1 Angiospermae     herb     0.716 
+2 Mesangiospermae  herb     0.7047
+3 Magnoliidae      woody    0.7412
+4 Monocotyledoneae herb     0.8934
+5 Eudicotyledoneae herb      0.65 
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charhabit_fantree_ML.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charhabit_fulltree_ML.pdf
+
+
+SUMMARY: reconstructed ancestral states for this character
+
+  Character Node             MP state(s)  ML state Prob  
+1                                                        
+2 habit                                                  
+3 habit                                                  
+4           Angiospermae     herb / woody herb     0.716 
+5           Mesangiospermae      herb     herb     0.7047
+6           Magnoliidae         woody     woody    0.7412
+7           Monocotyledoneae     herb     herb     0.8934
+8           Eudicotyledoneae     herb     herb      0.65 
+
+
+
+****************************************************************************************************
+
+Analyzing character: lifespan
+
+This character has 2 states: short, long
+
+Performing maximum parsimony ASR using ancestral.pars (character lifespan)...
+
+Parsimony score: 40 steps
+
+Ancestral states for key nodes
+  Node             short long
+1 Angiospermae     0     1   
+2 Mesangiospermae  0     1   
+3 Magnoliidae      0     1   
+4 Monocotyledoneae 0     1   
+5 Eudicotyledoneae 0     1   
+
+Summary: most parsimonious state(s) at key nodes
+  Node             MP state(s)
+1 Angiospermae     long       
+2 Mesangiospermae  long       
+3 Magnoliidae      long       
+4 Monocotyledoneae long       
+5 Eudicotyledoneae long       
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charlifespan_fantree_MP.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charlifespan_fulltree_MP.pdf
+
+Performing maximum likelihood ASR (using rayDISC) with model ARD (character lifespan)...
+
+State distribution in data:
+States:	0	1	
+Counts:	52	224	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -122.0118 248.0236 248.0642  298
+
+Rates
+            0          1
+0          NA 0.01861697
+1 0.001153315         NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             short  long  
+1 Angiospermae     0.9856 0.0144
+2 Mesangiospermae  0.9908 0.0092
+3 Magnoliidae      0.8619 0.1381
+4 Monocotyledoneae 0.9841 0.0159
+5 Eudicotyledoneae 0.9934 0.0066
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     short    0.9856
+2 Mesangiospermae  short    0.9908
+3 Magnoliidae      short    0.8619
+4 Monocotyledoneae short    0.9841
+5 Eudicotyledoneae short    0.9934
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ARDeq (character lifespan)...
+
+State distribution in data:
+States:	0	1	
+Counts:	52	224	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC    AICc ntax
+ -121.3456 246.6913 246.732  298
+
+Rates
+            0          1
+0          NA 0.01856804
+1 0.001099936         NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             short  long  
+1 Angiospermae     0.9998 0.0002
+2 Mesangiospermae  0.9996 0.0004
+3 Magnoliidae      0.8688 0.1312
+4 Monocotyledoneae 0.9931 0.0069
+5 Eudicotyledoneae 0.9990 0.0010
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     short    0.9998
+2 Mesangiospermae  short    0.9996
+3 Magnoliidae      short    0.8688
+4 Monocotyledoneae short    0.9931
+5 Eudicotyledoneae short    0.999 
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ER (character lifespan)...
+
+State distribution in data:
+States:	0	1	
+Counts:	52	224	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -129.8513 261.7027 261.7162  298
+
+Rates
+           0          1
+0         NA 0.00232412
+1 0.00232412         NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             short long  
+1 Angiospermae     4e-04 0.9996
+2 Mesangiospermae  0e+00 1.0000
+3 Magnoliidae      0e+00 1.0000
+4 Monocotyledoneae 0e+00 1.0000
+5 Eudicotyledoneae 0e+00 1.0000
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     long     0.9996
+2 Mesangiospermae  long       1   
+3 Magnoliidae      long       1   
+4 Monocotyledoneae long       1   
+5 Eudicotyledoneae long       1   
+
+
+Performing maximum likelihood ASR (using rayDISC) with model UNI01 (character lifespan)...
+
+Rate matrix
+   1  2
+1 NA  1
+2 NA NA
+
+State distribution in data:
+States:	0	1	
+Counts:	52	224	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL     AIC     AICc ntax
+ -123.8835 249.767 249.7805  298
+
+Rates
+   0          1
+0 NA 0.01739619
+1 NA         NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             short  long  
+1 Angiospermae     1.0000 0.0000
+2 Mesangiospermae  1.0000 0.0000
+3 Magnoliidae      0.8522 0.1478
+4 Monocotyledoneae 1.0000 0.0000
+5 Eudicotyledoneae 1.0000 0.0000
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     short      1   
+2 Mesangiospermae  short      1   
+3 Magnoliidae      short    0.8522
+4 Monocotyledoneae short      1   
+5 Eudicotyledoneae short      1   
+
+
+Performing maximum likelihood ASR (using rayDISC) with model UNI10 (character lifespan)...
+
+Rate matrix
+   1  2
+1 NA NA
+2  1 NA
+
+State distribution in data:
+States:	0	1	
+Counts:	52	224	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+    -lnL      AIC     AICc ntax
+ -145.19 292.3801 292.3936  298
+
+Rates
+            0  1
+0          NA NA
+1 0.002416012 NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             short long
+1 Angiospermae     0     1   
+2 Mesangiospermae  0     1   
+3 Magnoliidae      0     1   
+4 Monocotyledoneae 0     1   
+5 Eudicotyledoneae 0     1   
+
+Summary: most likely state at key nodes
+  Node             ML state Prob
+1 Angiospermae     long     1   
+2 Mesangiospermae  long     1   
+3 Magnoliidae      long     1   
+4 Monocotyledoneae long     1   
+5 Eudicotyledoneae long     1   
+
+
+Summary table of model comparison
+        Model   LogL    Npar AIC    AICc   DeltaAICc w    q01    q10   
+rates   ARD     -122.01 2    248.02 248.06  1.33     0.30 0.0186 0.0012
+rates.1 ARDeq** -121.35 2    246.69 246.73  0.00     0.58 0.0186 0.0011
+rates.2 ER      -129.85 1    261.70 261.72 14.98     0.00 0.0023 0.0023
+rates.3 UNI01   -123.88 1    249.77 249.78  3.05     0.13 0.0174     NA
+rates.4 UNI10   -145.19 1    292.38 292.39 45.66     0.00     NA 0.0024
+
+The best standard model found by AICc is ARDeq
+
+Most likely states at key nodes for best standard model (ARDeq)
+  Node             ML state Prob  
+1 Angiospermae     short    0.9998
+2 Mesangiospermae  short    0.9996
+3 Magnoliidae      short    0.8688
+4 Monocotyledoneae short    0.9931
+5 Eudicotyledoneae short    0.999 
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charlifespan_fantree_ML.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charlifespan_fulltree_ML.pdf
+
+
+SUMMARY: reconstructed ancestral states for this character
+
+  Character Node             MP state(s) ML state Prob  
+1                                                       
+2 lifespan                                              
+3 lifespan                                              
+4           Angiospermae     long        short    0.9998
+5           Mesangiospermae  long        short    0.9996
+6           Magnoliidae      long        short    0.8688
+7           Monocotyledoneae long        short    0.9931
+8           Eudicotyledoneae long        short    0.999 
+
+
+
+****************************************************************************************************
+
+Analyzing character: flowersize
+
+This character has 3 states: less_than_1cm, between_1_and_10cm, more_than_10cm
+
+Performing maximum parsimony ASR using ancestral.pars (character flowersize)...
+
+Parsimony score: 58 steps
+
+Ancestral states for key nodes
+  Node             less_than_1cm between_1_and_10cm more_than_10cm
+1 Angiospermae     1.0           0.0                0             
+2 Mesangiospermae  1.0           0.0                0             
+3 Magnoliidae      1.0           0.0                0             
+4 Monocotyledoneae 1.0           0.0                0             
+5 Eudicotyledoneae 0.5           0.5                0             
+
+Summary: most parsimonious state(s) at key nodes
+  Node             MP state(s)                       
+1 Angiospermae               less_than_1cm           
+2 Mesangiospermae            less_than_1cm           
+3 Magnoliidae                less_than_1cm           
+4 Monocotyledoneae           less_than_1cm           
+5 Eudicotyledoneae less_than_1cm / between_1_and_10cm
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charflowersize_fantree_MP.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charflowersize_fulltree_MP.pdf
+
+Performing maximum likelihood ASR (using rayDISC) with model ARD (character flowersize)...
+
+State distribution in data:
+States:	0	1	2	
+Counts:	80	108	8	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -154.3712 320.7424 321.0311  298
+
+Rates
+             0           1           2
+0           NA 0.003386992 7.58256e-10
+1 0.0062799655          NA 6.92560e-03
+2 0.0003718184 0.096332045          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             less_than_1cm between_1_and_10cm more_than_10cm
+1 Angiospermae     0.0025        0.4883             0.5092        
+2 Mesangiospermae  0.0002        0.6206             0.3792        
+3 Magnoliidae      0.0102        0.7108             0.2791        
+4 Monocotyledoneae 0.0008        0.6935             0.3057        
+5 Eudicotyledoneae 0.0001        0.7257             0.2742        
+
+Summary: most likely state at key nodes
+  Node             ML state           Prob  
+1 Angiospermae       more_than_10cm   0.5092
+2 Mesangiospermae  between_1_and_10cm 0.6206
+3 Magnoliidae      between_1_and_10cm 0.7108
+4 Monocotyledoneae between_1_and_10cm 0.6935
+5 Eudicotyledoneae between_1_and_10cm 0.7257
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ARDeq (character flowersize)...
+
+State distribution in data:
+States:	0	1	2	
+Counts:	80	108	8	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+    -lnL      AIC     AICc ntax
+ -155.77 323.5399 323.8286  298
+
+Rates
+             0           1           2
+0           NA 0.009671912 7.58256e-10
+1 3.837892e-03          NA 4.90414e-03
+2 7.582560e-10 0.061434644          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             less_than_1cm between_1_and_10cm more_than_10cm
+1 Angiospermae     0.9996        0.0004             0.0000        
+2 Mesangiospermae  0.9998        0.0002             0.0000        
+3 Magnoliidae      0.9939        0.0061             0.0000        
+4 Monocotyledoneae 0.9901        0.0099             0.0001        
+5 Eudicotyledoneae 0.9986        0.0014             0.0000        
+
+Summary: most likely state at key nodes
+  Node             ML state      Prob  
+1 Angiospermae     less_than_1cm 0.9996
+2 Mesangiospermae  less_than_1cm 0.9998
+3 Magnoliidae      less_than_1cm 0.9939
+4 Monocotyledoneae less_than_1cm 0.9901
+5 Eudicotyledoneae less_than_1cm 0.9986
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ER (character flowersize)...
+
+State distribution in data:
+States:	0	1	2	
+Counts:	80	108	8	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -182.1601 366.3202 366.3337  298
+
+Rates
+           0          1          2
+0         NA 0.00288861 0.00288861
+1 0.00288861         NA 0.00288861
+2 0.00288861 0.00288861         NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             less_than_1cm between_1_and_10cm more_than_10cm
+1 Angiospermae     0.0204        0.9753             0.0043        
+2 Mesangiospermae  0.0142        0.9858             0.0000        
+3 Magnoliidae      0.0352        0.9640             0.0008        
+4 Monocotyledoneae 0.0163        0.9834             0.0002        
+5 Eudicotyledoneae 0.0053        0.9947             0.0000        
+
+Summary: most likely state at key nodes
+  Node             ML state           Prob  
+1 Angiospermae     between_1_and_10cm 0.9753
+2 Mesangiospermae  between_1_and_10cm 0.9858
+3 Magnoliidae      between_1_and_10cm 0.964 
+4 Monocotyledoneae between_1_and_10cm 0.9834
+5 Eudicotyledoneae between_1_and_10cm 0.9947
+
+
+Performing maximum likelihood ASR (using rayDISC) with model SYM (character flowersize)...
+
+Rate matrix
+   1  2  3
+1 NA  1  2
+2  1 NA  3
+3  2  3 NA
+
+State distribution in data:
+States:	0	1	2	
+Counts:	80	108	8	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+     -lnL     AIC     AICc ntax
+ -215.328 436.656 436.7376  298
+
+Rates
+    0   1   2
+0  NA 100 100
+1 100  NA 100
+2 100 100  NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             less_than_1cm between_1_and_10cm more_than_10cm
+1 Angiospermae     0.3333        0.3333             0.3333        
+2 Mesangiospermae  0.3333        0.3333             0.3333        
+3 Magnoliidae      0.3333        0.3333             0.3333        
+4 Monocotyledoneae 0.3333        0.3333             0.3333        
+5 Eudicotyledoneae 0.3333        0.3333             0.3333        
+
+Summary: most likely state at key nodes
+  Node             ML state      Prob  
+1 Angiospermae     less_than_1cm 0.3333
+2 Mesangiospermae  less_than_1cm 0.3333
+3 Magnoliidae      less_than_1cm 0.3333
+4 Monocotyledoneae less_than_1cm 0.3333
+5 Eudicotyledoneae less_than_1cm 0.3333
+
+
+Performing maximum likelihood ASR (using rayDISC) with model SYMeq (character flowersize)...
+
+Rate matrix
+   1  2  3
+1 NA  1  2
+2  1 NA  3
+3  2  3 NA
+
+State distribution in data:
+States:	0	1	2	
+Counts:	80	108	8	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -157.9266 321.8533 321.9349  298
+
+Rates
+            0            1            2
+0          NA 0.0062357596 7.582560e-10
+1 6.23576e-03           NA 8.277503e-04
+2 7.58256e-10 0.0008277503           NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             less_than_1cm between_1_and_10cm more_than_10cm
+1 Angiospermae     0.0007        0.9993             0             
+2 Mesangiospermae  0.0012        0.9988             0             
+3 Magnoliidae      0.0393        0.9607             0             
+4 Monocotyledoneae 0.0050        0.9950             0             
+5 Eudicotyledoneae 0.0015        0.9985             0             
+
+Summary: most likely state at key nodes
+  Node             ML state           Prob  
+1 Angiospermae     between_1_and_10cm 0.9993
+2 Mesangiospermae  between_1_and_10cm 0.9988
+3 Magnoliidae      between_1_and_10cm 0.9607
+4 Monocotyledoneae between_1_and_10cm 0.995 
+5 Eudicotyledoneae between_1_and_10cm 0.9985
+
+
+Summary table of model comparison
+        Model LogL    Npar AIC    AICc   DeltaAICc w    q01     q02     q10     q12     q20     q21     
+rates   ARD** -154.37 6    320.74 321.03   0.00    0.53 3.4e-03 0.0e+00 6.3e-03 6.9e-03 4.0e-04   0.0963
+rates.1 ARDeq -155.77 6    323.54 323.83   2.80    0.13 9.7e-03 0.0e+00 3.8e-03 4.9e-03 0.0e+00   0.0614
+rates.2 ER    -182.16 1    366.32 366.33  45.30    0.00 2.9e-03 2.9e-03 2.9e-03 2.9e-03 2.9e-03   0.0029
+rates.3 SYM   -215.33 3    436.66 436.74 115.71    0.00 1.0e+02 1.0e+02 1.0e+02 1.0e+02 1.0e+02 100.0000
+rates.4 SYMeq -157.93 3    321.85 321.93   0.90    0.34 6.2e-03 0.0e+00 6.2e-03 8.0e-04 0.0e+00   0.0008
+
+The best standard model found by AICc is ARD
+
+Most likely states at key nodes for best standard model (ARD)
+  Node             ML state           Prob  
+1 Angiospermae       more_than_10cm   0.5092
+2 Mesangiospermae  between_1_and_10cm 0.6206
+3 Magnoliidae      between_1_and_10cm 0.7108
+4 Monocotyledoneae between_1_and_10cm 0.6935
+5 Eudicotyledoneae between_1_and_10cm 0.7257
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charflowersize_fantree_ML.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charflowersize_fulltree_ML.pdf
+
+
+SUMMARY: reconstructed ancestral states for this character
+
+  Character  Node             MP state(s)                        ML state           Prob  
+1                                                                                         
+2 flowersize                                                                              
+3 flowersize                                                                              
+4            Angiospermae               less_than_1cm              more_than_10cm   0.5092
+5            Mesangiospermae            less_than_1cm            between_1_and_10cm 0.6206
+6            Magnoliidae                less_than_1cm            between_1_and_10cm 0.7108
+7            Monocotyledoneae           less_than_1cm            between_1_and_10cm 0.6935
+8            Eudicotyledoneae less_than_1cm / between_1_and_10cm between_1_and_10cm 0.7257
+
+
+
+****************************************************************************************************
+
+Analyzing character: ovaryposition
+
+This character has 3 states: inferior, intermediate/variable, superior
+
+Performing maximum parsimony ASR using ancestral.pars (character ovaryposition)...
+
+Parsimony score: 43 steps
+
+Ancestral states for key nodes
+  Node             inferior intermediate/variable superior
+1 Angiospermae     0        0                     1       
+2 Mesangiospermae  0        0                     1       
+3 Magnoliidae      0        0                     1       
+4 Monocotyledoneae 0        0                     1       
+5 Eudicotyledoneae 0        0                     1       
+
+Summary: most parsimonious state(s) at key nodes
+  Node             MP state(s)
+1 Angiospermae     superior   
+2 Mesangiospermae  superior   
+3 Magnoliidae      superior   
+4 Monocotyledoneae superior   
+5 Eudicotyledoneae superior   
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charovaryposition_fantree_MP.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charovaryposition_fulltree_MP.pdf
+
+Performing maximum likelihood ASR (using rayDISC) with model ARD (character ovaryposition)...
+
+State distribution in data:
+States:	0	1	2	
+Counts:	56	15	198	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -160.1736 332.3473 332.6359  298
+
+Rates
+            0            1           2
+0          NA 7.582676e-10 0.001923114
+1 3.16027e-02           NA 0.006100426
+2 7.58256e-10 2.765424e-03          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             inferior intermediate/variable superior
+1 Angiospermae     3e-04    0.0016                0.9982  
+2 Mesangiospermae  0e+00    0.0000                1.0000  
+3 Magnoliidae      0e+00    0.0003                0.9997  
+4 Monocotyledoneae 0e+00    0.0000                1.0000  
+5 Eudicotyledoneae 0e+00    0.0000                1.0000  
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     superior 0.9982
+2 Mesangiospermae  superior   1   
+3 Magnoliidae      superior 0.9997
+4 Monocotyledoneae superior   1   
+5 Eudicotyledoneae superior   1   
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ARDeq (character ovaryposition)...
+
+State distribution in data:
+States:	0	1	2	
+Counts:	56	15	198	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -159.0787 330.1574 330.4461  298
+
+Rates
+             0            1           2
+0           NA 7.582560e-10 0.001919854
+1 3.160547e-02           NA 0.006100221
+2 7.582560e-10 2.765061e-03          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             inferior intermediate/variable superior
+1 Angiospermae     0        0.0000                1.0000  
+2 Mesangiospermae  0        0.0000                1.0000  
+3 Magnoliidae      0        0.0003                0.9997  
+4 Monocotyledoneae 0        0.0000                1.0000  
+5 Eudicotyledoneae 0        0.0000                1.0000  
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     superior   1   
+2 Mesangiospermae  superior   1   
+3 Magnoliidae      superior 0.9997
+4 Monocotyledoneae superior   1   
+5 Eudicotyledoneae superior   1   
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ER (character ovaryposition)...
+
+State distribution in data:
+States:	0	1	2	
+Counts:	56	15	198	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -167.5048 337.0096 337.0231  298
+
+Rates
+            0           1           2
+0          NA 0.001267252 0.001267252
+1 0.001267252          NA 0.001267252
+2 0.001267252 0.001267252          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             inferior intermediate/variable superior
+1 Angiospermae     1e-04    0.0002                0.9997  
+2 Mesangiospermae  0e+00    0.0000                1.0000  
+3 Magnoliidae      0e+00    0.0000                1.0000  
+4 Monocotyledoneae 0e+00    0.0000                1.0000  
+5 Eudicotyledoneae 0e+00    0.0000                1.0000  
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     superior 0.9997
+2 Mesangiospermae  superior   1   
+3 Magnoliidae      superior   1   
+4 Monocotyledoneae superior   1   
+5 Eudicotyledoneae superior   1   
+
+
+Performing maximum likelihood ASR (using rayDISC) with model SYM (character ovaryposition)...
+
+Rate matrix
+   1  2  3
+1 NA  1  2
+2  1 NA  3
+3  2  3 NA
+
+State distribution in data:
+States:	0	1	2	
+Counts:	56	15	198	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -164.7993 335.5986 335.6803  298
+
+Rates
+             0            1            2
+0           NA 0.0004671934 0.0017929592
+1 0.0004671934           NA 0.0008714973
+2 0.0017929592 0.0008714973           NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             inferior intermediate/variable superior
+1 Angiospermae     3e-04    0.0001                0.9997  
+2 Mesangiospermae  0e+00    0.0000                1.0000  
+3 Magnoliidae      0e+00    0.0000                1.0000  
+4 Monocotyledoneae 0e+00    0.0000                1.0000  
+5 Eudicotyledoneae 0e+00    0.0000                1.0000  
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     superior 0.9997
+2 Mesangiospermae  superior   1   
+3 Magnoliidae      superior   1   
+4 Monocotyledoneae superior   1   
+5 Eudicotyledoneae superior   1   
+
+
+Performing maximum likelihood ASR (using rayDISC) with model SYMeq (character ovaryposition)...
+
+Rate matrix
+   1  2  3
+1 NA  1  2
+2  1 NA  3
+3  2  3 NA
+
+State distribution in data:
+States:	0	1	2	
+Counts:	56	15	198	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -163.7014 333.4028 333.4844  298
+
+Rates
+            0            1            2
+0          NA 0.0004673130 0.0017929668
+1 0.000467313           NA 0.0008716035
+2 0.001792967 0.0008716035           NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             inferior intermediate/variable superior
+1 Angiospermae     0        0                     1       
+2 Mesangiospermae  0        0                     1       
+3 Magnoliidae      0        0                     1       
+4 Monocotyledoneae 0        0                     1       
+5 Eudicotyledoneae 0        0                     1       
+
+Summary: most likely state at key nodes
+  Node             ML state Prob
+1 Angiospermae     superior 1   
+2 Mesangiospermae  superior 1   
+3 Magnoliidae      superior 1   
+4 Monocotyledoneae superior 1   
+5 Eudicotyledoneae superior 1   
+
+
+Summary table of model comparison
+        Model   LogL    Npar AIC    AICc   DeltaAICc w    q01    q02    q10    q12    q20    q21   
+rates   ARD     -160.17 6    332.35 332.64 2.19      0.20 0.0000 0.0019 0.0316 0.0061 0.0000 0.0028
+rates.1 ARDeq** -159.08 6    330.16 330.45 0.00      0.60 0.0000 0.0019 0.0316 0.0061 0.0000 0.0028
+rates.2 ER      -167.50 1    337.01 337.02 6.58      0.02 0.0013 0.0013 0.0013 0.0013 0.0013 0.0013
+rates.3 SYM     -164.80 3    335.60 335.68 5.23      0.04 0.0005 0.0018 0.0005 0.0009 0.0018 0.0009
+rates.4 SYMeq   -163.70 3    333.40 333.48 3.04      0.13 0.0005 0.0018 0.0005 0.0009 0.0018 0.0009
+
+The best standard model found by AICc is ARDeq
+
+Most likely states at key nodes for best standard model (ARDeq)
+  Node             ML state Prob  
+1 Angiospermae     superior   1   
+2 Mesangiospermae  superior   1   
+3 Magnoliidae      superior 0.9997
+4 Monocotyledoneae superior   1   
+5 Eudicotyledoneae superior   1   
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charovaryposition_fantree_ML.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charovaryposition_fulltree_ML.pdf
+
+
+SUMMARY: reconstructed ancestral states for this character
+
+  Character     Node             MP state(s) ML state Prob  
+1                                                           
+2 ovaryposition                                             
+3 ovaryposition                                             
+4               Angiospermae     superior    superior   1   
+5               Mesangiospermae  superior    superior   1   
+6               Magnoliidae      superior    superior 0.9997
+7               Monocotyledoneae superior    superior   1   
+8               Eudicotyledoneae superior    superior   1   
+
+
+
+****************************************************************************************************
+
+Analyzing character: numberofovules
+
+This character has 6 states: one, two, three, four_to_ten, ten_to_fifty, more_than_fifty
+
+Performing maximum parsimony ASR using ancestral.pars (character numberofovules)...
+
+Parsimony score: 98 steps
+
+Ancestral states for key nodes
+  Node             one two three four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0   0   0     0.3333      0.3333       0.3333         
+2 Mesangiospermae  0   0   0     0.0000      1.0000       0.0000         
+3 Magnoliidae      0   0   0     0.0000      1.0000       0.0000         
+4 Monocotyledoneae 0   0   0     0.0000      1.0000       0.0000         
+5 Eudicotyledoneae 0   0   0     0.0000      1.0000       0.0000         
+
+Summary: most parsimonious state(s) at key nodes
+  Node             MP state(s)                                 
+1 Angiospermae     four_to_ten / ten_to_fifty / more_than_fifty
+2 Mesangiospermae                  ten_to_fifty                
+3 Magnoliidae                      ten_to_fifty                
+4 Monocotyledoneae                 ten_to_fifty                
+5 Eudicotyledoneae                 ten_to_fifty                
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charnumberofovules_fantree_MP.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charnumberofovules_fulltree_MP.pdf
+
+Performing maximum likelihood ASR (using rayDISC) with model ARD (character numberofovules)...
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	16	23	20	47	29	42	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -289.8582 639.7164 646.6827  298
+
+Rates
+             0            1            2            3            4            5
+0           NA 8.131242e-03 1.201952e-03 7.582560e-10 6.435610e-03 1.079599e-03
+1 9.866647e-04           NA 6.443137e-03 1.664535e-02 7.582560e-10 7.582560e-10
+2 9.945378e-03 5.025354e-03           NA 7.582560e-10 7.582560e-10 7.582560e-10
+3 7.582560e-10 7.582560e-10 7.582560e-10           NA 6.307664e-03 1.064759e-02
+4 7.582560e-10 7.582560e-10 7.582560e-10 2.173192e-03           NA 2.050159e-02
+5 1.062913e-04 4.652727e-03 1.753380e-03 6.389048e-03 9.033322e-03           NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one    two    three  four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0.7012 0.2624 0.0176 0.0008      0.0013       0.0167         
+2 Mesangiospermae  0.7119 0.2677 0.0083 0.0000      0.0003       0.0117         
+3 Magnoliidae      0.7197 0.2433 0.0241 0.0012      0.0007       0.0110         
+4 Monocotyledoneae 0.7022 0.2716 0.0108 0.0012      0.0020       0.0122         
+5 Eudicotyledoneae 0.5462 0.4354 0.0040 0.0001      0.0021       0.0122         
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     one      0.7012
+2 Mesangiospermae  one      0.7119
+3 Magnoliidae      one      0.7197
+4 Monocotyledoneae one      0.7022
+5 Eudicotyledoneae one      0.5462
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ARDeq (character numberofovules)...
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	16	23	20	47	29	42	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -288.1206 636.2413 643.2075  298
+
+Rates
+             0            1            2            3            4            5
+0           NA 4.405747e-03 7.862865e-03 7.582560e-10 7.582560e-10 7.582560e-10
+1 5.981503e-03           NA 7.582560e-10 1.071406e-02 7.582560e-10 7.582560e-10
+2 2.692533e-03 5.921308e-03           NA 1.125883e-02 7.582560e-10 2.509457e-03
+3 7.582560e-10 7.582560e-10 7.582560e-10           NA 9.090229e-03 9.469779e-03
+4 7.582560e-10 1.488906e-03 7.582560e-10 1.630071e-03           NA 2.088812e-02
+5 7.582560e-10 3.566094e-03 1.365772e-03 7.701757e-03 9.144633e-03           NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one    two    three  four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0.0002 0.0000 0.9996 0.0000      0.0000       0.0001         
+2 Mesangiospermae  0.0005 0.0001 0.9993 0.0000      0.0000       0.0001         
+3 Magnoliidae      0.0145 0.0430 0.9349 0.0033      0.0002       0.0040         
+4 Monocotyledoneae 0.0022 0.0105 0.9840 0.0012      0.0001       0.0020         
+5 Eudicotyledoneae 0.0003 0.0002 0.9991 0.0001      0.0000       0.0004         
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     three    0.9996
+2 Mesangiospermae  three    0.9993
+3 Magnoliidae      three    0.9349
+4 Monocotyledoneae three    0.984 
+5 Eudicotyledoneae three    0.9991
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ER (character numberofovules)...
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	16	23	20	47	29	42	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+     -lnL      AIC     AICc ntax
+ -306.077 614.1541 614.1676  298
+
+Rates
+            0           1           2           3           4           5
+0          NA 0.003072202 0.003072202 0.003072202 0.003072202 0.003072202
+1 0.003072202          NA 0.003072202 0.003072202 0.003072202 0.003072202
+2 0.003072202 0.003072202          NA 0.003072202 0.003072202 0.003072202
+3 0.003072202 0.003072202 0.003072202          NA 0.003072202 0.003072202
+4 0.003072202 0.003072202 0.003072202 0.003072202          NA 0.003072202
+5 0.003072202 0.003072202 0.003072202 0.003072202 0.003072202          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one    two    three  four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0.0761 0.0188 0.0134 0.4858      0.0915       0.3145         
+2 Mesangiospermae  0.0759 0.0134 0.0076 0.4950      0.0889       0.3193         
+3 Magnoliidae      0.1008 0.0203 0.0124 0.4555      0.0966       0.3144         
+4 Monocotyledoneae 0.0809 0.0165 0.0117 0.4630      0.0864       0.3415         
+5 Eudicotyledoneae 0.0469 0.0139 0.0071 0.5852      0.0959       0.2511         
+
+Summary: most likely state at key nodes
+  Node             ML state    Prob  
+1 Angiospermae     four_to_ten 0.4858
+2 Mesangiospermae  four_to_ten 0.495 
+3 Magnoliidae      four_to_ten 0.4555
+4 Monocotyledoneae four_to_ten 0.463 
+5 Eudicotyledoneae four_to_ten 0.5852
+
+
+Performing maximum likelihood ASR (using rayDISC) with model SYM (character numberofovules)...
+
+Rate matrix
+   1  2  3  4  5  6
+1 NA  1  2  3  4  5
+2  1 NA  6  7  8  9
+3  2  6 NA 10 11 12
+4  3  7 10 NA 13 14
+5  4  8 11 13 NA 15
+6  5  9 12 14 15 NA
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	16	23	20	47	29	42	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL     AIC     AICc ntax
+ -292.8475 615.695 617.3971  298
+
+Rates
+             0            1            2            3            4           5
+0           NA 0.0099354587 8.240872e-03 7.582560e-10 7.582560e-10 7.58256e-10
+1 9.935459e-03           NA 6.039007e-04 2.549902e-03 3.827871e-03 2.99596e-03
+2 8.240872e-03 0.0006039007           NA 2.905702e-03 7.582560e-10 7.07738e-04
+3 7.582560e-10 0.0025499019 2.905702e-03           NA 8.554865e-03 1.00000e+02
+4 7.582560e-10 0.0038278714 7.582560e-10 8.554865e-03           NA 2.48738e-04
+5 7.582560e-10 0.0029959602 7.077380e-04 1.000000e+02 2.487380e-04          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one   two    three  four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     1e-04 0.0082 0.0006 0.4642      0.0627       0.4643         
+2 Mesangiospermae  0e+00 0.0070 0.0000 0.4696      0.0538       0.4696         
+3 Magnoliidae      2e-04 0.0296 0.0016 0.4493      0.0700       0.4493         
+4 Monocotyledoneae 0e+00 0.0093 0.0002 0.4689      0.0526       0.4690         
+5 Eudicotyledoneae 0e+00 0.0042 0.0000 0.4706      0.0547       0.4706         
+
+Summary: most likely state at key nodes
+  Node             ML state        Prob  
+1 Angiospermae     more_than_fifty 0.4643
+2 Mesangiospermae    four_to_ten   0.4696
+3 Magnoliidae        four_to_ten   0.4493
+4 Monocotyledoneae more_than_fifty 0.469 
+5 Eudicotyledoneae   four_to_ten   0.4706
+
+
+Performing maximum likelihood ASR (using rayDISC) with model SYMeq (character numberofovules)...
+
+Rate matrix
+   1  2  3  4  5  6
+1 NA  1  2  3  4  5
+2  1 NA  6  7  8  9
+3  2  6 NA 10 11 12
+4  3  7 10 NA 13 14
+5  4  8 11 13 NA 15
+6  5  9 12 14 15 NA
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	16	23	20	47	29	42	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -291.8733 613.7467 615.4488  298
+
+Rates
+             0            1            2            3            4            5
+0           NA 0.0096632017 8.450135e-03 7.582560e-10 7.582560e-10 7.582560e-10
+1 9.663202e-03           NA 7.521199e-04 2.754361e-03 3.148442e-03 3.002135e-03
+2 8.450135e-03 0.0007521199           NA 2.347452e-03 7.582560e-10 1.249962e-03
+3 7.582560e-10 0.0027543609 2.347452e-03           NA 7.763224e-03 1.000000e+02
+4 7.582560e-10 0.0031484418 7.582560e-10 7.763224e-03           NA 7.082630e-04
+5 7.582560e-10 0.0030021352 1.249962e-03 1.000000e+02 7.082630e-04           NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one   two    three  four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0e+00 0.0001 0.0000 0.4972      0.0054       0.4973         
+2 Mesangiospermae  0e+00 0.0007 0.0000 0.4968      0.0056       0.4968         
+3 Magnoliidae      2e-04 0.0225 0.0016 0.4771      0.0215       0.4771         
+4 Monocotyledoneae 0e+00 0.0032 0.0002 0.4943      0.0079       0.4944         
+5 Eudicotyledoneae 0e+00 0.0008 0.0000 0.4939      0.0114       0.4939         
+
+Summary: most likely state at key nodes
+  Node             ML state        Prob  
+1 Angiospermae     more_than_fifty 0.4973
+2 Mesangiospermae    four_to_ten   0.4968
+3 Magnoliidae        four_to_ten   0.4771
+4 Monocotyledoneae more_than_fifty 0.4944
+5 Eudicotyledoneae   four_to_ten   0.4939
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ORD (character numberofovules)...
+
+Rate matrix
+   1  2  3  4  5  6
+1 NA  2 NA NA NA NA
+2  1 NA  4 NA NA NA
+3 NA  3 NA  6 NA NA
+4 NA NA  5 NA  8 NA
+5 NA NA NA  7 NA 10
+6 NA NA NA NA  9 NA
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	16	23	20	47	29	42	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -304.1954 628.3909 629.1574  298
+
+Rates
+         0        1        2        3        4       5
+0       NA 46.17368       NA       NA       NA      NA
+1 32.12647       NA 37.49055       NA       NA      NA
+2       NA 43.12761       NA 40.66753       NA      NA
+3       NA       NA 17.30867       NA 31.10823      NA
+4       NA       NA       NA 50.35563       NA 38.4098
+5       NA       NA       NA       NA 26.54335      NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one    two    three  four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0.1667 0.1667 0.1667 0.1667      0.1667       0.1667         
+2 Mesangiospermae  0.0904 0.1300 0.1130 0.2654      0.1640       0.2373         
+3 Magnoliidae      0.0904 0.1300 0.1130 0.2654      0.1640       0.2373         
+4 Monocotyledoneae 0.0904 0.1300 0.1130 0.2654      0.1640       0.2373         
+5 Eudicotyledoneae 0.0904 0.1300 0.1130 0.2654      0.1640       0.2373         
+
+Summary: most likely state at key nodes
+  Node             ML state    Prob  
+1 Angiospermae         one     0.1667
+2 Mesangiospermae  four_to_ten 0.2654
+3 Magnoliidae      four_to_ten 0.2654
+4 Monocotyledoneae four_to_ten 0.2654
+5 Eudicotyledoneae four_to_ten 0.2654
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ORDeq (character numberofovules)...
+
+Rate matrix
+   1  2  3  4  5  6
+1 NA  2 NA NA NA NA
+2  1 NA  4 NA NA NA
+3 NA  3 NA  6 NA NA
+4 NA NA  5 NA  8 NA
+5 NA NA NA  7 NA 10
+6 NA NA NA NA  9 NA
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	16	23	20	47	29	42	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -291.8423 603.6846 604.4512  298
+
+Rates
+           0          1          2          3         4         5
+0         NA 0.01282118         NA         NA        NA        NA
+1 0.01375744         NA 0.30830599         NA        NA        NA
+2         NA 0.36186421         NA 0.01352823        NA        NA
+3         NA         NA 0.00889806         NA 0.0147201        NA
+4         NA         NA         NA 0.02479247        NA 0.4468972
+5         NA         NA         NA         NA 0.3096902        NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one two    three  four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0   0.0000 0.0000 0.9713      0.0195       0.0092         
+2 Mesangiospermae  0   0.0000 0.0001 0.9866      0.0069       0.0065         
+3 Magnoliidae      0   0.0044 0.0092 0.9578      0.0157       0.0129         
+4 Monocotyledoneae 0   0.0003 0.0009 0.9680      0.0178       0.0131         
+5 Eudicotyledoneae 0   0.0001 0.0002 0.9804      0.0109       0.0084         
+
+Summary: most likely state at key nodes
+  Node             ML state    Prob  
+1 Angiospermae     four_to_ten 0.9713
+2 Mesangiospermae  four_to_ten 0.9866
+3 Magnoliidae      four_to_ten 0.9578
+4 Monocotyledoneae four_to_ten 0.968 
+5 Eudicotyledoneae four_to_ten 0.9804
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ORDSYM (character numberofovules)...
+
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Rate matrix
+   1  2  3  4  5  6
+1 NA  1 NA NA NA NA
+2  1 NA  2 NA NA NA
+3 NA  2 NA  3 NA NA
+4 NA NA  3 NA  4 NA
+5 NA NA NA  4 NA  5
+6 NA NA NA NA  5 NA
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	16	23	20	47	29	42	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -296.3441 602.6883 602.8938  298
+
+Rates
+           0            1            2            3            4          5
+0         NA   0.01736013           NA           NA           NA         NA
+1 0.01736013           NA 100.00000000           NA           NA         NA
+2         NA 100.00000000           NA   0.01340013           NA         NA
+3         NA           NA   0.01340013           NA 100.00000000         NA
+4         NA           NA           NA 100.00000000           NA 0.02755648
+5         NA           NA           NA           NA   0.02755648         NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one   two    three  four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0e+00 0.0021 0.0021 0.3923      0.3923       0.2111         
+2 Mesangiospermae  0e+00 0.0006 0.0006 0.4116      0.4117       0.1756         
+3 Magnoliidae      2e-04 0.0106 0.0107 0.4028      0.4027       0.1730         
+4 Monocotyledoneae 0e+00 0.0014 0.0014 0.4067      0.4068       0.1837         
+5 Eudicotyledoneae 0e+00 0.0004 0.0004 0.4126      0.4126       0.1741         
+
+Summary: most likely state at key nodes
+  Node             ML state     Prob  
+1 Angiospermae     four_to_ten  0.3923
+2 Mesangiospermae  ten_to_fifty 0.4117
+3 Magnoliidae      four_to_ten  0.4028
+4 Monocotyledoneae ten_to_fifty 0.4068
+5 Eudicotyledoneae four_to_ten  0.4126
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ORDSYMeq (character numberofovules)...
+
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Rate matrix
+   1  2  3  4  5  6
+1 NA  1 NA NA NA NA
+2  1 NA  2 NA NA NA
+3 NA  2 NA  3 NA NA
+4 NA NA  3 NA  4 NA
+5 NA NA NA  4 NA  5
+6 NA NA NA NA  5 NA
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	16	23	20	47	29	42	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -295.5563 601.1126 601.3181  298
+
+Rates
+           0            1            2            3            4          5
+0         NA   0.01676622           NA           NA           NA         NA
+1 0.01676622           NA 100.00000000           NA           NA         NA
+2         NA 100.00000000           NA   0.01287062           NA         NA
+3         NA           NA   0.01287062           NA 100.00000000         NA
+4         NA           NA           NA 100.00000000           NA 0.02190517
+5         NA           NA           NA           NA   0.02190517         NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one   two    three  four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0e+00 0.0000 0.0000 0.4707      0.4707       0.0586         
+2 Mesangiospermae  0e+00 0.0001 0.0001 0.4763      0.4762       0.0473         
+3 Magnoliidae      2e-04 0.0103 0.0104 0.4601      0.4601       0.0589         
+4 Monocotyledoneae 0e+00 0.0008 0.0008 0.4673      0.4673       0.0638         
+5 Eudicotyledoneae 0e+00 0.0002 0.0002 0.4725      0.4725       0.0545         
+
+Summary: most likely state at key nodes
+  Node             ML state    Prob  
+1 Angiospermae     four_to_ten 0.4707
+2 Mesangiospermae  four_to_ten 0.4763
+3 Magnoliidae      four_to_ten 0.4601
+4 Monocotyledoneae four_to_ten 0.4673
+5 Eudicotyledoneae four_to_ten 0.4725
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ORDER (character numberofovules)...
+
+Rate matrix
+   1  2  3  4  5  6
+1 NA  1 NA NA NA NA
+2  1 NA  1 NA NA NA
+3 NA  1 NA  1 NA NA
+4 NA NA  1 NA  1 NA
+5 NA NA NA  1 NA  1
+6 NA NA NA NA  1 NA
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	16	23	20	47	29	42	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -317.1414 636.2829 636.2964  298
+
+Rates
+         0        1        2        3        4        5
+0       NA 99.33108       NA       NA       NA       NA
+1 99.33108       NA 99.33108       NA       NA       NA
+2       NA 99.33108       NA 99.33108       NA       NA
+3       NA       NA 99.33108       NA 99.33108       NA
+4       NA       NA       NA 99.33108       NA 99.33108
+5       NA       NA       NA       NA 99.33108       NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one    two    three  four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0.1667 0.1667 0.1667 0.1667      0.1667       0.1667         
+2 Mesangiospermae  0.1667 0.1667 0.1667 0.1667      0.1667       0.1667         
+3 Magnoliidae      0.1667 0.1667 0.1667 0.1667      0.1667       0.1667         
+4 Monocotyledoneae 0.1667 0.1667 0.1667 0.1667      0.1667       0.1667         
+5 Eudicotyledoneae 0.1667 0.1667 0.1667 0.1667      0.1667       0.1667         
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     one      0.1667
+2 Mesangiospermae  one      0.1667
+3 Magnoliidae      one      0.1667
+4 Monocotyledoneae one      0.1667
+5 Eudicotyledoneae one      0.1667
+
+
+Summary table of model comparison
+        Model      LogL    Npar AIC    AICc   DeltaAICc w    q01     q02    q03    q04    q05    q10    
+rates   ARD        -289.86 30   639.72 646.68 45.36     0.00  0.0081 0.0012 0.0000 0.0064 0.0011  0.0010
+rates.1 ARDeq      -288.12 30   636.24 643.21 41.89     0.00  0.0044 0.0079 0.0000 0.0000 0.0000  0.0060
+rates.2 ER         -306.08  1   614.15 614.17 12.85     0.00  0.0031 0.0031 0.0031 0.0031 0.0031  0.0031
+rates.3 SYM        -292.85 15   615.69 617.40 16.08     0.00  0.0099 0.0082 0.0000 0.0000 0.0000  0.0099
+rates.4 SYMeq      -291.87 15   613.75 615.45 14.13     0.00  0.0097 0.0085 0.0000 0.0000 0.0000  0.0097
+rates.5 ORD        -304.20 10   628.39 629.16 27.84     0.00 46.1737     NA     NA     NA     NA 32.1265
+rates.6 ORDeq      -291.84 10   603.68 604.45  3.13     0.13  0.0128     NA     NA     NA     NA  0.0138
+rates.7 ORDSYM     -296.34  5   602.69 602.89  1.58     0.27  0.0174     NA     NA     NA     NA  0.0174
+rates.8 ORDSYMeq** -295.56  5   601.11 601.32  0.00     0.60  0.0168     NA     NA     NA     NA  0.0168
+rates.9 ORDER      -317.14  1   636.28 636.30 34.98     0.00 99.3311     NA     NA     NA     NA 99.3311
+        q12      q13    q14    q15    q20    q21      q23     q24    q25    q30    q31    q32     q34     
+rates     0.0064 0.0166 0.0000 0.0000 0.0099   0.0050  0.0000 0.0000 0.0000 0.0000 0.0000  0.0000   0.0063
+rates.1   0.0000 0.0107 0.0000 0.0000 0.0027   0.0059  0.0113 0.0000 0.0025 0.0000 0.0000  0.0000   0.0091
+rates.2   0.0031 0.0031 0.0031 0.0031 0.0031   0.0031  0.0031 0.0031 0.0031 0.0031 0.0031  0.0031   0.0031
+rates.3   0.0006 0.0025 0.0038 0.0030 0.0082   0.0006  0.0029 0.0000 0.0007 0.0000 0.0025  0.0029   0.0086
+rates.4   0.0008 0.0028 0.0031 0.0030 0.0085   0.0008  0.0023 0.0000 0.0012 0.0000 0.0028  0.0023   0.0078
+rates.5  37.4906     NA     NA     NA     NA  43.1276 40.6675     NA     NA     NA     NA 17.3087  31.1082
+rates.6   0.3083     NA     NA     NA     NA   0.3619  0.0135     NA     NA     NA     NA  0.0089   0.0147
+rates.7 100.0000     NA     NA     NA     NA 100.0000  0.0134     NA     NA     NA     NA  0.0134 100.0000
+rates.8 100.0000     NA     NA     NA     NA 100.0000  0.0129     NA     NA     NA     NA  0.0129 100.0000
+rates.9  99.3311     NA     NA     NA     NA  99.3311 99.3311     NA     NA     NA     NA 99.3311  99.3311
+        q35      q40    q41    q42    q43      q45     q50    q51    q52    q53     q54    
+rates     0.0106 0.0000 0.0000 0.0000   0.0022  0.0205 0.0001 0.0047 0.0018 6.4e-03  0.0090
+rates.1   0.0095 0.0000 0.0015 0.0000   0.0016  0.0209 0.0000 0.0036 0.0014 7.7e-03  0.0091
+rates.2   0.0031 0.0031 0.0031 0.0031   0.0031  0.0031 0.0031 0.0031 0.0031 3.1e-03  0.0031
+rates.3 100.0000 0.0000 0.0038 0.0000   0.0086  0.0002 0.0000 0.0030 0.0007 1.0e+02  0.0002
+rates.4 100.0000 0.0000 0.0031 0.0000   0.0078  0.0007 0.0000 0.0030 0.0012 1.0e+02  0.0007
+rates.5       NA     NA     NA     NA  50.3556 38.4098     NA     NA     NA      NA 26.5433
+rates.6       NA     NA     NA     NA   0.0248  0.4469     NA     NA     NA      NA  0.3097
+rates.7       NA     NA     NA     NA 100.0000  0.0276     NA     NA     NA      NA  0.0276
+rates.8       NA     NA     NA     NA 100.0000  0.0219     NA     NA     NA      NA  0.0219
+rates.9       NA     NA     NA     NA  99.3311 99.3311     NA     NA     NA      NA 99.3311
+
+The best standard model found by AICc is ORDSYMeq
+
+Most likely states at key nodes for best standard model (ORDSYMeq)
+  Node             ML state    Prob  
+1 Angiospermae     four_to_ten 0.4707
+2 Mesangiospermae  four_to_ten 0.4763
+3 Magnoliidae      four_to_ten 0.4601
+4 Monocotyledoneae four_to_ten 0.4673
+5 Eudicotyledoneae four_to_ten 0.4725
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charnumberofovules_fantree_ML.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charnumberofovules_fulltree_ML.pdf
+
+
+SUMMARY: reconstructed ancestral states for this character
+
+  Character      Node             MP state(s)                                  ML state    Prob  
+1                                                                                                
+2 numberofovules                                                                                 
+3 numberofovules                                                                                 
+4                Angiospermae     four_to_ten / ten_to_fifty / more_than_fifty four_to_ten 0.4707
+5                Mesangiospermae                  ten_to_fifty                 four_to_ten 0.4763
+6                Magnoliidae                      ten_to_fifty                 four_to_ten 0.4601
+7                Monocotyledoneae                 ten_to_fifty                 four_to_ten 0.4673
+8                Eudicotyledoneae                 ten_to_fifty                 four_to_ten 0.4725
+
+
+
+****************************************************************************************************
+
+Analyzing character: numberofstamens
+
+This character has 6 states: one, two, three, four_to_ten, ten_to_fifty, more_than_fifty
+
+Performing maximum parsimony ASR using ancestral.pars (character numberofstamens)...
+
+Parsimony score: 71 steps
+
+Ancestral states for key nodes
+  Node             one two three four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0   0   0     0.3333      0.3333       0.3333         
+2 Mesangiospermae  0   0   0     1.0000      0.0000       0.0000         
+3 Magnoliidae      0   0   0     1.0000      0.0000       0.0000         
+4 Monocotyledoneae 0   0   0     1.0000      0.0000       0.0000         
+5 Eudicotyledoneae 0   0   0     1.0000      0.0000       0.0000         
+
+Summary: most parsimonious state(s) at key nodes
+  Node             MP state(s)                                 
+1 Angiospermae     four_to_ten / ten_to_fifty / more_than_fifty
+2 Mesangiospermae                  four_to_ten                 
+3 Magnoliidae                      four_to_ten                 
+4 Monocotyledoneae                 four_to_ten                 
+5 Eudicotyledoneae                 four_to_ten                 
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charnumberofstamens_fantree_MP.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charnumberofstamens_fulltree_MP.pdf
+
+Performing maximum likelihood ASR (using rayDISC) with model ARD (character numberofstamens)...
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	6	9	17	204	27	23	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -260.9136 581.8271 588.7934  298
+
+Rates
+             0            1            2            3            4            5
+0           NA 7.073150e-03 7.582560e-10 1.477426e-02 7.582560e-10 7.582560e-10
+1 7.582560e-10           NA 3.263211e-02 7.582560e-10 7.582560e-10 7.582560e-10
+2 7.582560e-10 7.582560e-10           NA 7.830611e-03 7.582560e-10 7.582560e-10
+3 7.582560e-10 1.170569e-03 7.582560e-10           NA 1.009383e-03 7.582560e-10
+4 2.446408e-03 7.582560e-10 7.582560e-10 4.917073e-03           NA 1.214286e-02
+5 7.582560e-10 7.582560e-10 7.582560e-10 1.716068e-02 7.842509e-03           NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one    two three four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0.0000 0   0     0.0002      0.9382       0.0616         
+2 Mesangiospermae  0.0000 0   0     0.0000      0.9453       0.0547         
+3 Magnoliidae      0.0001 0   0     0.0022      0.8938       0.1039         
+4 Monocotyledoneae 0.0397 0   0     0.0002      0.9188       0.0413         
+5 Eudicotyledoneae 0.0000 0   0     0.0000      0.8383       0.1617         
+
+Summary: most likely state at key nodes
+  Node             ML state     Prob  
+1 Angiospermae     ten_to_fifty 0.9382
+2 Mesangiospermae  ten_to_fifty 0.9453
+3 Magnoliidae      ten_to_fifty 0.8938
+4 Monocotyledoneae ten_to_fifty 0.9188
+5 Eudicotyledoneae ten_to_fifty 0.8383
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ARDeq (character numberofstamens)...
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	6	9	17	204	27	23	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -259.2232 578.4464 585.4127  298
+
+Rates
+             0            1            2            3            4            5
+0           NA 7.030102e-03 7.582560e-10 1.478313e-02 7.582560e-10 7.582560e-10
+1 7.582560e-10           NA 3.267701e-02 7.582560e-10 7.582560e-10 7.582560e-10
+2 7.582560e-10 7.582560e-10           NA 7.844787e-03 7.582560e-10 7.582560e-10
+3 7.582560e-10 1.175521e-03 7.582560e-10           NA 1.005350e-03 7.582560e-10
+4 2.412618e-03 7.582560e-10 7.582560e-10 4.662706e-03           NA 1.170375e-02
+5 7.582560e-10 7.582560e-10 7.582560e-10 1.757110e-02 7.047231e-03           NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one    two three four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0.0000 0   0     0.0000      0.9978       0.0022         
+2 Mesangiospermae  0.0000 0   0     0.0000      0.9945       0.0055         
+3 Magnoliidae      0.0001 0   0     0.0020      0.9402       0.0578         
+4 Monocotyledoneae 0.0420 0   0     0.0001      0.9525       0.0054         
+5 Eudicotyledoneae 0.0000 0   0     0.0000      0.8940       0.1060         
+
+Summary: most likely state at key nodes
+  Node             ML state     Prob  
+1 Angiospermae     ten_to_fifty 0.9978
+2 Mesangiospermae  ten_to_fifty 0.9945
+3 Magnoliidae      ten_to_fifty 0.9402
+4 Monocotyledoneae ten_to_fifty 0.9525
+5 Eudicotyledoneae ten_to_fifty 0.894 
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ER (character numberofstamens)...
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	6	9	17	204	27	23	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -297.8372 597.6743 597.6879  298
+
+Rates
+             0            1            2            3            4            5
+0           NA 0.0007907548 0.0007907548 0.0007907548 0.0007907548 0.0007907548
+1 0.0007907548           NA 0.0007907548 0.0007907548 0.0007907548 0.0007907548
+2 0.0007907548 0.0007907548           NA 0.0007907548 0.0007907548 0.0007907548
+3 0.0007907548 0.0007907548 0.0007907548           NA 0.0007907548 0.0007907548
+4 0.0007907548 0.0007907548 0.0007907548 0.0007907548           NA 0.0007907548
+5 0.0007907548 0.0007907548 0.0007907548 0.0007907548 0.0007907548           NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one   two    three  four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     8e-04 0.0008 0.0008 0.9745      0.0111       0.012          
+2 Mesangiospermae  0e+00 0.0000 0.0000 1.0000      0.0000       0.000          
+3 Magnoliidae      0e+00 0.0000 0.0000 1.0000      0.0000       0.000          
+4 Monocotyledoneae 0e+00 0.0000 0.0000 1.0000      0.0000       0.000          
+5 Eudicotyledoneae 0e+00 0.0000 0.0000 0.9999      0.0001       0.000          
+
+Summary: most likely state at key nodes
+  Node             ML state    Prob  
+1 Angiospermae     four_to_ten 0.9745
+2 Mesangiospermae  four_to_ten   1   
+3 Magnoliidae      four_to_ten   1   
+4 Monocotyledoneae four_to_ten   1   
+5 Eudicotyledoneae four_to_ten 0.9999
+
+
+Performing maximum likelihood ASR (using rayDISC) with model SYM (character numberofstamens)...
+
+Rate matrix
+   1  2  3  4  5  6
+1 NA  1  2  3  4  5
+2  1 NA  6  7  8  9
+3  2  6 NA 10 11 12
+4  3  7 10 NA 13 14
+5  4  8 11 13 NA 15
+6  5  9 12 14 15 NA
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	6	9	17	204	27	23	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -277.3407 584.6815 586.3836  298
+
+Rates
+             0            1            2            3            4            5
+0           NA 1.945824e-02 7.582560e-10 7.582560e-10 7.582560e-10 7.582560e-10
+1 1.945824e-02           NA 3.915911e-03 6.473749e-04 7.582560e-10 7.582560e-10
+2 7.582560e-10 3.915911e-03           NA 8.234717e-04 7.582560e-10 7.582560e-10
+3 7.582560e-10 6.473749e-04 8.234717e-04           NA 1.952673e-03 3.756441e-04
+4 7.582560e-10 7.582560e-10 7.582560e-10 1.952673e-03           NA 1.729417e-02
+5 7.582560e-10 7.582560e-10 7.582560e-10 3.756441e-04 1.729417e-02           NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one two three four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0   0   0     0.9026      0.0799       0.0174         
+2 Mesangiospermae  0   0   0     1.0000      0.0000       0.0000         
+3 Magnoliidae      0   0   0     1.0000      0.0000       0.0000         
+4 Monocotyledoneae 0   0   0     1.0000      0.0000       0.0000         
+5 Eudicotyledoneae 0   0   0     0.9997      0.0003       0.0000         
+
+Summary: most likely state at key nodes
+  Node             ML state    Prob  
+1 Angiospermae     four_to_ten 0.9026
+2 Mesangiospermae  four_to_ten   1   
+3 Magnoliidae      four_to_ten   1   
+4 Monocotyledoneae four_to_ten   1   
+5 Eudicotyledoneae four_to_ten 0.9997
+
+
+Performing maximum likelihood ASR (using rayDISC) with model SYMeq (character numberofstamens)...
+
+Rate matrix
+   1  2  3  4  5  6
+1 NA  1  2  3  4  5
+2  1 NA  6  7  8  9
+3  2  6 NA 10 11 12
+4  3  7 10 NA 13 14
+5  4  8 11 13 NA 15
+6  5  9 12 14 15 NA
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	6	9	17	204	27	23	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+     -lnL     AIC     AICc ntax
+ -275.746 581.492 583.1941  298
+
+Rates
+             0            1            2            3            4           5
+0           NA 1.946963e-02 7.582560e-10 7.582560e-10 7.582560e-10 7.58256e-10
+1 1.946963e-02           NA 3.916092e-03 6.458994e-04 7.582560e-10 7.58256e-10
+2 7.582560e-10 3.916092e-03           NA 8.224679e-04 7.582560e-10 7.58256e-10
+3 7.582560e-10 6.458994e-04 8.224679e-04           NA 1.956495e-03 3.83905e-04
+4 7.582560e-10 7.582560e-10 7.582560e-10 1.956495e-03           NA 1.72498e-02
+5 7.582560e-10 7.582560e-10 7.582560e-10 3.839050e-04 1.724980e-02          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one two three four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0   0   0     0.9920      0.0076       0.0004         
+2 Mesangiospermae  0   0   0     1.0000      0.0000       0.0000         
+3 Magnoliidae      0   0   0     1.0000      0.0000       0.0000         
+4 Monocotyledoneae 0   0   0     1.0000      0.0000       0.0000         
+5 Eudicotyledoneae 0   0   0     0.9997      0.0003       0.0000         
+
+Summary: most likely state at key nodes
+  Node             ML state    Prob  
+1 Angiospermae     four_to_ten 0.992 
+2 Mesangiospermae  four_to_ten   1   
+3 Magnoliidae      four_to_ten   1   
+4 Monocotyledoneae four_to_ten   1   
+5 Eudicotyledoneae four_to_ten 0.9997
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ORD (character numberofstamens)...
+
+Rate matrix
+   1  2  3  4  5  6
+1 NA  2 NA NA NA NA
+2  1 NA  4 NA NA NA
+3 NA  3 NA  6 NA NA
+4 NA NA  5 NA  8 NA
+5 NA NA NA  7 NA 10
+6 NA NA NA NA  9 NA
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	6	9	17	204	27	23	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC    AICc ntax
+ -266.1027 552.2054 552.972  298
+
+Rates
+          0           1            2          3           4          5
+0        NA  0.02649189           NA         NA          NA         NA
+1 0.0173653          NA 99.993799914         NA          NA         NA
+2        NA 52.93826205           NA 0.02162630          NA         NA
+3        NA          NA  0.001645391         NA 0.003103293         NA
+4        NA          NA           NA 0.01826831          NA 0.02261825
+5        NA          NA           NA         NA 0.022905481         NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one    two    three  four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0.0031 0.0971 0.0971 0.3721      0.3890       0.0417         
+2 Mesangiospermae  0.0004 0.0665 0.1257 0.5862      0.2184       0.0029         
+3 Magnoliidae      0.0006 0.0476 0.0900 0.6472      0.2030       0.0115         
+4 Monocotyledoneae 0.0031 0.1056 0.1997 0.5874      0.1032       0.0011         
+5 Eudicotyledoneae 0.0000 0.0138 0.0261 0.7477      0.2087       0.0038         
+
+Summary: most likely state at key nodes
+  Node             ML state     Prob  
+1 Angiospermae     ten_to_fifty 0.389 
+2 Mesangiospermae  four_to_ten  0.5862
+3 Magnoliidae      four_to_ten  0.6472
+4 Monocotyledoneae four_to_ten  0.5874
+5 Eudicotyledoneae four_to_ten  0.7477
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ORDeq (character numberofstamens)...
+
+Rate matrix
+   1  2  3  4  5  6
+1 NA  2 NA NA NA NA
+2  1 NA  4 NA NA NA
+3 NA  3 NA  6 NA NA
+4 NA NA  5 NA  8 NA
+5 NA NA NA  7 NA 10
+6 NA NA NA NA  9 NA
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	6	9	17	204	27	23	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+     -lnL      AIC     AICc ntax
+ -263.214 546.4281 547.1946  298
+
+Rates
+           0           1            2          3           4          5
+0         NA  0.02556984           NA         NA          NA         NA
+1 0.01911783          NA 98.453356757         NA          NA         NA
+2         NA 52.13070856           NA 0.01728753          NA         NA
+3         NA          NA  0.001927911         NA 0.001795438         NA
+4         NA          NA           NA 0.02335327          NA 0.01035663
+5         NA          NA           NA         NA 0.018324813         NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one two    three  four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0   0.0000 0.0000 0.0000      0.8428       0.1572         
+2 Mesangiospermae  0   0.0000 0.0000 0.0007      0.9324       0.0669         
+3 Magnoliidae      0   0.0000 0.0000 0.0136      0.8888       0.0976         
+4 Monocotyledoneae 0   0.0024 0.0046 0.2330      0.7253       0.0347         
+5 Eudicotyledoneae 0   0.0000 0.0000 0.0001      0.9234       0.0764         
+
+Summary: most likely state at key nodes
+  Node             ML state     Prob  
+1 Angiospermae     ten_to_fifty 0.8428
+2 Mesangiospermae  ten_to_fifty 0.9324
+3 Magnoliidae      ten_to_fifty 0.8888
+4 Monocotyledoneae ten_to_fifty 0.7253
+5 Eudicotyledoneae ten_to_fifty 0.9234
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ORDSYM (character numberofstamens)...
+
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Rate matrix
+   1  2  3  4  5  6
+1 NA  1 NA NA NA NA
+2  1 NA  2 NA NA NA
+3 NA  2 NA  3 NA NA
+4 NA NA  3 NA  4 NA
+5 NA NA NA  4 NA  5
+6 NA NA NA NA  5 NA
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	6	9	17	204	27	23	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+     -lnL      AIC     AICc ntax
+ -279.505 569.0099 569.2154  298
+
+Rates
+           0          1           2           3           4         5
+0         NA 0.02374909          NA          NA          NA        NA
+1 0.02374909         NA 0.026815593          NA          NA        NA
+2         NA 0.02681559          NA 0.001504463          NA        NA
+3         NA         NA 0.001504463          NA 0.002343292        NA
+4         NA         NA          NA 0.002343292          NA 0.0256305
+5         NA         NA          NA          NA 0.025630505        NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one two three four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0   0   0     0.9040      0.0926       0.0033         
+2 Mesangiospermae  0   0   0     1.0000      0.0000       0.0000         
+3 Magnoliidae      0   0   0     1.0000      0.0000       0.0000         
+4 Monocotyledoneae 0   0   0     1.0000      0.0000       0.0000         
+5 Eudicotyledoneae 0   0   0     0.9997      0.0003       0.0000         
+
+Summary: most likely state at key nodes
+  Node             ML state    Prob  
+1 Angiospermae     four_to_ten 0.904 
+2 Mesangiospermae  four_to_ten   1   
+3 Magnoliidae      four_to_ten   1   
+4 Monocotyledoneae four_to_ten   1   
+5 Eudicotyledoneae four_to_ten 0.9997
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ORDSYMeq (character numberofstamens)...
+
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Fewer than two parameters indicated to equalize.  Original matrix returned.
+Rate matrix
+   1  2  3  4  5  6
+1 NA  1 NA NA NA NA
+2  1 NA  2 NA NA NA
+3 NA  2 NA  3 NA NA
+4 NA NA  3 NA  4 NA
+5 NA NA NA  4 NA  5
+6 NA NA NA NA  5 NA
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	6	9	17	204	27	23	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -277.9042 565.8084 566.0139  298
+
+Rates
+           0          1           2           3           4          5
+0         NA 0.02380694          NA          NA          NA         NA
+1 0.02380694         NA 0.026739155          NA          NA         NA
+2         NA 0.02673916          NA 0.001502597          NA         NA
+3         NA         NA 0.001502597          NA 0.002354778         NA
+4         NA         NA          NA 0.002354778          NA 0.02562093
+5         NA         NA          NA          NA 0.025620933         NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one two three four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0   0   0     0.9897      0.0103       0              
+2 Mesangiospermae  0   0   0     1.0000      0.0000       0              
+3 Magnoliidae      0   0   0     1.0000      0.0000       0              
+4 Monocotyledoneae 0   0   0     1.0000      0.0000       0              
+5 Eudicotyledoneae 0   0   0     0.9997      0.0003       0              
+
+Summary: most likely state at key nodes
+  Node             ML state    Prob  
+1 Angiospermae     four_to_ten 0.9897
+2 Mesangiospermae  four_to_ten   1   
+3 Magnoliidae      four_to_ten   1   
+4 Monocotyledoneae four_to_ten   1   
+5 Eudicotyledoneae four_to_ten 0.9997
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ORDER (character numberofstamens)...
+
+Rate matrix
+   1  2  3  4  5  6
+1 NA  1 NA NA NA NA
+2  1 NA  1 NA NA NA
+3 NA  1 NA  1 NA NA
+4 NA NA  1 NA  1 NA
+5 NA NA NA  1 NA  1
+6 NA NA NA NA  1 NA
+
+State distribution in data:
+States:	0	1	2	3	4	5	
+Counts:	6	9	17	204	27	23	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -313.1436 628.2872 628.3007  298
+
+Rates
+            0           1           2           3           4           5
+0          NA 0.003115989          NA          NA          NA          NA
+1 0.003115989          NA 0.003115989          NA          NA          NA
+2          NA 0.003115989          NA 0.003115989          NA          NA
+3          NA          NA 0.003115989          NA 0.003115989          NA
+4          NA          NA          NA 0.003115989          NA 0.003115989
+5          NA          NA          NA          NA 0.003115989          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             one two three  four_to_ten ten_to_fifty more_than_fifty
+1 Angiospermae     0   0   0.0003 0.8670      0.1322       0.0005         
+2 Mesangiospermae  0   0   0.0000 0.9997      0.0003       0.0000         
+3 Magnoliidae      0   0   0.0000 0.9993      0.0007       0.0000         
+4 Monocotyledoneae 0   0   0.0001 0.9999      0.0001       0.0000         
+5 Eudicotyledoneae 0   0   0.0000 0.9981      0.0019       0.0000         
+
+Summary: most likely state at key nodes
+  Node             ML state    Prob  
+1 Angiospermae     four_to_ten 0.867 
+2 Mesangiospermae  four_to_ten 0.9997
+3 Magnoliidae      four_to_ten 0.9993
+4 Monocotyledoneae four_to_ten 0.9999
+5 Eudicotyledoneae four_to_ten 0.9981
+
+
+Summary table of model comparison
+        Model    LogL    Npar AIC    AICc   DeltaAICc w    q01    q02   q03    q04   q05   q10    q12    
+rates   ARD      -260.91 30   581.83 588.79 41.60     0.00 0.0071 0e+00 0.0148 0e+00 0e+00 0.0000  0.0326
+rates.1 ARDeq    -259.22 30   578.45 585.41 38.22     0.00 0.0070 0e+00 0.0148 0e+00 0e+00 0.0000  0.0327
+rates.2 ER       -297.84  1   597.67 597.69 50.49     0.00 0.0008 8e-04 0.0008 8e-04 8e-04 0.0008  0.0008
+rates.3 SYM      -277.34 15   584.68 586.38 39.19     0.00 0.0195 0e+00 0.0000 0e+00 0e+00 0.0195  0.0039
+rates.4 SYMeq    -275.75 15   581.49 583.19 36.00     0.00 0.0195 0e+00 0.0000 0e+00 0e+00 0.0195  0.0039
+rates.5 ORD      -266.10 10   552.21 552.97  5.78     0.05 0.0265    NA     NA    NA    NA 0.0174 99.9938
+rates.6 ORDeq**  -263.21 10   546.43 547.19  0.00     0.95 0.0256    NA     NA    NA    NA 0.0191 98.4534
+rates.7 ORDSYM   -279.50  5   569.01 569.22 22.02     0.00 0.0237    NA     NA    NA    NA 0.0237  0.0268
+rates.8 ORDSYMeq -277.90  5   565.81 566.01 18.82     0.00 0.0238    NA     NA    NA    NA 0.0238  0.0267
+rates.9 ORDER    -313.14  1   628.29 628.30 81.11     0.00 0.0031    NA     NA    NA    NA 0.0031  0.0031
+        q13   q14   q15   q20   q21     q23    q24   q25   q30   q31    q32    q34    q35   q40    q41  
+rates   0e+00 0e+00 0e+00 0e+00  0.0000 0.0078 0e+00 0e+00 0e+00 0.0012 0.0000 0.0010 0e+00 0.0024 0e+00
+rates.1 0e+00 0e+00 0e+00 0e+00  0.0000 0.0078 0e+00 0e+00 0e+00 0.0012 0.0000 0.0010 0e+00 0.0024 0e+00
+rates.2 8e-04 8e-04 8e-04 8e-04  0.0008 0.0008 8e-04 8e-04 8e-04 0.0008 0.0008 0.0008 8e-04 0.0008 8e-04
+rates.3 6e-04 0e+00 0e+00 0e+00  0.0039 0.0008 0e+00 0e+00 0e+00 0.0006 0.0008 0.0020 4e-04 0.0000 0e+00
+rates.4 6e-04 0e+00 0e+00 0e+00  0.0039 0.0008 0e+00 0e+00 0e+00 0.0006 0.0008 0.0020 4e-04 0.0000 0e+00
+rates.5    NA    NA    NA    NA 52.9383 0.0216    NA    NA    NA     NA 0.0016 0.0031    NA     NA    NA
+rates.6    NA    NA    NA    NA 52.1307 0.0173    NA    NA    NA     NA 0.0019 0.0018    NA     NA    NA
+rates.7    NA    NA    NA    NA  0.0268 0.0015    NA    NA    NA     NA 0.0015 0.0023    NA     NA    NA
+rates.8    NA    NA    NA    NA  0.0267 0.0015    NA    NA    NA     NA 0.0015 0.0024    NA     NA    NA
+rates.9    NA    NA    NA    NA  0.0031 0.0031    NA    NA    NA     NA 0.0031 0.0031    NA     NA    NA
+        q42   q43    q45    q50   q51   q52   q53    q54   
+rates   0e+00 0.0049 0.0121 0e+00 0e+00 0e+00 0.0172 0.0078
+rates.1 0e+00 0.0047 0.0117 0e+00 0e+00 0e+00 0.0176 0.0070
+rates.2 8e-04 0.0008 0.0008 8e-04 8e-04 8e-04 0.0008 0.0008
+rates.3 0e+00 0.0020 0.0173 0e+00 0e+00 0e+00 0.0004 0.0173
+rates.4 0e+00 0.0020 0.0172 0e+00 0e+00 0e+00 0.0004 0.0172
+rates.5    NA 0.0183 0.0226    NA    NA    NA     NA 0.0229
+rates.6    NA 0.0234 0.0104    NA    NA    NA     NA 0.0183
+rates.7    NA 0.0023 0.0256    NA    NA    NA     NA 0.0256
+rates.8    NA 0.0024 0.0256    NA    NA    NA     NA 0.0256
+rates.9    NA 0.0031 0.0031    NA    NA    NA     NA 0.0031
+
+The best standard model found by AICc is ORDeq
+
+Most likely states at key nodes for best standard model (ORDeq)
+  Node             ML state     Prob  
+1 Angiospermae     ten_to_fifty 0.8428
+2 Mesangiospermae  ten_to_fifty 0.9324
+3 Magnoliidae      ten_to_fifty 0.8888
+4 Monocotyledoneae ten_to_fifty 0.7253
+5 Eudicotyledoneae ten_to_fifty 0.9234
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charnumberofstamens_fantree_ML.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charnumberofstamens_fulltree_ML.pdf
+
+
+SUMMARY: reconstructed ancestral states for this character
+
+  Character       Node             MP state(s)                                  ML state     Prob  
+1                                                                                                  
+2 numberofstamens                                                                                  
+3 numberofstamens                                                                                  
+4                 Angiospermae     four_to_ten / ten_to_fifty / more_than_fifty ten_to_fifty 0.8428
+5                 Mesangiospermae                  four_to_ten                  ten_to_fifty 0.9324
+6                 Magnoliidae                      four_to_ten                  ten_to_fifty 0.8888
+7                 Monocotyledoneae                 four_to_ten                  ten_to_fifty 0.7253
+8                 Eudicotyledoneae                 four_to_ten                  ten_to_fifty 0.9234
+
+
+
+****************************************************************************************************
+
+Analyzing character: matingsystem
+
+This character has 3 states: selfing, intermediate, outcrossing
+
+Performing maximum parsimony ASR using ancestral.pars (character matingsystem)...
+
+Parsimony score: 54 steps
+
+Ancestral states for key nodes
+  Node             selfing intermediate outcrossing
+1 Angiospermae     0       0.5          0.5        
+2 Mesangiospermae  0       1.0          0.0        
+3 Magnoliidae      0       1.0          0.0        
+4 Monocotyledoneae 0       0.0          1.0        
+5 Eudicotyledoneae 0       0.0          1.0        
+
+Summary: most parsimonious state(s) at key nodes
+  Node             MP state(s)               
+1 Angiospermae     intermediate / outcrossing
+2 Mesangiospermae         intermediate       
+3 Magnoliidae             intermediate       
+4 Monocotyledoneae        outcrossing        
+5 Eudicotyledoneae        outcrossing        
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charmatingsystem_fantree_MP.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charmatingsystem_fulltree_MP.pdf
+
+Performing maximum likelihood ASR (using rayDISC) with model ARD (character matingsystem)...
+
+State distribution in data:
+States:	0	1	2	
+Counts:	20	45	130	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -161.3736 334.7472 335.0359  298
+
+Rates
+            0           1          2
+0          NA 0.004648636 0.01434551
+1 7.58256e-10          NA 0.05639169
+2 2.74274e-03 0.018639208         NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             selfing intermediate outcrossing
+1 Angiospermae     0.0834  0.4694       0.4471     
+2 Mesangiospermae  0.0590  0.4246       0.5163     
+3 Magnoliidae      0.0559  0.3842       0.5599     
+4 Monocotyledoneae 0.0613  0.3882       0.5505     
+5 Eudicotyledoneae 0.0368  0.3847       0.5784     
+
+Summary: most likely state at key nodes
+  Node             ML state     Prob  
+1 Angiospermae     intermediate 0.4694
+2 Mesangiospermae  outcrossing  0.5163
+3 Magnoliidae      outcrossing  0.5599
+4 Monocotyledoneae outcrossing  0.5505
+5 Eudicotyledoneae outcrossing  0.5784
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ARDeq (character matingsystem)...
+
+State distribution in data:
+States:	0	1	2	
+Counts:	20	45	130	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -161.0917 334.1835 334.4721  298
+
+Rates
+             0           1          2
+0           NA 0.004780349 0.01181226
+1 7.582560e-10          NA 0.05544564
+2 2.533454e-03 0.018247812         NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             selfing intermediate outcrossing
+1 Angiospermae     0.0060  0.5311       0.4630     
+2 Mesangiospermae  0.0039  0.4744       0.5218     
+3 Magnoliidae      0.0058  0.4254       0.5688     
+4 Monocotyledoneae 0.0079  0.4312       0.5609     
+5 Eudicotyledoneae 0.0024  0.4232       0.5744     
+
+Summary: most likely state at key nodes
+  Node             ML state     Prob  
+1 Angiospermae     intermediate 0.5311
+2 Mesangiospermae  outcrossing  0.5218
+3 Magnoliidae      outcrossing  0.5688
+4 Monocotyledoneae outcrossing  0.5609
+5 Eudicotyledoneae outcrossing  0.5744
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ER (character matingsystem)...
+
+State distribution in data:
+States:	0	1	2	
+Counts:	20	45	130	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -177.7374 357.4747 357.4882  298
+
+Rates
+            0           1           2
+0          NA 0.002503736 0.002503736
+1 0.002503736          NA 0.002503736
+2 0.002503736 0.002503736          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             selfing intermediate outcrossing
+1 Angiospermae     0.0033  0.0203       0.9764     
+2 Mesangiospermae  0.0000  0.0052       0.9948     
+3 Magnoliidae      0.0008  0.0241       0.9751     
+4 Monocotyledoneae 0.0002  0.0029       0.9969     
+5 Eudicotyledoneae 0.0000  0.0002       0.9998     
+
+Summary: most likely state at key nodes
+  Node             ML state    Prob  
+1 Angiospermae     outcrossing 0.9764
+2 Mesangiospermae  outcrossing 0.9948
+3 Magnoliidae      outcrossing 0.9751
+4 Monocotyledoneae outcrossing 0.9969
+5 Eudicotyledoneae outcrossing 0.9998
+
+
+Performing maximum likelihood ASR (using rayDISC) with model SYM (character matingsystem)...
+
+Rate matrix
+   1  2  3
+1 NA  1  2
+2  1 NA  3
+3  2  3 NA
+
+State distribution in data:
+States:	0	1	2	
+Counts:	20	45	130	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -171.4091 348.8182 348.8999  298
+
+Rates
+             0           1            2
+0           NA 0.003137302 0.0009842346
+1 0.0031373018          NA 0.0042448867
+2 0.0009842346 0.004244887           NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             selfing intermediate outcrossing
+1 Angiospermae     7e-04   0.0198       0.9795     
+2 Mesangiospermae  0e+00   0.0042       0.9958     
+3 Magnoliidae      1e-04   0.0180       0.9819     
+4 Monocotyledoneae 0e+00   0.0044       0.9956     
+5 Eudicotyledoneae 0e+00   0.0004       0.9996     
+
+Summary: most likely state at key nodes
+  Node             ML state    Prob  
+1 Angiospermae     outcrossing 0.9795
+2 Mesangiospermae  outcrossing 0.9958
+3 Magnoliidae      outcrossing 0.9819
+4 Monocotyledoneae outcrossing 0.9956
+5 Eudicotyledoneae outcrossing 0.9996
+
+
+Performing maximum likelihood ASR (using rayDISC) with model SYMeq (character matingsystem)...
+
+Rate matrix
+   1  2  3
+1 NA  1  2
+2  1 NA  3
+3  2  3 NA
+
+State distribution in data:
+States:	0	1	2	
+Counts:	20	45	130	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -170.3514 346.7028 346.7845  298
+
+Rates
+             0           1            2
+0           NA 0.003156390 0.0009828905
+1 0.0031563896          NA 0.0042400458
+2 0.0009828905 0.004240046           NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             selfing intermediate outcrossing
+1 Angiospermae     0e+00   0.0004       0.9996     
+2 Mesangiospermae  0e+00   0.0001       0.9999     
+3 Magnoliidae      1e-04   0.0140       0.9859     
+4 Monocotyledoneae 0e+00   0.0014       0.9986     
+5 Eudicotyledoneae 0e+00   0.0001       0.9999     
+
+Summary: most likely state at key nodes
+  Node             ML state    Prob  
+1 Angiospermae     outcrossing 0.9996
+2 Mesangiospermae  outcrossing 0.9999
+3 Magnoliidae      outcrossing 0.9859
+4 Monocotyledoneae outcrossing 0.9986
+5 Eudicotyledoneae outcrossing 0.9999
+
+
+Summary table of model comparison
+        Model   LogL    Npar AIC    AICc   DeltaAICc w    q01    q02    q10    q12    q20    q21   
+rates   ARD     -161.37 6    334.75 335.04  0.56     0.43 0.0046 0.0143 0.0000 0.0564 0.0027 0.0186
+rates.1 ARDeq** -161.09 6    334.18 334.47  0.00     0.57 0.0048 0.0118 0.0000 0.0554 0.0025 0.0182
+rates.2 ER      -177.74 1    357.47 357.49 23.02     0.00 0.0025 0.0025 0.0025 0.0025 0.0025 0.0025
+rates.3 SYM     -171.41 3    348.82 348.90 14.43     0.00 0.0031 0.0010 0.0031 0.0042 0.0010 0.0042
+rates.4 SYMeq   -170.35 3    346.70 346.78 12.31     0.00 0.0032 0.0010 0.0032 0.0042 0.0010 0.0042
+
+The best standard model found by AICc is ARDeq
+
+Most likely states at key nodes for best standard model (ARDeq)
+  Node             ML state     Prob  
+1 Angiospermae     intermediate 0.5311
+2 Mesangiospermae  outcrossing  0.5218
+3 Magnoliidae      outcrossing  0.5688
+4 Monocotyledoneae outcrossing  0.5609
+5 Eudicotyledoneae outcrossing  0.5744
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charmatingsystem_fantree_ML.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charmatingsystem_fulltree_ML.pdf
+
+
+SUMMARY: reconstructed ancestral states for this character
+
+  Character    Node             MP state(s)                ML state     Prob  
+1                                                                             
+2 matingsystem                                                                
+3 matingsystem                                                                
+4              Angiospermae     intermediate / outcrossing intermediate 0.5311
+5              Mesangiospermae         intermediate        outcrossing  0.5218
+6              Magnoliidae             intermediate        outcrossing  0.5688
+7              Monocotyledoneae        outcrossing         outcrossing  0.5609
+8              Eudicotyledoneae        outcrossing         outcrossing  0.5744
+
+
+
+****************************************************************************************************
+
+Analyzing character: compatibility
+
+This character has 2 states: SC, SI
+
+Performing maximum parsimony ASR using ancestral.pars (character compatibility)...
+
+Parsimony score: 45 steps
+
+Ancestral states for key nodes
+  Node             SC SI
+1 Angiospermae     1  0 
+2 Mesangiospermae  1  0 
+3 Magnoliidae      1  0 
+4 Monocotyledoneae 1  0 
+5 Eudicotyledoneae 1  0 
+
+Summary: most parsimonious state(s) at key nodes
+  Node             MP state(s)
+1 Angiospermae     SC         
+2 Mesangiospermae  SC         
+3 Magnoliidae      SC         
+4 Monocotyledoneae SC         
+5 Eudicotyledoneae SC         
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charcompatibility_fantree_MP.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charcompatibility_fulltree_MP.pdf
+
+Performing maximum likelihood ASR (using rayDISC) with model ARD (character compatibility)...
+
+State distribution in data:
+States:	0	1	
+Counts:	113	54	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -104.7963 213.5926 213.6332  298
+
+Rates
+           0          1
+0         NA 0.01260394
+1 0.02630238         NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             SC     SI    
+1 Angiospermae     0.4979 0.5021
+2 Mesangiospermae  0.5192 0.4808
+3 Magnoliidae      0.5415 0.4585
+4 Monocotyledoneae 0.5365 0.4635
+5 Eudicotyledoneae 0.5350 0.4650
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     SI       0.5021
+2 Mesangiospermae  SC       0.5192
+3 Magnoliidae      SC       0.5415
+4 Monocotyledoneae SC       0.5365
+5 Eudicotyledoneae SC       0.535 
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ARDeq (character compatibility)...
+
+State distribution in data:
+States:	0	1	
+Counts:	113	54	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+     -lnL    AIC     AICc ntax
+ -105.105 214.21 214.2507  298
+
+Rates
+        0        1
+0      NA 31.29209
+1 65.4816       NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             SC     SI    
+1 Angiospermae     0.5000 0.5000
+2 Mesangiospermae  0.6766 0.3234
+3 Magnoliidae      0.6766 0.3234
+4 Monocotyledoneae 0.6766 0.3234
+5 Eudicotyledoneae 0.6766 0.3234
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     SC        0.5  
+2 Mesangiospermae  SC       0.6766
+3 Magnoliidae      SC       0.6766
+4 Monocotyledoneae SC       0.6766
+5 Eudicotyledoneae SC       0.6766
+
+
+Performing maximum likelihood ASR (using rayDISC) with model ER (character compatibility)...
+
+State distribution in data:
+States:	0	1	
+Counts:	113	54	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL     AIC     AICc ntax
+ -108.7615 219.523 219.5365  298
+
+Rates
+            0           1
+0          NA 0.006489909
+1 0.006489909          NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             SC     SI    
+1 Angiospermae     0.9862 0.0138
+2 Mesangiospermae  0.9994 0.0006
+3 Magnoliidae      0.9942 0.0058
+4 Monocotyledoneae 0.9987 0.0013
+5 Eudicotyledoneae 0.9987 0.0013
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     SC       0.9862
+2 Mesangiospermae  SC       0.9994
+3 Magnoliidae      SC       0.9942
+4 Monocotyledoneae SC       0.9987
+5 Eudicotyledoneae SC       0.9987
+
+
+Performing maximum likelihood ASR (using rayDISC) with model UNI01 (character compatibility)...
+
+Rate matrix
+   1  2
+1 NA  1
+2 NA NA
+
+State distribution in data:
+States:	0	1	
+Counts:	113	54	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC     AICc ntax
+ -115.6576 233.3151 233.3286  298
+
+Rates
+   0          1
+0 NA 0.00470314
+1 NA         NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             SC SI
+1 Angiospermae     1  0 
+2 Mesangiospermae  1  0 
+3 Magnoliidae      1  0 
+4 Monocotyledoneae 1  0 
+5 Eudicotyledoneae 1  0 
+
+Summary: most likely state at key nodes
+  Node             ML state Prob
+1 Angiospermae     SC       1   
+2 Mesangiospermae  SC       1   
+3 Magnoliidae      SC       1   
+4 Monocotyledoneae SC       1   
+5 Eudicotyledoneae SC       1   
+
+
+Performing maximum likelihood ASR (using rayDISC) with model UNI10 (character compatibility)...
+
+Rate matrix
+   1  2
+1 NA NA
+2  1 NA
+
+State distribution in data:
+States:	0	1	
+Counts:	113	54	
+Initializing... 
+Finished. Beginning thorough search... 
+Finished. Inferring ancestral states using marginal reconstruction. 
+
+Fit
+      -lnL      AIC    AICc ntax
+ -111.7917 225.5835 225.597  298
+
+Rates
+           0  1
+0         NA NA
+1 0.01103564 NA
+
+Arrived at a reliable solution 
+
+Ancestral states for key nodes
+  Node             SC     SI    
+1 Angiospermae     0.0000 1.0000
+2 Mesangiospermae  0.0000 1.0000
+3 Magnoliidae      0.1015 0.8985
+4 Monocotyledoneae 0.0000 1.0000
+5 Eudicotyledoneae 0.0000 1.0000
+
+Summary: most likely state at key nodes
+  Node             ML state Prob  
+1 Angiospermae     SI         1   
+2 Mesangiospermae  SI         1   
+3 Magnoliidae      SI       0.8985
+4 Monocotyledoneae SI         1   
+5 Eudicotyledoneae SI         1   
+
+
+Summary table of model comparison
+        Model LogL    Npar AIC    AICc   DeltaAICc w    q01     q10    
+rates   ARD** -104.80 2    213.59 213.63  0.00     0.56  0.0126  0.0263
+rates.1 ARDeq -105.11 2    214.21 214.25  0.62     0.41 31.2921 65.4816
+rates.2 ER    -108.76 1    219.52 219.54  5.90     0.03  0.0065  0.0065
+rates.3 UNI01 -115.66 1    233.32 233.33 19.70     0.00  0.0047      NA
+rates.4 UNI10 -111.79 1    225.58 225.60 11.96     0.00      NA  0.0110
+
+The best standard model found by AICc is ARD
+
+Most likely states at key nodes for best standard model (ARD)
+  Node             ML state Prob  
+1 Angiospermae     SI       0.5021
+2 Mesangiospermae  SC       0.5192
+3 Magnoliidae      SC       0.5415
+4 Monocotyledoneae SC       0.5365
+5 Eudicotyledoneae SC       0.535 
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charcompatibility_fantree_ML.pdf
+
+
+ASR plot output to ./ASR_DiveRS_traits_2021-11-26_13-13/TreesByCharacter/ASR_DiveRS_traits_charcompatibility_fulltree_ML.pdf
+
+
+SUMMARY: reconstructed ancestral states for this character
+
+  Character     Node             MP state(s) ML state Prob  
+1                                                           
+2 compatibility                                             
+3 compatibility                                             
+4               Angiospermae     SC          SI       0.5021
+5               Mesangiospermae  SC          SC       0.5192
+6               Magnoliidae      SC          SC       0.5415
+7               Monocotyledoneae SC          SC       0.5365
+8               Eudicotyledoneae SC          SC       0.535 
+
+
+
+####################################################################################################
+
+
+FINAL SUMMARY: reconstructed ancestral states for all characters
+
+   Character       Node             MP state(s)                                  ML state           Prob  
+1                                                                                                         
+2  sexmorphs                                                                                              
+3                  Angiospermae     monomorphic / dimorphic                      monomorphic        0.9989
+4                  Mesangiospermae        monomorphic                            monomorphic        0.9998
+5                  Magnoliidae            monomorphic                            monomorphic        0.995 
+6                  Monocotyledoneae       monomorphic                            monomorphic        0.9984
+7                  Eudicotyledoneae       monomorphic                            monomorphic        0.999 
+8  flowersex                                                                                              
+9                  Angiospermae     unisexual / bisexual                         bisexual           0.9996
+10                 Mesangiospermae        bisexual                               bisexual             1   
+11                 Magnoliidae            bisexual                               bisexual           0.9998
+12                 Monocotyledoneae       bisexual                               bisexual           0.997 
+13                 Eudicotyledoneae       bisexual                               bisexual           0.9999
+14 symmetry                                                                                               
+15                 Angiospermae     actinomorphic                                zygomorphic          1   
+16                 Mesangiospermae  actinomorphic                                zygomorphic          1   
+17                 Magnoliidae      actinomorphic                                zygomorphic        0.8189
+18                 Monocotyledoneae actinomorphic                                zygomorphic          1   
+19                 Eudicotyledoneae actinomorphic                                zygomorphic          1   
+20 pollination                                                                                            
+21                 Angiospermae     biotic                                       biotic             0.9993
+22                 Mesangiospermae  biotic                                       biotic               1   
+23                 Magnoliidae      biotic                                       biotic               1   
+24                 Monocotyledoneae biotic                                       biotic               1   
+25                 Eudicotyledoneae biotic                                       biotic               1   
+26 habit                                                                                                  
+27                 Angiospermae     herb / woody                                 herb               0.716 
+28                 Mesangiospermae      herb                                     herb               0.7047
+29                 Magnoliidae         woody                                     woody              0.7412
+30                 Monocotyledoneae     herb                                     herb               0.8934
+31                 Eudicotyledoneae     herb                                     herb                0.65 
+32 lifespan                                                                                               
+33                 Angiospermae     long                                         short              0.9998
+34                 Mesangiospermae  long                                         short              0.9996
+35                 Magnoliidae      long                                         short              0.8688
+36                 Monocotyledoneae long                                         short              0.9931
+37                 Eudicotyledoneae long                                         short              0.999 
+38 flowersize                                                                                             
+39                 Angiospermae               less_than_1cm                        more_than_10cm   0.5092
+40                 Mesangiospermae            less_than_1cm                      between_1_and_10cm 0.6206
+41                 Magnoliidae                less_than_1cm                      between_1_and_10cm 0.7108
+42                 Monocotyledoneae           less_than_1cm                      between_1_and_10cm 0.6935
+43                 Eudicotyledoneae less_than_1cm / between_1_and_10cm           between_1_and_10cm 0.7257
+44 ovaryposition                                                                                          
+45                 Angiospermae     superior                                     superior             1   
+46                 Mesangiospermae  superior                                     superior             1   
+47                 Magnoliidae      superior                                     superior           0.9997
+48                 Monocotyledoneae superior                                     superior             1   
+49                 Eudicotyledoneae superior                                     superior             1   
+50 numberofovules                                                                                         
+51                 Angiospermae     four_to_ten / ten_to_fifty / more_than_fifty four_to_ten        0.4707
+52                 Mesangiospermae                  ten_to_fifty                 four_to_ten        0.4763
+53                 Magnoliidae                      ten_to_fifty                 four_to_ten        0.4601
+54                 Monocotyledoneae                 ten_to_fifty                 four_to_ten        0.4673
+55                 Eudicotyledoneae                 ten_to_fifty                 four_to_ten        0.4725
+56 numberofstamens                                                                                        
+57                 Angiospermae     four_to_ten / ten_to_fifty / more_than_fifty ten_to_fifty       0.8428
+58                 Mesangiospermae                  four_to_ten                  ten_to_fifty       0.9324
+59                 Magnoliidae                      four_to_ten                  ten_to_fifty       0.8888
+60                 Monocotyledoneae                 four_to_ten                  ten_to_fifty       0.7253
+61                 Eudicotyledoneae                 four_to_ten                  ten_to_fifty       0.9234
+62 matingsystem                                                                                           
+63                 Angiospermae     intermediate / outcrossing                   intermediate       0.5311
+64                 Mesangiospermae         intermediate                          outcrossing        0.5218
+65                 Magnoliidae             intermediate                          outcrossing        0.5688
+66                 Monocotyledoneae        outcrossing                           outcrossing        0.5609
+67                 Eudicotyledoneae        outcrossing                           outcrossing        0.5744
+68 compatibility                                                                                          
+69                 Angiospermae     SC                                           SI                 0.5021
+70                 Mesangiospermae  SC                                           SC                 0.5192
+71                 Magnoliidae      SC                                           SC                 0.5415
+72                 Monocotyledoneae SC                                           SC                 0.5365
+73                 Eudicotyledoneae SC                                           SC                 0.535 
+
+All summary results output to ./ASR_DiveRS_traits_2021-11-26_13-13/ASR_DiveRS_traits.xlsx
+
