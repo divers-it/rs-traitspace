@@ -58,7 +58,18 @@ cbind(add.sp, to.graft) #Species in tree / species in trait list
 to.add<-add.sp[!is.na(add.sp)]
 
 ptree<-keep.tip(mtree, c(to.keep, to.add))
+#Replace species names in tree with those in table:
+rep.table<-na.omit(data.frame(add.sp, to.graft))
 
-write.tree(ptree, file="tree_herve.tre")
+for(i in 1:length(ptree$tip.label)){
+  for(j in 1:length(rep.table$add.sp)){
+    if(ptree$tip.label[i]==rep.table$add.sp[j]){
+      ptree$tip.label[i]<-rep.table$to.graft[j]
+    }
+  }
+}
+
+ptree<-as.phylo(ptree)
+write.tree(ptree, file="tree_298.tre")
 
 ```
