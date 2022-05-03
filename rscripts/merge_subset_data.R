@@ -19,7 +19,7 @@ disc_qr_df[,c('NTaxDat','Mating','outcrossing_rate')]
 for(i in 1:length(disc_qr_df$NTaxDat)){
   
   #if na value for Mating column
-  if(!is.na(disc_qr_df$Mating[i])){
+  if(!is.na(disc_qr_df$outcrossing_rate[i])){
     
     #add discretized outcrossing rate
     disc_qr_df$Mating[i]<-disc_qr_df$outcrossing_rate[i]
@@ -33,3 +33,28 @@ disc_qr_df$Mating[grep("_",disc_qr_df$Mating)]<-'mixed'
 
 #remove quant outcrossing
 disc_qr_df<-disc_qr_df[,-grep("outcrossing_rate",colnames(disc_qr_df))]
+
+#rename woodiness
+colnames(disc_qr_df)[2]<-"Woodiness"
+
+view(disc_qr_df)
+
+#remove min and max
+quant_df<-quant_df[,c(1,grep("meanValDat",colnames(quant_df)))]
+
+#remove quant outcrossing
+quant_df<-quant_df[,-grep("Outcrossing",colnames(quant_df))]
+
+#merge discrete+recoded discrete and quantitative
+disc_qr_quant_df<-merge(disc_qr_df, quant_df, by.x = 'NTaxDat', by.y = 'NTaxDat', all.x = T)
+
+#view(disc_qr_quant_df)
+
+#clean up names
+colnames(disc_qr_quant_df)<-gsub("\\.","",colnames(disc_qr_quant_df))
+colnames(disc_qr_quant_df)<-gsub("C1","",colnames(disc_qr_quant_df))
+colnames(disc_qr_quant_df)<-gsub("meanValDat_","",colnames(disc_qr_quant_df))
+colnames(disc_qr_quant_df)<-gsub('[0-9]+', '', colnames(disc_qr_quant_df))
+colnames(disc_qr_quant_df)
+
+write.csv(disc_qr_quant_df,"outputs/proteus_combined.csv")
