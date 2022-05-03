@@ -3,7 +3,7 @@ library(tidyverse)
 library(gtools)
 
 #import data
-df<-read.csv("~/Desktop/qryDiveRS_Data_2021-11-25.csv",sep=';')
+df<-read.csv("qryDiveRS_Data_2022-04-29.csv")
 str(df)
 
 #filter by quality
@@ -75,7 +75,7 @@ for(i in 2:length(colnames(df.wide.chosen))){
 }
 
 #read in recoding table
-df_recode<-read.csv("~/Desktop/trait_recoding - Categorical to categorical.csv")
+df_recode<-read.csv("trait_recoding - Categorical to categorical.csv")
 
 #subset for test
 #df_recode<-df_recode[c(1:21),]
@@ -119,12 +119,54 @@ for(i in 1:length(unique(df_recode$new_trait))){
 
   #reduce to species/state columns only
   trait_list[[i]]<-trait_df_merged[,c('NTaxDat','new_state')]
-
+  
+  ###
+  # Figure out why this is necessary
+  ###
+  #remove duplicate combinations
+  trait_list[[i]]<-unique(trait_list[[i]])
+  
+  #get names of polymorphic species
+  poly_sp<-names(which(table(trait_list[[i]]$NTaxDat)>1))
+  
+  #loop through polymorphic species
+  for(j in 1:length(poly_sp)){
+    
+    
+    #combine multiple states into one
+    poly_state<-paste(sort(trait_list[[i]][trait_list[[i]]$NTaxDat%in%poly_sp[j],]$new_state),collapse = "_")
+    
+    #replace both states with combined states
+    trait_list[[i]]$new_state[grep(poly_sp[j],trait_list[[i]]$NTaxDat)]<-poly_state
+    
+  }
+  
+  #remove duplicate combinations
+  trait_list[[i]]<-unique(trait_list[[i]])
+  
+  #name list
   names(trait_list)[i]<-unique(trait_df_merged$new_trait)
+  
 }
 
-head(trait_list[[1]])
+str(trait_list)
+view(trait_list$Woodiness)
+
 
 #TODO
 #Merge dataframes in list
 #assign polymorphic status
+for(i in 1:length(trait_list)){
+  if(i == 1){
+    disc_df<-trait_list[[i]]
+  } else {
+    disc_df<-merge(disc_df,trait_list[[i]],by.x = 'NTaxDat', by.y = 'NTaxDat', all.x = T)
+    colnames(disc_df)[i+1]<-names(trait_list)[i]
+  }
+}
+
+view(disc_df)
+
+write.csv(disc_df,"outputs/proteus_discrete_recoded.csv")
+
+
