@@ -1,0 +1,40 @@
+---
+title: "README"
+author: "Andrew J. Helmstetter"
+date: "5/6/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Workflow
+
+### 1_proteus_data_preparation_discrete.R
+
+Read in PROTEUS data and recode discrete data based on trait_recoding table
+
+### 2_proteus_data_preparation_quant.R
+
+Read in PROTEUS data and prepare quantiative data
+
+### 3_recode_quantitative_discrete.R
+
+Convert some quantitative variables to discrete ones
+
+### 4_merge_subset_data.R
+
+Combine discrete, quantitative and discretized data into one data frame
+
+### 5_clean_filter_df.R
+
+Clean up data and filter species / traits based on proportion of missing data
+
+
+## Other scripts
+
+
+### discrete_state_freqs.R
+
+The number of species with each discrete state (original) from the PROTEUS dataset.

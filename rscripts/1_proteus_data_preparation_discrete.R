@@ -3,7 +3,7 @@ library(tidyverse)
 library(gtools)
 
 #import data
-df<-read.csv("qryDiveRS_Data_2022-04-29.csv")
+df<-read.csv("data/qryDiveRS_Data_2022-04-29.csv")
 str(df)
 
 #filter by quality
@@ -75,11 +75,7 @@ for(i in 2:length(colnames(df.wide.chosen))){
 }
 
 #read in recoding table
-df_recode<-read.csv("trait_recoding - Categorical to categorical.csv")
-
-#subset for test
-#df_recode<-df_recode[c(1:21),]
-#df_recode
+df_recode<-read.csv("data/trait_recoding - Categorical to categorical.csv")
 
 #empty list to store traits
 trait_list<-list()
@@ -150,8 +146,7 @@ for(i in 1:length(unique(df_recode$new_trait))){
 }
 
 str(trait_list)
-view(trait_list$Woodiness)
-
+#view(trait_list$Woodiness)
 
 #TODO
 #Merge dataframes in list
@@ -165,7 +160,7 @@ for(i in 1:length(trait_list)){
   }
 }
 
-view(disc_df)
+#view(disc_df)
 
 write.csv(disc_df,"outputs/proteus_discrete_recoded.csv")
 

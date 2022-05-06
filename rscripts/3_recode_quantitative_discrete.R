@@ -38,9 +38,6 @@ for(i in 1:length(outc[,1])){
   
 }
 
-
-
-
 outc_df<-data.frame(rownames(outc),outc_disc)
 colnames(outc_df)<-c("species","outcrossing_rate")
 head(outc_df)

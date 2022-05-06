@@ -209,7 +209,7 @@
 "208","Nepenthes macfarlanei","woody","climbing","dimorphic","long","outcrossing","abiotic_biotic",NA,"unisexual",NA,"nectar","actinomorphic",NA
 "209","Nicotiana tabacum","herbaceous","non-climbing","monomorphic","long_short",NA,"biotic","autonomous","bisexual","superior","nectar","actinomorphic_zygomorphic","whitish"
 "210","Nolana humifusa","herbaceous","non-climbing","monomorphic","short","outcrossing","biotic",NA,"bisexual","superior","nectar_pollen","actinomorphic","bright"
-"211","Nothapodytes nimmoniana","woody","non-climbing","polymorphic","long","mixed","biotic","biotic","bisexual_unisexual",NA,"nectar_pollen",NA,"whitish"
+"211","Nothapodytes nimmoniana","woody","non-climbing","dimorphic","long","mixed","biotic","biotic","bisexual_unisexual",NA,"nectar_pollen",NA,"whitish"
 "212","Nothofagus dombeyi","woody","non-climbing","monomorphic","long","outcrossing","abiotic",NA,"unisexual",NA,NA,NA,NA
 "213","Nuphar advena","herbaceous","non-climbing","monomorphic","long",NA,"biotic",NA,"bisexual","superior","pollen","actinomorphic","bright"
 "214","Nymphaea odorata","herbaceous","non-climbing","monomorphic","long",NA,"biotic",NA,"bisexual","intermediate","nectar","actinomorphic_other","whitish"
@@ -293,7 +293,7 @@
 "292","Spergularia marina","herbaceous","non-climbing","monomorphic","short",NA,"autonomous","abiotic","bisexual","superior","nectar","actinomorphic","bright_whitish"
 "293","Spigelia marilandica","herbaceous","non-climbing",NA,"long",NA,NA,NA,"bisexual","superior",NA,"actinomorphic","bright_green/brown"
 "294","Spiranthes cernua","herbaceous","non-climbing","monomorphic","long",NA,"autonomous_biotic",NA,"bisexual","inferior",NA,"zygomorphic","whitish"
-"295","Spondias tuberosa","woody","non-climbing","monomorphic_polymorphic","long","outcrossing","biotic",NA,"bisexual",NA,NA,"actinomorphic","whitish"
+"295","Spondias tuberosa","woody","non-climbing","dimorphic_monomorphic","long","outcrossing","biotic",NA,"bisexual",NA,NA,"actinomorphic","whitish"
 "296","Staphylea trifolia","woody","non-climbing","monomorphic","long","outcrossing","biotic",NA,"bisexual","superior","nectar_pollen","actinomorphic","bright_green/brown_whitish"
 "297","Stellaria media","herbaceous","non-climbing","monomorphic","long_short","selfing","autonomous_biotic","autonomous","bisexual","superior","nectar","actinomorphic","whitish"
 "298","Sterculia apetala","woody","non-climbing","monomorphic","long","outcrossing","biotic","biotic","bisexual_unisexual","superior",NA,"actinomorphic","bright_green/brown"

@@ -57,4 +57,8 @@ colnames(disc_qr_quant_df)<-gsub("meanValDat_","",colnames(disc_qr_quant_df))
 colnames(disc_qr_quant_df)<-gsub('[0-9]+', '', colnames(disc_qr_quant_df))
 colnames(disc_qr_quant_df)
 
-write.csv(disc_qr_quant_df,"outputs/proteus_combined.csv")
+#remove first row (numbers) and add to rownames
+proteus_combined<-disc_qr_quant_df[,-1]
+rownames(proteus_combined)<-disc_qr_quant_df[,"NTaxDat"]
+
+write.csv(proteus_combined,"outputs/proteus_combined.csv")
