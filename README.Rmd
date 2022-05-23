@@ -1,13 +1,52 @@
 ---
-title: "README"
-author: "Andrew J. Helmstetter"
-date: "5/6/2022"
-output: html_document
+output: github_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse  = TRUE,
+  comment   = "#>",
+  fig.path  = "man/figures/",
+  out.width = "100%"
+)
 ```
+
+
+# divers-tree
+
+### Content
+
+This repository is structured as follow:
+
+- [`data/`](https://github.com/ajhelmstetter/sseReview/tree/master/data):
+contains all raw data required to perform analyses
+
+- [`rscripts/`](https://github.com/ajhelmstetter/sseReview/tree/master/rscripts/):
+contains R scripts to run each step of the workflow
+
+- [`outputs/`](https://github.com/ajhelmstetter/sseReview/tree/master/outputs):
+contains all the results created during the workflow
+
+- [`figures/`](https://github.com/ajhelmstetter/sseReview/tree/master/figures):
+contains all the figures created during the workflow
+
+- [`paper/`](https://github.com/ajhelmstetter/sseReview/tree/master/paper):
+contains all the manuscript and related content (biblio, templates, etc.)
+
+- [`R/`](https://github.com/ajhelmstetter/sseReview/tree/master/R):
+contains R functions developed especially for this project
+
+- [`man/`](https://github.com/ajhelmstetter/sseReview/tree/master/man):
+contains help files of R functions
+
+- [`DESCRIPTION`](https://github.com/ajhelmstetter/sseReview/tree/master/DESCRIPTION):
+contains project metadata (author, date, dependencies, etc.)
+
+- [`make.R`](https://github.com/ajhelmstetter/sseReview/tree/master/make.R):
+master R script to run the entire project by calling each R script stored in the `rscripts/` folder
 
 ## Workflow
 
@@ -31,9 +70,7 @@ Combine discrete, quantitative and discretized data into one data frame
 
 Clean up data and filter species / traits based on proportion of missing data
 
-
 ## Other scripts
-
 
 ### discrete_state_freqs.R
 

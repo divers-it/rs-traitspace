@@ -25,6 +25,10 @@ df[sapply(df, is.integer)] <- lapply(df[sapply(df, is.integer)],
 #check structure
 str(df)
 
+#identify and remove outliers
+boxplot(df$Numberoffertilestamens, plot=FALSE)$out
+
+
 # Remove traits with too much missing data ----
 df <- df[ , (colSums(is.na(df)) < length(df[,1])*0.6)]
 str(df)

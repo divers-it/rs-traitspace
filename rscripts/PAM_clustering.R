@@ -81,7 +81,7 @@ plot(1:10, silhouette,
 lines(1:10, silhouette)
 
 #construct a PAM model with 2 clusters, and try to interpret the behavior of these clusters with the help of the medoids.
-pam_palm = pam(gower_df, diss = TRUE, k = 3)
+pam_palm = pam(gower_df, diss = TRUE, k = 2)
 
 library("gridExtra")
 
@@ -103,6 +103,7 @@ library(RColorBrewer)
 palette(brewer.pal(6,"Dark2"))
 
 #the t-SNE or the t-Distributed Stochastic Neighbor Embedding technique
+#alternative to PCOA
 library(Rtsne)
 library(ggplot2)
 tsne_object <- Rtsne(gower_df, is_distance = TRUE)
@@ -110,7 +111,6 @@ tsne_df <- tsne_object$Y %>%
   data.frame() %>%
   setNames(c("X", "Y")) %>%
   mutate(cluster = factor(pam_palm$clustering))
-
 
 #add rownames (NOT SURE IF MATCH)
 tsne_df$names<-rownames(df2)

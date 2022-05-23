@@ -57,7 +57,7 @@ for(i in 1:length(colnames(df.wide.chosen))) {
   }
 }
 
-write.csv(trait_codes,"~/Desktop/trait_codes.csv")
+write.csv(trait_codes,"outputs/all_states_per_trait.csv")
 
 #subset dataframe to include only those chosen categories and species names
 #what about ID?

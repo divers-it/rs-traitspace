@@ -87,6 +87,8 @@ dataset_dist <- stats::as.dist(gower_df)
 
 dataset_pcoa <- ape::pcoa(dataset_dist)
 
-plot(dataset_pcoa$vectors[,1]~dataset_pcoa$vectors[,2],col=as.factor(df$SexualSystem))
+barplot(dataset_pcoa$values$Relative_eig[1:10])
+
+plot(dataset_pcoa$vectors[,1]~dataset_pcoa$vectors[,2],col=as.factor(df$SexualSystem),pch=16,cex=2)
 
 
