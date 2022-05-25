@@ -79,3 +79,26 @@ library(GGally)
 pdf("figures/ggpairs.pdf",height=30,width=30)
 ggpairs(df2[,c(1:11)]) 
 dev.off()
+
+
+par(mfrow=c(1,1))
+#dissimilarity matrix calc - weights?
+library(cluster)
+gower_df <- daisy(df2,
+                  metric = "gower" )
+
+summary(gower_df)
+
+#introduced NAs - need to solve better
+#gower_df[is.na(gower_df)]<-0
+
+#
+library(factoextra)
+
+
+jpeg("figures/proteus_fviz_dist.jpeg",width=1000,height=1000)
+
+fviz_dist(dist.obj = gower_df,
+          order = TRUE, show_labels = F)
+
+dev.off()
