@@ -1,52 +1,11 @@
 library(dplyr)
 
 #load formatted data
-df<-readRDS(file = here::here("outputs/df_filt.rds"))
+df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
 
-#remove mating system
-#df<-subset(df, select=-c(sexmorphs))
-
-#numeric columns only
-nums <- unlist(lapply(df, is.numeric))
-facts <- unlist(lapply(df, is.factor))
-
-df2<-cbind(df[ , nums],df[ , facts])
-
-str(df2)
-
-#centre and scale
-#df_nums<-scale(df_nums)
-
-#transform?
-
-pdf("figures/proteus_trait_hists.pdf")
-par(mfrow=c(3,3))
-#look at hists
-for(i in 1:6){
-  hist(df2[,i],main=colnames(df2)[i])
-}
-dev.off()
-
-pdf("figures/proteus_trait_hists_transformed.pdf")
-par(mfrow=c(3,3))
-#look at log10 hists
-for(i in 1:6){
-  hist(log(df2[,i]),main=colnames(df2)[i])
-}
-dev.off()
-
-#do log transformations
-#not logging ovaries
-for(i in c(1,2,3,4,6)){
-  df2[,i]<-log(df2[,i])
-  #df2[,i]<-scale(df2[,i]) #if we want to scale
-}
-
-
-par(mfrow=c(1,1))
-#dissimilarity matrix calc - weights?
+#dissimilarity matrix
 library(cluster)
-gower_df <- daisy(df2,
+gower_df <- daisy(df,
                   metric = "gower" )
 
 summary(gower_df)
@@ -334,14 +293,14 @@ heatmap.p <- ggplot(clust.long.p, aes(x = clust.num, y = factor(value, levels = 
   labs(title = "Distribution of characteristics across clusters (percentage)", x = "Cluster number", y = NULL) +
   geom_hline(yintercept = 2.5) + 
   geom_hline(yintercept = 4.5) + 
-  geom_hline(yintercept = 7.5) + 
-  geom_hline(yintercept = 9.5) + 
-  geom_hline(yintercept = 12.5) + 
+  geom_hline(yintercept = 6.5) + 
+  geom_hline(yintercept = 8.5) + 
+  geom_hline(yintercept = 11.5) + 
   geom_hline(yintercept = 14.5) + 
-  geom_hline(yintercept = 17.5) + 
-  geom_hline(yintercept = 20.5) + 
-  geom_hline(yintercept = 26.5) + 
-  geom_hline(yintercept = 29.5) + 
+  geom_hline(yintercept = 16.5) + 
+  geom_hline(yintercept = 19.5) + 
+  geom_hline(yintercept = 25.5) + 
+  geom_hline(yintercept = 27.5) + 
   scale_fill_gradient2(low = "darkslategray1", mid = "yellow", high =  "turquoise4")
 
 heatmap.p
@@ -362,7 +321,7 @@ ggplot(clust_df, aes(
   y = Numberoffertilestamens,
   fill = cluster
 )) + geom_boxplot(outlier.shape = NA, width = 0.2) +
-  geom_violin(width=0.75) +
+  #geom_violin(width=0.75) +
   geom_jitter(
     aes(color = cluster),
     size = 1,
@@ -383,7 +342,7 @@ ggplot(clust_df, aes(
   y = Numberofovulesperfunctionalcarpel,
   fill = cluster
 )) + geom_boxplot(outlier.shape = NA, width = 0.2) +
-  geom_violin(width=0.75) +
+  #geom_violin(width=0.75) +
   geom_jitter(
     aes(color = cluster),
     size = 1,
@@ -490,7 +449,7 @@ ggplot(clust_df, aes(
 # aggl.clust.c (complete) = 4
 # aggl.clust.a (average) = 2
 # aggl.clust.w (ward) = 5
-clust.num <- cutree(aggl.clust.a, k = 6)
+clust.num <- cutree(aggl.clust.w, k = 5)
 
 #convert to distance matrix
 dataset_dist <- stats::as.dist(gower_df)
@@ -499,8 +458,14 @@ dataset_dist <- stats::as.dist(gower_df)
 dataset_pcoa <- ape::pcoa(dataset_dist)
 
 #plot points on first two axes, coloured by cluster
-ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, color = as.factor(clust.num))) +
-  geom_point() +
+ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.factor(clust.num))) +
+  geom_point(
+    color="black",
+    shape=21,
+    alpha=0.5,
+    size=3,
+    stroke = 0.5
+  ) + 
   stat_ellipse(geom = "polygon",
                aes(fill = as.factor(clust.num)), 
                alpha = 0.25) +

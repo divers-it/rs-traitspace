@@ -1,53 +1,13 @@
 library(dplyr)
 library(gridExtra)
+library(Rtsne)
+library(ggplot2)
 
 #load formatted data
-df<-readRDS(file = here::here("outputs/df_filt.rds"))
+df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
 
-#remove mating system
-#df<-subset(df, select=-c(sexmorphs))
-
-#numeric columns only
-nums <- unlist(lapply(df, is.numeric))
-facts <- unlist(lapply(df, is.factor))
-
-df2<-cbind(df[ , nums],df[ , facts])
-
-str(df2)
-
-#centre and scale
-#df_nums<-scale(df_nums)
-
-#transform?
-
-pdf("figures/proteus_trait_hists.pdf")
-par(mfrow=c(3,3))
-#look at hists
-for(i in 1:6){
-  hist(df2[,i],main=colnames(df2)[i])
-}
-dev.off()
-
-
-pdf("figures/proteus_trait_hists_transformed.pdf")
-par(mfrow=c(3,3))
-#look at log10 hists
-for(i in 1:6){
-  hist(log(df2[,i]),main=colnames(df2)[i])
-}
-dev.off()
-
-#do log transformations
-for(i in 1:6){
-  df2[,i]<-log(df2[,i])
-  #df2[,i]<-scale(df2[,i]) #if we want to scale
-}
-
-
-par(mfrow=c(1,1))
-#dissimilarity matrix calc - weights?
 library(cluster)
-gower_df <- daisy(df2,
+gower_df <- daisy(df,
                   metric = "gower" )
 
 summary(gower_df)
@@ -93,8 +53,6 @@ palette(brewer.pal(6,"Dark2"))
 
 #the t-SNE or the t-Distributed Stochastic Neighbor Embedding technique
 #alternative to PCOA
-library(Rtsne)
-library(ggplot2)
 tsne_object <- Rtsne(gower_df, is_distance = TRUE)
 tsne_df <- tsne_object$Y %>%
   data.frame() %>%
@@ -109,16 +67,26 @@ inds <- round ( runif(280, 1, length(tsne_df$names)) )
 tsne_df$names[inds]<-NA
 tsne_df$names[sample(seq_along(tsne_df$names), 280, replace = FALSE)] <- NA
 
-
 #put in medoids
 for(i in 1:length(pam.gower$medoids)){
   ind<-grep(pam.gower$medoids[i],rownames(df2))
   tsne_df$names[ind]<-rownames(df2)[ind]
 }
 
-ggplot(aes(x = X, y = Y), data = tsne_df) +
-  geom_point(aes(color = tsne_df$cluster)) +
-  geom_text(aes(label=names,color = as.factor(tsne_df$cluster)),hjust=0, vjust=0)
+#plot points on first two axes, coloured by cluster
+ggplot(tsne_df, aes(x = X, y = Y, fill = as.factor(cluster))) +
+  geom_point(
+    color="black",
+    shape=21,
+    alpha=0.5,
+    size=3,
+    stroke = 0.5
+  ) + 
+  stat_ellipse(geom = "polygon",
+               aes(fill = tsne_df$cluster), 
+               alpha = 0.25) +
+  xlab("t-SNE Axis 1") +
+  ylab("t-SNE Axis 2")
 
 ggsave("figures/scatterplot_pam_clusters.pdf")
 
@@ -132,3 +100,22 @@ clust_df$Species<-gsub(" ","_",clust_df$Species)
 write.csv(clust_df,"outputs/pam_clustering.csv")
 
 #save.image("outputs/pam_clustering.Rdata")
+
+#pcoa
+dataset_dist <- stats::as.dist(gower_df)
+dataset_pcoa <- ape::pcoa(dataset_dist)
+
+#plot points on first two axes, coloured by cluster
+ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.factor(pam.gower$clustering))) +
+  geom_point(
+    color="black",
+    shape=21,
+    alpha=0.5,
+    size=3,
+    stroke = 0.5
+  ) + 
+  stat_ellipse(geom = "polygon",
+               aes(fill =  as.factor(pam.gower$clustering)), 
+               alpha = 0.25) +
+  xlab(paste("Axis 1: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[1],2))) +
+  ylab(paste("Axis 2: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[2],2)))

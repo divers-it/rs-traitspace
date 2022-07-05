@@ -2,7 +2,7 @@ library(dplyr)
 library(ape)
 library(phytools)
 #load formatted data
-df<-readRDS(file = here::here("outputs/df_filt.rds"))
+df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
 
 #numeric/factor columns only
 nums <- unlist(lapply(df, is.numeric))

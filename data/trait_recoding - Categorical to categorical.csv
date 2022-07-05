@@ -1,91 +1,91 @@
-trait_number,old_trait,old_state,new_trait,new_state
-1,Habit (D1),(0) tree,Woodiness,woody
-1,Habit (D1),(1) shrub,Woodiness,woody
-1,Habit (D1),(2) liana,Woodiness,woody
-1,Habit (D1),(3) herb,Woodiness,herbaceous
-1,Habit (D1),(4) vine,Woodiness,herbaceous
-1,Habit (D1),(5) aquatic herb,Woodiness,herbaceous
-1,Habit (D1),(0) tree,Climbing,non-climbing
-1,Habit (D1),(1) shrub,Climbing,non-climbing
-1,Habit (D1),(2) liana,Climbing,climbing
-1,Habit (D1),(3) herb,Climbing,non-climbing
-1,Habit (D1),(4) vine,Climbing,climbing
-1,Habit (D1),(5) aquatic herb,Climbing,non-climbing
-4,Plant sexual system (D1),(0) bisexual,SexualSystem,monomorphic
-4,Plant sexual system (D1),(1) monoecious,SexualSystem,monomorphic
-4,Plant sexual system (D1),(2) dioecious,SexualSystem,dimorphic
-4,Plant sexual system (D1),(3) gynomonoecious,SexualSystem,monomorphic
-4,Plant sexual system (D1),(4) gynodioecious,SexualSystem,dimorphic
-4,Plant sexual system (D1),(5) andromonoecious,SexualSystem,monomorphic
-4,Plant sexual system (D1),(6) androdioecious,SexualSystem,dimorphic
-4,Plant sexual system (D1),(7) trimonoecious,SexualSystem,monomorphic
-4,Plant sexual system (D1),(8) polygamous,SexualSystem,dimorphic
-5,Life history (D1),(0) annual,Lifespan,short
-5,Life history (D1),(1) biennial,Lifespan,short
-5,Life history (D1),(2) perennial (undetermined),Lifespan,long
-5,Life history (D1),(3) monocarpic perennial,Lifespan,long
-5,Life history (D1),(4) polycarpic perennial,Lifespan,long
-1,Habit (D1),(0) tree,Lifespan,long
-80,Phenotypic mating system (D1),(0) (predominantly) selfing,Mating,selfing
-80,Phenotypic mating system (D1),(1) (predominantly) outcrossing,Mating,outcrossing
-80,Phenotypic mating system (D1),(2) mixed,Mating,mixed
-80,Phenotypic mating system (D1),(3) apomixis,Mating,selfing
-83,Self-incompatibility system (genetic) (D1),(1) gametophytic self-incompatible,Mating,outcrossing
-83,Self-incompatibility system (genetic) (D1),(2) sporophytic self-incompatible,Mating,outcrossing
-83,Self-incompatibility system (genetic) (D1),(3) undetermined self-incompatible,Mating,outcrossing
-4,Plant sexual system (D1),(2) dioecious,Mating,outcrossing
-90,Pollination syndrome (D1),(0) wind,Pollination,abiotic
-90,Pollination syndrome (D1),(1) water,Pollination,abiotic
-90,Pollination syndrome (D1),(2) bee,Pollination,biotic
-90,Pollination syndrome (D1),(3) beetle,Pollination,biotic
-90,Pollination syndrome (D1),(4) butterfly,Pollination,biotic
-90,Pollination syndrome (D1),(5) moth,Pollination,biotic
-90,Pollination syndrome (D1),(7) fly,Pollination,biotic
-90,Pollination syndrome (D1),(8) wasp,Pollination,biotic
-90,Pollination syndrome (D1),(9) insect (other),Pollination,biotic
-90,Pollination syndrome (D1),(A) bird,Pollination,biotic
-90,Pollination syndrome (D1),(B) bat,Pollination,biotic
-90,Pollination syndrome (D1),(C) nonflying mammal,Pollination,biotic
-90,Pollination syndrome (D1),(G) insect (general),Pollination,biotic
-90,Pollination syndrome (D1),(H) autonomous,Pollination,autonomous
-95,Dispersal syndrome (D1),(0) unassisted dispersal,Dispersal,autonomous
-95,Dispersal syndrome (D1),(1) anemochory,Dispersal,abiotic
-95,Dispersal syndrome (D1),(2) endo-zoochory,Dispersal,biotic
-95,Dispersal syndrome (D1),(3) exo-zoochory,Dispersal,biotic
-95,Dispersal syndrome (D1),(4) hoarding,Dispersal,biotic
-95,Dispersal syndrome (D1),(5) myrmecochory,Dispersal,biotic
-95,Dispersal syndrome (D1),(6) hydrochory,Dispersal,abiotic
-95,Dispersal syndrome (D1),(7) ballistochory,Dispersal,autonomous
-100,Floral structural sex (D1),(0) bisexual,FlowerSex,bisexual
-100,Floral structural sex (D1),(1) incompletely unisexual,FlowerSex,unisexual
-100,Floral structural sex (D1),(2) unisexual,FlowerSex,unisexual
-102,Ovary position (D1),(0) superior,OvaryPosition,superior
-102,Ovary position (D1),(1) inferior,OvaryPosition,inferior
-102,Ovary position (D1),(2) half-inferior,OvaryPosition,intermediate
-102,Ovary position (D1),(4) 1/4-inferior or less,OvaryPosition,intermediate
-107,Floral reward (D1),(0) none,FloralReward,none
-107,Floral reward (D1),(1) pollen,FloralReward,pollen
-107,Floral reward (D1),(2) nectar,FloralReward,nectar
-107,Floral reward (D1),(4) oil,FloralReward,oil
-107,Floral reward (D1),(5) nursery,FloralReward,nursery
-107,Floral reward (D1),(6) food bodies,FloralReward,foodbodies
-107,Floral reward (D1),(7) perfume,FloralReward,perfume
-107,Floral reward (D1),(9) heat,FloralReward,heat
-207,Symmetry of perianth (D1),(0) actinomorphic (strictly polysymmetric),FlowerSymmetry,actinomorphic
-207,Symmetry of perianth (D1),(1) actinomorphic spiral,FlowerSymmetry,actinomorphic
-207,Symmetry of perianth (D1),(2) zygomorphic,FlowerSymmetry,zygomorphic
-207,Symmetry of perianth (D1),(3) disymmetric,FlowerSymmetry,other
-207,Symmetry of perianth (D1),(4) asymmetric,FlowerSymmetry,other
-207,Symmetry of perianth (D1),(5) actinomorphic (general),FlowerSymmetry,actinomorphic
-207,Symmetry of perianth (D1),(6) actinomorphic rotational,FlowerSymmetry,actinomorphic
-239,Main color of perianth at anthesis (D1),(0) yellow,ShowColor,bright
-239,Main color of perianth at anthesis (D1),(1) green,ShowColor,green/brown
-239,Main color of perianth at anthesis (D1),(2) cream,ShowColor,whitish
-239,Main color of perianth at anthesis (D1),(3) white,ShowColor,whitish
-239,Main color of perianth at anthesis (D1),(4) pink,ShowColor,bright
-239,Main color of perianth at anthesis (D1),(5) brown,ShowColor,green/brown
-239,Main color of perianth at anthesis (D1),(6) purple,ShowColor,bright
-239,Main color of perianth at anthesis (D1),(7) red,ShowColor,bright
-239,Main color of perianth at anthesis (D1),(8) grey,ShowColor,whitish
-239,Main color of perianth at anthesis (D1),(9) blue,ShowColor,bright
-239,Main color of perianth at anthesis (D1),(A) orange,ShowColor,bright
+trait_number,old_trait,old_state,old_state_freq,new_trait,new_state
+1,Habit (D1),(0) tree,109,Woodiness,woody
+1,Habit (D1),(1) shrub,89,Woodiness,woody
+1,Habit (D1),(2) liana,7,Woodiness,woody
+1,Habit (D1),(3) herb,141,Woodiness,herbaceous
+1,Habit (D1),(4) vine,11,Woodiness,herbaceous
+1,Habit (D1),(5) aquatic herb,26,Woodiness,herbaceous
+1,Habit (D1),(0) tree,109,Climbing,non-climbing
+1,Habit (D1),(1) shrub,89,Climbing,non-climbing
+1,Habit (D1),(2) liana,7,Climbing,climbing
+1,Habit (D1),(3) herb,141,Climbing,non-climbing
+1,Habit (D1),(4) vine,11,Climbing,climbing
+1,Habit (D1),(5) aquatic herb,26,Climbing,non-climbing
+4,Plant sexual system (D1),(0) bisexual,225,SexualSystem,monomorphic
+4,Plant sexual system (D1),(1) monoecious,43,SexualSystem,monomorphic
+4,Plant sexual system (D1),(2) dioecious,68,SexualSystem,dimorphic
+4,Plant sexual system (D1),(3) gynomonoecious,2,SexualSystem,monomorphic
+4,Plant sexual system (D1),(4) gynodioecious,7,SexualSystem,dimorphic
+4,Plant sexual system (D1),(5) andromonoecious,12,SexualSystem,monomorphic
+4,Plant sexual system (D1),(6) androdioecious,2,SexualSystem,dimorphic
+4,Plant sexual system (D1),(7) trimonoecious,2,SexualSystem,monomorphic
+4,Plant sexual system (D1),(8) polygamous,2,SexualSystem,dimorphic
+5,Life history (D1),(0) annual,55,Lifespan,short
+5,Life history (D1),(1) biennial,10,Lifespan,short
+5,Life history (D1),(2) perennial (undetermined),163,Lifespan,long
+5,Life history (D1),(3) monocarpic perennial,4,Lifespan,long
+5,Life history (D1),(4) polycarpic perennial,113,Lifespan,long
+1,Habit (D1),(0) tree,109,Lifespan,long
+80,Phenotypic mating system (D1),(0) (predominantly) selfing,27,Mating,selfing
+80,Phenotypic mating system (D1),(1) (predominantly) outcrossing,30,Mating,outcrossing
+80,Phenotypic mating system (D1),(2) mixed,18,Mating,mixed
+80,Phenotypic mating system (D1),(3) apomixis,3,Mating,selfing
+83,Self-incompatibility system (genetic) (D1),(1) gametophytic self-incompatible,8,Mating,outcrossing
+83,Self-incompatibility system (genetic) (D1),(2) sporophytic self-incompatible,3,Mating,outcrossing
+83,Self-incompatibility system (genetic) (D1),(3) undetermined self-incompatible,82,Mating,outcrossing
+4,Plant sexual system (D1),(2) dioecious,68,Mating,outcrossing
+90,Pollination syndrome (D1),(0) wind,43,Pollination,abiotic
+90,Pollination syndrome (D1),(1) water,7,Pollination,abiotic
+90,Pollination syndrome (D1),(2) bee,139,Pollination,biotic
+90,Pollination syndrome (D1),(3) beetle,27,Pollination,biotic
+90,Pollination syndrome (D1),(4) butterfly,22,Pollination,biotic
+90,Pollination syndrome (D1),(5) moth,15,Pollination,biotic
+90,Pollination syndrome (D1),(7) fly,65,Pollination,biotic
+90,Pollination syndrome (D1),(8) wasp,8,Pollination,biotic
+90,Pollination syndrome (D1),(9) insect (other),31,Pollination,biotic
+90,Pollination syndrome (D1),(A) bird,25,Pollination,biotic
+90,Pollination syndrome (D1),(B) bat,6,Pollination,biotic
+90,Pollination syndrome (D1),(C) nonflying mammal,2,Pollination,biotic
+90,Pollination syndrome (D1),(G) insect (general),34,Pollination,biotic
+90,Pollination syndrome (D1),(H) autonomous,17,Pollination,autonomous
+95,Dispersal syndrome (D1),(0) unassisted dispersal,40,Dispersal,autonomous
+95,Dispersal syndrome (D1),(1) anemochory,32,Dispersal,abiotic
+95,Dispersal syndrome (D1),(2) endo-zoochory,49,Dispersal,biotic
+95,Dispersal syndrome (D1),(3) exo-zoochory,15,Dispersal,biotic
+95,Dispersal syndrome (D1),(4) hoarding,6,Dispersal,biotic
+95,Dispersal syndrome (D1),(5) myrmecochory,12,Dispersal,biotic
+95,Dispersal syndrome (D1),(6) hydrochory,32,Dispersal,abiotic
+95,Dispersal syndrome (D1),(7) ballistochory,10,Dispersal,autonomous
+100,Floral structural sex (D1),(0) bisexual,248,FlowerSex,bisexual
+100,Floral structural sex (D1),(1) incompletely unisexual,47,FlowerSex,unisexual
+100,Floral structural sex (D1),(2) unisexual,92,FlowerSex,unisexual
+102,Ovary position (D1),(0) superior,220,OvaryPosition,superior
+102,Ovary position (D1),(1) inferior,67,OvaryPosition,inferior
+102,Ovary position (D1),(2) half-inferior,12,OvaryPosition,intermediate
+102,Ovary position (D1),(4) 1/4-inferior or less,4,OvaryPosition,intermediate
+107,Floral reward (D1),(0) none,6,FloralReward,none
+107,Floral reward (D1),(1) pollen,68,FloralReward,pollen
+107,Floral reward (D1),(2) nectar,125,FloralReward,nectar
+107,Floral reward (D1),(4) oil,4,FloralReward,oil
+107,Floral reward (D1),(5) nursery,5,FloralReward,nursery
+107,Floral reward (D1),(6) food bodies,1,FloralReward,foodbodies
+107,Floral reward (D1),(7) perfume,10,FloralReward,perfume
+107,Floral reward (D1),(9) heat,3,FloralReward,heat
+207,Symmetry of perianth (D1),(0) actinomorphic (strictly polysymmetric),170,FlowerSymmetry,actinomorphic
+207,Symmetry of perianth (D1),(1) actinomorphic spiral,6,FlowerSymmetry,actinomorphic
+207,Symmetry of perianth (D1),(2) zygomorphic,56,FlowerSymmetry,zygomorphic
+207,Symmetry of perianth (D1),(3) disymmetric,5,FlowerSymmetry,other
+207,Symmetry of perianth (D1),(4) asymmetric,5,FlowerSymmetry,other
+207,Symmetry of perianth (D1),(5) actinomorphic (general),41,FlowerSymmetry,actinomorphic
+207,Symmetry of perianth (D1),(6) actinomorphic rotational,3,FlowerSymmetry,actinomorphic
+239,Main color of perianth at anthesis (D1),(0) yellow,93,ShowColor,bright
+239,Main color of perianth at anthesis (D1),(1) green,44,ShowColor,green/brown
+239,Main color of perianth at anthesis (D1),(2) cream,28,ShowColor,whitish
+239,Main color of perianth at anthesis (D1),(3) white,120,ShowColor,whitish
+239,Main color of perianth at anthesis (D1),(4) pink,53,ShowColor,bright
+239,Main color of perianth at anthesis (D1),(5) brown,11,ShowColor,green/brown
+239,Main color of perianth at anthesis (D1),(6) purple,43,ShowColor,bright
+239,Main color of perianth at anthesis (D1),(7) red,41,ShowColor,bright
+239,Main color of perianth at anthesis (D1),(8) grey,2,ShowColor,whitish
+239,Main color of perianth at anthesis (D1),(9) blue,18,ShowColor,bright
+239,Main color of perianth at anthesis (D1),(A) orange,18,ShowColor,bright

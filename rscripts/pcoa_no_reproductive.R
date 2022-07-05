@@ -4,34 +4,8 @@ library(dplyr)
 #load formatted data
 df<-readRDS(file = here::here("outputs/df_filt.rds"))
 
-#character to factor
-df[sapply(df, is.character)] <- lapply(df[sapply(df, is.character)],
-                                       as.factor)
-
-#integer to numeric
-df[sapply(df, is.integer)] <- lapply(df[sapply(df, is.integer)],
-                                     as.numeric)
-
-# Remove traits with too much NA ----
-df <- df[ , (colSums(is.na(df)) < length(df[,1])*0.6)]
-str(df)
-
-# Remove line with too much NA ----
-df <- df[(rowSums(is.na(df)) < length(df[1,])*0.5), ]
-
 #remove reproductive traits
-df2<-subset(df, select=-c(SexualSystem,Mating,FlowerSex))
-
-#check structure
-str(df2)
-
-#scale numeric
-nums <- unlist(lapply(df2, is.numeric))
-facts <- unlist(lapply(df2, is.factor))
-df2<-cbind(scale(df2[ , nums]),df2[ , facts])
-str(df2)
-
-par(mfrow=c(1,1))
+df2<-subset(df,select=-c(SexualSystem,Mating,FlowerSex))
 
 #dissimilarity matrix calculation
 library(cluster)

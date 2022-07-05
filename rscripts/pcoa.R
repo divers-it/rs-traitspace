@@ -5,69 +5,9 @@ library(ggplot2)
 #load formatted data
 df<-readRDS(file = here::here("outputs/df_filt.rds"))
 
-#limit missing data
-library(visdat)
-vis_miss(df)
-
-#check structure
-str(df)
-
-#character to factor
-df[sapply(df, is.character)] <- lapply(df[sapply(df, is.character)],
-                                       as.factor)
-
-#integer to numeric
-df[sapply(df, is.integer)] <- lapply(df[sapply(df, is.integer)],
-                                     as.numeric)
-
-# Remove traits with too much NA ----
-df <- df[ , (colSums(is.na(df)) < length(df[,1])*0.6)]
-str(df)
-
-# Remove line with too much NA ----
-df <- df[(rowSums(is.na(df)) < length(df[1,])*0.5), ]
-
-#check structure
-str(df2)
-
-#Transform quantitative data
-nums <- unlist(lapply(df2, is.numeric))
-df2_nums<-df2[ , nums]
-facts <- unlist(lapply(df2, is.factor))
-
-pdf("figures/proteus_trait_hists.pdf")
-par(mfrow=c(3,3))
-#look at hists
-for(i in 1:length(df2_nums[1,])){
-  hist(df2_nums[,i],main=colnames(df2_nums)[i])
-}
-dev.off()
-
-pdf("figures/proteus_trait_hists_transformed.pdf")
-par(mfrow=c(3,3))
-#look at log10 hists
-for(i in 1:length(df2_nums[1,])){
-  hist(log(df2_nums[,i]),main=colnames(df2_nums)[i])
-}
-dev.off()
-
-#do log transformations for those variables where it makes sense
-#or doesnt break (1,4)
-for(i in c(2,3,6)){
-  df2_nums[,i]<-log(df2_nums[,i])
-}
-
-#DOES IT MAKE SENSE TO SCALE AFTER LOG?
-df2_nums<-scale(df2_nums)
-
-#re-merge data frame
-df2<-cbind(df2_nums,df2[ , facts])
-
-par(mfrow=c(1,1))
-
 #dissimilarity matrix calculation
 library(cluster)
-gower_df <- daisy(df2,
+gower_df <- daisy(df,
                   metric = "gower" )
 
 summary(gower_df)

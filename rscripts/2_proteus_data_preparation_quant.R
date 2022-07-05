@@ -30,12 +30,12 @@ for(i in 1:length(summ_q_df$meanValDat)){
   }
 }
 
-#view(summ_q_df)
+view(summ_q_df)
 
 
 #pivot to wide format with traits as columns
 df.wide <- pivot_wider(summ_q_df, names_from = NChrDat, values_from = c(meanValDat,meanMinDat,meanMaxDat),id_cols = c(NTaxDat))
-#view(df.wide)
+view(df.wide)
 
 write.csv(df.wide,"outputs/proteus_quantitative.csv")
 

@@ -21,32 +21,50 @@ knitr::opts_chunk$set(
 
 This repository is structured as follow:
 
-- [`data/`](https://github.com/ajhelmstetter/sseReview/tree/master/data):
+- [`data/`](https://github.com/mvallejo6/divers-tree/tree/master/data):
 contains all raw data required to perform analyses
 
-- [`rscripts/`](https://github.com/ajhelmstetter/sseReview/tree/master/rscripts/):
+- [`rscripts/`](https://github.com/mvallejo6/divers-tree/tree/master/rscripts/):
 contains R scripts to run each step of the workflow
 
-- [`outputs/`](https://github.com/ajhelmstetter/sseReview/tree/master/outputs):
+- [`outputs/`](https://github.com/mvallejo6/divers-tree/tree/master/outputs):
 contains all the results created during the workflow
 
-- [`figures/`](https://github.com/ajhelmstetter/sseReview/tree/master/figures):
+- [`figures/`](https://github.com/mvallejo6/divers-tree/tree/master/figures):
 contains all the figures created during the workflow
 
-- [`paper/`](https://github.com/ajhelmstetter/sseReview/tree/master/paper):
+- [`paper/`](https://github.com/mvallejo6/divers-tree/tree/master/paper):
 contains all the manuscript and related content (biblio, templates, etc.)
 
-- [`R/`](https://github.com/ajhelmstetter/sseReview/tree/master/R):
+- [`R/`](https://github.com/mvallejo6/divers-tree/tree/master/R):
 contains R functions developed especially for this project
 
-- [`man/`](https://github.com/ajhelmstetter/sseReview/tree/master/man):
+- [`man/`](https://github.com/mvallejo6/divers-tree/tree/master/man):
 contains help files of R functions
 
-- [`DESCRIPTION`](https://github.com/ajhelmstetter/sseReview/tree/master/DESCRIPTION):
+- [`DESCRIPTION`](https://github.com/mvallejo6/divers-tree/tree/master/DESCRIPTION):
 contains project metadata (author, date, dependencies, etc.)
 
-- [`make.R`](https://github.com/ajhelmstetter/sseReview/tree/master/make.R):
+- [`make.R`](https://github.com/mvallejo6/divers-tree/tree/master/make.R):
 master R script to run the entire project by calling each R script stored in the `rscripts/` folder
+
+## Notes
+
+* Don't impute missing data that is missing for a natural reason
+
+* Hypervolumes to deal with complex trait spaces : https://www.pnas.org/doi/10.1073/pnas.1317722111 
+
+* phylo PCA does not work well : https://academic.oup.com/sysbio/article/64/4/677/1649888 
+
+* ASR coevolution : https://www.biorxiv.org/content/10.1101/2021.09.03.458928v2.full.pdf+html 
+
+* Pagel made the "best model" : https://www.nature.com/articles/s41467-022-28595-z
+
+* Macroevolution and function traits in birds https://www.nature.com/articles/s41559-019-1070-4
+
+* Suggested at FREE workshop that ordinal vars generally give better trait space quality so try to use those
+
+* Functional distance between some species is equal to 0. You can choose to gather species into Functional Entities gathering species with similar traits values.
 
 ## Workflow
 

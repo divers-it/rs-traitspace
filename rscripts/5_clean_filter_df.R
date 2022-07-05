@@ -5,7 +5,7 @@
 # Read Dataset ----
 
 df <- read.csv(
-  file      = here::here("data", "proteus_combined.csv"),
+  file      = here::here("outputs/", "proteus_combined.csv"),
   header    = TRUE,
   row.names = 1
 )
@@ -25,9 +25,12 @@ df[sapply(df, is.integer)] <- lapply(df[sapply(df, is.integer)],
 #check structure
 str(df)
 
-#identify and remove outliers
-boxplot(df$Numberoffertilestamens, plot=FALSE)$out
+#limit missing data
+library(visdat)
 
+pdf("figures/missing_data.pdf")
+vis_miss(df)
+dev.off()
 
 # Remove traits with too much missing data ----
 df <- df[ , (colSums(is.na(df)) < length(df[,1])*0.6)]
@@ -35,6 +38,20 @@ str(df)
 
 # Remove line with too much missing data ----
 df <- df[(rowSums(is.na(df)) < length(df[1,])*0.5), ]
+
+## ----- Outlier removal -----
+
+#remove outlier in no. structural carpels
+df$Numberofstructuralcarpels[df$Numberofstructuralcarpels>999]<-NA
+
+#remove outlier in no. ovules per carpel
+df$Numberofovulesperfunctionalcarpel[df$Numberofovulesperfunctionalcarpel>999]<-NA
+
+#remove outlier in no. ovules per carpel
+df$Numberoffertilestamens[df$Numberoffertilestamens==0]<-0.0001
+
+#remove outlier in no. ovules per carpel
+df$Numberofstructuralcarpels[df$Numberofstructuralcarpels==0]<-0.0001
 
 # Save filtered dataset
 saveRDS(df, file = here::here("outputs/df_filt.rds"))

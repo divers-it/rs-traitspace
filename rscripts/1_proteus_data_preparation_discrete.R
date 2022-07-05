@@ -146,7 +146,6 @@ for(i in 1:length(unique(df_recode$new_trait))){
 }
 
 str(trait_list)
-#view(trait_list$Woodiness)
 
 #TODO
 #Merge dataframes in list
@@ -160,7 +159,8 @@ for(i in 1:length(trait_list)){
   }
 }
 
-#view(disc_df)
+#fix column name
+colnames(disc_df)[2]<-"Woodiness"
 
 write.csv(disc_df,"outputs/proteus_discrete_recoded.csv")
 

@@ -3,21 +3,11 @@ library(dplyr)
 library(ggmosaic)
 
 #load formatted data
-df<-readRDS(file = here::here("outputs/df_filt.rds"))
-
-#numeric columns only
-nums <- unlist(lapply(df, is.numeric))
-facts <- unlist(lapply(df, is.factor))
-  
-df_nums <-df[ , nums]
-
-df2<-cbind(df[ , nums],df[ , facts])
-
-str(df2)
+df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
 
 # Correlation between Traits ----
 
-dataset<-df2
+dataset<-df
 
 dataset_cor <- matrix(0, ncol(dataset), ncol(dataset))
 

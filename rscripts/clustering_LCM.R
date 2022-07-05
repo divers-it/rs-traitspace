@@ -1,8 +1,7 @@
 library(VarSelLCM)
 
 #load formatted data
-df<-readRDS(file = here::here("outputs/df_filt.rds"))
-
+df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
 
 # Remove traits with too much NA ----
 df <- df[ , (colSums(is.na(df)) < length(df[,1])*0.6)]
