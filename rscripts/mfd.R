@@ -98,11 +98,11 @@ df_faxes <- mFD::traits.faxes.cor(
 df_faxes$"tr_faxes_stat"[which(df_faxes$"tr_faxes_stat"$"p.value" < 0.05), ]
 
 #plot
-pdf("figures/mfd_traits_vs_axes_1_6.pdf",width=25,height = 15)
+pdf("figures/mfd_traits_vs_axes_quant.pdf",width=25,height = 15)
 df_faxes$"tr_faxes_plot"
 dev.off()
 
-#correlation of discrete traits 1-6
+#correlation of discrete traits 7-12
 df_faxes <- mFD::traits.faxes.cor(
   sp_tr          = df[,c(7:12)], 
   sp_faxes_coord = sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")],
@@ -113,11 +113,11 @@ df_faxes <- mFD::traits.faxes.cor(
 df_faxes$"tr_faxes_stat"[which(df_faxes$"tr_faxes_stat"$"p.value" < 0.05), ]
 
 #plot
-pdf("figures/mfd_traits_vs_axes_7_12.pdf",width=25,height = 15)
+pdf("figures/mfd_traits_vs_axes_qual_7_12.pdf",width=25,height = 15)
 df_faxes$"tr_faxes_plot"
 dev.off()
 
-#correlation of continuous traits 7-12
+#correlation of qualitative traits 13-18
 df_faxes <- mFD::traits.faxes.cor(
   sp_tr          = df[,c(13:18)], 
   sp_faxes_coord = sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")],
@@ -128,7 +128,7 @@ df_faxes <- mFD::traits.faxes.cor(
 df_faxes$"tr_faxes_stat"[which(df_faxes$"tr_faxes_stat"$"p.value" < 0.05), ]
 
 #plot
-pdf("figures/mfd_traits_vs_axes_13_18.pdf",width=25,height = 15)
+pdf("figures/mfd_traits_vs_axes_qual_13_18.pdf",width=25,height = 15)
 df_faxes$"tr_faxes_plot"
 dev.off()
 
@@ -149,14 +149,16 @@ big_plot <- mFD::funct.space.plot(
   plot_sp_nm      = NULL,
   check_input     = TRUE)
 
+pdf("figures/mfd_functional_space.pdf",width=20,height = 20)
 big_plot$"patchwork"
+dev.off()
 
 ## Computing and plotting alpha FD indices ----
 
 library(ape)
 phy<-read.tree("outputs/pruned_tree.tre")
 
-pdf("phy.pdf",height = 20, width = 20)
+pdf("figures/phy.pdf",height = 20, width = 20)
 plot(phy,cex=0.5)
 nodelabels(cex=0.5)
 dev.off()
@@ -229,24 +231,36 @@ plots_alpha <- mFD::alpha.multidim.plot(
 
 #FRic representation: the colored shapes reflect the convex-hull of the studied assemblages
 #and the white shape reflects the convex-hull of the global pool of species:
+
+pdf("figures/mfd_funct_rich_monocot_dicot.pdf",height = 15, width = 15)
 plots_alpha$"fric"$"patchwork"
+dev.off()
 
 #FDiv representation: the gravity centers of vertices (i.e. species with the most extreme functional traits) of each 
 #assemblages are plotted as a square and a triangle. The two colored circles represent the mean
 #distance of species to the gravity center for each assemblage. Species of each assemblage 
 #have different size given their relative weight into the assemblage.
+pdf("figures/mfd_funct_div_monocot_dicot.pdf",height = 15, width = 15)
 plots_alpha$"fdiv"$"patchwork"
+dev.off()
 
 #FSpe representation: colored traits represent distances of each species from a given assemblage 
 #to the center of gravity of the global pool (i.e center of the functional space). the center of
 #gravity is plotted with a purple diamond. Species of each assemblage have different size given
 #their relative weight into the assemblage.
+
+pdf("figures/mfd_funct_disp_monocot_dicot.pdf",height = 15, width = 15)
 plots_alpha$"fdis"$"patchwork"
+dev.off()
 
 #FIde representation:colored lines refer to the weighted average position of species of each assemblage
 #along each axis. Species of each assemblage have different size given their relative weight
 #into the assemblage.
+
+pdf("figures/mfd_funct_ident_monocot_dicot.pdf",height = 15, width = 15)
 plots_alpha$"fide"$"patchwork"
+dev.off()
+
 
 ## Functional originality at regional scale ----
 library(funrar)

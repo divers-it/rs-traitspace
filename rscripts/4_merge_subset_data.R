@@ -58,4 +58,22 @@ colnames(disc_qr_quant_df)
 proteus_combined<-disc_qr_quant_df[,-1]
 rownames(proteus_combined)<-disc_qr_quant_df[,"NTaxDat"]
 
+#combine length and diameter
+fl<-proteus_combined$Flowerlength
+fw<-proteus_combined$Flowerdiameter
+
+#make NA 0 to get max values
+fl[is.na(fl)]<-0
+fw[is.na(fw)]<-0
+
+#retrieve max values
+fs<-pmax(fl,fw)
+fs
+
+#convert 0s back to NAs
+fs[fs==0]<-NA
+
+#make new column with maximum of length and diameter
+proteus_combined$flowerSize <- fs
+
 write.csv(proteus_combined,"outputs/proteus_combined.csv")

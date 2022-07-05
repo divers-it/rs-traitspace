@@ -48,6 +48,14 @@ contains project metadata (author, date, dependencies, etc.)
 - [`make.R`](https://github.com/mvallejo6/divers-tree/tree/master/make.R):
 master R script to run the entire project by calling each R script stored in the `rscripts/` folder
 
+## To do:
+
+* How many polymorphisms per each trait (old and new)
+* What are unique states/state combinations per trait
+* what each analysis is doing in readme
+* implement the ordinal traits: (1) to take into account polymorphy, (2) to start with 'old' PROTEUS traits and order them based on what's in the data, including polymorphisms
+
+
 ## Notes
 
 * Don't impute missing data that is missing for a natural reason
@@ -65,6 +73,18 @@ master R script to run the entire project by calling each R script stored in the
 * Suggested at FREE workshop that ordinal vars generally give better trait space quality so try to use those
 
 * Functional distance between some species is equal to 0. You can choose to gather species into Functional Entities gathering species with similar traits values.
+
+* If things are bright/whitish and dull, delete dull
+
+Using mfd to compare trait spaces
+* Are dimorphic species functionally less diverse than monomorphic species
+* Are reproductive strategies of trees more diverse than those of herbs? 
+
+This would involve removing e.g. reproductive traits or woodiness from the dataset, but would we also have to remove correlated traits like tree height?
+
+* Look for unexpected correlations
+
+* What about the gaps in trait space? where are dimorphic species lacking?
 
 ## Workflow
 

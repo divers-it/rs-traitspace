@@ -38,7 +38,10 @@ chosen_cats<-c(
   "102. Ovary position (D1)",
   "107. Floral reward (D1)",
   "207. Symmetry of perianth (D1)",
-  "239. Main color of perianth at anthesis (D1)"
+  "239. Main color of perianth at anthesis (D1)",
+  "660. Inflorescence attractive organ (D1)",
+  "661. Inflorescence attractive color (D1)",
+  "15562. Fruit fleshiness (D1)"
   )
 
 #subset dataframe to include only those chosen categories

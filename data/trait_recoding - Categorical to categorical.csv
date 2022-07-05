@@ -56,6 +56,7 @@ trait_number,old_trait,old_state,old_state_freq,new_trait,new_state
 95,Dispersal syndrome (D1),(5) myrmecochory,12,Dispersal,biotic
 95,Dispersal syndrome (D1),(6) hydrochory,32,Dispersal,abiotic
 95,Dispersal syndrome (D1),(7) ballistochory,10,Dispersal,autonomous
+15562,Fruit fleshiness (D1),(0) fleshy,,Dispersal,biotic
 100,Floral structural sex (D1),(0) bisexual,248,FlowerSex,bisexual
 100,Floral structural sex (D1),(1) incompletely unisexual,47,FlowerSex,unisexual
 100,Floral structural sex (D1),(2) unisexual,92,FlowerSex,unisexual
@@ -78,14 +79,26 @@ trait_number,old_trait,old_state,old_state_freq,new_trait,new_state
 207,Symmetry of perianth (D1),(4) asymmetric,5,FlowerSymmetry,other
 207,Symmetry of perianth (D1),(5) actinomorphic (general),41,FlowerSymmetry,actinomorphic
 207,Symmetry of perianth (D1),(6) actinomorphic rotational,3,FlowerSymmetry,actinomorphic
-239,Main color of perianth at anthesis (D1),(0) yellow,93,ShowColor,bright
-239,Main color of perianth at anthesis (D1),(1) green,44,ShowColor,green/brown
-239,Main color of perianth at anthesis (D1),(2) cream,28,ShowColor,whitish
-239,Main color of perianth at anthesis (D1),(3) white,120,ShowColor,whitish
-239,Main color of perianth at anthesis (D1),(4) pink,53,ShowColor,bright
-239,Main color of perianth at anthesis (D1),(5) brown,11,ShowColor,green/brown
-239,Main color of perianth at anthesis (D1),(6) purple,43,ShowColor,bright
-239,Main color of perianth at anthesis (D1),(7) red,41,ShowColor,bright
-239,Main color of perianth at anthesis (D1),(8) grey,2,ShowColor,whitish
-239,Main color of perianth at anthesis (D1),(9) blue,18,ShowColor,bright
-239,Main color of perianth at anthesis (D1),(A) orange,18,ShowColor,bright
+239,Main color of perianth at anthesis (D1),(0) yellow,93,Showiness,bright
+239,Main color of perianth at anthesis (D1),(1) green,44,Showiness,dull
+239,Main color of perianth at anthesis (D1),(2) cream,28,Showiness,whitish
+239,Main color of perianth at anthesis (D1),(3) white,120,Showiness,whitish
+239,Main color of perianth at anthesis (D1),(4) pink,53,Showiness,bright
+239,Main color of perianth at anthesis (D1),(5) brown,11,Showiness,dull
+239,Main color of perianth at anthesis (D1),(6) purple,43,Showiness,bright
+239,Main color of perianth at anthesis (D1),(7) red,41,Showiness,bright
+239,Main color of perianth at anthesis (D1),(8) grey,2,Showiness,whitish
+239,Main color of perianth at anthesis (D1),(9) blue,18,Showiness,bright
+239,Main color of perianth at anthesis (D1),(A) orange,18,Showiness,bright
+660,Inflorescence attractive organ (D1),(5) none,,Showiness,dull
+661,Inflorescence attractive color (D1),(0) yellow,,Showiness,bright
+661,Inflorescence attractive color (D1),(1) green,,Showiness,dull
+661,Inflorescence attractive color (D1),(2) cream,,Showiness,whitish
+661,Inflorescence attractive color (D1),(3) white,,Showiness,whitish
+661,Inflorescence attractive color (D1),(4) pink,,Showiness,bright
+661,Inflorescence attractive color (D1),(5) brown,,Showiness,dull
+661,Inflorescence attractive color (D1),(6) purple,,Showiness,bright
+661,Inflorescence attractive color (D1),(7) red,,Showiness,bright
+661,Inflorescence attractive color (D1),(8) grey,,Showiness,whitish
+661,Inflorescence attractive color (D1),(9) blue,,Showiness,bright
+661,Inflorescence attractive color (D1),(A) orange,,Showiness,bright

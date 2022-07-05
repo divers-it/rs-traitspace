@@ -39,13 +39,18 @@ str(df)
 # Remove line with too much missing data ----
 df <- df[(rowSums(is.na(df)) < length(df[1,])*0.5), ]
 
+#remove flowerDiameter (included in flowerSize)
+df<-subset(df, select=-c(Flowerdiameter))
+
 ## ----- Outlier removal -----
 
+## Think about removal thresholds
+
 #remove outlier in no. structural carpels
-df$Numberofstructuralcarpels[df$Numberofstructuralcarpels>999]<-NA
+df$Numberofstructuralcarpels[df$Numberofstructuralcarpels>998]<-NA
 
 #remove outlier in no. ovules per carpel
-df$Numberofovulesperfunctionalcarpel[df$Numberofovulesperfunctionalcarpel>999]<-NA
+df$Numberofovulesperfunctionalcarpel[df$Numberofovulesperfunctionalcarpel>998]<-NA
 
 #remove outlier in no. ovules per carpel
 df$Numberoffertilestamens[df$Numberoffertilestamens==0]<-0.0001
