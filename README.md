@@ -158,7 +158,7 @@ The amount of missing data in the dataset is visualized with a
 missingness plot.
 
 <figure>
-<embed src="./figures/missing_data.pdf" style="width:85.0%" /><figcaption aria-hidden="true">missingness plot</figcaption>
+<img src="figures/missing_data.png" style="width:85.0%" alt="missingness plot" /><figcaption aria-hidden="true">missingness plot</figcaption>
 </figure>
 
 The dataset is then filtered, removing traits with more than 60% missing
