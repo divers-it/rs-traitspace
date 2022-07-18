@@ -132,7 +132,7 @@ Combines discrete, quantitative and discretized data into one data frame. Two so
 
 The amount of missing data in the dataset is visualized with a missingness plot. 
 
-![missingness plot](./figures/missing_data.pdf){width=85%}
+![missingness plot](https://github.com/mvallejo6/divers-tree/tree/master/figures/missing_data.pdf){width=85%}
 
 The dataset is then filtered, removing traits with more than 60% missing data and species with more than 50% missing data. Outliers for each of the traits are also removed and the data is saved as an [RDS](https://github.com/mvallejo6/divers-tree/tree/master/outputs/df_filt.rds).
 
