@@ -76,4 +76,7 @@ fs[fs==0]<-NA
 #make new column with maximum of length and diameter
 proteus_combined$flowerSize <- fs
 
+#remove flowerDiameter (included in flowerSize)
+proteus_combined<-subset(proteus_combined, select=-c(Flowerdiameter))
+
 write.csv(proteus_combined,"outputs/proteus_combined.csv")

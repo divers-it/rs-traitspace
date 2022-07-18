@@ -20,7 +20,7 @@ boxplot(scale(df[ , nums],center = F))
 #scale and combine
 df2<-cbind(scale(df[ , nums],center = F),df[ , facts])
 
-#transform?
+#plot histograms of quantitative variables
 pdf("figures/proteus_trait_hists.pdf")
 par(mfrow=c(3,3))
 #look at hists
@@ -29,9 +29,10 @@ for(i in 1:6){
 }
 dev.off()
 
+#plot histograms of logged (log10) variables
 pdf("figures/proteus_trait_hists_transformed.pdf")
 par(mfrow=c(3,3))
-#look at log10 hists
+
 for(i in 1:6){
   hist(log(df2[,i]),main=colnames(df2)[i])
 }

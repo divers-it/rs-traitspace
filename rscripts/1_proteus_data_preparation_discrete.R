@@ -15,7 +15,7 @@ cat_df<-df[grep("(D1)",df$NChrDat),]
 #remove extra metadata columns
 cat_df<-cat_df[,c(1,2,3,5)]
 
-#pivot to wide format with traits as columnsm using ID to keep separate multiple records per specues
+#pivot to wide format with traits as columnsm using ID to keep separate multiple records per species
 df.wide <- pivot_wider(cat_df, names_from = NChrDat, values_from = c(NCstDat),id_cols = c(NDat,NTaxDat))
 head(df.wide)
 
@@ -150,9 +150,7 @@ for(i in 1:length(unique(df_recode$new_trait))){
 
 str(trait_list)
 
-#TODO
 #Merge dataframes in list
-#assign polymorphic status
 for(i in 1:length(trait_list)){
   if(i == 1){
     disc_df<-trait_list[[i]]

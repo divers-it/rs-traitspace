@@ -7,58 +7,174 @@
 
 This repository is structured as follow:
 
--   [`data/`](https://github.com/ajhelmstetter/sseReview/tree/master/data):
+-   [`data/`](https://github.com/mvallejo6/divers-tree/tree/master/data):
     contains all raw data required to perform analyses
 
--   [`rscripts/`](https://github.com/ajhelmstetter/sseReview/tree/master/rscripts/):
+-   [`rscripts/`](https://github.com/mvallejo6/divers-tree/tree/master/rscripts/):
     contains R scripts to run each step of the workflow
 
--   [`outputs/`](https://github.com/ajhelmstetter/sseReview/tree/master/outputs):
+-   [`outputs/`](https://github.com/mvallejo6/divers-tree/tree/master/outputs):
     contains all the results created during the workflow
 
--   [`figures/`](https://github.com/ajhelmstetter/sseReview/tree/master/figures):
+-   [`figures/`](https://github.com/mvallejo6/divers-tree/tree/master/figures):
     contains all the figures created during the workflow
 
--   [`paper/`](https://github.com/ajhelmstetter/sseReview/tree/master/paper):
+-   [`paper/`](https://github.com/mvallejo6/divers-tree/tree/master/paper):
     contains all the manuscript and related content (biblio, templates,
     etc.)
 
--   [`R/`](https://github.com/ajhelmstetter/sseReview/tree/master/R):
+-   [`R/`](https://github.com/mvallejo6/divers-tree/tree/master/R):
     contains R functions developed especially for this project
 
--   [`man/`](https://github.com/ajhelmstetter/sseReview/tree/master/man):
+-   [`man/`](https://github.com/mvallejo6/divers-tree/tree/master/man):
     contains help files of R functions
 
--   [`DESCRIPTION`](https://github.com/ajhelmstetter/sseReview/tree/master/DESCRIPTION):
+-   [`DESCRIPTION`](https://github.com/mvallejo6/divers-tree/tree/master/DESCRIPTION):
     contains project metadata (author, date, dependencies, etc.)
 
--   [`make.R`](https://github.com/ajhelmstetter/sseReview/tree/master/make.R):
+-   [`make.R`](https://github.com/mvallejo6/divers-tree/tree/master/make.R):
     master R script to run the entire project by calling each R script
     stored in the `rscripts/` folder
+
+## To do:
+
+-   How many polymorphisms per each trait (old and new)
+-   What are unique states/state combinations per trait
+-   what each analysis is doing in readme
+-   implement the ordinal traits: (1) to take into account
+    polymorphy, (2) to start with ‘old’ PROTEUS traits and order them
+    based on what’s in the data, including polymorphisms
+
+## Notes
+
+-   Don’t impute missing data that is missing for a natural reason
+
+-   Hypervolumes to deal with complex trait spaces :
+    <https://www.pnas.org/doi/10.1073/pnas.1317722111>
+
+-   phylo PCA does not work well :
+    <https://academic.oup.com/sysbio/article/64/4/677/1649888>
+
+-   ASR coevolution :
+    <https://www.biorxiv.org/content/10.1101/2021.09.03.458928v2.full.pdf+html>
+
+-   Pagel made the “best model” :
+    <https://www.nature.com/articles/s41467-022-28595-z>
+
+-   Macroevolution and function traits in birds
+    <https://www.nature.com/articles/s41559-019-1070-4>
+
+-   Suggested at FREE workshop that ordinal vars generally give better
+    trait space quality so try to use those
+
+-   Functional distance between some species is equal to 0. You can
+    choose to gather species into Functional Entities gathering species
+    with similar traits values.
+
+-   If things are bright/whitish and dull, delete dull
+
+Using mfd to compare trait spaces
+
+-   Are dimorphic species functionally less diverse than monomorphic
+    species
+-   Are reproductive strategies of trees more diverse than those of
+    herbs?
+
+This would involve removing e.g. reproductive traits or woodiness from
+the dataset, but would we also have to remove correlated traits like
+tree height?
+
+-   Look for unexpected correlations
+
+-   What about the gaps in trait space? where are dimorphic species
+    lacking?
 
 ## Workflow
 
 ### 1\_proteus\_data\_preparation\_discrete.R
 
-Read in PROTEUS data and recode discrete data based on trait\_recoding
-table
+Reads in raw PROTEUS data for all traits, then outputs a
+[table](https://github.com/mvallejo6/divers-tree/tree/master/outputs/all_states_per_trait.csv)
+of all states for each trait of interest. These are used to build the
+trait\_recoding table
+(<https://docs.google.com/spreadsheets/d/14ITGqVvyfYeVSVSzbrWe9eUWF4NXO7cZvtZDk5mlTW0/edit?usp=sharing>),
+which is then reread into the script. The
+[trait\_recoding](https://github.com/mvallejo6/divers-tree/tree/master/data/trait_recoding%20-%20Categorical%20to%20categorical.csv)
+table is then used to transform old PROTEUS states into new states that
+are more appropriate for analysis (in terms of reducing complexity or by
+making them more biologically interpretable). If traits are polymporphic
+for a species e.g. PROTEUS provides information indicating a species can
+be both woody and herbaceous this is coded by pasting the states
+together with an underscore (‘woody\_herbaceous’).
+
+| trait\_number | old\_trait | old\_state         | old\_state\_freq | new\_trait | new\_state |
+|--------------:|:-----------|:-------------------|-----------------:|:-----------|:-----------|
+|             1 | Habit (D1) | \(0\) tree         |              109 | Woodiness  | woody      |
+|             1 | Habit (D1) | \(1\) shrub        |               89 | Woodiness  | woody      |
+|             1 | Habit (D1) | \(2\) liana        |                7 | Woodiness  | woody      |
+|             1 | Habit (D1) | \(3\) herb         |              141 | Woodiness  | herbaceous |
+|             1 | Habit (D1) | \(4\) vine         |               11 | Woodiness  | herbaceous |
+|             1 | Habit (D1) | \(5\) aquatic herb |               26 | Woodiness  | herbaceous |
 
 ### 2\_proteus\_data\_preparation\_quant.R
 
-Read in PROTEUS data and prepare quantiative data
+Reads in the same PROTEUS data as script 1 but this time prepares
+quantitative data for analysis. Values for quantitative traits found in
+PROTEUS are presented as data values (ValDat), data minimum values
+(MinDat) and data maximum values (MaxDat). As there may be multiple
+values per species, an average is taken for each of these data value
+types. If ValDat is present, this is used preferentially. If it is not
+present then the average of the averages of MaxDat and MinDat is used. A
+[table](https://github.com/mvallejo6/divers-tree/tree/master/outputs/proteus_quantitative.csv)
+with a single value per species is then exported.
 
 ### 3\_recode\_quantitative\_discrete.R
 
-Convert some quantitative variables to discrete ones
+Converts quantitative variables to discrete ones. Values for outcrossing
+rates were converted from quantitative to discrete. If all rate values
+(MinDat, MaxDat, ValDat) were greater than 0.8 then the species was
+assigned ‘outcrossing’. Likewise, if all rate values were less than 0.2
+the species was assigned ‘selfing’. Otherwise the species was classified
+as ‘mixed’. Min and Max values were preferrentially used for assignment
+if available, if not the ValDat was used. This produces a
+[table](./outputs/proteus_quant_recoded.csv) of discrete states.
 
 ### 4\_merge\_subset\_data.R
 
-Combine discrete, quantitative and discretized data into one data frame
+Combines discrete, quantitative and discretized data into one data
+frame. Two sources of outcrossing information are present (‘Mating’ for
+the discrete assignment, ‘outcrossing\_rate’ for the discretized
+assignment) and the discretized assignment is used preferentially if
+available. If Mating was polymorphic for a species
+(e.g. ‘selfing\_mixed’) then it is recoded to ‘mixed’. A new trait
+‘flowerSize’ is made from the maximum value of flowerLength and
+flowerDiameter, which are then removed. A final
+[table](https://github.com/mvallejo6/divers-tree/tree/master/outputs/proteus_combined.csv)
+is output for downstream analysis.
 
 ### 5\_clean\_filter\_df.R
 
-Clean up data and filter species / traits based on proportion of missing
-data
+The amount of missing data in the dataset is visualized with a
+missingness plot.
+
+<figure>
+<embed src="./figures/missing_data.pdf" style="width:85.0%" /><figcaption aria-hidden="true">missingness plot</figcaption>
+</figure>
+
+The dataset is then filtered, removing traits with more than 60% missing
+data and species with more than 50% missing data. Outliers for each of
+the traits are also removed and the data is saved as an
+[RDS](https://github.com/mvallejo6/divers-tree/tree/master/outputs/df_filt.rds).
+
+### 6\_scale\_transform.R
+
+The dataset is read in and scaled, histograms of the variables for each
+trait are
+[plotted](https://github.com/mvallejo6/divers-tree/tree/master/figures/proteus_trait_hists.pdf)
+and
+[log-transformed](https://github.com/mvallejo6/divers-tree/tree/master/figures/proteus_trait_hists_transformed.pdf)
+if appropriate. The data is saved as an
+[RDS](https://github.com/mvallejo6/divers-tree/tree/master/outputs/df_filt_trans.rds).
 
 ## Other scripts
 
@@ -66,9 +182,3 @@ data
 
 The number of species with each discrete state (original) from the
 PROTEUS dataset.
-
-## Notes
-
-Do we centre and normalise traits?
-What about outliers? There are some very extreme values.
-
