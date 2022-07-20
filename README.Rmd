@@ -132,7 +132,7 @@ Combines discrete, quantitative and discretized data into one data frame. Two so
 
 The amount of missing data in the dataset is visualized with a missingness plot. 
 
-![missingness plot](figures/missing_data.png){width=85%}
+![missingness plot](figures/missing_data.png){width=100%}
 
 The dataset is then filtered, removing traits with more than 60% missing data and species with more than 50% missing data. Outliers for each of the traits are also removed and the data is saved as an [RDS](https://github.com/mvallejo6/divers-tree/tree/master/outputs/df_filt.rds).
 
@@ -140,6 +140,91 @@ The dataset is then filtered, removing traits with more than 60% missing data an
 
 The dataset is read in and scaled, histograms of the variables for each trait are [plotted](https://github.com/mvallejo6/divers-tree/tree/master/figures/proteus_trait_hists.pdf) and [log-transformed](https://github.com/mvallejo6/divers-tree/tree/master/figures/proteus_trait_hists_transformed.pdf) if appropriate. The data is saved as an [RDS](https://github.com/mvallejo6/divers-tree/tree/master/outputs/df_filt_trans.rds).
 
+```{r, echo=FALSE, results='asis'}
+library(knitr)
+tr<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+kable(tr[1:6,])
+```
+
+### 7_correlation.R
+
+Examines the correlation between traits in the dataset. First Kendall's [distance](https://en.wikipedia.org/wiki/Kendall_tau_distance) (a ranked metric) is calculated pairwise among each trait. Traits are plotted pairwise to examine their relationships visually. [DESCRIBE]
+
+![Fig. Pairwise relationships between different traits](./figures/ggpairs.png)
+
+Gower's [distance](https://medium.com/analytics-vidhya/gowers-distance-899f9c4bd553) is calculated among species as it can deal with quantitative, qualitative and missing trait data.
+
+![Fig. Visualization of gower distances where red means closer and blue further away](./figures/proteus_fviz_dist.png){width=100%}
+
+### 8_pcoa.R
+
+Principal coordinate analysis ([PCOA](https://en.wikipedia.org/wiki/Multidimensional_scaling#Types)) based on Gower's distances previously calculated. Here are all species displayed on the first two PCOA axes. 
+
+![Fig. Scatterplot of PCOA where each point indicates a species.](./figures/scatter_pcoa.png){width=100%}
+
+The relative eigenvalues indicate the proportion of variation each axis explains.
+
+![Fig. Relative eigenvalues of each PCOA axis.](./figures/rel_eig_pcoa_full.png){width=50%}
+
+The PCOA can also be plotted alongside different traits. 
+
+![Fig. PCOA scatterplots filled with different traits.](./figures/scatter_pcoa_full.png){width=100%}
+
+The script [8.1_pcoa_no_reproductive.R](https://github.com/mvallejo6/divers-tree/tree/master/rscripts/8.1_pcoa_no_reproductive.R) repeats the same PCOA but builds the trait space without reproductive traits ('Mating','SexualSystem','FlowerSex'). This can then be plotted and coloured by the reproductive traits that were removed to see how they are distributed in the trait space.
+
+![Fig. PCOA scatterplots constructed without reproductive traits but coloured with them.](./figures/scatter_pcoa_no_repro.png){width=100%}
+
+### 9_clustering_hierarchical.R
+
+This script is based on an online [tutorial](https://towardsdatascience.com/hierarchical-clustering-on-categorical-data-in-r-a27e578f2995) that uses the hierarchical clustering approach to create clusters based on Gower's distances. First dendrograms are built using several different methods including divisive and agglomerative clustering. Within agglomerative clustering five different methods are used to create dendrograms. 
+
+From **hclust** help: *Ward's minimum variance method aims at finding compact, spherical clusters. The complete linkage method finds similar clusters. The single linkage method (which is closely related to the minimal spanning tree) adopts a ‘friends of friends’ clustering strategy. The other methods can be regarded as aiming for clusters with characteristics somewhere between the single and complete link methods.*
+
+![Fig. Dendogram made from the Ward.d2 method of clustering](./figures/agglomerative_hclust_ward_dendrogram.png){width=100%}
+
+To understand the appropriate number of clusters for the data and method, a [helper script](https://github.com/mvallejo6/divers-tree/tree/master/R/cstats.table.R) is used to provide some statistics about the qualities of different clusters, up to seven. 
+
+```{r, echo=FALSE, results='asis'}
+library(knitr)
+tr<-read.csv(file = here::here("outputs/stats_hclust_ward.csv"))
+kable(tr)
+```
+'within.cluster.ss' or within-cluster sum of squares is a measure of closeness of observations : the lower it is the closer the observations within the clusters are — changes for the different number of clusters.
+
+'average.within' is an average distance among observations within clusters
+'average.between' is an average distance among observations between clusters
+'wb.ratio' is the ratio between these two averages.
+
+'dunn2' is the dunn index, which can be [interpreted](https://www.datanovia.com/en/lessons/cluster-validation-statistics-must-know-methods/#silhouette-coefficient) as follows: If the data set contains compact and well-separated clusters, the diameter of the clusters is expected to be small and the distance between the clusters is expected to be large. Thus, Dunn index should be maximized.
+
+'avg.silwidth' can be [defined](https://www.datanovia.com/en/lessons/cluster-validation-statistics-must-know-methods/#silhouette-coefficient) as follows: Observations with a large values (almost 1) are very well clustered, small (around 0) means that the observation lies between two clusters. Observations with a negative Si are probably placed in the wrong cluster. The average is taken across all observations (species) in each cluster.
+
+The remaining rows indicate the number of species in each cluster, this shouldn't be too skewed ideally. The Ward method (table presented above) provides the best *within.cluster.ss* and a relatively even distribution of cluster sizes compared to other methods so we proceed with this approach.
+
+Then the appropriate number of clusters must be chosen using these statistics. The elbow method examines how a statistic changes with the number of clusters, looking for when adding more clusters stops substantially improving the clustering. In this case it is quite difficult to identify the elbow, perhaps three or six clusters are the most appropriate.
+
+![Fig. Within cluster sum of squares for increasing numbers of clusters.](./figures/within_ss_ward.png){width=50%}
+
+Silhouette width can also be used in a similar way, but seems to prefer two clusters in most situations so is perhaps less reliable.
+
+![Fig. Within cluster sum of squares for increasing numbers of clusters.](./figures/silwidth_ward.png){width=50%}
+Once a number of clusters can be selected this can be visualised on the dendrogram.
+
+![Fig. Ward dendrogram coloured by clusters (k = 3 and k = 6)](./figures/dendro_ward_k3_k6.png)
+
+We can then examine the trait states and values that make up each cluster.
+
+![The relative proportion for qualitative traits across clusters (k = 3)](./figures/hclust_characteristics_qual.png){width=75%}
+
+![The relative proportion for quantitative traits across clusters (k = 3)](./figures/hclust_characteristics_quant.png)
+
+We can then represent the identified clusters on the PCOA trait space. 
+
+![Fig. PCOA plot coloured by clusters (k = 3)](./figures/pcoa_hclust_k3.png)
+
+![Fig. PCOA plot coloured by clusters (k = 6)](./figures/pcoa_hclust_k6.png)
+
+This was just one method of clustering, other methods that can deal with mixed and missing data include [kprototypes](https://journal.r-project.org/archive/2018/RJ-2018-048/RJ-2018-048.pdf), [model-based clustering](https://varsellcm.r-forge.r-project.org/) and [Partitioning Around Medoids](https://dpmartin42.github.io/posts/r/cluster-mixed-types) (PAM). 
 
 ## Other scripts
 
