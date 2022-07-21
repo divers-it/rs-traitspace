@@ -36,7 +36,7 @@ dataset_cor <- data.frame(
   min_cor  = min(abs(dataset_cor),  na.rm = TRUE)
 )
 
-view(dataset_cor)
+dataset_cor
 
 #mosaic plot
 ggplot(data = df) +
@@ -46,7 +46,7 @@ ggplot(data = df) +
 #plot pairs of variables (removing some with high cat count)
 library(GGally)
 #pdf("figures/ggpairs.pdf",height=30,width=30)
-png("figures/ggpairs.png",width=3000,height=3000,res=180)
+png("figures/ggpairs.png",width=4000,height=4000,res=100)
 ggpairs(df,cardinality_threshold=16) 
 dev.off()
 

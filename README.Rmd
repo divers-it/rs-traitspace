@@ -150,7 +150,7 @@ kable(tr[1:6,])
 
 Examines the correlation between traits in the dataset. First Kendall's [distance](https://en.wikipedia.org/wiki/Kendall_tau_distance) (a ranked metric) is calculated pairwise among each trait. Traits are plotted pairwise to examine their relationships visually. [DESCRIBE]
 
-![Fig. Pairwise relationships between different traits](./figures/ggpairs.png)
+![Fig. Pairwise relationships between different traits](./figures/ggpairs.png){width=100%}
 
 Gower's [distance](https://medium.com/analytics-vidhya/gowers-distance-899f9c4bd553) is calculated among species as it can deal with quantitative, qualitative and missing trait data.
 
@@ -224,7 +224,17 @@ We can then represent the identified clusters on the PCOA trait space.
 
 ![Fig. PCOA plot coloured by clusters (k = 6)](./figures/pcoa_hclust_k6.png)
 
-This was just one method of clustering, other methods that can deal with mixed and missing data include [kprototypes](https://journal.r-project.org/archive/2018/RJ-2018-048/RJ-2018-048.pdf), [model-based clustering](https://varsellcm.r-forge.r-project.org/) and [Partitioning Around Medoids](https://dpmartin42.github.io/posts/r/cluster-mixed-types) (PAM). 
+Other methods that can deal with mixed and missing data include [kprototypes](https://journal.r-project.org/archive/2018/RJ-2018-048/RJ-2018-048.pdf), which yields results similar to hierarchical clustering.
+
+![Fig. PCOA plot coloured by clusters from the kprototypes approach (k = 4)](./figures/pcoa_kproto_k4.png)
+
+Likewise the [Partitioning Around Medoids](https://dpmartin42.github.io/posts/r/cluster-mixed-types) (PAM) approach also found similar clustering.
+
+![Fig. PCOA plot coloured by clusters from the PAM approach (k = 3](./figures/scatter_pcoa_pam_clusters.png)
+
+Another potential approach is [model-based clustering](https://varsellcm.r-forge.r-project.org/) but this generated results quite different to the others. Perhaps due to a more dominant influence of quantitative characters.  
+
+![Fig. PCOA plot coloured by clusters from the PAM approach (k = 3](./figures/pcoa_LCM_k3.png)
 
 ## Other scripts
 

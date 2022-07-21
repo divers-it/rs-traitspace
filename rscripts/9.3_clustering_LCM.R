@@ -3,16 +3,6 @@ library(VarSelLCM)
 #load formatted data
 df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
 
-# Remove traits with too much NA ----
-df <- df[ , (colSums(is.na(df)) < length(df[,1])*0.6)]
-str(df)
-
-# Remove line with too much NA ----
-df <- df[(rowSums(is.na(df)) < length(df[1,])*0.5), ]
-
-#remove mating system
-#df<-subset(df, select=-c(sexmorphs))
-
 #numeric columns only
 nums <- unlist(lapply(df, is.numeric))
 facts <- unlist(lapply(df, is.factor))
@@ -78,6 +68,21 @@ dataset_dist <- stats::as.dist(gower_df)
 dataset_pcoa <- ape::pcoa(dataset_dist)
 
 
-par(mfrow=c(1,1))
-plot(dataset_pcoa$vectors[,1]~dataset_pcoa$vectors[,2],col=as.factor(fitted(res_with)),pch=16,cex=2)
+#plot points on first two axes, coloured by cluster
+library(ggplot2)
 
+ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.factor(fitted(res_with)))) +
+  geom_point(
+    color="black",
+    shape=21,
+    alpha=0.5,
+    size=3,
+    stroke = 0.5
+  ) + 
+  stat_ellipse(geom = "polygon",
+               aes(fill =  as.factor(fitted(res_with))), 
+               alpha = 0.25) +
+  xlab(paste("Axis 1: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[1],2))) +
+  ylab(paste("Axis 2: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[2],2)))
+
+ggsave("figures/pcoa_LCM_k3.png",width = 12,height=10)

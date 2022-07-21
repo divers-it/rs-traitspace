@@ -109,7 +109,7 @@ ggplot(data = data.frame(t(cstats.table(gower_df, aggl.clust.w, 10))),
   labs(x = "Num.of clusters", y = "Within clusters sum of squares (SS)") +
   theme(plot.title = element_text(hjust = 0.5))
 # k = 5
-ggsave("figures/within_ss_ward.png")
+ggsave("figures/within_ss_ward.png",width=5,height=5)
 
 ## --------- Choosing the number of clusters - silhouette ---------
 
@@ -157,7 +157,7 @@ ggplot(data = data.frame(t(cstats.table(gower_df, aggl.clust.w, 15))),
   labs(x = "Num.of clusters", y = "Average silhouette width") +
   theme(plot.title = element_text(hjust = 0.5))
 # k = 2
-ggsave("figures/silwidth_ward.png")
+ggsave("figures/silwidth_ward.png",width=5,height=5)
 
 ## --------- Plotting clusters on dendrogram  ---------
 
