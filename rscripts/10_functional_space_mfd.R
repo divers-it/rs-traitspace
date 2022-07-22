@@ -63,7 +63,7 @@ round(fspaces_quality$"quality_fspaces", 3)
 #on the third row (bottom), the y-axis shows the absolute or squared deviation of the (“scaled”) distance in 
 #the functional space. It is the deviation that is taken into account for computing the quality metric.
 
-pdf("figures/mfd_quality.pdf")
+png("figures/mfd_quality.png",height=1000,width=3000,res=200)
 mFD::quality.fspaces.plot(
   fspaces_quality            = fspaces_quality,
   quality_metric             = "mad",
@@ -98,7 +98,7 @@ df_faxes <- mFD::traits.faxes.cor(
 df_faxes$"tr_faxes_stat"[which(df_faxes$"tr_faxes_stat"$"p.value" < 0.05), ]
 
 #plot
-pdf("figures/mfd_traits_vs_axes_quant.pdf",width=25,height = 15)
+png("figures/mfd_traits_vs_axes_quant.png",width=2500,height = 2000,res=200)
 df_faxes$"tr_faxes_plot"
 dev.off()
 
@@ -113,7 +113,7 @@ df_faxes <- mFD::traits.faxes.cor(
 df_faxes$"tr_faxes_stat"[which(df_faxes$"tr_faxes_stat"$"p.value" < 0.05), ]
 
 #plot
-pdf("figures/mfd_traits_vs_axes_qual_7_12.pdf",width=25,height = 15)
+png("figures/mfd_traits_vs_axes_qual_7_12.png",width=4000,height = 2000,res=200)
 df_faxes$"tr_faxes_plot"
 dev.off()
 
@@ -128,7 +128,7 @@ df_faxes <- mFD::traits.faxes.cor(
 df_faxes$"tr_faxes_stat"[which(df_faxes$"tr_faxes_stat"$"p.value" < 0.05), ]
 
 #plot
-pdf("figures/mfd_traits_vs_axes_qual_13_18.pdf",width=25,height = 15)
+png("figures/mfd_traits_vs_axes_qual_13_18.png",width=4000,height = 2000,res=200)
 df_faxes$"tr_faxes_plot"
 dev.off()
 
@@ -149,7 +149,7 @@ big_plot <- mFD::funct.space.plot(
   plot_sp_nm      = NULL,
   check_input     = TRUE)
 
-pdf("figures/mfd_functional_space.pdf",width=20,height = 20)
+png("figures/mfd_functional_space.png",width=2000,height = 2000, res=200)
 big_plot$"patchwork"
 dev.off()
 
@@ -158,10 +158,10 @@ dev.off()
 library(ape)
 phy<-read.tree("outputs/pruned_tree.tre")
 
-pdf("figures/phy.pdf",height = 20, width = 20)
-plot(phy,cex=0.5)
-nodelabels(cex=0.5)
-dev.off()
+#pdf("figures/phy.pdf",height = 20, width = 20)
+#plot(phy,cex=0.5)
+#nodelabels(cex=0.5)
+#dev.off()
 
 #split species into monocots, magnoliids and dicots
 monocots_phy<-extract.clade(phy,node=609)
@@ -232,7 +232,7 @@ plots_alpha <- mFD::alpha.multidim.plot(
 #FRic representation: the colored shapes reflect the convex-hull of the studied assemblages
 #and the white shape reflects the convex-hull of the global pool of species:
 
-pdf("figures/mfd_funct_rich_monocot_dicot.pdf",height = 15, width = 15)
+png("figures/mfd_funct_rich_monocot_dicot.png",height = 1500, width = 1500,res=150)
 plots_alpha$"fric"$"patchwork"
 dev.off()
 
@@ -240,7 +240,7 @@ dev.off()
 #assemblages are plotted as a square and a triangle. The two colored circles represent the mean
 #distance of species to the gravity center for each assemblage. Species of each assemblage 
 #have different size given their relative weight into the assemblage.
-pdf("figures/mfd_funct_div_monocot_dicot.pdf",height = 15, width = 15)
+png("figures/mfd_funct_div_monocot_dicot.png",height = 1500, width = 1500,res=150)
 plots_alpha$"fdiv"$"patchwork"
 dev.off()
 
@@ -249,7 +249,7 @@ dev.off()
 #gravity is plotted with a purple diamond. Species of each assemblage have different size given
 #their relative weight into the assemblage.
 
-pdf("figures/mfd_funct_disp_monocot_dicot.pdf",height = 15, width = 15)
+png("figures/mfd_funct_disp_monocot_dicot.png",height = 1500, width = 1500, res=150)
 plots_alpha$"fdis"$"patchwork"
 dev.off()
 
@@ -257,7 +257,7 @@ dev.off()
 #along each axis. Species of each assemblage have different size given their relative weight
 #into the assemblage.
 
-pdf("figures/mfd_funct_ident_monocot_dicot.pdf",height = 15, width = 15)
+pngg("figures/mfd_funct_ident_monocot_dicot.png",,height = 1500, width = 1500, res=150)
 plots_alpha$"fide"$"patchwork"
 dev.off()
 
@@ -330,7 +330,7 @@ plot_reg_distinctiveness <- ggplot(sp_coord_di_ui, aes(PC1, PC2)) +
   geom_hline(yintercept = 0, linetype = 2) +
   geom_vline(xintercept = 0, linetype = 2) +
   geom_point(aes(color = distinctiveness)) +
-  ggrepel::geom_text_repel(aes(label = species)) +
+  #ggrepel::geom_text_repel(aes(label = species)) +
   scale_color_viridis_c("Functional\nDistinctiveness") +
   theme_bw() +
   theme(aspect.ratio = 1)
@@ -339,7 +339,7 @@ plot_reg_uniqueness <- ggplot(sp_coord_di_ui, aes(PC1, PC2)) +
   geom_hline(yintercept = 0, linetype = 2) +
   geom_vline(xintercept = 0, linetype = 2) +
   geom_point(aes(color = Ui)) +
-  ggrepel::geom_text_repel(aes(label = species)) +
+  #ggrepel::geom_text_repel(aes(label = species)) +
   scale_color_viridis_c("Functional\nUniqueness") +
   theme_bw() +
   theme(aspect.ratio = 1)

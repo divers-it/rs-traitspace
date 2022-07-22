@@ -247,6 +247,7 @@ ggd1 <- as.ggdend(dendro.col)
 wk6 <- ggplot(ggd1, theme = theme_minimal()) +
   labs(x = "Num. observations", y = "Height", title = "Dendrogram agglomerative ward, k = 6")
 
+library(patchwork)
 wk3 + wk6
 ggsave("figures/dendro_ward_k3_k6.png",
        width = 20,
@@ -480,7 +481,6 @@ c6 <- ggplot(clust_df,
   scale_color_viridis(discrete = TRUE, alpha = 0.8)
 
 
-library(patchwork)
 (c1 + c2) / (c3 + c4) / (c5 + c6)
 ggsave("figures/hclust_characteristics_quant.png",
        width = 15,

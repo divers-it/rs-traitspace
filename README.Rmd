@@ -231,7 +231,7 @@ knitr::include_graphics("./figures/hclust_characteristics_quant.png")
 
 * Cluster 2 contains species that are long lived, biotically pollinated outcrossers that are unisexual and actinomorphic. Their flowers tend to be small with low numbers of ovules per functional carpel. Species examples include *Allium sativum*, *Populus alba* and *Amborella trichopoda*.
 
-* Cluster 3 harbors species that are woody, monomorphic (and bisexual) that are tall with large flowers containing many fertile stamens. Species examples include *Viburnum rufidulum*, *Coffea arabica* and *Ravenala madagascariensis.
+* Cluster 3 harbors species that are woody, monomorphic (and bisexual) that are tall with large flowers containing many fertile stamens. Species examples include *Viburnum rufidulum*, *Coffea arabica* and *Ravenala madagascariensis*.
 
 We can then represent the identified clusters on the PCOA trait space. 
 
