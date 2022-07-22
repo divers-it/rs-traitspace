@@ -3,6 +3,7 @@ output: github_document
 editor_options: 
   markdown: 
     wrap: 72
+  fig_caption: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -132,7 +133,7 @@ Combines discrete, quantitative and discretized data into one data frame. Two so
 
 The amount of missing data in the dataset is visualized with a missingness plot. 
 
-![missingness plot](figures/missing_data.png){width=100%}
+![Fig. Missingness plot showing the missing data per trait in black.](figures/missing_data.png){width=100%}
 
 The dataset is then filtered, removing traits with more than 60% missing data and species with more than 50% missing data. Outliers for each of the traits are also removed and the data is saved as an [RDS](https://github.com/mvallejo6/divers-tree/tree/master/outputs/df_filt.rds).
 
@@ -208,33 +209,66 @@ Then the appropriate number of clusters must be chosen using these statistics. T
 Silhouette width can also be used in a similar way, but seems to prefer two clusters in most situations so is perhaps less reliable.
 
 ![Fig. Within cluster sum of squares for increasing numbers of clusters.](./figures/silwidth_ward.png){width=50%}
+
 Once a number of clusters can be selected this can be visualised on the dendrogram.
 
-![Fig. Ward dendrogram coloured by clusters (k = 3 and k = 6)](./figures/dendro_ward_k3_k6.png)
+
+```{r echo=FALSE, fig.cap = "Fig. Ward dendrogram coloured by clusters (k = 3 and k = 6)"}
+knitr::include_graphics("./figures/dendro_ward_k3_k6.png")
+```
 
 We can then examine the trait states and values that make up each cluster.
 
-![The relative proportion for qualitative traits across clusters (k = 3)](./figures/hclust_characteristics_qual.png){width=75%}
 
-![The relative proportion for quantitative traits across clusters (k = 3)](./figures/hclust_characteristics_quant.png)
+![Fig. The relative proportion for qualitative traits across clusters (k = 3)](./figures/hclust_characteristics_qual.png){width=75%}
+
+
+```{r echo=FALSE, fig.cap = "Fig. Values of  quantitative traits across clusters (k = 3)"}
+knitr::include_graphics("./figures/hclust_characteristics_quant.png")
+```
+
+* Cluster 1 is made up of small herbaceous, monomorphic (and bisexual) species with large, bright flowers. Species examples include *Curcurbita pepo*, *Geranium sanguineum* and *Nicotiana tabacum*.
+
+* Cluster 2 contains species that are long lived, biotically pollinated outcrossers that are unisexual and actinomorphic. Their flowers tend to be small with low numbers of ovules per functional carpel. Species examples include *Allium sativum*, *Populus alba* and *Amborella trichopoda*.
+
+* Cluster 3 harbors species that are woody, monomorphic (and bisexual) that are tall with large flowers containing many fertile stamens. Species examples include *Viburnum rufidulum*, *Coffea arabica* and *Ravenala madagascariensis.
 
 We can then represent the identified clusters on the PCOA trait space. 
 
-![Fig. PCOA plot coloured by clusters (k = 3)](./figures/pcoa_hclust_k3.png)
+```{r echo=FALSE, fig.cap = "Fig. PCOA plot coloured by clusters (k = 3)"}
+knitr::include_graphics("./figures/pcoa_hclust_k3.png")
+```
 
-![Fig. PCOA plot coloured by clusters (k = 6)](./figures/pcoa_hclust_k6.png)
+Six clusters was also an option but when visualized in the 2d trait space they seem less neat.
+
+```{r echo=FALSE, fig.cap = "Fig. PCOA plot coloured by clusters (k = 6)"}
+knitr::include_graphics("./figures/pcoa_hclust_k6.png")
+```
+
+
+### 9.1_clustering_kprototype.R
 
 Other methods that can deal with mixed and missing data include [kprototypes](https://journal.r-project.org/archive/2018/RJ-2018-048/RJ-2018-048.pdf), which yields results similar to hierarchical clustering.
 
-![Fig. PCOA plot coloured by clusters from the kprototypes approach (k = 4)](./figures/pcoa_kproto_k4.png)
+```{r echo=FALSE, fig.cap = "Fig. PCOA plot coloured by clusters from the kprototypes approach (k = 4)"}
+knitr::include_graphics("./figures/pcoa_kproto_k4.png")
+```
+
+### 9.2_clustering_PAM.R
 
 Likewise the [Partitioning Around Medoids](https://dpmartin42.github.io/posts/r/cluster-mixed-types) (PAM) approach also found similar clustering.
 
-![Fig. PCOA plot coloured by clusters from the PAM approach (k = 3](./figures/scatter_pcoa_pam_clusters.png)
+```{r echo=FALSE, fig.cap = "Fig. PCOA plot coloured by clusters from the PAM approach (k = 3)"}
+knitr::include_graphics("./figures/scatter_pcoa_pam_clusters.png")
+```
 
-Another potential approach is [model-based clustering](https://varsellcm.r-forge.r-project.org/) but this generated results quite different to the others. Perhaps due to a more dominant influence of quantitative characters.  
+### 9.3_clustering_LCM.R
 
-![Fig. PCOA plot coloured by clusters from the PAM approach (k = 3](./figures/pcoa_LCM_k3.png)
+Another potential approach is [model-based clustering](https://varsellcm.r-forge.r-project.org/) but this generated results quite different to the others. Perhaps due to a more dominant influence of quantitative characters.
+
+```{r echo=FALSE, fig.cap = "Fig. PCOA plot coloured by clusters from model-based clustering (k = 3)"}
+knitr::include_graphics("./figures/pcoa_LCM_k3.png")
+```
 
 ## Other scripts
 

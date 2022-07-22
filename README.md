@@ -158,7 +158,7 @@ The amount of missing data in the dataset is visualized with a
 missingness plot.
 
 <figure>
-<img src="figures/missing_data.png" style="width:100.0%" alt="missingness plot" /><figcaption aria-hidden="true">missingness plot</figcaption>
+<img src="figures/missing_data.png" style="width:100.0%" alt="Fig. Missingness plot showing the missing data per trait in black." /><figcaption aria-hidden="true">Fig. Missingness plot showing the missing data per trait in black.</figcaption>
 </figure>
 
 The dataset is then filtered, removing traits with more than 60% missing
@@ -331,52 +331,122 @@ most appropriate.
 Silhouette width can also be used in a similar way, but seems to prefer
 two clusters in most situations so is perhaps less reliable.
 
-<img src="./figures/silwidth_ward.png" style="width:50.0%" alt="Fig. Within cluster sum of squares for increasing numbers of clusters." />
+<figure>
+<img src="./figures/silwidth_ward.png" style="width:50.0%" alt="Fig. Within cluster sum of squares for increasing numbers of clusters." /><figcaption aria-hidden="true">Fig. Within cluster sum of squares for increasing numbers of clusters.</figcaption>
+</figure>
+
 Once a number of clusters can be selected this can be visualised on the
 dendrogram.
 
-![Fig. Ward dendrogram coloured by clusters (k = 3 and k =
-6)](./figures/dendro_ward_k3_k6.png)
+<div class="figure">
+
+<img src="./figures/dendro_ward_k3_k6.png" alt="Fig. Ward dendrogram coloured by clusters (k = 3 and k = 6)" width="100%" />
+<p class="caption">
+Fig. Ward dendrogram coloured by clusters (k = 3 and k = 6)
+</p>
+
+</div>
 
 We can then examine the trait states and values that make up each
 cluster.
 
 <figure>
-<img src="./figures/hclust_characteristics_qual.png" style="width:75.0%" alt="The relative proportion for qualitative traits across clusters (k = 3)" /><figcaption aria-hidden="true">The relative proportion for qualitative traits across clusters (k = 3)</figcaption>
+<img src="./figures/hclust_characteristics_qual.png" style="width:75.0%" alt="Fig. The relative proportion for qualitative traits across clusters (k = 3)" /><figcaption aria-hidden="true">Fig. The relative proportion for qualitative traits across clusters (k = 3)</figcaption>
 </figure>
 
-![The relative proportion for quantitative traits across clusters (k =
-3)](./figures/hclust_characteristics_quant.png)
+<div class="figure">
+
+<img src="./figures/hclust_characteristics_quant.png" alt="Fig. Values of  quantitative traits across clusters (k = 3)" width="100%" />
+<p class="caption">
+Fig. Values of quantitative traits across clusters (k = 3)
+</p>
+
+</div>
+
+-   Cluster 1 is made up of small herbaceous, monomorphic (and bisexual)
+    species with large, bright flowers. Species examples include
+    *Curcurbita pepo*, *Geranium sanguineum* and *Nicotiana tabacum*.
+
+-   Cluster 2 contains species that are long lived, biotically
+    pollinated outcrossers that are unisexual and actinomorphic. Their
+    flowers tend to be small with low numbers of ovules per functional
+    carpel. Species examples include *Allium sativum*, *Populus alba*
+    and *Amborella trichopoda*.
+
+-   Cluster 3 harbors species that are woody, monomorphic (and bisexual)
+    that are tall with large flowers containing many fertile stamens.
+    Species examples include *Viburnum rufidulum*, *Coffea arabica* and
+    \*Ravenala madagascariensis.
 
 We can then represent the identified clusters on the PCOA trait space.
 
-![Fig. PCOA plot coloured by clusters (k =
-3)](./figures/pcoa_hclust_k3.png)
+<div class="figure">
 
-![Fig. PCOA plot coloured by clusters (k =
-6)](./figures/pcoa_hclust_k6.png)
+<img src="./figures/pcoa_hclust_k3.png" alt="Fig. PCOA plot coloured by clusters (k = 3)" width="100%" />
+<p class="caption">
+Fig. PCOA plot coloured by clusters (k = 3)
+</p>
+
+</div>
+
+Six clusters was also an option but when visualized in the 2d trait
+space they seem less neat.
+
+<div class="figure">
+
+<img src="./figures/pcoa_hclust_k6.png" alt="Fig. PCOA plot coloured by clusters (k = 6)" width="100%" />
+<p class="caption">
+Fig. PCOA plot coloured by clusters (k = 6)
+</p>
+
+</div>
+
+### 9.1\_clustering\_kprototype.R
 
 Other methods that can deal with mixed and missing data include
 [kprototypes](https://journal.r-project.org/archive/2018/RJ-2018-048/RJ-2018-048.pdf),
 which yields results similar to hierarchical clustering.
 
-![Fig. PCOA plot coloured by clusters from the kprototypes approach (k =
-4)](./figures/pcoa_kproto_k4.png)
+<div class="figure">
+
+<img src="./figures/pcoa_kproto_k4.png" alt="Fig. PCOA plot coloured by clusters from the kprototypes approach (k = 4)" width="100%" />
+<p class="caption">
+Fig. PCOA plot coloured by clusters from the kprototypes approach (k =
+4)
+</p>
+
+</div>
+
+### 9.2\_clustering\_PAM.R
 
 Likewise the [Partitioning Around
 Medoids](https://dpmartin42.github.io/posts/r/cluster-mixed-types) (PAM)
 approach also found similar clustering.
 
-![Fig. PCOA plot coloured by clusters from the PAM approach (k =
-3](./figures/scatter_pcoa_pam_clusters.png)
+<div class="figure">
+
+<img src="./figures/scatter_pcoa_pam_clusters.png" alt="Fig. PCOA plot coloured by clusters from the PAM approach (k = 3)" width="100%" />
+<p class="caption">
+Fig. PCOA plot coloured by clusters from the PAM approach (k = 3)
+</p>
+
+</div>
+
+### 9.3\_clustering\_LCM.R
 
 Another potential approach is [model-based
 clustering](https://varsellcm.r-forge.r-project.org/) but this generated
 results quite different to the others. Perhaps due to a more dominant
 influence of quantitative characters.
 
-![Fig. PCOA plot coloured by clusters from the PAM approach (k =
-3](./figures/pcoa_LCM_k3.png)
+<div class="figure">
+
+<img src="./figures/pcoa_LCM_k3.png" alt="Fig. PCOA plot coloured by clusters from model-based clustering (k = 3)" width="100%" />
+<p class="caption">
+Fig. PCOA plot coloured by clusters from model-based clustering (k = 3)
+</p>
+
+</div>
 
 ## Other scripts
 
