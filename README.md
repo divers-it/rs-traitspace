@@ -202,7 +202,7 @@ is calculated among species as it can deal with quantitative,
 qualitative and missing trait data.
 
 <figure>
-<img src="./figures/proteus_fviz_dist.png" style="width:100.0%" alt="Fig. Visualization of gower distances where red means closer and blue further away" /><figcaption aria-hidden="true">Fig. Visualization of gower distances where red means closer and blue further away</figcaption>
+<img src="./figures/proteus_fviz_dist.png" width="100" alt="Fig. Visualization of gower distances where red means closer and blue further away" /><figcaption aria-hidden="true">Fig. Visualization of gower distances where red means closer and blue further away</figcaption>
 </figure>
 
 ### 8\_pcoa.R

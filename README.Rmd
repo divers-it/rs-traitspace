@@ -155,7 +155,7 @@ Examines the correlation between traits in the dataset. First Kendall's [distanc
 
 Gower's [distance](https://medium.com/analytics-vidhya/gowers-distance-899f9c4bd553) is calculated among species as it can deal with quantitative, qualitative and missing trait data.
 
-![Fig. Visualization of gower distances where red means closer and blue further away](./figures/proteus_fviz_dist.png){width=100%}
+![Fig. Visualization of gower distances where red means closer and blue further away](./figures/proteus_fviz_dist.png){width=100px}
 
 ### 8_pcoa.R
 
