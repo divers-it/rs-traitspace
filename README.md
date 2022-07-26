@@ -158,7 +158,7 @@ The amount of missing data in the dataset is visualized with a
 missingness plot.
 
 <figure>
-<img src="figures/missing_data.png" style="width:100.0%" alt="Fig. Missingness plot showing the missing data per trait in black." /><figcaption aria-hidden="true">Fig. Missingness plot showing the missing data per trait in black.</figcaption>
+<img src="figures/missing_data.png" width="800" alt="Fig. Missingness plot showing the missing data per trait in black." /><figcaption aria-hidden="true">Fig. Missingness plot showing the missing data per trait in black.</figcaption>
 </figure>
 
 The dataset is then filtered, removing traits with more than 60% missing
@@ -193,7 +193,7 @@ metric) is calculated pairwise among each trait. Traits are plotted
 pairwise to examine their relationships visually. \[DESCRIBE\]
 
 <figure>
-<img src="./figures/ggpairs.png" style="width:100.0%" alt="Fig. Pairwise relationships between different traits" /><figcaption aria-hidden="true">Fig. Pairwise relationships between different traits</figcaption>
+<img src="./figures/ggpairs.png" width="2000" alt="Fig. Pairwise relationships between different traits" /><figcaption aria-hidden="true">Fig. Pairwise relationships between different traits</figcaption>
 </figure>
 
 Gower’s
@@ -202,7 +202,7 @@ is calculated among species as it can deal with quantitative,
 qualitative and missing trait data.
 
 <figure>
-<img src="./figures/proteus_fviz_dist.png" width="100" alt="Fig. Visualization of gower distances where red means closer and blue further away" /><figcaption aria-hidden="true">Fig. Visualization of gower distances where red means closer and blue further away</figcaption>
+<img src="./figures/proteus_fviz_dist.png" width="800" alt="Fig. Visualization of gower distances where red means closer and blue further away" /><figcaption aria-hidden="true">Fig. Visualization of gower distances where red means closer and blue further away</figcaption>
 </figure>
 
 ### 8\_pcoa.R
@@ -213,20 +213,20 @@ based on Gower’s distances previously calculated. Here are all species
 displayed on the first two PCOA axes.
 
 <figure>
-<img src="./figures/scatter_pcoa.png" style="width:100.0%" alt="Fig. Scatterplot of PCOA where each point indicates a species." /><figcaption aria-hidden="true">Fig. Scatterplot of PCOA where each point indicates a species.</figcaption>
+<img src="./figures/scatter_pcoa.png" width="400" alt="Fig. Scatterplot of PCOA where each point indicates a species." /><figcaption aria-hidden="true">Fig. Scatterplot of PCOA where each point indicates a species.</figcaption>
 </figure>
 
 The relative eigenvalues indicate the proportion of variation each axis
 explains.
 
 <figure>
-<img src="./figures/rel_eig_pcoa_full.png" style="width:50.0%" alt="Fig. Relative eigenvalues of each PCOA axis." /><figcaption aria-hidden="true">Fig. Relative eigenvalues of each PCOA axis.</figcaption>
+<img src="./figures/rel_eig_pcoa_full.png" width="400" alt="Fig. Relative eigenvalues of each PCOA axis." /><figcaption aria-hidden="true">Fig. Relative eigenvalues of each PCOA axis.</figcaption>
 </figure>
 
 The PCOA can also be plotted alongside different traits.
 
 <figure>
-<img src="./figures/scatter_pcoa_full.png" style="width:100.0%" alt="Fig. PCOA scatterplots filled with different traits." /><figcaption aria-hidden="true">Fig. PCOA scatterplots filled with different traits.</figcaption>
+<img src="./figures/scatter_pcoa_full.png" width="800" alt="Fig. PCOA scatterplots filled with different traits." /><figcaption aria-hidden="true">Fig. PCOA scatterplots filled with different traits.</figcaption>
 </figure>
 
 The script
@@ -237,7 +237,7 @@ and coloured by the reproductive traits that were removed to see how
 they are distributed in the trait space.
 
 <figure>
-<img src="./figures/scatter_pcoa_no_repro.png" style="width:100.0%" alt="Fig. PCOA scatterplots constructed without reproductive traits but coloured with them." /><figcaption aria-hidden="true">Fig. PCOA scatterplots constructed without reproductive traits but coloured with them.</figcaption>
+<img src="./figures/scatter_pcoa_no_repro.png" width="800" alt="Fig. PCOA scatterplots constructed without reproductive traits but coloured with them." /><figcaption aria-hidden="true">Fig. PCOA scatterplots constructed without reproductive traits but coloured with them.</figcaption>
 </figure>
 
 ### 9\_clustering\_hierarchical.R
@@ -258,7 +258,7 @@ strategy. The other methods can be regarded as aiming for clusters with
 characteristics somewhere between the single and complete link methods.*
 
 <figure>
-<img src="./figures/agglomerative_hclust_ward_dendrogram.png" style="width:100.0%" alt="Fig. Dendogram made from the Ward.d2 method of clustering" /><figcaption aria-hidden="true">Fig. Dendogram made from the Ward.d2 method of clustering</figcaption>
+<img src="./figures/agglomerative_hclust_ward_dendrogram.png" width="800" alt="Fig. Dendogram made from the Ward.d2 method of clustering" /><figcaption aria-hidden="true">Fig. Dendogram made from the Ward.d2 method of clustering</figcaption>
 </figure>
 
 To understand the appropriate number of clusters for the data and
@@ -325,14 +325,15 @@ difficult to identify the elbow, perhaps three or six clusters are the
 most appropriate.
 
 <figure>
-<img src="./figures/within_ss_ward.png" style="width:50.0%" alt="Fig. Within cluster sum of squares for increasing numbers of clusters." /><figcaption aria-hidden="true">Fig. Within cluster sum of squares for increasing numbers of clusters.</figcaption>
+<img src="./figures/within_ss_ward.png" width="400" alt="Fig. Within cluster sum of squares for increasing numbers of clusters." /><figcaption aria-hidden="true">Fig. Within cluster sum of squares for increasing numbers of clusters.</figcaption>
 </figure>
 
 Silhouette width can also be used in a similar way, but seems to prefer
 two clusters in most situations so is perhaps less reliable.
 
-<img src="./figures/silwidth_ward.png" style="width:50.0%" alt="Fig. Within cluster sum of squares for increasing numbers of clusters." />
-<!-- .element height="50%" width="50%" -->
+<figure>
+<img src="./figures/silwidth_ward.png" width="400" alt="Fig. Within cluster sum of squares for increasing numbers of clusters." /><figcaption aria-hidden="true">Fig. Within cluster sum of squares for increasing numbers of clusters.</figcaption>
+</figure>
 
 Once a number of clusters can be selected this can be visualised on the
 dendrogram.
@@ -350,7 +351,7 @@ We can then examine the trait states and values that make up each
 cluster.
 
 <figure>
-<img src="./figures/hclust_characteristics_qual.png" style="width:75.0%" alt="Fig. The relative proportion for qualitative traits across clusters (k = 3)" /><figcaption aria-hidden="true">Fig. The relative proportion for qualitative traits across clusters (k = 3)</figcaption>
+<img src="./figures/hclust_characteristics_qual.png" width="600" alt="Fig. The relative proportion for qualitative traits across clusters (k = 3)" /><figcaption aria-hidden="true">Fig. The relative proportion for qualitative traits across clusters (k = 3)</figcaption>
 </figure>
 
 <div class="figure">
