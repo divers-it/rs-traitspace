@@ -208,7 +208,7 @@ Then the appropriate number of clusters must be chosen using these statistics. T
 
 Silhouette width can also be used in a similar way, but seems to prefer two clusters in most situations so is perhaps less reliable.
 
-![Fig. Within cluster sum of squares for increasing numbers of clusters.](./figures/silwidth_ward.png){width=50%}
+![Fig. Within cluster sum of squares for increasing numbers of clusters.](./figures/silwidth_ward.png){width=50%} <!-- .element height="50%" width="50%" -->
 
 Once a number of clusters can be selected this can be visualised on the dendrogram.
 

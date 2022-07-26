@@ -23,6 +23,7 @@ devtools::load_all()
 ## Global Variables ----
 
 # You can list global variables here (or in a separate R script)
+percent_list <- seq(0.1, 0.8, by = 0.1)
 
 
 ## Run Project ----

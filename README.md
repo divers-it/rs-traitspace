@@ -331,9 +331,8 @@ most appropriate.
 Silhouette width can also be used in a similar way, but seems to prefer
 two clusters in most situations so is perhaps less reliable.
 
-<figure>
-<img src="./figures/silwidth_ward.png" style="width:50.0%" alt="Fig. Within cluster sum of squares for increasing numbers of clusters." /><figcaption aria-hidden="true">Fig. Within cluster sum of squares for increasing numbers of clusters.</figcaption>
-</figure>
+<img src="./figures/silwidth_ward.png" style="width:50.0%" alt="Fig. Within cluster sum of squares for increasing numbers of clusters." />
+<!-- .element height="50%" width="50%" -->
 
 Once a number of clusters can be selected this can be visualised on the
 dendrogram.
@@ -376,7 +375,7 @@ Fig. Values of quantitative traits across clusters (k = 3)
 -   Cluster 3 harbors species that are woody, monomorphic (and bisexual)
     that are tall with large flowers containing many fertile stamens.
     Species examples include *Viburnum rufidulum*, *Coffea arabica* and
-    \*Ravenala madagascariensis.
+    *Ravenala madagascariensis*.
 
 We can then represent the identified clusters on the PCOA trait space.
 
