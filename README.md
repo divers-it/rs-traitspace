@@ -73,6 +73,8 @@ This repository is structured as follow:
 
 -   If things are bright/whitish and dull, delete dull
 
+-   why is NA in the mfd faxes plots? (correlations)
+
 Using mfd to compare trait spaces
 
 -   Are dimorphic species functionally less diverse than monomorphic
@@ -240,7 +242,166 @@ they are distributed in the trait space.
 <img src="./figures/scatter_pcoa_no_repro.png" width="800" alt="Fig. PCOA scatterplots constructed without reproductive traits but coloured with them." /><figcaption aria-hidden="true">Fig. PCOA scatterplots constructed without reproductive traits but coloured with them.</figcaption>
 </figure>
 
-### 9\_clustering\_hierarchical.R
+### 9\_dimensionality\_analyses.R
+
+To get an idea of the quality of the trait space, analyses from
+[Mouillot & Loiseau et
+al.](https://onlinelibrary.wiley.com/doi/abs/10.1111/ele.13778) were
+run: *To assess the dimensionality and robustness of species trait
+spaces, we needed a metric measuring the degree of distortion between
+the initial trait distance matrix between species pairs (Gower distance
+on all traits) and the distance matrix after dimensionality reduction
+(Euclidean distance on PCoA axes) or after removing traits (Gower
+distance on the sub-selection of traits), respectively. We assumed that
+a trait space is a high- quality representation of the full dataset if
+distances between species in that space are close to the initial
+distances computed with all traits (Maire et al., 2015).*
+
+The plot below shows how the quality of the trait space increases as
+dimensions or PCoA axes are added. The elbow technique is used to show
+where adding more axes starts having less of an effect on trait space
+quality. This is quite early for our dataset, around 0.4 AUC suggesting
+that these do not adequately represent the original trait space and more
+axes are needed to do so. The dataset does pass the AUC threshold of 0.7
+within 20 axes indicating that when a larger number of axes are
+considered the reduced trait space is a good representation.
+
+<figure>
+<img src="./figures/dimensionality_no_axes.png" width="600" alt="Fig. Influence of number of dimensions on the quality of trait space." /><figcaption aria-hidden="true">Fig. Influence of number of dimensions on the quality of trait space.</figcaption>
+</figure>
+
+When we examine the effect of trait omission we find that removing just
+10% of the traits has a drastic effect on AUC (which as I understand
+starts at 1), losing almost 50%. This suggests that trait removal done
+above to plot reproductive characteristics might not be the best idea.
+
+<figure>
+<img src="./figures/dimensionality_trait_omission.png" width="600" alt="Fig. Influence of trait omission on the quality of trait space." /><figcaption aria-hidden="true">Fig. Influence of trait omission on the quality of trait space.</figcaption>
+</figure>
+
+The trait space itself is then plotted and singletons, those species
+that are unique in the trait space, are shown as dark circles. In our
+case the trait space seems relatively uniform with few real outliers.
+There appears to be three major groups of points.
+
+<figure>
+<img src="./figures/dimensionality_trait_space.png" width="600" alt="Fig. Trait space from principal coordinates analyses (PCoA) representing the distribution of species according to their trait values. Species coloured in dark are detected as statistically and ecologically unique species by the fast search and find of density peaks algorithm." /><figcaption aria-hidden="true">Fig. Trait space from principal coordinates analyses (PCoA) representing the distribution of species according to their trait values. Species coloured in dark are detected as statistically and ecologically unique species by the fast search and find of density peaks algorithm.</figcaption>
+</figure>
+
+### 10\_functional\_space\_mfd.R
+
+The dimensionality approach was adapted from a paper that aimed to
+compare different datasets. To better make comparisons within a single
+dataset we can again examine the functional space, but this time with
+the package
+[mfd](https://onlinelibrary.wiley.com/doi/pdf/10.1111/ecog.05904). This
+approach is a little more black box but also more intuitive. We start by
+assessing the appropriate number of PCoA axes to retain, as above. The
+table below shows the number of axes and the quality (MAD), indcating
+that six dimensions may be the most appropriate (as opposed to four
+above).
+
+| X         |   mad |
+|:----------|------:|
+| pcoa\_1d  | 0.173 |
+| pcoa\_2d  | 0.115 |
+| pcoa\_3d  | 0.087 |
+| pcoa\_4d  | 0.069 |
+| pcoa\_5d  | 0.061 |
+| pcoa\_6d  | 0.057 |
+| pcoa\_7d  | 0.058 |
+| pcoa\_8d  | 0.061 |
+| pcoa\_9d  | 0.067 |
+| pcoa\_10d | 0.073 |
+
+With the mFD package, it is possible to illustrate the quality of
+PCoA-based multidimensional spaces according to deviation between
+trait-based distances and distances in the functional space. This
+function generates a figure with three panels (in rows) for each
+selected functional space (in columns). The x-axis of all panels
+represents trait-based distances. The y-axis is different for each row:
+
+-   on the first (top) row, the y-axis represents species functional
+    distances in the multidimensional space. Thus, the closer species
+    are to the 1:1 line, the better distances in the functional space
+    fit trait-based ones
+-   on the second row, the y-axis shows the raw deviation of species
+    distances in the functional space compared to trait-based distances.
+    Thus, the raw deviation reflects the distance to the horizontal
+    line.
+-   on the third row (bottom), the y-axis shows the absolute or squared
+    deviation of the (“scaled”) distance in the functional space. It is
+    the deviation that is taken into account for computing the quality
+    metric.
+
+<img src="./figures/mfd_quality.png" width="1000" alt="Fig. Quality of trait spaces with different numbers of dimensions" />
+mFD allows to test for correlations between traits and functional axes
+and then illustrate possible correlations
+
+-   continuous traits = linear model is computed and r2 and associated
+    p-value are returned
+-   non-continuous traits = Kruskal-Wallis test is computed and eta2
+    statistic is returned
+
+<figure>
+<img src="./figures/mfd_traits_vs_axes_quant.png" width="1000" alt="Fig. Correlation between quantitative traits in dataset and PCoA axes. Blue indicates significant correlation." /><figcaption aria-hidden="true">Fig. Correlation between quantitative traits in dataset and PCoA axes. Blue indicates significant correlation.</figcaption>
+</figure>
+
+<figure>
+<img src="./figures/mfd_traits_vs_axes_qual_7_12.png" width="1000" alt="Fig. Correlation between qualitative traits in dataset and PCoA axes. Blue indicates significant correlation." /><figcaption aria-hidden="true">Fig. Correlation between qualitative traits in dataset and PCoA axes. Blue indicates significant correlation.</figcaption>
+</figure>
+
+<figure>
+<img src="./figures/mfd_traits_vs_axes_qual_13_18.png" width="1000" alt="Fig. Correlation between qualitative traits in dataset and PCoA axes. Blue indicates significant correlation." /><figcaption aria-hidden="true">Fig. Correlation between qualitative traits in dataset and PCoA axes. Blue indicates significant correlation.</figcaption>
+</figure>
+
+We can then visualize the functional space across the first four axes.
+
+<figure>
+<img src="./figures/mfd_functional_space.png" width="1000" alt="Fig. Functional space visualization." /><figcaption aria-hidden="true">Fig. Functional space visualization.</figcaption>
+</figure>
+
+To get an idea of the variation within different groups we can calculate
+different alpha functional diversity indices. We first looked at this
+comparing different angiosperm groups.
+
+| X        | sp\_richn |      fdis |      fric |      fdiv |      fspe |  fide\_PC1 |  fide\_PC2 |  fide\_PC3 |  fide\_PC4 |
+|:---------|----------:|----------:|----------:|----------:|----------:|-----------:|-----------:|-----------:|-----------:|
+| monocots |        52 | 0.5458662 | 0.3029966 | 0.8183859 | 0.4599807 |  0.0552338 | -0.0722278 | -0.0555586 | -0.0021092 |
+| mag      |        14 | 0.3774723 | 0.0130253 | 0.7593382 | 0.3898575 | -0.0828870 |  0.0964249 |  0.0517036 |  0.0376028 |
+| dicots   |       254 | 0.5232784 | 0.8527403 | 0.7971962 | 0.4058532 | -0.0074452 |  0.0113775 |  0.0069664 | -0.0023391 |
+| other    |         8 | 0.4172340 | 0.0041306 | 0.7120320 | 0.3450046 |  0.0224192 | -0.0604972 |  0.0494664 |  0.0221718 |
+
+We found that dicots had a larger functional richness than monocots.
+
+<figure>
+<img src="./figures/mfd_funct_rich_monocot_dicot.png" width="1000" alt="Fig. Functional richness monocots vs dicots." /><figcaption aria-hidden="true">Fig. Functional richness monocots vs dicots.</figcaption>
+</figure>
+
+But functional divergence remained similar as species were relatively
+evenly distributed in the trait space (e.g. not clustered near the
+centre).
+
+<figure>
+<img src="./figures/mfd_funct_div_monocot_dicot.png" width="1000" alt="Fig. Functional divergence monocots vs dicots." /><figcaption aria-hidden="true">Fig. Functional divergence monocots vs dicots.</figcaption>
+</figure>
+
+The Functional Distinctiveness of a species is the average functional
+distance from a species to all the other in the given community.
+
+<figure>
+<img src="./figures/mfd_distinctiveness.png" width="600" alt="Fig. Functional distinctiveness." /><figcaption aria-hidden="true">Fig. Functional distinctiveness.</figcaption>
+</figure>
+
+Functional Uniqueness represents how “isolated” is a species in the
+global species pool, it is the functional distance to the nearest
+neighbor of the species of interest.
+
+<figure>
+<img src="./figures/mfd_uniqueness.png" width="600" alt="Fig. Functional uniqueness." /><figcaption aria-hidden="true">Fig. Functional uniqueness.</figcaption>
+</figure>
+
+### 11\_clustering\_hierarchical.R
 
 This script is based on an online
 [tutorial](https://towardsdatascience.com/hierarchical-clustering-on-categorical-data-in-r-a27e578f2995)
@@ -401,7 +562,7 @@ Fig. PCOA plot coloured by clusters (k = 6)
 
 </div>
 
-### 9.1\_clustering\_kprototype.R
+### 11.1\_clustering\_kprototype.R
 
 Other methods that can deal with mixed and missing data include
 [kprototypes](https://journal.r-project.org/archive/2018/RJ-2018-048/RJ-2018-048.pdf),
@@ -417,7 +578,7 @@ Fig. PCOA plot coloured by clusters from the kprototypes approach (k =
 
 </div>
 
-### 9.2\_clustering\_PAM.R
+### 11.2\_clustering\_PAM.R
 
 Likewise the [Partitioning Around
 Medoids](https://dpmartin42.github.io/posts/r/cluster-mixed-types) (PAM)
@@ -432,7 +593,7 @@ Fig. PCOA plot coloured by clusters from the PAM approach (k = 3)
 
 </div>
 
-### 9.3\_clustering\_LCM.R
+### 11.3\_clustering\_LCM.R
 
 Another potential approach is [model-based
 clustering](https://varsellcm.r-forge.r-project.org/) but this generated

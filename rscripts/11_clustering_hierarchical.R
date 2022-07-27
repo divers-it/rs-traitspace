@@ -525,8 +525,7 @@ ggplot(data.frame(dataset_pcoa$vectors),
     size = 3,
     stroke = 0.5
   ) +  geom_text_repel(aes(label = sp_names, colour = as.factor(clust.num)),
-                       size = 3.5)
-+  stat_ellipse(geom = "polygon",
+                       size = 3.5) +  stat_ellipse(geom = "polygon",
                 aes(fill = as.factor(clust.num)),
                 alpha = 0.25) +
   xlab(paste(

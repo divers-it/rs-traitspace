@@ -46,6 +46,7 @@ fspaces_quality <- mFD::quality.fspaces(
 
 #The space with the best quality has the lowest quality metric.
 round(fspaces_quality$"quality_fspaces", 3)
+write.csv(round(fspaces_quality$"quality_fspaces", 3),"outputs/mfd_qual.csv")
 
 #With the mFD package, it is possible to illustrate the quality of PCoA-based multidimensional spaces according
 #to deviation between trait-based distances and distances in the functional space
@@ -67,8 +68,8 @@ png("figures/mfd_quality.png",height=1000,width=3000,res=200)
 mFD::quality.fspaces.plot(
   fspaces_quality            = fspaces_quality,
   quality_metric             = "mad",
-  fspaces_plot               = c("tree_average", "pcoa_2d", "pcoa_3d", 
-                                 "pcoa_4d", "pcoa_5d", "pcoa_6d"),
+  fspaces_plot               = c("pcoa_2d", "pcoa_3d", 
+                                 "pcoa_4d", "pcoa_5d", "pcoa_6d", "pcoa_7d"),
   name_file                  = NULL,
   range_dist                 = NULL,
   range_dev                  = NULL,
@@ -208,6 +209,7 @@ alpha_fd_indices <- mFD::alpha.fd.multidim(
 #output indices
 fd_ind_values <- alpha_fd_indices$"functional_diversity_indices"
 fd_ind_values
+write.csv(fd_ind_values,"outputs/mfd_ind_values.csv")
 
 #information such as coordinates of centroids, distances and identity of the nearest neighbour, 
 #distances to the centroid, etc. The user does not have to directly use it but it will be useful 
@@ -332,8 +334,7 @@ plot_reg_distinctiveness <- ggplot(sp_coord_di_ui, aes(PC1, PC2)) +
   geom_point(aes(color = distinctiveness)) +
   #ggrepel::geom_text_repel(aes(label = species)) +
   scale_color_viridis_c("Functional\nDistinctiveness") +
-  theme_bw() +
-  theme(aspect.ratio = 1)
+  theme_bw()
 
 plot_reg_uniqueness <- ggplot(sp_coord_di_ui, aes(PC1, PC2)) +
   geom_hline(yintercept = 0, linetype = 2) +
@@ -341,9 +342,10 @@ plot_reg_uniqueness <- ggplot(sp_coord_di_ui, aes(PC1, PC2)) +
   geom_point(aes(color = Ui)) +
   #ggrepel::geom_text_repel(aes(label = species)) +
   scale_color_viridis_c("Functional\nUniqueness") +
-  theme_bw() +
-  theme(aspect.ratio = 1)
+  theme_bw()
 
 plot_reg_distinctiveness
+ggsave("figures/mfd_distinctiveness.png", width= 8, height = 8)
 
 plot_reg_uniqueness
+ggsave("figures/mfd_uniqueness.png", width= 8, height = 8)

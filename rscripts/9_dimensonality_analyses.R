@@ -2,6 +2,12 @@
 #' @dataset (01) PROTEUS 2022
 #' @header *********************************************************************
 
+## Load Project Addins (R Functions and Packages) ----
+devtools::load_all()
+
+# Variable to iterate over
+percent_list <- seq(0.1, 0.8, by = 0.1)
+
 # Read Dataset ----
 
 dataset <- readRDS(file = here::here("outputs/df_filt_trans.rds"))
@@ -185,14 +191,13 @@ p <- ggplot(res_for_graph_dim, aes(x = dim, y = AUC, colour = taxa)) +
   
   scale_y_continuous(breaks = seq(0.1, 1, 0.2))
 
-grDevices::png(file = here::here("figures", "Figure2.png"))
+grDevices::png(file = here::here("figures", "dimensionality_no_axes.png"))
 
 print(p)
 
 dev.off()
 
 #' FIGURE 5
-
 
 ## Import Icons ----
 
@@ -263,7 +268,7 @@ p2 <- ggplot(res_for_graph_miss, aes(x = miss_percent * 100, y = AUC,
 
 p2
 
-grDevices::png(file = here::here("figures", "Figure5.png")) #SAVE A4
+grDevices::png(file = here::here("figures", "dimensionality_trait_omission.png")) #SAVE A4
 
 print(p2)
 
@@ -392,7 +397,7 @@ for (i in 1:length(taxas)) {
   hull <- rbind(hull, sub_hull)
 }
 
-grDevices::png(file = here::here("figures", "Figure9.png")) #SAVE A4
+grDevices::png(file = here::here("figures", "dimensionality_trait_space.png")) #SAVE A4
 
 print(p3)
 dev.off()
