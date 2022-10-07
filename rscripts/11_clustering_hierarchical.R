@@ -289,6 +289,11 @@ clust.long.p <- clust.long.q %>%
   mutate(perc = count / sum(count)) %>%
   arrange(clust.num)
 
+#rename dispersal and pollination values as they are the same
+
+clust.long.p[clust.long.p$variable=="Pollination",]$value=paste(clust.long.p[clust.long.p$variable=="Pollination",]$variable,clust.long.p[clust.long.p$variable=="Pollination",]$value,sep=".")
+clust.long.p[clust.long.p$variable=="Dispersal",]$value=paste(clust.long.p[clust.long.p$variable=="Dispersal",]$variable,clust.long.p[clust.long.p$variable=="Dispersal",]$value,sep=".")
+
 #plot heatmap
 #deeper blue corresponds to a higher relative number of observations within a cluster
 
@@ -308,9 +313,12 @@ heatmap.p <-
       "selfing",
       "outcrossing",
       "mixed",
-      "abiotic",
-      "biotic",
-      "autonomous",
+      "Pollination.abiotic",
+      "Pollination.biotic",
+      "Pollination.autonomous",
+      "Dispersal.abiotic",
+      "Dispersal.biotic",
+      "Dispersal.autonomous",
       "bisexual",
       "unisexual",
       "superior",
@@ -341,10 +349,11 @@ heatmap.p <-
   geom_hline(yintercept = 8.5) +
   geom_hline(yintercept = 11.5) +
   geom_hline(yintercept = 14.5) +
-  geom_hline(yintercept = 16.5) +
-  geom_hline(yintercept = 19.5) +
-  geom_hline(yintercept = 25.5) +
-  geom_hline(yintercept = 27.5) +
+  geom_hline(yintercept = 17.5) +
+  geom_hline(yintercept = 20.5) +
+  geom_hline(yintercept = 22.5) +
+  geom_hline(yintercept = 28.5) +
+  geom_hline(yintercept = 30.5) +
   scale_fill_gradient2(low = "darkslategray1", mid = "yellow", high =  "turquoise4")
 
 heatmap.p
