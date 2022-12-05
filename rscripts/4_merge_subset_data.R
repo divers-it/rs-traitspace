@@ -79,4 +79,8 @@ proteus_combined$flowerSize <- fs
 #remove flowerDiameter (included in flowerSize)
 proteus_combined<-subset(proteus_combined, select=-c(Flowerdiameter))
 
+#fix column name
+colnames(proteus_combined)[1]<-"Woodiness"
+
+
 write.csv(proteus_combined,"outputs/proteus_combined.csv")

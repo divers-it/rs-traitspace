@@ -3,7 +3,7 @@ library(tidyverse)
 library(gtools)
 
 #import data
-df<-read.csv("data/qryDiveRS_Data_2022-04-29.csv")
+df<-read.csv("data/qryDiveRS_Data_2022-12-02.csv")
 str(df)
 
 #filter by quality
@@ -124,7 +124,7 @@ for(i in 1:length(unique(df_recode$new_trait))){
   ###
   #remove duplicate combinations
   trait_list[[i]]<-unique(trait_list[[i]])
-  
+  trait_list[[i]][,2]=as.character(trait_list[[i]][,2])
   #get names of polymorphic species
   poly_sp<-names(which(table(trait_list[[i]]$NTaxDat)>1))
   
@@ -144,7 +144,7 @@ for(i in 1:length(unique(df_recode$new_trait))){
   trait_list[[i]]<-unique(trait_list[[i]])
   
   #name list
-  names(trait_list)[i]<-unique(trait_df_merged$new_trait)
+  names(trait_list)[i]<-unique(as.character(trait_df_merged$new_trait))
   
 }
 
@@ -161,7 +161,7 @@ for(i in 1:length(trait_list)){
 }
 
 #fix column name
-colnames(disc_df)[2]<-"Woodiness"
+#colnames(disc_df)[2]<-"Woodiness"
 
 write.csv(disc_df,"outputs/proteus_discrete_recoded.csv")
 
