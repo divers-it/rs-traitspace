@@ -62,6 +62,7 @@ summary(gower_df)
 #gower_df[is.na(gower_df)]<-0
 
 #visualize the distances between species
+#Need R > 4.0
 library(factoextra)
 png("figures/proteus_fviz_dist.png")
 fviz_dist(dist.obj = gower_df,
