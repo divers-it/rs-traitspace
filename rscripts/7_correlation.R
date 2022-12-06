@@ -67,3 +67,11 @@ png("figures/proteus_fviz_dist.png")
 fviz_dist(dist.obj = gower_df,
           order = TRUE, show_labels = F)
 dev.off()
+
+
+#trait combinations
+library(dplyr)
+
+combo_df <- df %>% group_by(Woodiness, Mating, Lifespan, .drop=FALSE) %>% summarize(count=n())
+
+view(combo_df)

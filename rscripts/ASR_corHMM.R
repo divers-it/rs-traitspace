@@ -44,11 +44,16 @@ plot(phy2, show.tip.label = FALSE,type='fan')
 tiplabels(pch = 16, col = as.factor(df2$Woodiness), cex = 1)
 
 #fit model with 1 rate category on woodiness trait
-MK_2state <- corHMM(phy = phy2, data = df2[,c(1:2)], rate.cat = 1)
+MK_2state <- corHMM(phy = phy2, data = df2[,c(1:2)], rate.cat = 1,model="ER")
 MK_2state
 
 #plot transition rates
 plotMKmodel(MK_2state)
+
+
+
+
+
 
 #retrieve data, model and tree from corHMM object
 phy <- MK_2state$phy

@@ -23,8 +23,6 @@ devtools::load_all()
 ## Global Variables ----
 
 # You can list global variables here (or in a separate R script)
-percent_list <- seq(0.1, 0.8, by = 0.1)
-
 
 ## Run Project ----
 
@@ -40,7 +38,9 @@ source(here::here("rscripts", "6_scale_transform.R"))
 source(here::here("rscripts", "7_correlation.R"))
 source(here::here("rscripts", "8_pcoa.R"))
 source(here::here("rscripts", "8.1_pcoa_no_reproductive.R"))
-source(here::here("rscripts", "9_clustering_hierarchical.R"))
-source(here::here("rscripts", "9.1_clustering_kprototype.R"))
-source(here::here("rscripts", "9.2_clustering_PAM.R"))
-source(here::here("rscripts", "9.3_clustering_LCM.R"))
+source(here::here("rscripts", "9_dimensonality_analyses.R"))
+source(here::here("rscripts", "10_functional_space_mfd.R"))
+source(here::here("rscripts", "11_clustering_hierarchical.R"))
+source(here::here("rscripts", "11.1_clustering_kprototype.R"))
+source(here::here("rscripts", "11.2_clustering_PAM.R"))
+source(here::here("rscripts", "11.3_clustering_LCM.R"))
