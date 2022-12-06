@@ -289,10 +289,12 @@ clust.long.p <- clust.long.q %>%
   mutate(perc = count / sum(count)) %>%
   arrange(clust.num)
 
-#rename dispersal and pollination values as they are the same
+#rename dispersal and pollination values as they are the same, as well as "other"
 
 clust.long.p[clust.long.p$variable=="Pollination",]$value=paste(clust.long.p[clust.long.p$variable=="Pollination",]$variable,clust.long.p[clust.long.p$variable=="Pollination",]$value,sep=".")
 clust.long.p[clust.long.p$variable=="Dispersal",]$value=paste(clust.long.p[clust.long.p$variable=="Dispersal",]$variable,clust.long.p[clust.long.p$variable=="Dispersal",]$value,sep=".")
+clust.long.p[clust.long.p$variable=="FloralReward",]$value=paste(clust.long.p[clust.long.p$variable=="FloralReward",]$variable,clust.long.p[clust.long.p$variable=="FloralReward",]$value,sep=".")
+clust.long.p[clust.long.p$variable=="FlowerSymmetry",]$value=paste(clust.long.p[clust.long.p$variable=="FlowerSymmetry",]$variable,clust.long.p[clust.long.p$variable=="FlowerSymmetry",]$value,sep=".")
 
 #plot heatmap
 #deeper blue corresponds to a higher relative number of observations within a cluster
@@ -305,9 +307,6 @@ heatmap.p <-
       "herbaceous",
       "non-climbing",
       "climbing",
-      "monomorphic",
-      "dimorphic",
-      "polymorphic",
       "short",
       "long",
       "selfing",
@@ -321,22 +320,26 @@ heatmap.p <-
       "Dispersal.autonomous",
       "bisexual",
       "unisexual",
+      "monomorphic",
+      "dimorphic",
+      "polymorphic",
       "superior",
       "inferior",
       "intermediate",
-      "none",
-      "pollen",
-      "nectar",
-      "oil",
-      "nursery",
-      "foodbodies",
-      "perfume",
-      "heat",
-      "actinomorphic",
-      "zygomorphic",
-      "other",
+      "FloralReward.none",
+      "FloralReward.pollen",
+      "FloralReward.nectar",
+      "FloralReward.oil",
+      "FloralReward.nursery",
+      "FloralReward.foodbodies",
+      "FloralReward.perfume",
+      "FloralReward.heat",
+      "FloralReward.other",
+      "FlowerSymmetry.actinomorphic",
+      "FlowerSymmetry.zygomorphic",
+      "FlowerSymmetry.other",
       "bright",
-      "green/brown",
+      "dull",
       "whitish"
     ),
     ordered = T
@@ -346,14 +349,15 @@ heatmap.p <-
   geom_hline(yintercept = 2.5) +
   geom_hline(yintercept = 4.5) +
   geom_hline(yintercept = 6.5) +
-  geom_hline(yintercept = 8.5) +
-  geom_hline(yintercept = 11.5) +
-  geom_hline(yintercept = 14.5) +
+  geom_hline(yintercept = 9.5) +
+  geom_hline(yintercept = 12.5) +
+  geom_hline(yintercept = 15.5) +
   geom_hline(yintercept = 17.5) +
-  geom_hline(yintercept = 20.5) +
+  geom_hline(yintercept = 19.5) +
   geom_hline(yintercept = 22.5) +
-  geom_hline(yintercept = 28.5) +
-  geom_hline(yintercept = 30.5) +
+  geom_hline(yintercept = 26.5) +
+  geom_hline(yintercept = 29.5) +
+  geom_hline(yintercept = 31.5) +
   scale_fill_gradient2(low = "darkslategray1", mid = "yellow", high =  "turquoise4")
 
 heatmap.p
@@ -523,8 +527,8 @@ library(ggrepel)
 #plot points on first two axes, coloured by cluster
 ggplot(data.frame(dataset_pcoa$vectors),
        aes(
-         x = Axis.1,
-         y = Axis.2,
+         x = Axis.3,
+         y = Axis.4,
          fill = as.factor(clust.num)
        )) +
   geom_point(
