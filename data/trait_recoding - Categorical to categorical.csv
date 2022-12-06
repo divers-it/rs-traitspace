@@ -64,14 +64,16 @@ trait_number,old_trait,old_state,old_state_freq,new_trait,new_state
 102,Ovary position (D1),(1) inferior,67,OvaryPosition,inferior
 102,Ovary position (D1),(2) half-inferior,12,OvaryPosition,intermediate
 102,Ovary position (D1),(4) 1/4-inferior or less,4,OvaryPosition,intermediate
+90,Pollination syndrome (D1),(0) wind,43,FloralReward,none
+90,Pollination syndrome (D1),(1) water,7,FloralReward,none
 107,Floral reward (D1),(0) none,6,FloralReward,none
 107,Floral reward (D1),(1) pollen,68,FloralReward,pollen
 107,Floral reward (D1),(2) nectar,125,FloralReward,nectar
-107,Floral reward (D1),(4) oil,4,FloralReward,oil
-107,Floral reward (D1),(5) nursery,5,FloralReward,nursery
-107,Floral reward (D1),(6) food bodies,1,FloralReward,foodbodies
-107,Floral reward (D1),(7) perfume,10,FloralReward,perfume
-107,Floral reward (D1),(9) heat,3,FloralReward,heat
+107,Floral reward (D1),(4) oil,4,FloralReward,other
+107,Floral reward (D1),(5) nursery,5,FloralReward,other
+107,Floral reward (D1),(6) food bodies,1,FloralReward,other
+107,Floral reward (D1),(7) perfume,10,FloralReward,other
+107,Floral reward (D1),(9) heat,3,FloralReward,other
 207,Symmetry of perianth (D1),(0) actinomorphic (strictly polysymmetric),170,FlowerSymmetry,actinomorphic
 207,Symmetry of perianth (D1),(1) actinomorphic spiral,6,FlowerSymmetry,actinomorphic
 207,Symmetry of perianth (D1),(2) zygomorphic,56,FlowerSymmetry,zygomorphic
@@ -81,24 +83,24 @@ trait_number,old_trait,old_state,old_state_freq,new_trait,new_state
 207,Symmetry of perianth (D1),(6) actinomorphic rotational,3,FlowerSymmetry,actinomorphic
 239,Main color of perianth at anthesis (D1),(0) yellow,93,Showiness,bright
 239,Main color of perianth at anthesis (D1),(1) green,44,Showiness,dull
-239,Main color of perianth at anthesis (D1),(2) cream,28,Showiness,whitish
-239,Main color of perianth at anthesis (D1),(3) white,120,Showiness,whitish
+239,Main color of perianth at anthesis (D1),(2) cream,28,Showiness,bright
+239,Main color of perianth at anthesis (D1),(3) white,120,Showiness,bright
 239,Main color of perianth at anthesis (D1),(4) pink,53,Showiness,bright
 239,Main color of perianth at anthesis (D1),(5) brown,11,Showiness,dull
 239,Main color of perianth at anthesis (D1),(6) purple,43,Showiness,bright
 239,Main color of perianth at anthesis (D1),(7) red,41,Showiness,bright
-239,Main color of perianth at anthesis (D1),(8) grey,2,Showiness,whitish
+239,Main color of perianth at anthesis (D1),(8) grey,2,Showiness,dull
 239,Main color of perianth at anthesis (D1),(9) blue,18,Showiness,bright
 239,Main color of perianth at anthesis (D1),(A) orange,18,Showiness,bright
 660,Inflorescence attractive organ (D1),(5) none,,Showiness,dull
 661,Inflorescence attractive color (D1),(0) yellow,,Showiness,bright
 661,Inflorescence attractive color (D1),(1) green,,Showiness,dull
-661,Inflorescence attractive color (D1),(2) cream,,Showiness,whitish
-661,Inflorescence attractive color (D1),(3) white,,Showiness,whitish
+661,Inflorescence attractive color (D1),(2) cream,,Showiness,bright
+661,Inflorescence attractive color (D1),(3) white,,Showiness,bright
 661,Inflorescence attractive color (D1),(4) pink,,Showiness,bright
 661,Inflorescence attractive color (D1),(5) brown,,Showiness,dull
 661,Inflorescence attractive color (D1),(6) purple,,Showiness,bright
 661,Inflorescence attractive color (D1),(7) red,,Showiness,bright
-661,Inflorescence attractive color (D1),(8) grey,,Showiness,whitish
+661,Inflorescence attractive color (D1),(8) grey,,Showiness,dull
 661,Inflorescence attractive color (D1),(9) blue,,Showiness,bright
 661,Inflorescence attractive color (D1),(A) orange,,Showiness,bright

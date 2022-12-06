@@ -26,7 +26,7 @@ par(mfrow=c(3,3))
 #look at hists
 for(i in 1:6){
   hist(df2[,i],main=colnames(df2)[i])
-
+}
 dev.off()
 
 #plot histograms of logged (log10) variables
