@@ -10,7 +10,7 @@ df<-readRDS(file = here::here("outputs/df_filt.rds"))
 nums <- unlist(lapply(df, is.numeric))
 facts <- unlist(lapply(df, is.factor))
 
-str(df2)
+str(df)
 
 boxplot(df[ , nums])
 
@@ -40,7 +40,8 @@ dev.off()
 
 #do log transformations
 #not logging ovaries and others that dont work
-for(i in c(1,2,3,5,6)){
+#for(i in c(1,2,3,5,6)){
+for(i in c(1,2,3,4,6)){
   df2[,i]<-log(df2[,i])
 }
 
