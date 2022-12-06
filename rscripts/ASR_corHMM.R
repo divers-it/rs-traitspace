@@ -1,6 +1,7 @@
 library(dplyr)
 library(ape)
 library(corHMM)
+
 #load formatted data
 df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
 
@@ -30,30 +31,47 @@ setdiff(df2$species,phy$tip.label)
 #in phylo but not in dataset
 setdiff(phy$tip.label,df2$species)
 
+#empty vectors
+states<-vector()
+rates<-vector()
+
+#loop through all characters
+for(i in 2:length(colnames(df2))){
+
+#make new dataframe with only trait of interest
+df3<-df2[,c(1,i)]
+
+#omit missing data
+df3<-na.omit(df3)
+  
 #drop tips not in dataset
-phy2<-drop.tip(phy,setdiff(phy$tip.label,df2$species))
+phy2<-drop.tip(phy,setdiff(phy$tip.label,df3$species))
 
 #sort df to match order of tips in phylo
-df2<-df2[match(phy2$tip.label, df2$species),]
+df2<-df2[match(phy2$tip.label, df3$species),]
 
 #make woodiness binary SOLVE LATER BY MAKING NEW DF FOR ASR
-df2$Woodiness<-gsub("herbaceous_woody","woody",df2$Woodiness)
+#df2$Woodiness<-gsub("herbaceous_woody","woody",df2$Woodiness)
 
 #plot phylogeny and example trait
 plot(phy2, show.tip.label = FALSE,type='fan')
-tiplabels(pch = 16, col = as.factor(df2$Woodiness), cex = 1)
+tiplabels(pch = 16, col = as.factor(df3[,2]), cex = 1)
 
 #fit model with 1 rate category on woodiness trait
-MK_2state <- corHMM(phy = phy2, data = df2[,c(1:2)], rate.cat = 1,model="ER")
-MK_2state
+MK_2state <- corHMM(phy = phy2, data = df3, rate.cat = 1,model="ER")
 
+states[i-1]<-colnames(df3)[2]
+rates[i-1]<-MK_2state$solution[1,2]
+
+}
+
+data.frame(states,rates)
+
+
+
+#EXTRA FROM TUTORIAL:
 #plot transition rates
 plotMKmodel(MK_2state)
-
-
-
-
-
 
 #retrieve data, model and tree from corHMM object
 phy <- MK_2state$phy
