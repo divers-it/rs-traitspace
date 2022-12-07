@@ -34,6 +34,8 @@ setdiff(phy$tip.label,df2$species)
 #empty vectors
 states<-vector()
 rates<-vector()
+tree_sizes<-vector()
+no_states<-vector()
 
 #loop through all characters
 for(i in 2:length(colnames(df2))){
@@ -48,7 +50,7 @@ df3<-na.omit(df3)
 phy2<-drop.tip(phy,setdiff(phy$tip.label,df3$species))
 
 #sort df to match order of tips in phylo
-df2<-df2[match(phy2$tip.label, df3$species),]
+df3<-df3[match(phy2$tip.label, df3$species),]
 
 #make woodiness binary SOLVE LATER BY MAKING NEW DF FOR ASR
 #df2$Woodiness<-gsub("herbaceous_woody","woody",df2$Woodiness)
@@ -62,12 +64,12 @@ MK_2state <- corHMM(phy = phy2, data = df3, rate.cat = 1,model="ER")
 
 states[i-1]<-colnames(df3)[2]
 rates[i-1]<-MK_2state$solution[1,2]
-
+tree_sizes[i-1]<-length(phy2$tip.label)
+no_states[i-1]<-length(unique(df3[,2]))
 }
 
-data.frame(states,rates)
-
-
+df_rates<-data.frame(states,rates,tree_sizes,no_states)
+df_rates[order(df_rates$rates,decreasing = T),]
 
 #EXTRA FROM TUTORIAL:
 #plot transition rates

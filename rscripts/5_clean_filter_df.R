@@ -28,7 +28,7 @@ str(df)
 #limit missing data
 library(visdat)
 
-pdf("figures/missing_data.pdf")
+png("figures/missing_data.png")
 vis_miss(df)
 dev.off()
 
