@@ -527,8 +527,8 @@ library(ggrepel)
 #plot points on first two axes, coloured by cluster
 ggplot(data.frame(dataset_pcoa$vectors),
        aes(
-         x = Axis.3,
-         y = Axis.4,
+         x = Axis.1,
+         y = Axis.2,
          fill = as.factor(clust.num)
        )) +
   geom_point(
