@@ -52,6 +52,10 @@ This repository is structured as follow:
     master R script to run the entire project by calling each R script
     stored in the `rscripts/` folder
 
+-   [`make_one_hot.R`](https://github.com/mvallejo6/divers-tree/tree/master/make_one_hot.R):
+    modified master R script to run certain scripts with one-hot encoded data, 
+    allowing trait loading to be plotted in the PCOA plot (including preliminary 3D plot)
+
 ## To do:
 
 -   How many polymorphisms per each trait (old and new)
