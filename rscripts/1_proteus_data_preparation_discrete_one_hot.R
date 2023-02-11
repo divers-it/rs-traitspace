@@ -147,7 +147,7 @@ for(i in 1:length(unique(dg_recode$new_trait))){
   
 }
 
-trait_list[[1]]=data.frame(NTaxDat=unique(dg.wide.chosen$NTaxDat))
+#trait_list[[1]]=data.frame(NTaxDat=unique(dg.wide.chosen$NTaxDat))
 
 
 str(trait_list)
