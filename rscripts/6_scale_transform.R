@@ -11,14 +11,10 @@ nums <- unlist(lapply(df, is.numeric))
 facts <- unlist(lapply(df, is.factor))
 
 str(df)
-
 boxplot(df[ , nums])
 
-#centring introduced negative numbers that cant be logged
-boxplot(scale(df[ , nums],center = F))
-
 #scale and combine
-df2<-cbind(scale(df[ , nums],center = F),df[ , facts])
+df2<-cbind(df[ , nums],df[ , facts])
 
 #plot histograms of quantitative variables
 pdf("figures/proteus_trait_hists.pdf")
@@ -44,6 +40,18 @@ dev.off()
 for(i in c(1,2,3,4,6)){
   df2[,i]<-log(df2[,i])
 }
+
+#scale and centre
+df2<-cbind(scale(df2[ , 1:6],center = T, scale = T),df[ , facts])
+
+#plot histograms of logged (log10) variables
+pdf("figures/proteus_trait_hists_transformed_scaled.pdf")
+par(mfrow=c(3,3))
+
+for(i in 1:6){
+  hist(df2[,i],main=colnames(df2)[i])
+}
+dev.off()
 
 # Save scaled and transformed dataset
 saveRDS(df2, file = here::here("outputs/df_filt_trans.rds"))

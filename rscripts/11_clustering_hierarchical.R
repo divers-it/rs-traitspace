@@ -68,6 +68,9 @@ stats.df.aggl.w <- cstats.table(gower_df, aggl.clust.w, 10)
 stats.df.aggl.w
 write.csv(stats.df.aggl.w, "outputs/stats_hclust_ward.csv")
 
+#stats of one clustering approach / K value
+cluster.stats(d=gower_df,clustering = cutree(aggl.clust.w,4))
+
 
 ## --------- Choosing the number of clusters - elbow withiness ---------
 
