@@ -13,7 +13,12 @@
 
 synth_results <- function(trait_df, single_df, miss_final_df, dim_df) {
 
-
+  #for bug fixing
+  #trait_df      = dataset
+  #miss_final_df = dataset_miss_final
+  #dim_df        = dataset_dim
+  #single_df     = dataset_single
+  
   # S and nb trait ----
 
   S           <- nrow(trait_df)

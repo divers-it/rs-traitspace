@@ -516,7 +516,19 @@ dataset_pcoa <- ape::pcoa(dataset_dist)
 # aggl.clust.c (complete) = 4
 # aggl.clust.a (average) = 2
 # aggl.clust.w (ward) = 5
-clust.num <- cutree(aggl.clust.w, k = 3)
+clust.num <- cutree(aggl.clust.w, k = 5)
+
+data.frame(clust.num.stack[,1:length(clust.num.stack[1,])])
+
+#make matrix for downstream use
+clust.num.stack<-table(stack(clust.num))
+clust.num.stack<-as.data.frame.matrix(clust.num.stack)
+rownames(clust.num.stack)<-c("cluster1",
+                             "cluster2",
+                             "cluster3",
+                             "cluster4",
+                             "cluster5")
+saveRDS(clust.num.stack,"outputs/clust.num.stack.Rds")
 
 #get subset of species names to highlight
 sp_names<-rownames(dataset_pcoa$vectors)
@@ -553,12 +565,12 @@ ggplot(data.frame(dataset_pcoa$vectors),
     round(dataset_pcoa$values$Relative_eig[2], 2)
   ))
 
-ggsave("figures/pcoa_hclust_k3.png",
+ggsave("figures/pcoa_hclust_k5.png",
        width = 12,
        height = 10)
 
-#same but for k = 6
-clust.num <- cutree(aggl.clust.w, k = 6)
+#same but for k = 3
+clust.num <- cutree(aggl.clust.w, k = 3)
 
 #plot points on first two axes, coloured by cluster
 ggplot(data.frame(dataset_pcoa$vectors),
@@ -586,6 +598,6 @@ ggplot(data.frame(dataset_pcoa$vectors),
     round(dataset_pcoa$values$Relative_eig[2], 2)
   ))
 
-ggsave("figures/pcoa_hclust_k6.png",
+ggsave("figures/pcoa_hclust_k3.png",
        width = 12,
        height = 10)

@@ -67,6 +67,9 @@ diaz_pcf<-diaz_cf[,c(
 sort(rowSums(is.na(diaz_pcf)))
 head(diaz_pcf)
 
+#remove 0s by adding 1
+diaz_pcf$Diaspore_mass_mg<-diaz_pcf$Diaspore_mass_mg + 1
+
 #log transform and scale
 diaz_pcf<-log(diaz_pcf)
 diaz_pcf<-scale(diaz_pcf, center = T, scale = T)

@@ -25,7 +25,18 @@
 compute_missing_trait_distance <- function(trait_df, trait_category_df,
   percent_missing, max_comb = 20, n_perm = 20, cores = 1,classical_gower,
   pos = 20) {
-
+  
+  #for bug fixing
+  #dataset[is.na(dataset)] <- 0
+  #trait_df      = dataset
+  #trait_category_df = dataset_cat
+  #percent_missing   = percent_list
+  #max_comb          = 10
+  #n_perm            = 10
+  #cores             = 3
+  #classical_gower   = TRUE
+  #pos               = 10
+  
   initial_dist <- calc_dist(trait_df, trait_category_df, colnames(trait_df),
                             classical_gower)
 

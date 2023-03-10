@@ -6,9 +6,15 @@
 devtools::load_all()
 
 # Variable to iterate over
-percent_list <- seq(0.1, 0.8, by = 0.1)
+percent_list <- seq(0.2, 0.8, by = 0.2)
 
 # Read Dataset ----
+
+#load formatted DiveRS data
+df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+
+#load substitutes (congenerics)
+subs<-readRDS(file = here::here("outputs/sub_genera.rds"))
 
 #load Diaz data
 diaz<-read.csv("data/diaz_species_mean_traits.csv")
@@ -40,6 +46,8 @@ diaz_c<-diaz[,c("Species_name_standardized_against_TPL",
 )
 ]
 
+rownames(diaz_c)<-diaz_c$Species_name_standardized_against_TPL
+
 #filter by number of observations
 diaz_cf<-diaz_c[diaz_c$Number_of_traits_with_values>3,]
 
@@ -65,17 +73,23 @@ diaz_pcf<-diaz_cf[,c(
 )
 ]
 
+#select only DiveRS species
+diaz_pcf_od<-diaz_pcf[rownames(diaz_pcf)%in%rownames(df),]
+
+#add congenerics (this is done after filtering to only those with data for >x traits)
+diaz_pcf_od<-rbind(diaz_pcf_od,diaz_pcf[rownames(diaz_pcf)%in%subs$Species_name_standardized_against_TPL,])
+
 #remove 0s by adding 1
-diaz_pcf$Diaspore_mass_mg<-diaz_pcf$Diaspore_mass_mg + 1
+diaz_pcf_od$Diaspore_mass_mg<-diaz_pcf_od$Diaspore_mass_mg + 1
 
 #log transform and scale
-diaz_pcf<-log(diaz_pcf)
-diaz_pcf<-scale(diaz_pcf, center = T, scale = T)
+diaz_pcf_od<-log(diaz_pcf_od)
+diaz_pcf_od<-scale(diaz_pcf_od, center = T, scale = T)
 
-dataset<-diaz_pcf
+dataset<-diaz_pcf_od
 
 # Run Analysis ----
-run_analysis(dataset, name = "diaz_2022")
+run_analysis(dataset, name = "diaz_2022_od")
 rm(list = "dataset")
 
 ## Import Results ----
