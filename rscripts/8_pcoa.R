@@ -27,7 +27,7 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
   xlab(paste("Axis 1: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[1],2))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[2],2)))
 
-ggsave("figures/scatter_pcoa.png",
+ggsave("figures/scatter_pcoa2.png",
        width = 15,
        height = 15,
        units = 'cm')

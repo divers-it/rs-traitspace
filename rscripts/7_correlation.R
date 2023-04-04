@@ -29,14 +29,14 @@ dataset_cor[lower.tri(dataset_cor)] <- t(
 
 diag(dataset_cor) <- NA
 
-dataset_cor <- data.frame(
+dataset_cor_summ <- data.frame(
   mean_cor = mean(abs(dataset_cor), na.rm = TRUE),
   sd_cor   = sd(abs(dataset_cor),   na.rm = TRUE),
   max_cor  = max(abs(dataset_cor),  na.rm = TRUE),
   min_cor  = min(abs(dataset_cor),  na.rm = TRUE)
 )
 
-dataset_cor
+dataset_cor_summ
 
 #mosaic plot
 ggplot(data = df) +

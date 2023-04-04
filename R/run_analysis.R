@@ -76,7 +76,7 @@ run_analysis <- function(dataset, folder = "outputs", name, plot = FALSE) {
   dataset_dim <- dimension_funct(
     trait_df          = dataset,
     trait_category_df = dataset_cat,
-    dim_pcoa          = 20,
+    dim_pcoa          = 6,
     metric_scaled     = TRUE,
     classical_gower   = TRUE,
     rep               = 999,

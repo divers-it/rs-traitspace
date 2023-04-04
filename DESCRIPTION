@@ -71,5 +71,4 @@ Imports:
     vegan,
     viridis,
     visdat,
-    wesanderson,
-    xlsx
+    wesanderson
