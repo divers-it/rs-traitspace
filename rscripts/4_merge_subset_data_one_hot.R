@@ -50,6 +50,8 @@ colnames(df)<-gsub("^\\.","",colnames(df))
 colnames(df)<-gsub("\\.$","",colnames(df))
 colnames(df)
 
+#remove ovary position
+df=df[,-grep("OvaryPosition",colnames(df))]
 #remove first column (names) and add to rownames
 proteus_combined<-df[,-1]
 rownames(proteus_combined)<-df[,"NTaxDat"]

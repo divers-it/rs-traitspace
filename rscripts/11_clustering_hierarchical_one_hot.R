@@ -217,18 +217,36 @@ df_ord=as.data.frame(c(dft,speciesd))
 # aggl.clust.c (complete) = 4
 # aggl.clust.a (average) = 2
 # aggl.clust.w (ward) = 5
+clust.num <- cutree(aggl.clust.w, k = 4)
+df_clust=merge(clust.num,dft,by=0)
+names(df_clust)[c(1,2)]=c("species","clust")
+write.csv(file="outputs/species_hclust_k4_one_hot.csv",df_clust)
+
 clust.num <- cutree(aggl.clust.w, k = 6)
+df_clust=merge(clust.num,dft,by=0)
+names(df_clust)[c(1,2)]=c("species","clust")
+write.csv(file="outputs/species_hclust_k6_one_hot.csv",df_clust)
+
+#clust.num[clust.num==1]="showy perennials"
+#clust.num[clust.num==2]="dioecious trees"
+#clust.num[clust.num==3]="small/short-lived herbs"
+#clust.num[clust.num==4]="showy trees"
+#clust.num[clust.num==5]="showy trees"
+#clust.num[clust.num==6]="wind-pollinated sexually monomorphic"
 
 library(ggrepel)
 
+#minimal value for arrow length
+minarrow=0.2
+
 #plot points on first two axes, coloured by cluster
-p1=ggplot() + geom_point(data=df_ord,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none")
+p1=ggplot() + geom_point(data=df_ord,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd[sqrt(traitd$Dim1^2+traitd$Dim2^2)>minarrow,],aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd[sqrt(traitd$Dim1^2+traitd$Dim2^2)>minarrow,],aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25)+theme_bw() + theme(legend.position="top",legend.title=element_blank()) 
 
 #plot points on second and third axis, coloured by cluster
-p2=ggplot() + geom_point(data=df_ord,aes(x=Dim2,y=Dim3,color = as.factor(clust.num)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim2/2,yend=Dim3/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim2/2,y=Dim3/2,label=trait))+  stat_ellipse(data=df_ord, geom = "polygon", aes(x=Dim2,y=Dim3,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none")
+p2=ggplot() + geom_point(data=df_ord,aes(x=Dim2,y=Dim3,color = as.factor(clust.num)))+geom_segment(data=traitd[sqrt(traitd$Dim2^2+traitd$Dim3^2)>minarrow,],aes(x=0,y=0,xend=Dim2/2,yend=Dim3/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd[sqrt(traitd$Dim2^2+traitd$Dim3^2)>minarrow,],aes(x=Dim2/2,y=Dim3/2,label=trait))+  stat_ellipse(data=df_ord, geom = "polygon", aes(x=Dim2,y=Dim3,fill = as.factor(clust.num)), alpha = 0.25)+theme_bw() + theme(legend.position="none")
 
 #plot points on third and fourth axis, coloured by cluster
-p3=ggplot() + geom_point(data=df_ord,aes(x=Dim3,y=Dim4,color = as.factor(clust.num)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim3/2,yend=Dim4/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim3/2,y=Dim4/2,label=trait))+  stat_ellipse(data=df_ord, geom = "polygon", aes(x=Dim3,y=Dim4,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none")
+p3=ggplot() + geom_point(data=df_ord,aes(x=Dim3,y=Dim4,color = as.factor(clust.num)))+geom_segment(data=traitd[sqrt(traitd$Dim3^2+traitd$Dim4^2)>minarrow,],aes(x=0,y=0,xend=Dim3/2,yend=Dim4/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd[sqrt(traitd$Dim3^2+traitd$Dim4^2)>minarrow,],aes(x=Dim3/2,y=Dim4/2,label=trait))+  stat_ellipse(data=df_ord, geom = "polygon", aes(x=Dim3,y=Dim4,fill = as.factor(clust.num)), alpha = 0.25)+theme_bw() + theme(legend.position="none")
 
 library(patchwork)
 p1 / p2 / p3

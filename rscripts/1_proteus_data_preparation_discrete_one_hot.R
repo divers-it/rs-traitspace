@@ -85,7 +85,8 @@ for(i in 2:length(colnames(dg.wide.chosen))){
 library(reshape2)
 
 #read in recoding table
-dg_recode<-read.csv("data/trait_recoding - Categorical to more categorical.csv")
+#dg_recode<-read.csv("data/trait_recoding - Categorical to more categorical.csv")
+dg_recode<-read.csv("data/trait_recoding - Categorical to categorical.csv")
 
 #empty list to store traits
 trait_list<-list()
