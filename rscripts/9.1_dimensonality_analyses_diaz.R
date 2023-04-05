@@ -6,7 +6,7 @@
 devtools::load_all()
 
 # Variable to iterate over
-percent_list <- seq(0.2, 0.8, by = 0.2)
+percent_list <- seq(0.1, 0.8, by = 0.1)
 
 # Read Dataset ----
 
@@ -86,7 +86,15 @@ diaz_pcf_od$Diaspore_mass_mg<-diaz_pcf_od$Diaspore_mass_mg + 1
 diaz_pcf_od<-log(diaz_pcf_od)
 diaz_pcf_od<-scale(diaz_pcf_od, center = T, scale = T)
 
-dataset<-diaz_pcf_od
+dataset<-data.frame(diaz_pcf_od)
+
+
+#missing data visualisation
+library(visdat)
+vis_miss(data.frame(dataset))
+
+#
+sort(rowSums(is.na(data.frame(dataset))))
 
 # Run Analysis ----
 run_analysis(dataset, name = "diaz_2022_od")

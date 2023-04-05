@@ -1,5 +1,9 @@
 run_analysis <- function(dataset, folder = "outputs", name, plot = FALSE) {
 
+  #for bug fixing
+  #dataset = dataset
+  
+  
   dataset_cat <- data.frame(
     trait_name       = colnames(head(dataset)),
     trait_type       = rep(NA, ncol(dataset)),

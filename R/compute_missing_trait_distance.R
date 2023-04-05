@@ -27,13 +27,15 @@ compute_missing_trait_distance <- function(trait_df, trait_category_df,
   pos = 20) {
   
   #for bug fixing
-  #dataset[is.na(dataset)] <- 0
-  #trait_df      = dataset
+  #dataset0 <- dataset
+  #dataset0[is.na(dataset0)] <- 0
+  ##dataset0$Leaf_area_mm2[is.na(dataset0$Leaf_area_mm2)] <- mean(na.omit(dataset0$Leaf_area_mm2))
+  #trait_df      = dataset0
   #trait_category_df = dataset_cat
   #percent_missing   = percent_list
   #max_comb          = 10
   #n_perm            = 10
-  #cores             = 3
+  #cores             = 2
   #classical_gower   = TRUE
   #pos               = 10
   
