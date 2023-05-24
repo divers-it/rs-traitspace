@@ -9,16 +9,14 @@ devtools::load_all()
 percent_list <- seq(0.1, 0.8, by = 0.1)
 
 # Read Dataset ----
-
 dataset <- readRDS(file = here::here("outputs/df_filt_trans.rds"))
 
 # Run Analysis ----
-
 run_analysis(dataset, name = "proteus_2022")
 rm(list = "dataset")
 
 ## Import Results ----
-
+#diaz results in 
 files <- list.files(path = here::here("outputs"), pattern = "_res.rds$",
                     full.names = TRUE)
 list_res <- lapply(files, function(x) readRDS(x))

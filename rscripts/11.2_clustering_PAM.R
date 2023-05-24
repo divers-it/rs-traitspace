@@ -31,10 +31,36 @@ plot(1:10, silhouette,
      ylab = "Silhouette Width")
 lines(1:10, silhouette)
 
+
+#make df with each value of k
+for(i in 2:7){
+  if(i == 2){
+    pam.gower = pam(gower_df, diss = TRUE, k = i)
+    pam_df<-pam.gower$clustering
+  } else {
+    pam.gower = pam(gower_df, diss = TRUE, k = i)
+    pam_df<-cbind(pam_df,pam.gower$clustering)
+  }
+}
+
+colnames(pam_df)<-c("2clusters",
+                             "3clusters",
+                             "4clusters",
+                             "5clusters",
+                             "6clusters",
+                             "7clusters")
+clust.num.k.2.7.df <-as.data.frame(pam_df)
+
+rownames(clust.num.k.2.7.df)<-names(pam.gower$clustering)
+
+saveRDS(clust.num.k.2.7.df, file = here::here("outputs/clust_num_k_2_7_pam.rds"))
+
 #construct a PAM model with 3 clusters, and try to interpret the behavior of these clusters with the help of the medoids.
 pam.gower = pam(gower_df, diss = TRUE, k = 3)
 df[pam.gower$medoids, ]
 write.csv(df[pam.gower$medoids, ], "outputs/pam_medoids_k3.csv")
+
+
 
 #To dig deeper into the characteristics of each cluster, we find the summary stats.
 pam_summary <- df %>%
@@ -61,9 +87,9 @@ tsne_df <- tsne_object$Y %>%
 tsne_df$names<-rownames(df)
 
 #prune down species name to make readable
-inds <- round ( runif(280, 1, length(tsne_df$names)) )
+inds <- round ( runif(320, 1, length(tsne_df$names)) )
 tsne_df$names[inds]<-NA
-tsne_df$names[sample(seq_along(tsne_df$names), 280, replace = FALSE)] <- NA
+#tsne_df$names[sample(seq_along(tsne_df$names), 280, replace = FALSE)] <- NA
 
 #put in medoids
 for(i in 1:length(pam.gower$medoids)){
@@ -123,3 +149,73 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.f
   ylab(paste("Axis 2: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[2],2)))
 
 ggsave("figures/scatter_pcoa_pam_clusters.png",width=12,height=10)
+
+
+####
+# Sankey plot
+####
+
+#from: https://r-graph-gallery.com/321-introduction-to-interactive-sankey-diagram-2.html
+#table of different k values (2-7)
+
+for (i in 1:6) {
+  if (i == 1) {
+    clust.num.k.2.7 <- paste("k",i+1,"cluster",as.character(clust.num.k.2.7.df[,i]),sep="_")
+  } else {
+    clust.num.k.2.7 <-
+      cbind(clust.num.k.2.7, paste("k",i+1,"cluster",as.character(clust.num.k.2.7.df[,i]),sep="_"))
+  }
+}
+
+colnames(clust.num.k.2.7)<-c("2clusters",
+                             "3clusters",
+                             "4clusters",
+                             "5clusters",
+                             "6clusters",
+                             "7clusters")
+clust.num.k.2.7.df <-as.data.frame(clust.num.k.2.7)
+
+# A connection data frame is a list of flows with intensity for each flow
+
+for(i in 1:(length(colnames(clust.num.k.2.7.df))-1)){
+  if(i == 1){
+    links<-as.data.frame(table(clust.num.k.2.7.df[,c(i,(i+1))]))
+    colnames(links)<-c("source","target","value")
+  } else {
+    
+    tmp<-as.data.frame(table(clust.num.k.2.7.df[,c(i,(i+1))]))
+    colnames(tmp)<-c("source","target","value")
+    links <-
+      rbind(links, tmp)
+  }
+  
+}
+
+
+# From these flows we need to create a node data frame: it lists every entities involved in the flow
+nodes <- data.frame(
+  name=c(as.character(links$source), 
+         as.character(links$target)) %>% unique()
+)
+
+# With networkD3, connection must be provided using id, not using real name like in the links dataframe.. So we need to reformat it.
+links$IDsource <- match(links$source, nodes$name)-1 
+links$IDtarget <- match(links$target, nodes$name)-1
+
+links
+
+#remove rows where values are 0
+links<-links[links$value>0,]
+
+# Library
+library(networkD3)
+library(dplyr)
+# Make the Network
+p <- sankeyNetwork(Links = links, Nodes = nodes,
+                   Source = "IDsource", Target = "IDtarget",
+                   Value = "value", NodeID = "name", 
+                   sinksRight=FALSE)
+
+p
+
+saveNetwork(p, "figures/sankey_pam.html")

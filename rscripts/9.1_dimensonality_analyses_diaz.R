@@ -100,6 +100,8 @@ sort(rowSums(is.na(data.frame(dataset))))
 run_analysis(dataset, name = "diaz_2022_od")
 rm(list = "dataset")
 
+#NEED TO MOVE FILES TO diaz_dimen folder
+
 ## Import Results ----
 
 files <- list.files(path = here::here("outputs"), pattern = "_res.rds$",

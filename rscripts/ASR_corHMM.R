@@ -4,7 +4,7 @@ library(corHMM)
 
 #load formatted data
 df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
-
+dfo<-readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
 #numeric/factor columns only
 nums <- unlist(lapply(df, is.numeric))
 facts <- unlist(lapply(df, is.factor))
@@ -95,3 +95,14 @@ phytools::plotSimmap(simmap[[1]], fsize = 0.5, type="fan")
 HMM_2state <- corHMM(phy = phy, data = data, rate.cat = 2, model = "SYM", get.tip.states = TRUE)
 HMM_2state
 
+#plot phylo signal against transition rates
+load("outputs/phylo_signal.Rdata")
+
+d1<-results[order(row.names(results)),]
+
+d2<-df_rates[order(df_rates$states),]
+d2<-d2[c(1,2,4:12),]
+
+d2$states==row.names(results)
+
+plot(d1$deltas~d2$rates)

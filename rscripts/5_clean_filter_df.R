@@ -33,11 +33,11 @@ vis_miss(df)
 dev.off()
 
 # Remove traits with too much missing data ----
-df <- df[ , (colSums(is.na(df)) < length(df[,1])*0.6)]
+df <- df[ , (colSums(is.na(df)) < length(df[,1])*0.5)]
 str(df)
 
 # Remove line with too much missing data ----
-df <- df[(rowSums(is.na(df)) < length(df[1,])*0.5), ]
+df <- df[(rowSums(is.na(df)) < length(df[1,])*0.25), ]
 
 ## ----- Outlier removal -----
 

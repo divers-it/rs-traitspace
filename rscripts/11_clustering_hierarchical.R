@@ -69,7 +69,7 @@ stats.df.aggl.w
 write.csv(stats.df.aggl.w, "outputs/stats_hclust_ward.csv")
 
 #stats of one clustering approach / K value
-cluster.stats(d=gower_df,clustering = cutree(aggl.clust.w,4))
+cluster.stats(d = gower_df, clustering = cutree(aggl.clust.w, 4))
 
 
 ## --------- Choosing the number of clusters - elbow withiness ---------
@@ -294,10 +294,18 @@ clust.long.p <- clust.long.q %>%
 
 #rename dispersal and pollination values as they are the same, as well as "other"
 
-clust.long.p[clust.long.p$variable=="Pollination",]$value=paste(clust.long.p[clust.long.p$variable=="Pollination",]$variable,clust.long.p[clust.long.p$variable=="Pollination",]$value,sep=".")
-clust.long.p[clust.long.p$variable=="Dispersal",]$value=paste(clust.long.p[clust.long.p$variable=="Dispersal",]$variable,clust.long.p[clust.long.p$variable=="Dispersal",]$value,sep=".")
-clust.long.p[clust.long.p$variable=="FloralReward",]$value=paste(clust.long.p[clust.long.p$variable=="FloralReward",]$variable,clust.long.p[clust.long.p$variable=="FloralReward",]$value,sep=".")
-clust.long.p[clust.long.p$variable=="FlowerSymmetry",]$value=paste(clust.long.p[clust.long.p$variable=="FlowerSymmetry",]$variable,clust.long.p[clust.long.p$variable=="FlowerSymmetry",]$value,sep=".")
+clust.long.p[clust.long.p$variable == "Pollination", ]$value = paste(clust.long.p[clust.long.p$variable ==
+                                                                                    "Pollination", ]$variable, clust.long.p[clust.long.p$variable == "Pollination", ]$value, sep =
+                                                                       ".")
+clust.long.p[clust.long.p$variable == "Dispersal", ]$value = paste(clust.long.p[clust.long.p$variable ==
+                                                                                  "Dispersal", ]$variable, clust.long.p[clust.long.p$variable == "Dispersal", ]$value, sep =
+                                                                     ".")
+clust.long.p[clust.long.p$variable == "FloralReward", ]$value = paste(clust.long.p[clust.long.p$variable ==
+                                                                                     "FloralReward", ]$variable, clust.long.p[clust.long.p$variable == "FloralReward", ]$value, sep =
+                                                                        ".")
+clust.long.p[clust.long.p$variable == "FlowerSymmetry", ]$value = paste(clust.long.p[clust.long.p$variable ==
+                                                                                       "FlowerSymmetry", ]$variable, clust.long.p[clust.long.p$variable == "FlowerSymmetry", ]$value, sep =
+                                                                          ".")
 
 #plot heatmap
 #deeper blue corresponds to a higher relative number of observations within a cluster
@@ -361,7 +369,11 @@ heatmap.p <-
   geom_hline(yintercept = 26.5) +
   geom_hline(yintercept = 29.5) +
   geom_hline(yintercept = 31.5) +
-  scale_fill_gradient2(low = "darkslategray1", mid = "yellow", high =  "turquoise4")
+  scale_fill_gradient2(
+    low = "darkslategray1",
+    mid = "yellow",
+    high =  "turquoise4"
+  )
 
 heatmap.p
 ggsave("figures/hclust_characteristics_qual.png",
@@ -518,24 +530,21 @@ dataset_pcoa <- ape::pcoa(dataset_dist)
 # aggl.clust.w (ward) = 5
 clust.num <- cutree(aggl.clust.w, k = 5)
 
-data.frame(clust.num.stack[,1:length(clust.num.stack[1,])])
-
 #make matrix for downstream use
-clust.num.stack<-table(stack(clust.num))
-clust.num.stack<-as.data.frame.matrix(clust.num.stack)
-rownames(clust.num.stack)<-c("cluster1",
-                             "cluster2",
-                             "cluster3",
-                             "cluster4",
-                             "cluster5")
-saveRDS(clust.num.stack,"outputs/clust.num.stack.Rds")
+clust.num.stack <- table(stack(clust.num))
+clust.num.stack <- as.data.frame.matrix(clust.num.stack)
+rownames(clust.num.stack) <- c("cluster1",
+                               "cluster2",
+                               "cluster3",
+                               "cluster4",
+                               "cluster5")
+saveRDS(clust.num.stack, "outputs/clust.num.stack5.Rds")
 
 #get subset of species names to highlight
-sp_names<-rownames(dataset_pcoa$vectors)
+sp_names <- rownames(dataset_pcoa$vectors)
 #prune down species name to make readable
-inds <- round ( runif(280, 1, length(sp_names)) )
-sp_names[inds]<-NA
-sp_names[sample(seq_along(sp_names), 280, replace = FALSE)] <- NA
+inds <- round (runif(320, 1, length(sp_names)))
+sp_names[inds] <- NA
 
 library(ggrepel)
 
@@ -554,8 +563,8 @@ ggplot(data.frame(dataset_pcoa$vectors),
     stroke = 0.5
   ) +  geom_text_repel(aes(label = sp_names, colour = as.factor(clust.num)),
                        size = 3.5) +  stat_ellipse(geom = "polygon",
-                aes(fill = as.factor(clust.num)),
-                alpha = 0.25) +
+                                                   aes(fill = as.factor(clust.num)),
+                                                   alpha = 0.25) +
   xlab(paste(
     "Axis 1: relative eigenvalue =",
     round(dataset_pcoa$values$Relative_eig[1], 2)
@@ -571,6 +580,14 @@ ggsave("figures/pcoa_hclust_k5.png",
 
 #same but for k = 3
 clust.num <- cutree(aggl.clust.w, k = 3)
+#make matrix for downstream use
+clust.num.stack <- table(stack(clust.num))
+clust.num.stack <- as.data.frame.matrix(clust.num.stack)
+rownames(clust.num.stack) <- c("cluster1",
+                               "cluster2",
+                               "cluster3")
+saveRDS(clust.num.stack, "outputs/clust.num.stack3.Rds")
+
 
 #plot points on first two axes, coloured by cluster
 ggplot(data.frame(dataset_pcoa$vectors),
@@ -601,3 +618,79 @@ ggplot(data.frame(dataset_pcoa$vectors),
 ggsave("figures/pcoa_hclust_k3.png",
        width = 12,
        height = 10)
+
+####
+# Sankey plot
+####
+
+#from: https://r-graph-gallery.com/321-introduction-to-interactive-sankey-diagram-2.html
+#table of different k values (2-7)
+
+for (i in 2:7) {
+  if (i == 2) {
+    clust.num.k.2.7 <- paste("k",i,"cluster",as.character(cutree(aggl.clust.w, k = i)),sep="_")
+  } else {
+    clust.num.k.2.7 <-
+      cbind(clust.num.k.2.7, paste("k",i,"cluster",as.character(cutree(aggl.clust.w, k = i)),sep="_"))
+  }
+}
+
+
+
+colnames(clust.num.k.2.7)<-c("2clusters",
+                             "3clusters",
+                             "4clusters",
+                             "5clusters",
+                             "6clusters",
+                             "7clusters")
+clust.num.k.2.7.df <-as.data.frame(clust.num.k.2.7)
+
+rownames(clust.num.k.2.7.df)<-names(cutree(aggl.clust.w, k = 2))
+
+saveRDS(clust.num.k.2.7.df, file = here::here("outputs/clust_num_k_2_7_ward.rds"))
+
+
+# A connection data frame is a list of flows with intensity for each flow
+
+for(i in 1:(length(colnames(clust.num.k.2.7.df))-1)){
+  if(i == 1){
+    links<-as.data.frame(table(clust.num.k.2.7.df[,c(i,(i+1))]))
+    colnames(links)<-c("source","target","value")
+  } else {
+    
+    tmp<-as.data.frame(table(clust.num.k.2.7.df[,c(i,(i+1))]))
+    colnames(tmp)<-c("source","target","value")
+    links <-
+      rbind(links, tmp)
+  }
+  
+}
+
+
+# From these flows we need to create a node data frame: it lists every entities involved in the flow
+nodes <- data.frame(
+  name=c(as.character(links$source), 
+         as.character(links$target)) %>% unique()
+)
+
+# With networkD3, connection must be provided using id, not using real name like in the links dataframe.. So we need to reformat it.
+links$IDsource <- match(links$source, nodes$name)-1 
+links$IDtarget <- match(links$target, nodes$name)-1
+
+links
+
+#remove rows where values are 0
+links<-links[links$value>0,]
+
+# Library
+library(networkD3)
+library(dplyr)
+# Make the Network
+p <- sankeyNetwork(Links = links, Nodes = nodes,
+                   Source = "IDsource", Target = "IDtarget",
+                   Value = "value", NodeID = "name", 
+                   sinksRight=FALSE)
+
+p
+
+saveNetwork(p, "figures/sankey_ward.html")

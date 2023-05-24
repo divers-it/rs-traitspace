@@ -45,7 +45,7 @@ fspaces_quality <- mFD::quality.fspaces(
 sp_faxes_coord <- fspaces_quality$"details_fspaces"$"sp_pc_coord"
 
 #load formatted data
-df_w<-readRDS(file = here::here("outputs/clust.num.stack.Rds"))
+df_w<-readRDS(file = here::here("outputs/clust.num.stack3.Rds"))
 
 #compute 5 functional indices
 alpha_fd_indices <- mFD::alpha.fd.multidim(
@@ -60,7 +60,7 @@ alpha_fd_indices <- mFD::alpha.fd.multidim(
 #output indices
 fd_ind_values <- alpha_fd_indices$"functional_diversity_indices"
 fd_ind_values
-write.csv(fd_ind_values,"outputs/mfd_ind_values_clusters_w5.csv")
+write.csv(fd_ind_values,"outputs/mfd_ind_values_clusters_w3.csv")
 
 #information such as coordinates of centroids, distances and identity of the nearest neighbour, 
 #distances to the centroid, etc. The user does not have to directly use it but it will be useful 
@@ -85,7 +85,7 @@ plots_alpha <- mFD::alpha.multidim.plot(
 #FRic representation: the colored shapes reflect the convex-hull of the studied assemblages
 #and the white shape reflects the convex-hull of the global pool of species:
 
-png("figures/mfd_funct_rich_monocot_dicot.png",height = 1500, width = 1500,res=150)
+png("figures/mfd_fric_clust1_clust2.png",height = 1500, width = 1500,res=150)
 plots_alpha$"fric"$"patchwork"
 dev.off()
 
@@ -93,7 +93,7 @@ dev.off()
 #assemblages are plotted as a square and a triangle. The two colored circles represent the mean
 #distance of species to the gravity center for each assemblage. Species of each assemblage 
 #have different size given their relative weight into the assemblage.
-png("figures/mfd_funct_div_monocot_dicot.png",height = 1500, width = 1500,res=150)
+png("figures/mfd_fdiv_clust1_clust2.png",height = 1500, width = 1500,res=150)
 plots_alpha$"fdiv"$"patchwork"
 dev.off()
 
@@ -102,7 +102,7 @@ dev.off()
 #gravity is plotted with a purple diamond. Species of each assemblage have different size given
 #their relative weight into the assemblage.
 
-png("figures/mfd_funct_disp_monocot_dicot.png",height = 1500, width = 1500, res=150)
+png("figures/mfd_fdis_clust1_clust2.png",height = 1500, width = 1500, res=150)
 plots_alpha$"fdis"$"patchwork"
 dev.off()
 
@@ -110,6 +110,6 @@ dev.off()
 #along each axis. Species of each assemblage have different size given their relative weight
 #into the assemblage.
 
-png("figures/mfd_funct_ident_monocot_dicot.png",,height = 1500, width = 1500, res=150)
+png("figures/mfd_fide_clust1_clust2.png",,height = 1500, width = 1500, res=150)
 plots_alpha$"fide"$"patchwork"
 dev.off()
