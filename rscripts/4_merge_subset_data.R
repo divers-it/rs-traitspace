@@ -82,5 +82,28 @@ proteus_combined<-subset(proteus_combined, select=-c(Flowerdiameter))
 #fix column name
 colnames(proteus_combined)[1]<-"Woodiness"
 
+#####
+#add seed mass data
+#####
 
+#remove one duplicate row Corokia
+#synonyms are present e.g. Cleistes -> Cleistesiopsis
+seedMass<-read.csv("data/seedWeight.csv")
+rownames(seedMass)<-paste(seedMass$Genus,seedMass$Species,sep=" ")
+rownames(seedMass)==rownames(proteus_combined)
+
+#check differences between datasets
+setdiff(rownames(proteus_combined),rownames(seedMass))
+setdiff(rownames(seedMass),rownames(proteus_combined))
+
+#Synonmy issues
+rownames(seedMass)[grep("Arctostaphylos uvaursi",rownames(seedMass))]<-"Arctostaphylos uva-ursi"
+rownames(seedMass)[grep("Cleistes bifaria",rownames(seedMass))]<-"Cleistesiopsis bifaria"
+rownames(seedMass)[grep("Pitcairnia albifilos",rownames(seedMass))]<-"Pitcairnia albiflos"
+rownames(seedMass)[grep("Ruellia nudiflora",rownames(seedMass))]<-"Ruellia ciliatiflora"
+rownames(seedMass)[grep("Veronica anagallisaquatica",rownames(seedMass))]<-"Veronica anagallis-aquatica"
+
+str(seedMass[rownames(proteus_combined)%in%rownames(seedMass),])
+
+#write dataset
 write.csv(proteus_combined,"outputs/proteus_combined.csv")

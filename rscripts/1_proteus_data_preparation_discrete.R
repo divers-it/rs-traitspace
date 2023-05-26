@@ -85,6 +85,10 @@ trait_list<-list()
 
 i<-1
 
+######
+# The loop below appears to remove Rafflesia - find out the problem!
+######
+
 for(i in 1:length(unique(df_recode$new_trait))){
 
   #get df for trait

@@ -15,7 +15,7 @@ rownames(clust_ward) == rownames(clust_kpro)
 rownames(clust_ward) == rownames(clust_pam)
 
 #
-k <- 4
+k <- 3
 
 # A connection data frame is a list of flows with intensity for each flow
 links <-

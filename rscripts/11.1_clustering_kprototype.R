@@ -167,3 +167,40 @@ p
 saveNetwork(p, "figures/sankey_kpro.html")
 
 
+###
+# Robust combinations
+###
+
+#make data frame of combo frequencies
+combos <- as.data.frame(table(clust.num.k.2.7.df))
+
+#remove no existant combos
+combos <- combos[combos$Freq > 0, ]
+
+#order
+combos <- combos[order(combos$Freq, decreasing = T), ]
+
+#change to strings
+combos <-data.frame(lapply(combos, as.character), stringsAsFactors = FALSE)
+
+#table of different combinations and their frequencies
+combos
+
+#empty list
+robust<-list()
+
+#loop through ordered table to extract robust groups
+#change value in loop for threshold
+for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>20])){
+  robust[[i]]<-rownames(clust.num.k.2.7.df[clust.num.k.2.7.df[, 1] == combos[i, 1] & 
+                                                clust.num.k.2.7.df[, 2] == combos[i, 2] &
+                                                clust.num.k.2.7.df[, 3] == combos[i, 3] &
+                                                clust.num.k.2.7.df[, 4] == combos[i, 4] &
+                                                clust.num.k.2.7.df[, 5] == combos[i, 5] &
+                                                clust.num.k.2.7.df[, 6] == combos[i, 6],])
+}
+
+robust
+
+
+
