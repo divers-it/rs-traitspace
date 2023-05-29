@@ -1,3 +1,4 @@
+rm(list = ls())
 library(dplyr)
 library(gridExtra)
 library(Rtsne)
@@ -118,7 +119,8 @@ ggplot(tsne_df, aes(x = X, y = Y, fill = as.factor(cluster))) +
 
 ggsave("figures/scatter_tsne_pam_clusters.png",width=12,height=10)
 
-clust_df<-data.frame(names(tsne_df$cluster),tsne_df$cluster,row.names=NULL)
+#CHECK ROWNAMES ARE IN CORRECT ORDER
+clust_df<-data.frame(rownames(df),tsne_df$cluster,row.names=NULL)
 colnames(clust_df)<-c("Species","Cluster")
 clust_df<-clust_df[order(clust_df$Species),]
 head(clust_df)

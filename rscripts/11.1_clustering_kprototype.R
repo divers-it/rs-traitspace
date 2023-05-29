@@ -182,12 +182,15 @@ combos <- combos[order(combos$Freq, decreasing = T), ]
 
 #change to strings
 combos <-data.frame(lapply(combos, as.character), stringsAsFactors = FALSE)
-head(combos)
+
+#table of different combinations and their frequencies
+combos
 
 #empty list
 robust<-list()
 
 #loop through ordered table to extract robust groups
+#change value in loop for threshold
 for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>20])){
   robust[[i]]<-rownames(clust.num.k.2.7.df[clust.num.k.2.7.df[, 1] == combos[i, 1] & 
                                                 clust.num.k.2.7.df[, 2] == combos[i, 2] &

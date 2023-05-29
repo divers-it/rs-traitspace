@@ -18,7 +18,7 @@ protClust <- densityClust(gower_df, gaussian=TRUE)
 plot(protClust) 
 
 #
-protClust <- findClusters(protClust, rho = 15,delta = 0.15,verbose = TRUE,plot = TRUE)
+protClust <- findClusters(protClust, rho = 10,delta = 0.05,verbose = TRUE,plot = TRUE)
 
 plotMDS(protClust)
 
