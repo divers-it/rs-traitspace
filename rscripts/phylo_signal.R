@@ -94,7 +94,104 @@ names(pvalss)<-colnames(df2)
 pvals<-na.omit(pvals)
 
 results<-data.frame(deltas,pvals)
-results
+results_facts
+
+###
+# Continuous
+### 
+# http://www.francoiskeck.fr/phylosignal/demo_general.html
+library(phylosignal)
+library(adephylo)
+library(ape)
+library(phylobase)
+
+#load formatted data
+df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+
+#numeric/factor columns only
+nums <- unlist(lapply(df, is.numeric))
+
+#make only continuous dataset
+df2<-df[ , nums]
+
+#insert '_' into rownames to match phylo
+df2$species<-gsub(" ","_",rownames(df2))
+
+#remove rownames
+rownames(df2)<-NULL
+
+#put species column first
+df2<-df2[,c(length(colnames(df2)),1:(length(colnames(df2)) - 1))]
+
+#read in phylogenetic tree
+phy<-read.tree("outputs/pruned_tree.tre")
+plot(phy,cex=0.5)
+
+#in dataset but not in phylo
+setdiff(df2$species,phy$tip.label)
+
+#in phylo but not in dataset
+setdiff(phy$tip.label,df2$species)
+#WHY SO MANY?
+
+#loop through all characters
+#for(i in 2:length(colnames(df2))){
+for(i in 2:length(colnames(df2))){
+  #make new dataframe with only trait of interest
+  df3<-df2[,c(1,i)]
+  
+  #omit missing data
+  df3<-na.omit(df3)
+  
+  #drop tips not in dataset
+  phy2<-drop.tip(phy,setdiff(phy$tip.label,df3$species))
+  
+  #sort df to match order of tips in phylo
+  df3<-df3[match(phy2$tip.label, df3$species),]
+  
+  phy2$tip.label==df3$species
+  
+  trait <- df3[,2]
+  tree <- phy2
+  
+  #make p4d object
+  p4d <- phylo4d(tree, trait)
+  
+  #plot phylogeny and trait
+  #barplot.phylo4d(p4d, tree.type = "phylo", tree.ladderize = TRUE)
+  
+  #calculate signal with all methods
+  p4d_s<-phyloSignal(p4d = p4d, method = "all")
+  
+  if(i == 2){
+    pvals <- p4d_s$pvalue
+    signals <- p4d_s$stat
+  } else {
+    pvals <- rbind(pvals,p4d_s$pvalue)
+    signals <- rbind(signals,p4d_s$pvalue)
+  }
+  
+  cat(paste("finished: ",colnames(df2)[i],"\n"))
+  
+}
+
+
+#row and column names
+rownames(pvals)<-colnames(df2)[2:length(colnames(df2))]
+rownames(signals)<-colnames(df2)[2:length(colnames(df2))]
+
+#signal values
+signals
+
+#p values
+pvals
+
+#Assessing the behavior of these methods with this phylogeny 
+#along a Brownian-Motion influence gradient
+phylosim <- phyloSim(tree = phy, method = "all", nsim = 100, reps = 99)
+plot(phylosim, stacked.methods = FALSE, quantiles = c(0.05, 0.95))
+plot.phylosim(phylosim, what = "pval", stacked.methods = TRUE)
+
 
 save.image(file="outputs/phylo_signal.Rdata")
 
