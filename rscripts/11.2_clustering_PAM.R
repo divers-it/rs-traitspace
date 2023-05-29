@@ -175,6 +175,8 @@ colnames(clust.num.k.2.7)<-c("2clusters",
                              "7clusters")
 clust.num.k.2.7.df <-as.data.frame(clust.num.k.2.7)
 
+saveRDS(clust.num.k.2.7.df, file = here::here("outputs/clust_num_k_2_7_pam.rds"))
+
 # A connection data frame is a list of flows with intensity for each flow
 
 for(i in 1:(length(colnames(clust.num.k.2.7.df))-1)){
@@ -219,3 +221,38 @@ p <- sankeyNetwork(Links = links, Nodes = nodes,
 p
 
 saveNetwork(p, "figures/sankey_pam.html")
+
+###
+# Robust combinations
+###
+
+#make data frame of combo frequencies
+combos <- as.data.frame(table(clust.num.k.2.7.df))
+
+#remove no existant combos
+combos <- combos[combos$Freq > 0, ]
+
+#order
+combos <- combos[order(combos$Freq, decreasing = T), ]
+
+#change to strings
+combos <-data.frame(lapply(combos, as.character), stringsAsFactors = FALSE)
+head(combos)
+
+#empty list
+robust<-list()
+
+#loop through ordered table to extract robust groups
+for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>20])){
+   foo<-as.numeric(rownames(clust.num.k.2.7.df[clust.num.k.2.7.df[, 1] == combos[i, 1] & 
+                                             clust.num.k.2.7.df[, 2] == combos[i, 2] &
+                                             clust.num.k.2.7.df[, 3] == combos[i, 3] &
+                                             clust.num.k.2.7.df[, 4] == combos[i, 4] &
+                                             clust.num.k.2.7.df[, 5] == combos[i, 5] &
+                                             clust.num.k.2.7.df[, 6] == combos[i, 6],]))
+   
+  robust[[i]]<-rownames(dataset_pcoa$vectors)[foo]
+}
+
+robust
+

@@ -11,6 +11,12 @@ trait_number,old_trait,old_state,old_state_freq,new_trait,new_state
 1,Habit (D1),(3) herb,141,Climbing,non-climbing
 1,Habit (D1),(4) vine,11,Climbing,climbing
 1,Habit (D1),(5) aquatic herb,26,Climbing,non-climbing
+1,Habit (D1),(0) tree,109,Aquatic,non-aquatic
+1,Habit (D1),(1) shrub,89,Aquatic,non-aquatic
+1,Habit (D1),(2) liana,7,Aquatic,non-aquatic
+1,Habit (D1),(3) herb,141,Aquatic,non-aquatic
+1,Habit (D1),(4) vine,11,Aquatic,non-aquatic
+1,Habit (D1),(5) aquatic herb,26,Aquatic,aquatic
 4,Plant sexual system (D1),(0) bisexual,225,SexualSystem,monomorphic
 4,Plant sexual system (D1),(1) monoecious,43,SexualSystem,monomorphic
 4,Plant sexual system (D1),(2) dioecious,68,SexualSystem,dimorphic

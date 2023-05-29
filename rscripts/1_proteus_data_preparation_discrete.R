@@ -6,16 +6,13 @@ library(gtools)
 df<-read.csv("data/qryDiveRS_Data_2023-05-21.csv")
 str(df)
 
-#filter by quality
-#TO DO
-
 #extract categorical data only
 cat_df<-df[grep("(D1)",df$NChrDat),]
 
 #remove extra metadata columns
 cat_df<-cat_df[,c(1,2,3,5)]
 
-#pivot to wide format with traits as columnsm using ID to keep separate multiple records per species
+#pivot to wide format with traits as columns using ID to keep separate multiple records per species
 df.wide <- pivot_wider(cat_df, names_from = NChrDat, values_from = c(NCstDat),id_cols = c(NDat,NTaxDat))
 head(df.wide)
 
@@ -125,6 +122,7 @@ for(i in 1:length(unique(df_recode$new_trait))){
   #remove duplicate combinations
   trait_list[[i]]<-unique(trait_list[[i]])
   trait_list[[i]][,2]=as.character(trait_list[[i]][,2])
+  
   #get names of polymorphic species
   poly_sp<-names(which(table(trait_list[[i]]$NTaxDat)>1))
   
@@ -150,6 +148,12 @@ for(i in 1:length(unique(df_recode$new_trait))){
 
 str(trait_list)
 
+#ensure that woodiness has data for all species
+no_wood<-setdiff(sort(unique(df$NTaxDat)),trait_list[[1]]$NTaxDat)
+
+#add missing species
+trait_list[[1]]<-rbind(trait_list[[1]],c(no_wood,NA))
+
 #Merge dataframes in list
 for(i in 1:length(trait_list)){
   if(i == 1){
@@ -161,7 +165,7 @@ for(i in 1:length(trait_list)){
 }
 
 #fix column name
-#colnames(disc_df)[2]<-"Woodiness"
+colnames(disc_df)[2]<-"Woodiness"
 
 write.csv(disc_df,"outputs/proteus_discrete_recoded.csv")
 

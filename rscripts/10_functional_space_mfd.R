@@ -103,9 +103,9 @@ png("figures/mfd_traits_vs_axes_quant.png",width=2500,height = 2000,res=200)
 df_faxes$"tr_faxes_plot"
 dev.off()
 
-#correlation of discrete traits 7-12
+#correlation of discrete traits 7-10
 df_faxes <- mFD::traits.faxes.cor(
-  sp_tr          = df[,c(7:12)], 
+  sp_tr          = df[,c(7:10)], 
   sp_faxes_coord = sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")],
   stop_if_NA = F,
   plot = TRUE)
@@ -114,13 +114,13 @@ df_faxes <- mFD::traits.faxes.cor(
 df_faxes$"tr_faxes_stat"[which(df_faxes$"tr_faxes_stat"$"p.value" < 0.05), ]
 
 #plot
-png("figures/mfd_traits_vs_axes_qual_7_12.png",width=4000,height = 2000,res=200)
+png("figures/mfd_traits_vs_axes_qual_7_10.png",width=4000,height = 2000,res=200)
 df_faxes$"tr_faxes_plot"
 dev.off()
 
-#correlation of qualitative traits 13-18
+#correlation of qualitative traits 11-14
 df_faxes <- mFD::traits.faxes.cor(
-  sp_tr          = df[,c(13:18)], 
+  sp_tr          = df[,c(11:14)], 
   sp_faxes_coord = sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")],
   stop_if_NA = F,
   plot = TRUE)
@@ -129,7 +129,23 @@ df_faxes <- mFD::traits.faxes.cor(
 df_faxes$"tr_faxes_stat"[which(df_faxes$"tr_faxes_stat"$"p.value" < 0.05), ]
 
 #plot
-png("figures/mfd_traits_vs_axes_qual_13_18.png",width=4000,height = 2000,res=200)
+png("figures/mfd_traits_vs_axes_qual_11_14.png",width=4000,height = 2000,res=200)
+df_faxes$"tr_faxes_plot"
+dev.off()
+
+
+#correlation of qualitative traits 15-18
+df_faxes <- mFD::traits.faxes.cor(
+  sp_tr          = df[,c(15:18)], 
+  sp_faxes_coord = sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")],
+  stop_if_NA = F,
+  plot = TRUE)
+
+# Print traits with significant effect
+df_faxes$"tr_faxes_stat"[which(df_faxes$"tr_faxes_stat"$"p.value" < 0.05), ]
+
+#plot
+png("figures/mfd_traits_vs_axes_qual_15_18.png",width=4000,height = 2000,res=200)
 df_faxes$"tr_faxes_plot"
 dev.off()
 
