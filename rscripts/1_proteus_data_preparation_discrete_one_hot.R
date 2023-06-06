@@ -158,7 +158,7 @@ for(i in 1:length(trait_list)){
   if(i == 1){
     disc_dg<-trait_list[[i]]
   } else {
-    disc_dg<-merge(disc_dg,trait_list[[i]],by.x = 'NTaxDat', by.y = 'NTaxDat', all.x = T)
+    disc_dg<-merge(disc_dg,trait_list[[i]],by.x = 'NTaxDat', by.y = 'NTaxDat', all = T)
   }
 }
 
