@@ -69,6 +69,8 @@ stats.df.aggl.w <- cstats.table(gower_df2, aggl.clust.w, 10)
 stats.df.aggl.w
 write.csv(stats.df.aggl.w, "outputs/stats_hclust_ward_one_hot.csv")
 
+#stats of one clustering approach / K value
+cluster.stats(d = gower_df2, clustering = cutree(aggl.clust.w, 4))
 
 ## --------- Choosing the number of clusters - elbow withiness ---------
 
@@ -280,31 +282,101 @@ ggsave("figures/pcoa_hclust_k3_loadings_one_hot.png",
 
 #3d
 
-clust.num <- cutree(aggl.clust.w, k = 6)
+#clust.num <- cutree(aggl.clust.w, k = 6)
 
-library(rgl)
-open3d()
-get_colors <- function(groups, group.col = palette()){
-  groups <- as.factor(groups)
-  ngrps <- length(levels(groups))
-  if(ngrps > length(group.col)) 
-    group.col <- rep(group.col, ngrps)
-  color <- group.col[as.numeric(groups)]
-  names(color) <- as.vector(groups)
-  return(color)
-}
+#library(rgl)
+#open3d()
+#get_colors <- function(groups, group.col = palette()){
+#  groups <- as.factor(groups)
+#  ngrps <- length(levels(groups))
+#  if(ngrps > length(group.col)) 
+#    group.col <- rep(group.col, ngrps)
+#  color <- group.col[as.numeric(groups)]
+#  names(color) <- as.vector(groups)
+#  return(color)
+#}
 
-plot_loadings3d <- function(loadings,scale=0.5){
-for(i in 1:nrow(loadings)){
-arrow3d(p0=c(0,0,0),p1=c(loadings[i,"Dim1"]*scale,loadings[i,"Dim2"]*scale,loadings[i,"Dim3"]*scale),type="lines",barblen=0.01)
-text3d(x=loadings[i,"Dim1"]*scale,y=loadings[i,"Dim2"]*scale,z=loadings[i,"Dim3"]*scale,loadings$trait[i],cex=0.5)
-}
-}
+#plot_loadings3d <- function(loadings,scale=0.5){
+#for(i in 1:nrow(loadings)){
+#arrow3d(p0=c(0,0,0),p1=c(loadings[i,"Dim1"]*scale,loadings[i,"Dim2"]*scale,loadings[i,"Dim3"]*scale),type="lines",barblen=0.01)
+#text3d(x=loadings[i,"Dim1"]*scale,y=loadings[i,"Dim2"]*scale,z=loadings[i,"Dim3"]*scale,loadings$trait[i],cex=0.5)
+#}
+#}
 
-rgl.spheres(df_ord[,"Dim1"], df_ord[,"Dim2"], df_ord[,"Dim3"], r = 0.005,color = get_colors(clust.num)) 
-plot_loadings3d(traitd)
-clear3d()
+#rgl.spheres(df_ord[,"Dim1"], df_ord[,"Dim2"], df_ord[,"Dim3"], r = 0.005,color = get_colors(clust.num)) 
+#plot_loadings3d(traitd)
+#clear3d()
 
 #end 3d
 
+####
+# Sankey plot
+####
 
+#from: https://r-graph-gallery.com/321-introduction-to-interactive-sankey-diagram-2.html
+#table of different k values (2-7)
+
+for (i in 2:7) {
+  if (i == 2) {
+    clust.num.k.2.7 <- paste("k",i,"cluster",as.character(cutree(aggl.clust.w, k = i)),sep="_")
+  } else {
+    clust.num.k.2.7 <-
+      cbind(clust.num.k.2.7, paste("k",i,"cluster",as.character(cutree(aggl.clust.w, k = i)),sep="_"))
+  }
+}
+
+
+
+colnames(clust.num.k.2.7)<-c("2clusters",
+                             "3clusters",
+                             "4clusters",
+                             "5clusters",
+                             "6clusters",
+                             "7clusters")
+clust.num.k.2.7.df <-as.data.frame(clust.num.k.2.7)
+
+rownames(clust.num.k.2.7.df)<-names(cutree(aggl.clust.w, k = 2))
+
+saveRDS(clust.num.k.2.7.df, file = here::here("outputs/clust_num_k_2_7_ward_one_hot.rds"))
+
+for(i in 1:(length(colnames(clust.num.k.2.7.df))-1)){
+  if(i == 1){
+    links<-as.data.frame(table(clust.num.k.2.7.df[,c(i,(i+1))]))
+    colnames(links)<-c("source","target","value")
+  } else {
+    
+    tmp<-as.data.frame(table(clust.num.k.2.7.df[,c(i,(i+1))]))
+    colnames(tmp)<-c("source","target","value")
+    links <-
+      rbind(links, tmp)
+  }
+  
+}
+
+
+# From these flows we need to create a node data frame: it lists every entities involved in the flow
+nodes <- data.frame(
+  name=c(as.character(links$source), 
+         as.character(links$target)) %>% unique()
+)
+
+# With networkD3, connection must be provided using id, not using real name like in the links dataframe.. So we need to reformat it.
+links$IDsource <- match(links$source, nodes$name)-1 
+links$IDtarget <- match(links$target, nodes$name)-1
+
+links
+
+#remove rows where values are 0
+links<-links[links$value>0,]
+
+library(networkD3)
+library(dplyr)
+# Make the Network
+p <- sankeyNetwork(Links = links, Nodes = nodes,
+                   Source = "IDsource", Target = "IDtarget",
+                   Value = "value", NodeID = "name", 
+                   sinksRight=FALSE)
+
+p
+
+saveNetwork(p, "figures/sankey_ward_one_hot.html")
