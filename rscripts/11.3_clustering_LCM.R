@@ -6,16 +6,20 @@ df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
 #numeric columns only
 nums <- unlist(lapply(df, is.numeric))
 facts <- unlist(lapply(df, is.factor))
-
 df_nums<-scale(df[ , nums])
-
 df2<-cbind(df_nums,df[ , facts])
 
+#load data with NAs imputed
+df2<-read.csv("outputs/imputed_with_phylo.csv",row.names = 1)
+
+#remove biasing quantitative columns
+df2<-subset(df2, select = -c(Number.of.fertile.stamens,Fusion.of.ovaries))
+
 # Cluster analysis without variable selection
-res_without <- VarSelCluster(df2, gvals = 1:4, vbleSelec = FALSE, crit.varsel = "BIC")
+res_without <- VarSelCluster(df2, gvals = 1:5, vbleSelec = FALSE, crit.varsel = "BIC")
 
 # Cluster analysis with variable selection (with parallelisation)
-res_with <- VarSelCluster(df2, gvals = 1:4, crit.varsel = "BIC")
+res_with <- VarSelCluster(df2, gvals = 1:10, crit.varsel = "BIC")
 
 #Comparison of the BIC for both models: variable selection permits to improve the BIC
 BIC(res_without)
@@ -33,14 +37,14 @@ summary(res_with)
 # Discriminative power of the variables. The greater this index, the more the variable distinguishes the clusters.
 plot(res_with)
 
-# Boxplot for the continuous variable MaxHeartRate
+# Boxplot for the continuous variable
 plot(x=res_with, y="Numberoffertilestamens")
 
 #Empirical and theoretical distributions of the most discriminative variable (to check that the distribution is well-fitted)
-plot(res_with, y="Numberoffertilestamens", type="cdf")
+plot(res_with, y="Number.of.fertile.stamens", type="cdf")
 
 # Summary of categorical variable
-plot(res_with, y="Woodiness")
+plot(res_with, y="Woodiness_herbaceous")
 
 # More detailed output
 print(res_with)
@@ -71,7 +75,7 @@ dataset_pcoa <- ape::pcoa(dataset_dist)
 #plot points on first two axes, coloured by cluster
 library(ggplot2)
 
-ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.factor(fitted(res_with)))) +
+ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.3, fill = as.factor(fitted(res_with)))) +
   geom_point(
     color="black",
     shape=21,
@@ -85,4 +89,4 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.f
   xlab(paste("Axis 1: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[1],2))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[2],2)))
 
-ggsave("figures/pcoa_LCM_k3.png",width = 12,height=10)
+ggsave("figures/pcoa_LCM_k4.png",width = 12,height=10)

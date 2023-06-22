@@ -694,3 +694,101 @@ p <- sankeyNetwork(Links = links, Nodes = nodes,
 p
 
 saveNetwork(p, "figures/sankey_ward.html")
+
+
+#####
+#Boxplots and stacked barplots for robust groups
+#####
+
+# library
+library(ggplot2)
+library(gridExtra)
+
+#make label
+#robust_group<-paste("kpro_robust_",robust_vect_kpro_full,sep="")
+
+#check names
+rownames(df)==rownames(clust.num.k.2.7.df)
+
+#add label to group
+df_labelled<-cbind(df,clust.num.k.2.7.df$`3clusters`)
+
+#change colname for label
+colnames(df_labelled)[length(colnames(df_labelled))]<-"cluster"
+
+#empty list for plots
+plot_list <- list()
+
+#make plots
+for(i in 1:(length(colnames(df_labelled))-1)){
+  
+  #for quantitative
+  if(is.numeric(df_labelled[,i])){
+    plot_list[[i]]<-ggplot(df_labelled, aes(x=cluster, y=!!as.name(colnames(df_labelled)[i]), fill=cluster)) + 
+      geom_boxplot() + geom_jitter(shape=16, position=position_jitter(0.1)) + theme(legend.position = "none",axis.text.x = element_text(angle = 90),axis.title.x = element_blank(),plot.margin = unit(c(1,1,1,1), "cm"))  
+  } else {   #for qualitative
+    plot_list[[i]]<-ggplot(df_labelled, aes(x=cluster, fill = !!as.name(colnames(df_labelled)[i]))) +
+      geom_bar(stat="count") + theme(axis.text.x = element_text(angle = 90),axis.title.x = element_blank(),plot.margin = unit(c(1,1,1,1), "cm"))
+  }
+  
+}
+
+pdf("figures/k3_kpro_plots.pdf",width = 15,height = 15)
+
+print(grid.arrange(grobs=plot_list[1:4],ncol=2,nrow=2))
+print(grid.arrange(grobs=plot_list[5:8],ncol=2,nrow=2))
+print(grid.arrange(grobs=plot_list[9:12],ncol=2,nrow=2))
+print(grid.arrange(grobs=plot_list[13:16],ncol=2,nrow=2))
+print(grid.arrange(grobs=plot_list[17:19],ncol=2,nrow=2))
+
+dev.off()
+
+###
+# Plot qualitative stats of robust groups
+###
+library(data.table)
+
+#add group size to robust group label
+for (i in 1:length(unique(df_labelled$cluster))) {
+  df_labelled$cluster[df_labelled$cluster %in% sort(unique(df_labelled$cluster))[i]] <-
+    paste(
+      sort(unique(df_labelled$cluster))[i],
+      " (n = ",
+      table(df_labelled$cluster)[i],
+      ")",
+      sep = ""
+    )
+  
+}
+
+#make as factor for grouping
+df_labelled$cluster<-as.factor(df_labelled$cluster)
+
+#qualitative only
+facts <- unlist(lapply(df_labelled, is.factor))
+df_temp<-df_labelled[ , facts]
+
+#change table to long form and count combinations
+df_temp_melt<-data.table::melt(df_temp,id.vars="cluster")
+df_temp_melt_counts <- df_temp_melt %>% group_by(cluster,variable,value) %>% summarise(count=n())
+
+#add new column to remove text labels if counts are <5
+df_temp_melt_counts$label<-df_temp_melt_counts$value
+df_temp_melt_counts$label[df_temp_melt_counts$count<3]<-NA
+
+#make new column for text size
+#df_temp_melt_counts$text_size<-df_temp_melt_counts$count^(1/2)
+
+#plot stacked barplots per robust group for each qualitative trait, with labels
+ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
+  geom_col(position = 'stack') + facet_wrap(. ~ cluster, scales = "free")  + theme(
+    legend.position = "none",
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+    axis.title.x = element_blank(),
+    plot.margin = unit(c(1, 1, 1, 1), "cm")
+  ) + geom_text(aes(size = count,label = label),
+                angle = 90,
+                position = position_stack(vjust = .5))
+
+ggsave("figures/stacked_barplots_k3_ward.pdf",width=15,height=15)
+
