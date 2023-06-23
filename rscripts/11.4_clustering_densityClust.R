@@ -18,14 +18,14 @@ protClust <- densityClust(gower_df, gaussian=TRUE)
 plot(protClust) 
 
 #
-protClust <- findClusters(protClust, rho = 16,delta = 0.13,verbose = FALSE,plot = TRUE)
+protClust <- findClusters(protClust, rho = 25,delta = 0.2,verbose = FALSE,plot = TRUE)
 
 #view cluster membership of species
 split(rownames(df), protClust$clusters)
 
 #vectors of values of stats for decision graphs that yield 2 to 7 clusters
-rho_v<-c(16,16,15,15,15,15)
-delta_v<-c(0.13,0.1,0.1,0.085,0.065,0.05)
+rho_v<-c(45,35,29,25,25,25)
+delta_v<-c(0.6,0.6,0.6,0.6,0.5,0.2)
 
 #make df with different numbers of clusters
 for(i in 1:length(rho_v)){

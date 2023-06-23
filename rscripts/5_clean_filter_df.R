@@ -37,9 +37,9 @@ df <- df[ , (colSums(is.na(df)) < length(df[,1])*0.5)]
 str(df)
 
 # Remove line with too much missing data ----
-df <- df[(rowSums(is.na(df)) < length(df[1,])*0.25), ]
+df <- df[(rowSums(is.na(df)) < length(df[1,])*0.5), ]
 
-## ----- Outlier removal -----
+ ## ----- Outlier removal -----
 
 ## Think about removal thresholds
 

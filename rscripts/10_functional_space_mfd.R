@@ -181,6 +181,8 @@ phy<-read.tree("outputs/pruned_tree.tre")
 #dev.off()
 
 #split species into monocots, magnoliids and dicots
+#NODES NEED TO BE CHANGED FOR NEW TREE
+
 monocots_phy<-extract.clade(phy,node=609)
 monocots_phy$tip.label
 mag_phy<-extract.clade(phy,node=665)

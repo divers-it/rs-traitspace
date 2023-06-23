@@ -10,6 +10,15 @@ df <- read.csv(
   row.names = 1
 )
 
+# Read non-onehot dataset
+df2 <- read.csv(
+  file      = here::here("outputs/", "proteus_combined.csv"),
+  header    = TRUE,
+  row.names = 1
+)
+
+rownames(df)==rownames(df2)
+
 # Traits Preparation and Categorization ----
 
 #dataset structure
@@ -38,8 +47,9 @@ dev.off()
 df <- df[ , (colSums(is.na(df)) < length(df[,1])*0.5)]
 str(df)
 
-# Remove line with too much missing data ----
-df <- df[(rowSums(is.na(df)) < length(df[1,])*0.7), ]
+# Remove line with too much missing data IN NORMAL (NON-ONEHOT DATA)----
+df2 <- df2[ , (colSums(is.na(df2)) < length(df2[,1])*0.5)]
+df <- df[(rowSums(is.na(df2)) < length(df2[1,])*0.5), ]
 
 ## ----- Outlier removal -----
 

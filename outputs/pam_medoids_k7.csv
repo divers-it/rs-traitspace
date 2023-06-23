@@ -1,0 +1,8 @@
+"","Maximumverticalheight","Numberoffertilestamens","Numberofovulesperfunctionalcarpel","Numberofstructuralcarpels","Fusionofovaries","flowerSize","Woodiness","Climbing","Aquatic","SexualSystem","Lifespan","Mating","Pollination","Dispersal","FlowerSex","OvaryPosition","FloralReward","FlowerSymmetry","Showiness"
+"Pinguicula alpina",NA,NA,NA,NA,NA,NA,"herbaceous","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic","autonomous","bisexual",NA,NA,NA,"bright"
+"Octoknema borealis",NA,-0.394826045217788,-0.756754171877216,0.0378247436051703,NA,0.501183165102569,"woody","non-climbing","non-aquatic","dimorphic","long","outcrossing",NA,NA,"unisexual",NA,NA,"actinomorphic",NA
+"Phryma leptostachya",-0.543577191043608,-0.610127061092523,-0.756754171877216,-0.583834561944455,0.41221232432831,NA,"herbaceous","non-climbing","non-aquatic","monomorphic","long",NA,"biotic",NA,"bisexual","superior",NA,"zygomorphic","bright"
+"Malesherbia linearifolia",-0.33726532857838,-0.394826045217788,2.79840236978065,0.0378247436051703,0.41221232432831,0.536455982944784,"herbaceous","non-climbing","non-aquatic","monomorphic","long",NA,"biotic",NA,"bisexual","superior",NA,"actinomorphic","bright"
+"Rourea induta",0.464610374854315,0.273959995186872,NA,NA,NA,-0.172923796399207,"woody","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic",NA,"bisexual",NA,NA,NA,NA
+"Vellozia squamata",NA,NA,NA,NA,NA,NA,"woody","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic",NA,"bisexual",NA,NA,"actinomorphic","bright"
+"Typha latifolia",0.131801888169146,-1.27891310149718,-0.756754171877216,-1.64656816415524,NA,NA,"herbaceous","non-climbing","non-aquatic","monomorphic","long",NA,"abiotic","abiotic","unisexual","superior","none",NA,"dull"

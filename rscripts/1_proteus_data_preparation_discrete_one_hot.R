@@ -3,7 +3,7 @@ library(tidyverse)
 library(gtools)
 
 #import data
-dg<-read.csv("data/qryDiveRS_Data_2022-12-02.csv")
+dg<-read.csv("data/qryDiveRS_Data_2023-05-21.csv")
 str(dg)
 
 #filter by quality

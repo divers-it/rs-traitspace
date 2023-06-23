@@ -204,7 +204,7 @@ dataset_pcoa <- ape::pcoa(dataset_dist)
 # aggl.clust.c (complete) = 4
 # aggl.clust.a (average) = 2
 # aggl.clust.w (ward) = 5
-clust.num <- cutree(aggl.clust.w, k = 5)
+clust.num <- cutree(aggl.clust.w, k = 4)
 
 #make matrix for downstream use
 clust.num.stack <- table(stack(clust.num))
@@ -250,50 +250,10 @@ ggplot(data.frame(dataset_pcoa$vectors),
     round(dataset_pcoa$values$Relative_eig[2], 2)
   ))
 
-ggsave("figures/pcoa_hclust_k5_one_hot.png",
+ggsave("figures/pcoa_hclust_k4_one_hot.png",
        width = 12,
        height = 10)
 
-#same but for k = 3
-clust.num <- cutree(aggl.clust.w, k = 3)
-#make matrix for downstream use
-clust.num.stack <- table(stack(clust.num))
-clust.num.stack <- as.data.frame.matrix(clust.num.stack)
-rownames(clust.num.stack) <- c("cluster1",
-                               "cluster2",
-                               "cluster3")
-saveRDS(clust.num.stack, "outputs/clust.num.one_hot.stack3.Rds")
-
-
-#plot points on first two axes, coloured by cluster
-ggplot(data.frame(dataset_pcoa$vectors),
-       aes(
-         x = Axis.1,
-         y = Axis.2,
-         fill = as.factor(clust.num)
-       )) +
-  geom_point(
-    color = "black",
-    shape = 21,
-    alpha = 0.5,
-    size = 3,
-    stroke = 0.5
-  ) +
-  stat_ellipse(geom = "polygon",
-               aes(fill = as.factor(clust.num)),
-               alpha = 0.25) +
-  xlab(paste(
-    "Axis 1: relative eigenvalue =",
-    round(dataset_pcoa$values$Relative_eig[1], 2)
-  )) +
-  ylab(paste(
-    "Axis 2: relative eigenvalue =",
-    round(dataset_pcoa$values$Relative_eig[2], 2)
-  ))
-
-ggsave("figures/pcoa_hclust_k3_one_hot.png",
-       width = 12,
-       height = 10)
 
 ####
 # Sankey plot
@@ -366,3 +326,51 @@ p <- sankeyNetwork(Links = links, Nodes = nodes,
 p
 
 saveNetwork(p, "figures/sankey_ward_one_hot.html")
+
+
+#####
+#Boxplots and stacked barplots for robust groups
+#####
+
+# library
+library(ggplot2)
+library(gridExtra)
+
+#make label
+#robust_group<-paste("kpro_robust_",robust_vect_kpro_full,sep="")
+
+#check names
+rownames(df2)==rownames(clust.num.k.2.7.df)
+
+#add label to group
+df_labelled<-cbind(df2,clust.num.k.2.7.df$`4clusters`)
+
+#change colname for label
+colnames(df_labelled)[length(colnames(df_labelled))]<-"cluster"
+
+#empty list for plots
+plot_list <- list()
+
+#make plots
+for(i in 1:(length(colnames(df_labelled))-1)){
+  
+  #for quantitative
+  if(is.numeric(df_labelled[,i])){
+    plot_list[[i]]<-ggplot(df_labelled, aes(x=cluster, y=!!as.name(colnames(df_labelled)[i]), fill=cluster)) + 
+      geom_boxplot() + geom_jitter(shape=16, position=position_jitter(0.1)) + theme(legend.position = "none",axis.text.x = element_text(angle = 90),axis.title.x = element_blank(),plot.margin = unit(c(1,1,1,1), "cm"))  
+  } else {   #for qualitative
+    plot_list[[i]]<-ggplot(df_labelled, aes(x=cluster, fill = !!as.name(colnames(df_labelled)[i]))) +
+      geom_bar(stat="count") + theme(axis.text.x = element_text(angle = 90),axis.title.x = element_blank(),plot.margin = unit(c(1,1,1,1), "cm"))
+  }
+  
+}
+
+pdf("figures/k4_ward_plots.pdf",width = 15,height = 15)
+
+print(grid.arrange(grobs=plot_list[1:4],ncol=2,nrow=2))
+print(grid.arrange(grobs=plot_list[5:8],ncol=2,nrow=2))
+print(grid.arrange(grobs=plot_list[9:12],ncol=2,nrow=2))
+print(grid.arrange(grobs=plot_list[13:16],ncol=2,nrow=2))
+print(grid.arrange(grobs=plot_list[17:19],ncol=2,nrow=2))
+
+dev.off()

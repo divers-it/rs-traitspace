@@ -56,8 +56,8 @@ rownames(clust.num.k.2.7.df)<-names(pam.gower$clustering)
 
 saveRDS(clust.num.k.2.7.df, file = here::here("outputs/clust_num_k_2_7_pam.rds"))
 
-#construct a PAM model with 3 clusters, and try to interpret the behavior of these clusters with the help of the medoids.
-pam.gower = pam(gower_df, diss = TRUE, k = 3)
+#construct a PAM model with X clusters, and try to interpret the behavior of these clusters with the help of the medoids.
+pam.gower = pam(gower_df, diss = TRUE, k =3)
 df[pam.gower$medoids, ]
 write.csv(df[pam.gower$medoids, ], "outputs/pam_medoids_k3.csv")
 
@@ -176,6 +176,9 @@ colnames(clust.num.k.2.7)<-c("2clusters",
                              "6clusters",
                              "7clusters")
 clust.num.k.2.7.df <-as.data.frame(clust.num.k.2.7)
+
+#fix rownames again
+rownames(clust.num.k.2.7.df)<-names(pam.gower$clustering)
 
 saveRDS(clust.num.k.2.7.df, file = here::here("outputs/clust_num_k_2_7_pam.rds"))
 
@@ -347,14 +350,7 @@ ggplot(
     stroke = 0.5
   )
 
-ggplot(tsne_df_robust, aes(x = X, y = Y, fill = as.factor(robust_vect_pam_full))) +
-  geom_point(
-    color="black",
-    shape=21,
-    alpha=0.5,
-    size=3,
-    stroke = 0.5
-  )
+ggsave("figures/scatter_pcoa_pam_robust.png",width=12,height=10)
 
 #species that dont belong to robust group
 df_not_robust<-df[is.na(robust_vect_pam_full),]

@@ -66,6 +66,11 @@ dev.off()
 
 par(mfrow=c(1,1))
 
+#dissimilarity matrix calculation
+library(cluster)
+gower_df <- daisy(df,
+                  metric = "gower" )
+
 #convert to distance matrix
 dataset_dist <- stats::as.dist(gower_df)
 
@@ -289,6 +294,8 @@ ggplot(
     size = 3,
     stroke = 0.5
   )
+
+
 
 #species that dont belong to robust group
 df_not_robust<-df[is.na(robust_vect_kpro_full),]
