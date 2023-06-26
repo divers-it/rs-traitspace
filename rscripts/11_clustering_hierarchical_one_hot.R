@@ -3,8 +3,8 @@ library(dplyr)
 
 #load formatted data
 df2<-readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
-df2[sapply(df2, is.factor)] <- lapply(df2[sapply(df2, is.factor)],
-                                     as.integer)
+#df2[sapply(df2, is.factor)] <- lapply(df2[sapply(df2, is.factor)],
+#                                     as.integer)
 
 #dissimilarity matrix
 library(cluster)
@@ -212,9 +212,8 @@ clust.num.stack <- as.data.frame.matrix(clust.num.stack)
 rownames(clust.num.stack) <- c("cluster1",
                                "cluster2",
                                "cluster3",
-                               "cluster4",
-                               "cluster5")
-saveRDS(clust.num.stack, "outputs/clust.num.one_hot.stack5.Rds")
+                               "cluster4")
+saveRDS(clust.num.stack, "outputs/clust.num.one_hot.stack4.Rds")
 
 #get subset of species names to highlight
 sp_names <- rownames(dataset_pcoa$vectors)
@@ -374,3 +373,56 @@ print(grid.arrange(grobs=plot_list[13:16],ncol=2,nrow=2))
 print(grid.arrange(grobs=plot_list[17:19],ncol=2,nrow=2))
 
 dev.off()
+
+
+###
+# Plot qualitative stats of robust groups
+###
+library(data.table)
+
+df_labelled$cluster<-as.character(df_labelled$cluster)
+
+#add group size to robust group label
+for (i in 1:length(unique(df_labelled$cluster))) {
+  df_labelled$cluster[df_labelled$cluster %in% sort(unique(df_labelled$cluster))[i]] <-
+    paste(
+      sort(unique(df_labelled$cluster))[i],
+      " (n = ",
+      table(df_labelled$cluster)[i],
+      ")",
+      sep = ""
+    )
+  
+}
+
+#make as factor for grouping
+df_labelled$cluster<-as.factor(df_labelled$cluster)
+
+#qualitative only
+facts <- unlist(lapply(df_labelled, is.factor))
+df_temp<-df_labelled[ , facts]
+
+#change table to long form and count combinations
+df_temp_melt<-data.table::melt(df_temp,id.vars="cluster")
+df_temp_melt_counts <- df_temp_melt %>% group_by(cluster,variable,value) %>% summarise(count=n())
+
+#add new column to remove text labels if counts are <5
+df_temp_melt_counts$label<-df_temp_melt_counts$value
+df_temp_melt_counts$label[df_temp_melt_counts$count<3]<-NA
+
+#make new column for text size
+#df_temp_melt_counts$text_size<-df_temp_melt_counts$count^(1/2)
+
+#plot stacked barplots per robust group for each qualitative trait, with labels
+ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
+  geom_col(position = 'stack') + facet_wrap(. ~ cluster, scales = "free")  + theme(
+    legend.position = "none",
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+    axis.title.x = element_blank(),
+    plot.margin = unit(c(1, 1, 1, 1), "cm")
+  ) + geom_text(aes(label = label),
+                size = 2,
+                angle = 90,
+                position = position_stack(vjust = .5))
+
+ggsave("figures/stacked_barplots_ward_one_hot.pdf",width=15,height=15)
