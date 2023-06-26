@@ -307,12 +307,11 @@ df_temp_melt_counts$label[df_temp_melt_counts$count<3]<-NA
 ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
   geom_col(position = 'stack') + facet_wrap(. ~ cluster, scales = "free")  + theme(
     legend.position = "none",
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+    axis.text.x = element_text( vjust = 0.5, hjust=1),
     axis.title.x = element_blank(),
     plot.margin = unit(c(1, 1, 1, 1), "cm")
   ) + geom_text(aes(size = count,label = label),
-                angle = 90,
-                position = position_stack(vjust = .5))
+                                position = position_stack(vjust = .5)) + coord_flip()
 
-ggsave("figures/stacked_barplots_dens.pdf",width=15,height=15)
+ggsave("figures/stacked_barplots_dens.pdf",width=15,height=10)
 
