@@ -70,18 +70,18 @@ diaz_pcf<-scale(diaz_pcf, center = T, scale = T)
 
 #UNCOMMENT TO RUN WHEN NEEDED
 #dissimilarity matrix calculation
-#library(cluster)
-#gower_df <- daisy(diaz_pcf,
-#                  metric = "gower" )
-#
-#summary(gower_df)
-#
-#dataset_dist <- stats::as.dist(gower_df)
-#dataset_pcoa <- ape::pcoa(dataset_dist)
+library(cluster)
+gower_df <- daisy(diaz_pcf,
+                  metric = "gower" )
+
+summary(gower_df)
+
+dataset_dist <- stats::as.dist(gower_df)
+dataset_pcoa <- ape::pcoa(dataset_dist)
 
 #save/load pcoa image
 #save.image("outputs/diaz_pcoa.Rdata")
-load("outputs/diaz_pcoa.Rdata")
+#load("outputs/diaz_pcoa.Rdata")
 
 #make pcoa vectors a data frame
 df_pcoa<-data.frame(dataset_pcoa$vectors)
@@ -89,12 +89,12 @@ df_pcoa<-data.frame(dataset_pcoa$vectors)
 #check that pcoa is in same order as data
 table(rownames(diaz_cf)==rownames(df_pcoa))
 
-#stats for one species BEFORE reorder
-df_pcoa[rownames(df_pcoa)=="Zostera marina",c(1:3)]
-
 #set rownames
 rownames(diaz_cf)<-diaz_cf$Species_name_standardized_against_TP
 rownames(df_pcoa)<-diaz_cf$Species_name_standardized_against_TP
+
+#stats for one species BEFORE reorder
+df_pcoa[rownames(df_pcoa)=="Zostera marina",c(1:3)]
 
 #make column for inclusion in DiveRS dataset
 diaz_cf$divers<-as.numeric(diaz_cf$Species_name_standardized_against_TP%in%rownames(df))
