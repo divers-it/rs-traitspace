@@ -80,7 +80,7 @@ dataset_dist <- stats::as.dist(gower_df)
 dataset_pcoa <- ape::pcoa(dataset_dist)
 
 #save/load pcoa image
-#save.image("outputs/diaz_pcoa.Rdata")
+save.image("outputs/diaz_pcoa.Rdata")
 #load("outputs/diaz_pcoa.Rdata")
 
 #make pcoa vectors a data frame

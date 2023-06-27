@@ -96,7 +96,7 @@ rownames(seedMass)==rownames(proteus_combined)
 setdiff(rownames(proteus_combined),rownames(seedMass))
 setdiff(rownames(seedMass),rownames(proteus_combined))
 
-#Synonmy issues
+#Synonymy issues
 rownames(seedMass)[grep("Arctostaphylos uvaursi",rownames(seedMass))]<-"Arctostaphylos uva-ursi"
 rownames(seedMass)[grep("Cleistes bifaria",rownames(seedMass))]<-"Cleistesiopsis bifaria"
 rownames(seedMass)[grep("Pitcairnia albifilos",rownames(seedMass))]<-"Pitcairnia albiflos"
@@ -104,6 +104,9 @@ rownames(seedMass)[grep("Ruellia nudiflora",rownames(seedMass))]<-"Ruellia cilia
 rownames(seedMass)[grep("Veronica anagallisaquatica",rownames(seedMass))]<-"Veronica anagallis-aquatica"
 
 str(seedMass[rownames(proteus_combined)%in%rownames(seedMass),])
+
+#percentage missing data
+table(is.na(seedMass$Seed_weight))[2]/length(seedMass$Seed_weight)
 
 #write dataset
 write.csv(proteus_combined,"outputs/proteus_combined.csv")
