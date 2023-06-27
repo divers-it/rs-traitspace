@@ -152,7 +152,6 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.f
 
 ggsave("figures/scatter_pcoa_pam_clusters.png",width=12,height=10)
 
-
 ####
 # Sankey plot
 ####
@@ -197,7 +196,6 @@ for(i in 1:(length(colnames(clust.num.k.2.7.df))-1)){
   }
   
 }
-
 
 # From these flows we need to create a node data frame: it lists every entities involved in the flow
 nodes <- data.frame(
@@ -250,7 +248,6 @@ robust<-list()
 #empty vector
 robust_vect_pam<-rep(NA,length(rownames(dataset_pcoa$vectors)))
 names(robust_vect_pam)<-rownames(dataset_pcoa$vectors)
-
 
 #loop through ordered table to extract robust groups
 for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>20])){
@@ -326,9 +323,33 @@ rownames(rob_mat_names)<-paste("robust",c(1:length(unique(robust_vect_pam))),sep
 colnames(rob_mat_names)<-colnames(df)
 rob_mat_names
 
-#Plot robust groups
-tsne_df_robust<-cbind(tsne_df,robust_vect_pam_full)
+#check order
+rownames(dataset_pcoa$vectors)==names(robust_vect_pam_full)
 
+#Plot robust groups
+pcoa_robust<-cbind(dataset_pcoa$vectors,robust_vect_pam_full)
+
+#Plot robust groups
+#plot points on first two axes, coloured by cluster
+ggplot(
+  data.frame(pcoa_robust),
+  aes(
+    x = Axis.1,
+    y = Axis.2,
+    col = as.factor(robust_vect_pam_full)
+  )
+) +
+  geom_point(
+    aes(shape = as.factor(clust.num.k.2.7.df$`3clusters`)),
+    alpha = 0.5,
+    size = 3,
+    stroke = 0.5
+  )
+
+ggsave("figures/scatter_pcoa_pam_robust.png",width=12,height=10)
+
+#Plot robust groups tsne
+tsne_df_robust<-cbind(tsne_df,robust_vect_pam_full)
 
 #check order
 rownames(tsne_df_robust)==rownames(clust.num.k.2.7.df)
@@ -350,7 +371,7 @@ ggplot(
     stroke = 0.5
   )
 
-ggsave("figures/scatter_pcoa_pam_robust.png",width=12,height=10)
+ggsave("figures/scatter_tsne_pam_robust.png",width=12,height=10)
 
 #species that dont belong to robust group
 df_not_robust<-df[is.na(robust_vect_pam_full),]

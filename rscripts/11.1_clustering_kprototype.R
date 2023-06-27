@@ -1,6 +1,7 @@
 library(dplyr)
 library(clustMixType)
 library(wesanderson)
+library(ggplot2)
 
 #load formatted data
 df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
@@ -295,7 +296,7 @@ ggplot(
     stroke = 0.5
   )
 
-
+ggsave("figures/scatter_pcoa_kpro_robust.png",width=12,height=10)
 
 #species that dont belong to robust group
 df_not_robust<-df[is.na(robust_vect_kpro_full),]
@@ -385,11 +386,12 @@ df_temp_melt_counts$label[df_temp_melt_counts$count<3]<-NA
 ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
   geom_col(position = 'stack') + facet_wrap(. ~ robust_group, scales = "free")  + theme(
     legend.position = "none",
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+    axis.text.x = element_text(vjust = 0.5, hjust=1),
     axis.title.x = element_blank(),
     plot.margin = unit(c(1, 1, 1, 1), "cm")
   ) + geom_text(aes(size = count,label = label),
-                angle = 90,
-                position = position_stack(vjust = .5))
+                position = position_stack(vjust = .5)) + coord_flip()
 
 ggsave("figures/stacked_barplots_robust_groups_kpro.pdf",width=15,height=15)
+
+save.image(file = "outputs/kpro.RData")

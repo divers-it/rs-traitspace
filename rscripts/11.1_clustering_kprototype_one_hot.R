@@ -384,14 +384,14 @@ df_temp_melt_counts$label[df_temp_melt_counts$count<3]<-NA
 ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
   geom_col(position = 'stack') + facet_wrap(. ~ robust_group, scales = "free")  + theme(
     legend.position = "none",
-    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+    axis.text.x = element_text( vjust = 0.5, hjust=1),
     axis.title.x = element_blank(),
     plot.margin = unit(c(1, 1, 1, 1), "cm")
   ) + geom_text(aes(label = label),
                 size = 2,
-                angle = 90,
-                position = position_stack(vjust = .5))
+                position = position_stack(vjust = .5)) + coord_flip()
 
 ggsave("figures/stacked_barplots_robust_groups_kpro_one_hot.pdf",width=15,height=15)
 
+save.image(file = "outputs/kpro_one_hot.RData")
 
