@@ -51,8 +51,13 @@ synth_results <- function(trait_df, single_df, miss_final_df, dim_df) {
   Nb_miss_AUC_0.7  <- miss_final_df$"miss_percent"[tail(which(miss_final_df$"AUC" > 0.7), n = 1)]
   if (is_empty(Nb_miss_AUC_0.7) == TRUE) Nb_miss_AUC_0.7 <- NA
 
-  Perclost_AUC_50perctrait <- (1 - miss_final_df[miss_final_df$"miss_percent" == 0.5, ]$"AUC") * 100
-  Perclost_AUC_20perctrait <- (1 - miss_final_df[miss_final_df$"miss_percent" == 0.2, ]$"AUC") * 100
+  if(length(colnames(dataset))<7){
+    Perclost_AUC_20perctrait <- NA
+    Perclost_AUC_50perctrait <- NA
+  } else {
+    Perclost_AUC_20perctrait <- (1 - miss_final_df[miss_final_df$"miss_percent" == 0.2, ]$"AUC") * 100
+    Perclost_AUC_50perctrait <- (1 - miss_final_df[miss_final_df$"miss_percent" == 0.5, ]$"AUC") * 100
+  }
 
   Nb_miss_Mantel_0.5 <- miss_final_df$"miss_percent"[tail(which(miss_final_df$"mantel_r" > 0.5), n = 1)]
   Nb_miss_Mantel_0.7 <- miss_final_df$"miss_percent"[tail(which(miss_final_df$"mantel_r" > 0.7), n = 1)]

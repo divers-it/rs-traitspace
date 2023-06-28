@@ -2,6 +2,14 @@ rm(list=ls())
 library(dplyr)
 library(ggplot2)
 
+df<-read.csv("outputs/imputed_with_phylo.csv",row.names=1,stringsAsFactors = TRUE)
+
+#dissimilarity matrix calculation
+gower_df_no_miss <- daisy(df,
+                          metric = "gower" )
+
+summary(gower_df_no_miss)
+
 #load formatted data
 df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
 
@@ -11,6 +19,14 @@ gower_df <- daisy(df,
                   metric = "gower" )
 
 summary(gower_df)
+
+#check names
+labels(gower_df)==gsub("_"," ",labels(gower_df_no_miss))
+
+#compare pairwaise distances of matrics with missing data and with imputed
+pdf("figures/scatterplot_dist_missing_vs_imputed.pdf",width = 10,height = 10)
+plot(gower_df,gower_df_no_miss,xlim=c(0,1),ylim=c(0,1))
+dev.off()
 
 dataset_dist <- stats::as.dist(gower_df)
 dataset_pcoa <- ape::pcoa(dataset_dist)
@@ -28,6 +44,29 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
   ylab(paste("Axis 2: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[2],2)))
 
 ggsave("figures/scatter_pcoa2.png",
+       width = 15,
+       height = 15,
+       units = 'cm')
+
+#missing data per row (species)
+missDat<-rowSums(apply(is.na(df),2,as.numeric))/ncol(df)
+
+#check names
+rownames(dataset_pcoa$vectors)==rownames(df)
+
+#plot PCOA points on first two axes coloured by missing data
+ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
+  geom_point(
+    aes(color=missDat),
+    shape=16,
+    alpha=0.75,
+    size=2,
+    stroke = 0.5
+  ) +
+  xlab(paste("Axis 1: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[1],2))) +
+  ylab(paste("Axis 2: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[2],2)))
+
+ggsave("figures/scatter_pcoa_no_missing.png",
        width = 15,
        height = 15,
        units = 'cm')

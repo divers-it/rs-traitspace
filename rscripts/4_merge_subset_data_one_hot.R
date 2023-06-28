@@ -78,4 +78,40 @@ proteus_combined$Flower.size <- fs
 proteus_combined<-subset(proteus_combined, select=-c(Flower.diameter))
 proteus_combined<-subset(proteus_combined, select=-c(Flower.length))
 
+
+#####
+#add seed mass data
+#####
+
+#remove one duplicate row Corokia
+#synonyms are present e.g. Cleistes -> Cleistesiopsis
+seedMass<-read.csv("data/seedWeight.csv")
+rownames(seedMass)<-paste(seedMass$Genus,seedMass$Species,sep=" ")
+rownames(seedMass)==rownames(proteus_combined)
+
+#check differences between datasets
+setdiff(rownames(proteus_combined),rownames(seedMass))
+setdiff(rownames(seedMass),rownames(proteus_combined))
+
+#Synonymy issues
+rownames(seedMass)[grep("Arctostaphylos uvaursi",rownames(seedMass))]<-"Arctostaphylos uva-ursi"
+rownames(seedMass)[grep("Cleistes bifaria",rownames(seedMass))]<-"Cleistesiopsis bifaria"
+rownames(seedMass)[grep("Pitcairnia albifilos",rownames(seedMass))]<-"Pitcairnia albiflos"
+rownames(seedMass)[grep("Ruellia nudiflora",rownames(seedMass))]<-"Ruellia ciliatiflora"
+rownames(seedMass)[grep("Veronica anagallisaquatica",rownames(seedMass))]<-"Veronica anagallis-aquatica"
+
+str(seedMass[rownames(proteus_combined)%in%rownames(seedMass),])
+
+#percentage missing data
+table(is.na(seedMass$Seed_weight))[2]/length(seedMass$Seed_weight)
+
+#make df for merging
+seedMass_merge<-seedMass[rownames(proteus_combined)%in%rownames(seedMass),]
+
+#check row names
+rownames(proteus_combined)==rownames(seedMass_merge)
+
+#merge
+proteus_combined<-cbind(proteus_combined,seedMass_merge$Seed_weight)
+
 write.csv(proteus_combined,"outputs/proteus_combined_one_hot.csv")

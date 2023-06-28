@@ -88,7 +88,6 @@ diaz_pcf_od<-scale(diaz_pcf_od, center = T, scale = T)
 
 dataset<-data.frame(diaz_pcf_od)
 
-
 #missing data visualisation
 library(visdat)
 vis_miss(data.frame(dataset))
@@ -276,7 +275,7 @@ p <- ggplot(res_for_graph_dim, aes(x = dim, y = AUC, colour = taxa)) +
   
   scale_y_continuous(breaks = seq(0.1, 1, 0.2))
 
-grDevices::png(file = here::here("figures", "dimensionality_no_axes.png"))
+grDevices::png(file = here::here("figures", "dimensionality_no_axes_diaz.png"))
 
 print(p)
 
@@ -353,7 +352,7 @@ p2 <- ggplot(res_for_graph_miss, aes(x = miss_percent * 100, y = AUC,
 
 p2
 
-grDevices::png(file = here::here("figures", "dimensionality_trait_omission.png")) #SAVE A4
+grDevices::png(file = here::here("figures", "dimensionality_trait_omission_diaz.png")) #SAVE A4
 
 print(p2)
 
@@ -482,7 +481,7 @@ for (i in 1:length(taxas)) {
   hull <- rbind(hull, sub_hull)
 }
 
-grDevices::png(file = here::here("figures", "dimensionality_trait_space.png")) #SAVE A4
+grDevices::png(file = here::here("figures", "dimensionality_trait_space_diaz.png")) #SAVE A4
 
 print(p3)
 dev.off()

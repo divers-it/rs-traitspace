@@ -54,15 +54,24 @@ trait_number,old_trait,old_state,old_state_freq,new_trait,new_state
 90,Pollination syndrome (D1),(C) nonflying mammal,2,Pollination,biotic
 90,Pollination syndrome (D1),(G) insect (general),34,Pollination,biotic
 90,Pollination syndrome (D1),(H) autonomous,17,Pollination,autonomous
-95,Dispersal syndrome (D1),(0) unassisted dispersal,40,Dispersal,autonomous
-95,Dispersal syndrome (D1),(1) anemochory,32,Dispersal,abiotic
-95,Dispersal syndrome (D1),(2) endo-zoochory,49,Dispersal,biotic
-95,Dispersal syndrome (D1),(3) exo-zoochory,15,Dispersal,biotic
-95,Dispersal syndrome (D1),(4) hoarding,6,Dispersal,biotic
-95,Dispersal syndrome (D1),(5) myrmecochory,12,Dispersal,biotic
-95,Dispersal syndrome (D1),(6) hydrochory,32,Dispersal,abiotic
-95,Dispersal syndrome (D1),(7) ballistochory,10,Dispersal,autonomous
-15562,Fruit fleshiness (D1),(0) fleshy,,Dispersal,biotic
+95,Dispersal syndrome (D1),(0) unassisted dispersal,40,Dispersal_mode,autonomous
+95,Dispersal syndrome (D1),(1) anemochory,32,Dispersal_mode,abiotic
+95,Dispersal syndrome (D1),(2) endo-zoochory,49,Dispersal_mode,biotic
+95,Dispersal syndrome (D1),(3) exo-zoochory,15,Dispersal_mode,biotic
+95,Dispersal syndrome (D1),(4) hoarding,6,Dispersal_mode,biotic
+95,Dispersal syndrome (D1),(5) myrmecochory,12,Dispersal_mode,biotic
+95,Dispersal syndrome (D1),(6) hydrochory,32,Dispersal_mode,abiotic
+95,Dispersal syndrome (D1),(7) ballistochory,10,Dispersal_mode,autonomous
+15562,Fruit fleshiness (D1),(0) fleshy,,Dispersal_mode,biotic
+95,Dispersal syndrome (D1),(0) unassisted dispersal,40,Dispersal_dist,short
+95,Dispersal syndrome (D1),(1) anemochory,32,Dispersal_dist,long
+95,Dispersal syndrome (D1),(2) endo-zoochory,49,Dispersal_dist,long
+95,Dispersal syndrome (D1),(3) exo-zoochory,15,Dispersal_dist,long
+95,Dispersal syndrome (D1),(4) hoarding,6,Dispersal_dist,long
+95,Dispersal syndrome (D1),(5) myrmecochory,12,Dispersal_dist,short
+95,Dispersal syndrome (D1),(6) hydrochory,32,Dispersal_dist,long
+95,Dispersal syndrome (D1),(7) ballistochory,10,Dispersal_dist,short
+15562,Fruit fleshiness (D1),(0) fleshy,,Dispersal_dist,long
 100,Floral structural sex (D1),(0) bisexual,248,FlowerSex,bisexual
 100,Floral structural sex (D1),(1) incompletely unisexual,47,FlowerSex,unisexual
 100,Floral structural sex (D1),(2) unisexual,92,FlowerSex,unisexual

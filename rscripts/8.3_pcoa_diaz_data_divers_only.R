@@ -2,6 +2,8 @@ rm(list=ls())
 library(dplyr)
 library(ggplot2)
 
+par(mar=c(4,4,4,4))
+
 #load formatted DiveRS data
 df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
 
@@ -81,6 +83,10 @@ gower_df <- daisy(diaz_pcf,
 
 summary(gower_df)
 
+#euclidean distance
+#diaz_pcf[is.na(diaz_pcf)] <- 0
+#gower_df <- dist(diaz_pcf)
+
 dataset_dist <- stats::as.dist(gower_df)
 dataset_pcoa <- ape::pcoa(dataset_dist)
 
@@ -114,6 +120,19 @@ ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2, fill = as.factor(df_filt$Showiness))
 eig_df<-data.frame(c(1:9),dataset_pcoa$values$Relative_eig[1:9])
 colnames(eig_df)<-c("axis","relative_eigenvalue")
 eig_df$axis<-as.character(eig_df$axis)
+sum(na.omit(eig_df$relative_eigenvalue))
+
+#rename diaz data
+diaz_dist<-gower_df
+
+#DiveRS data distance matrix
+divers_dist <- daisy(df_filt,
+                  metric = "gower" )
 
 
+#check names
+labels(diaz_dist)==labels(divers_dist)
+
+#compare pairwaise distances of the two matrices
+plot(diaz_dist,divers_dist)
 

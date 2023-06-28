@@ -108,5 +108,17 @@ str(seedMass[rownames(proteus_combined)%in%rownames(seedMass),])
 #percentage missing data
 table(is.na(seedMass$Seed_weight))[2]/length(seedMass$Seed_weight)
 
+#make df for merging
+seedMass_merge<-seedMass[rownames(proteus_combined)%in%rownames(seedMass),]
+
+#check row names
+rownames(proteus_combined)==rownames(seedMass_merge)
+
+#merge
+proteus_combined<-cbind(proteus_combined,seedMass_merge$Seed_weight)
+
+#rename
+colnames(proteus_combined)[ncol(proteus_combined)]<-"seed_mass"
+
 #write dataset
 write.csv(proteus_combined,"outputs/proteus_combined.csv")

@@ -13,14 +13,14 @@ facts <- unlist(lapply(df, is.factor))
 str(df)
 boxplot(df[ , nums])
 
-#scale and combine
+#combine
 df2<-cbind(df[ , nums],df[ , facts])
 
 #plot histograms of quantitative variables
 pdf("figures/proteus_trait_hists.pdf")
 par(mfrow=c(3,3))
 #look at hists
-for(i in 1:6){
+for(i in 1:7){
   hist(df2[,i],main=colnames(df2)[i])
 }
 dev.off()
@@ -29,7 +29,7 @@ dev.off()
 pdf("figures/proteus_trait_hists_transformed.pdf")
 par(mfrow=c(3,3))
 
-for(i in 1:6){
+for(i in 1:7){
   hist(log(df2[,i]),main=colnames(df2)[i])
 }
 dev.off()
@@ -37,18 +37,18 @@ dev.off()
 #do log transformations
 #not logging ovaries and others that dont work
 #for(i in c(1,2,3,5,6)){
-for(i in c(1,2,3,4,6)){
+for(i in c(1,2,3,4,6,7)){
   df2[,i]<-log(df2[,i])
 }
 
 #scale and centre
-df2<-cbind(scale(df2[ , 1:6],center = T, scale = T),df[ , facts])
+df2<-cbind(scale(df2[ , 1:7],center = T, scale = T),df[ , facts])
 
 #plot histograms of logged (log10) variables
 pdf("figures/proteus_trait_hists_transformed_scaled.pdf")
 par(mfrow=c(3,3))
 
-for(i in 1:6){
+for(i in 1:7){
   hist(df2[,i],main=colnames(df2)[i])
 }
 dev.off()

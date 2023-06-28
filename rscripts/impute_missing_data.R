@@ -6,7 +6,8 @@ library(ape)
 library(corHMM)
 
 #load formatted data
-df<-readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
+df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+#df<-readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
 
 #insert '_' into rownames to match phylo
 df$species<-gsub(" ","_",rownames(df))
