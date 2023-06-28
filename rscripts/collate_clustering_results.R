@@ -104,8 +104,11 @@ rownames(rob_df)==names(dens_one_hot)
 #merge
 rob_df<-cbind(rob_df,dens_one_hot)
 
-
 #compare normal to one hot
 table(rob_df$ward,rob_df$ward_one_hot)
 table(rob_df$pam,rob_df$pam_one_hot)
 table(rob_df$kpro,rob_df$kpro_one_hot)
+
+#output csv
+rownames(rob_df)==rownames(df)
+write.csv(cbind(rob_df,df),"outputs/collate_clustering_results.csv")
