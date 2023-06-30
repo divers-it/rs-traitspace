@@ -99,10 +99,14 @@ rownames(diaz_pcf)<-diaz_cf$Species_name_standardized_against_TP
 
 #make pcoa vectors a data frame
 df_pcoa<-data.frame(dataset_pcoa$vectors)
+rownames(df_pcoa)<-rownames(dataset_pcoa$vectors)
 
 #filter DiveRS dataset by species with Diaz data (enough to calc PCOA)
 df_filt<-df[rownames(df)%in%rownames(diaz_pcf),]
 rownames(diaz_pcf)==rownames(df_filt)
+
+#save df with only species shared between divers and Diaz et al. for trait space quality comparison
+saveRDS(df_filt, file = here::here("outputs/df_filt_trans_shared.rds"))
 
 #plot PCOA points on first two axes
 ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2, fill = as.factor(df_filt$Showiness))) +

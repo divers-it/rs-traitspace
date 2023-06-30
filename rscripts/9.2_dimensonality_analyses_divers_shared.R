@@ -1,5 +1,5 @@
 #' @header *********************************************************************
-#' @dataset (01) Diaz et al. 2022
+#' @dataset (01) PROTEUS 2022
 #' @header *********************************************************************
 
 ## Load Project Addins (R Functions and Packages) ----
@@ -9,100 +9,14 @@ devtools::load_all()
 percent_list <- seq(0.1, 0.8, by = 0.1)
 
 # Read Dataset ----
-
-#load formatted DiveRS data
-df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
-
-#load substitutes (congenerics)
-subs<-readRDS(file = here::here("outputs/sub_genera.rds"))
-
-#load Diaz data
-diaz<-read.csv("data/diaz_species_mean_traits.csv")
-
-#get rid of non-angiosperm
-diaz[diaz$Phylogenetic_Group_General=="Angiosperm",]
-
-#clean columns
-diaz_c<-diaz[,c("Species_name_standardized_against_TPL",
-                "Genus",
-                "Family",
-                "Adaptation_to_terrestrial_or_aquatic_habitats",
-                "Woodiness",
-                "Growth_Form",
-                "Succulence",
-                "Nutrition_type_parasitism",
-                "Nutrition_type_carnivory",
-                "Leaf_type",
-                "Leaf_area_mm2",
-                "Nmass_mg_g",
-                "LMA_g_m2",
-                "Plant_height_m",
-                "Diaspore_mass_mg",
-                "SSD_observed_mg_mm3",
-                "LDMC_g_g",
-                "SSD_imputed_mg_mm3",
-                "SSD_combined_mg_mm3",
-                "Number_of_traits_with_values"
-)
-]
-
-rownames(diaz_c)<-diaz_c$Species_name_standardized_against_TPL
-
-#filter by number of observations
-diaz_cf<-diaz_c[diaz_c$Number_of_traits_with_values>3,]
-
-#only those columns for PCOA
-diaz_pcf<-diaz_cf[,c(
-  #"Adaptation_to_terrestrial_or_aquatic_habitats",
-  #"Woodiness",
-  #"Growth_Form",
-  #"Succulence",
-  #"Nutrition_type_parasitism",
-  #"Nutrition_type_carnivory",
-  #"Leaf_type",
-  "Leaf_area_mm2",
-  "Nmass_mg_g",
-  "LMA_g_m2",
-  "Plant_height_m",
-  "Diaspore_mass_mg",
-  #"SSD_observed_mg_mm3",
-  #"LDMC_g_g",
-  #"SSD_imputed_mg_mm3",
-  "SSD_combined_mg_mm3"#,
-  #"Number_of_traits_with_values"
-)
-]
-
-#select only DiveRS species
-diaz_pcf_od<-diaz_pcf[rownames(diaz_pcf)%in%rownames(df),]
-
-#add congenerics (this is done after filtering to only those with data for >x traits)
-#diaz_pcf_od<-rbind(diaz_pcf_od,diaz_pcf[rownames(diaz_pcf)%in%subs$Species_name_standardized_against_TPL,])
-
-#remove 0s by adding 1
-diaz_pcf_od$Diaspore_mass_mg<-diaz_pcf_od$Diaspore_mass_mg + 1
-
-#log transform and scale
-diaz_pcf_od<-log(diaz_pcf_od)
-diaz_pcf_od<-scale(diaz_pcf_od, center = T, scale = T)
-
-dataset<-data.frame(diaz_pcf_od)
-
-#missing data visualisation
-library(visdat)
-vis_miss(data.frame(dataset))
-
-#
-sort(rowSums(is.na(data.frame(dataset))))
+dataset <- readRDS(file = here::here("outputs/df_filt_trans_shared.rds"))
 
 # Run Analysis ----
-run_analysis(dataset, name = "diaz_2022_od")
+run_analysis(dataset, name = "shared_proteus_2023")
 rm(list = "dataset")
 
-#NEED TO MOVE FILES TO diaz_dimen folder
-
 ## Import Results ----
-
+#diaz results in 
 files <- list.files(path = here::here("outputs"), pattern = "_res.rds$",
                     full.names = TRUE)
 list_res <- lapply(files, function(x) readRDS(x))
@@ -275,7 +189,7 @@ p <- ggplot(res_for_graph_dim, aes(x = dim, y = AUC, colour = taxa)) +
   
   scale_y_continuous(breaks = seq(0.1, 1, 0.2))
 
-grDevices::png(file = here::here("figures", "dimensionality_no_axes_diaz.png"))
+grDevices::png(file = here::here("figures", "dimensionality_no_axes.png"),width = 1500,height = 1000)
 
 print(p)
 
@@ -352,7 +266,7 @@ p2 <- ggplot(res_for_graph_miss, aes(x = miss_percent * 100, y = AUC,
 
 p2
 
-grDevices::png(file = here::here("figures", "dimensionality_trait_omission_diaz.png")) #SAVE A4
+grDevices::png(file = here::here("figures", "dimensionality_trait_omission.png")) #SAVE A4
 
 print(p2)
 
@@ -481,7 +395,7 @@ for (i in 1:length(taxas)) {
   hull <- rbind(hull, sub_hull)
 }
 
-grDevices::png(file = here::here("figures", "dimensionality_trait_space_diaz.png")) #SAVE A4
+grDevices::png(file = here::here("figures", "dimensionality_trait_space.png")) #SAVE A4
 
 print(p3)
 dev.off()
