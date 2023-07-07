@@ -1,29 +1,28 @@
-#load library
+rm(list=ls())
+
+#load libraries
 library(tidyverse)
 library(gtools)
 
 #import data
-dg<-read.csv("data/qryDiveRS_Data_2023-05-21.csv")
-str(dg)
-
-#filter by quality
-#TO DO
+df<-read.csv("data/qryDiveRS_Data_2023-05-21.csv")
+str(df)
 
 #extract categorical data only
-cat_dg<-dg[grep("(D1)",dg$NChrDat),]
+cat_df<-df[grep("(D1)",df$NChrDat),]
 
 #remove extra metadata columns
-cat_dg<-cat_dg[,c(1,2,3,5)]
+cat_df<-cat_df[,c(1,2,3,5)]
 
-#pivot to wide format with traits as columnsm using ID to keep separate multiple records per species
-dg.wide <- pivot_wider(cat_dg, names_from = NChrDat, values_from = c(NCstDat),id_cols = c(NDat,NTaxDat))
-head(dg.wide)
+#pivot to wide format with traits as columns using ID to keep separate multiple records per species
+df.wide <- pivot_wider(cat_df, names_from = NChrDat, values_from = c(NCstDat),id_cols = c(NDat,NTaxDat))
+head(df.wide)
 
-#get rid of id column
-dg.wide<-dg.wide[,-1]
+#get rid of NDat species code column
+df.wide<-df.wide[,-1]
 
 #keep only distinct values per trait per species
-dg.wide<-distinct(dg.wide)
+df.wide<-distinct(df.wide)
 
 #categories that have been chosen for analysis
 chosen_cats<-c(
@@ -42,132 +41,112 @@ chosen_cats<-c(
   "660. Inflorescence attractive organ (D1)",
   "661. Inflorescence attractive color (D1)",
   "15562. Fruit fleshiness (D1)"
-  )
+)
 
 #subset dataframe to include only those chosen categories
-dg.wide.chosen<-dg.wide[,chosen_cats]
+df.wide.chosen<-df.wide[,chosen_cats]
 
 #generate table for all states per trait
-for(i in 1:length(colnames(dg.wide.chosen))) {
+for(i in 1:length(colnames(df.wide.chosen))) {
   if (i == 1) {
     trait_codes<-cbind(
-      rep(colnames(dg.wide.chosen)[i], length(table(dg.wide.chosen[, i]))),
-      names(table(dg.wide.chosen[, i])))
+      rep(colnames(df.wide.chosen)[i], length(table(df.wide.chosen[, i]))),
+      names(table(df.wide.chosen[, i])))
   } else {
     trait_codes<-rbind(trait_codes,cbind(
-      rep(colnames(dg.wide.chosen)[i], length(table(dg.wide.chosen[, i]))),
-      names(table(dg.wide.chosen[, i]))))
+      rep(colnames(df.wide.chosen)[i], length(table(df.wide.chosen[, i]))),
+      names(table(df.wide.chosen[, i]))))
   }
 }
 
-write.csv(trait_codes,"outputs/all_states_per_trait_one_hot.csv")
+#output table of all of the PROTEUS states for each trait (to help construct recoding table)
+write.csv(trait_codes,"outputs/all_states_per_trait.csv")
 
 #subset dataframe to include only those chosen categories and species names
-#what about ID?
-dg.wide.chosen<-dg.wide[,c("NTaxDat",chosen_cats)]
+df.wide.chosen<-df.wide[,c("NTaxDat",chosen_cats)]
 
 #rename columns to proteus trait number
-colnames(dg.wide.chosen)[2:length(colnames(dg.wide.chosen))]<-gsub("\\..*","",colnames(dg.wide.chosen)[2:length(colnames(dg.wide.chosen))])
+colnames(df.wide.chosen)[2:length(colnames(df.wide.chosen))]<-gsub("\\..*","",colnames(df.wide.chosen)[2:length(colnames(df.wide.chosen))])
 
 #change back to data frame from tibble
-dg.wide.chosen<-as.data.frame(dg.wide.chosen)
+df.wide.chosen<-as.data.frame(df.wide.chosen)
 
 #remove trait names before trait values
-#for(i in 2:length(colnames(dg.wide.chosen))){
-#  dg.wide.chosen[,i]<-gsub(".*\\. ","",gsub("\\(.*\\) ","",dg.wide.chosen[,i]))
-#}
-#remove trait names before trait values
-for(i in 2:length(colnames(dg.wide.chosen))){
-  dg.wide.chosen[,i]<-gsub(".*: ","",dg.wide.chosen[,i])
+for(i in 2:length(colnames(df.wide.chosen))){
+  df.wide.chosen[,i]<-gsub(".*: ","",df.wide.chosen[,i])
 }
 
-
-library(reshape2)
-
 #read in recoding table
-#dg_recode<-read.csv("data/trait_recoding - Categorical to more categorical.csv")
-dg_recode<-read.csv("data/trait_recoding - Categorical to categorical.csv")
+df_recode<-read.csv("data/trait_recoding - Categorical to categorical.csv")
 
 #empty list to store traits
 trait_list<-list()
 
+#reset i
 i<-1
 
-for(i in 1:length(unique(dg_recode$new_trait))){
-
-  #get dg for trait
-  trait_dg<-dg_recode[dg_recode$new_trait==unique(dg_recode$new_trait)[i],]
-
+# loop through traits to build trait list
+for(i in 1:length(unique(df_recode$new_trait))){
+  
+  #get df for trait
+  trait_df<-df_recode[df_recode$new_trait==unique(df_recode$new_trait)[i],]
+  
   #get trait number for new trait
- trait_no<-unique(trait_dg$trait_number)
+  trait_no<-unique(trait_df$trait_number)
   trait_no
-
+  
   #combine all old traits into one data frame
   for(j in 1:length(trait_no)){
     if(j == 1){
-      new_trait_dg<-dg.wide.chosen[,c("NTaxDat",as.character(trait_no[j]))]
+      new_trait_df<-df.wide.chosen[,c("NTaxDat",as.character(trait_no[j]))]
     } else {
-      tmp<-dg.wide.chosen[,c("NTaxDat",as.character(trait_no[j]))]
-      colnames(tmp)<-colnames(new_trait_dg)
-      new_trait_dg<-rbind(new_trait_dg,tmp)
+      tmp<-df.wide.chosen[,c("NTaxDat",as.character(trait_no[j]))]
+      colnames(tmp)<-colnames(new_trait_df)
+      new_trait_df<-rbind(new_trait_df,tmp)
     }
   }
-
+  
   #omit na values
-  new_trait_dg<-na.omit(new_trait_dg)
-
-   #select only old states of interest
-  new_trait_dg<-new_trait_dg[new_trait_dg[,2]%in%trait_dg$old_state,]
-
-  merge(trait_dg,new_trait_dg,by.x = 'old_state', by.y = 2, all.x = T)
-
+  new_trait_df<-na.omit(new_trait_df)
+  
+  #select only old states of interest
+  new_trait_df<-new_trait_df[new_trait_df[,2]%in%trait_df$old_state,]
+  
   #merge, adding new row that recodes old states to new states
-  trait_dg_merged<-merge(trait_dg,new_trait_dg,by.x = 'old_state', by.y = 2, all.x = T)
-  trait_dg_merged
-
-  colnames(trait_dg_merged)[6]=unique(trait_dg_merged$new_trait)
-
+  trait_df_merged<-merge(trait_df,new_trait_df,by.x = 'old_state', by.y = 2, all.x = T)
+  
+  #rename output column based on the new trait to fix names downstream
+  colnames(trait_df_merged)[6] <- unique(trait_df_merged$new_trait)
+  
   #reduce to species/state columns only
-  trait_dg_merged=trait_dg_merged[,c(6,7)]  
-
-  trait_list[[i]]<-trait_dg_merged
+  trait_list[[i]] <- trait_df_merged[,c(6,7)]  
   
   ###
-  # Figure out why this is necessary
+  # duplicate combinations may arise when trait recoding acts on multiple states for the same species
+  # e.g. Viburnum rufidulum is coded as a tree and a shrub in PROTEUS leading to two duplicate 'woody' states in the trait list 
   ###
+  
   #remove duplicate combinations
   trait_list[[i]]<-unique(trait_list[[i]])
   trait_list[[i]][,2]=as.character(trait_list[[i]][,2])
-
-  #one-hot encoding
-
-  trait_list[[i]]=dcast(data=melt(trait_list[[i]],id.vars="NTaxDat"), NTaxDat ~ variable + value, length)
   
-  #name list
-  #names(trait_list)[i]<-unique(trait_dg_merged$new_trait)
+  #one-hot encoding
+  trait_list[[i]] <- dcast(data=melt(trait_list[[i]],id.vars="NTaxDat"), NTaxDat ~ variable + value, length)
   
 }
-
-#trait_list[[1]]=data.frame(NTaxDat=unique(dg.wide.chosen$NTaxDat))
-
 
 str(trait_list)
 
 #Merge dataframes in list
 for(i in 1:length(trait_list)){
   if(i == 1){
-    disc_dg<-trait_list[[i]]
+    disc_df<-trait_list[[i]]
   } else {
-    disc_dg<-merge(disc_dg,trait_list[[i]],by.x = 'NTaxDat', by.y = 'NTaxDat', all = T)
+    disc_df<-merge(disc_df,trait_list[[i]],by.x = 'NTaxDat', by.y = 'NTaxDat', all = T)
   }
 }
 
-#fix column names
-
-#colnames(disc_dg)[2:length(colnames(disc_dg))]<-gsub(".*_","",colnames(disc_dg)[2:length(colnames(disc_dg))])
-
-
-
-write.csv(disc_dg,"outputs/proteus_discrete_one_hot.csv")
+#output csv for downstream use
+write.csv(disc_df,"outputs/proteus_discrete_recoded_one_hot.csv")
 
 

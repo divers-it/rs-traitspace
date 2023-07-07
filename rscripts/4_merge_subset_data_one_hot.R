@@ -1,20 +1,26 @@
+rm(list=ls())
 
-#cleanup
-disc_df<-read.csv("outputs/proteus_discrete_one_hot.csv")
-disc_df<-disc_df[,-1]
-str(disc_df)
+#load discrete data
+disc_df<-read.csv("outputs/proteus_discrete_recoded_one_hot.csv",row.names = 1)
+head(disc_df)
 
-qr_df<-read.csv("outputs/proteus_quant_recoded_one_hot.csv")
-qr_df<-qr_df[,-1]
+#load recoded quantitative data
+qr_df<-read.csv("outputs/proteus_quant_recoded_one_hot.csv",row.names = 1)
+head(qr_df)
 
-quant_df<-read.csv("outputs/proteus_quantitative.csv")
-quant_df<-quant_df[,-1]
+#load quantitative data
+quant_df<-read.csv("outputs/proteus_quantitative.csv",row.names = 1)
+str(quant_df)
 
 #remove min and max
 quant_df<-quant_df[,c(1,grep("meanValDat",colnames(quant_df)))]
 
 #merge discrete+recoded discrete
 disc_qr_df<-merge(disc_df, qr_df, by.x = 'NTaxDat', by.y = 'species', all.x = T)
+
+##
+# TO RECODE
+##
 
 #merge mating traits (discrete- and rate-based)
 disc_qr_df[is.na(disc_qr_df$Mating_selfing),]$Mating_selfing=disc_qr_df[is.na(disc_qr_df$Mating_selfing),]$outcrossing_rate_selfing
@@ -50,8 +56,10 @@ colnames(df)<-gsub("^\\.","",colnames(df))
 colnames(df)<-gsub("\\.$","",colnames(df))
 colnames(df)
 
+#Note: this is not removed in the original data set so it is kept here as well
 #remove ovary position
-df=df[,-grep("OvaryPosition",colnames(df))]
+#df <- df[,-grep("OvaryPosition",colnames(df))]
+
 #remove first column (names) and add to rownames
 proteus_combined<-df[,-1]
 rownames(proteus_combined)<-df[,"NTaxDat"]
@@ -60,16 +68,8 @@ rownames(proteus_combined)<-df[,"NTaxDat"]
 fl<-proteus_combined$Flower.length
 fw<-proteus_combined$Flower.diameter
 
-#make NA 0 to get max values
-fl[is.na(fl)]<-0
-fw[is.na(fw)]<-0
-
 #retrieve max values
-fs<-pmax(fl,fw)
-fs
-
-#convert 0s back to NAs
-fs[fs==0]<-NA
+fs<-pmax(fl,fw,na.rm = TRUE)
 
 #make new column with maximum of length and diameter
 proteus_combined$Flower.size <- fs
@@ -78,22 +78,22 @@ proteus_combined$Flower.size <- fs
 proteus_combined<-subset(proteus_combined, select=-c(Flower.diameter))
 proteus_combined<-subset(proteus_combined, select=-c(Flower.length))
 
-
 #####
 #add seed mass data
 #####
 
-#remove one duplicate row Corokia
-#synonyms are present e.g. Cleistes -> Cleistesiopsis
+#Removed one duplicate row Corokia
 seedMass<-read.csv("data/seedWeight.csv")
 rownames(seedMass)<-paste(seedMass$Genus,seedMass$Species,sep=" ")
+
+#check rownames match
 rownames(seedMass)==rownames(proteus_combined)
 
-#check differences between datasets
+#check differences between data sets
 setdiff(rownames(proteus_combined),rownames(seedMass))
 setdiff(rownames(seedMass),rownames(proteus_combined))
 
-#Synonymy issues
+#Fix synonymy issues
 rownames(seedMass)[grep("Arctostaphylos uvaursi",rownames(seedMass))]<-"Arctostaphylos uva-ursi"
 rownames(seedMass)[grep("Cleistes bifaria",rownames(seedMass))]<-"Cleistesiopsis bifaria"
 rownames(seedMass)[grep("Pitcairnia albifilos",rownames(seedMass))]<-"Pitcairnia albiflos"
@@ -108,10 +108,13 @@ table(is.na(seedMass$Seed_weight))[2]/length(seedMass$Seed_weight)
 #make df for merging
 seedMass_merge<-seedMass[rownames(proteus_combined)%in%rownames(seedMass),]
 
-#check row names
+#check row names after fixing synonyms
 rownames(proteus_combined)==rownames(seedMass_merge)
 
 #merge
 proteus_combined<-cbind(proteus_combined,seedMass_merge$Seed_weight)
+
+#rename
+colnames(proteus_combined)[ncol(proteus_combined)]<-"seedMass"
 
 write.csv(proteus_combined,"outputs/proteus_combined_one_hot.csv")

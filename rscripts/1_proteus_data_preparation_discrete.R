@@ -1,4 +1,6 @@
-#load library
+rm(list=ls())
+
+#load libraries
 library(tidyverse)
 library(gtools)
 
@@ -16,7 +18,7 @@ cat_df<-cat_df[,c(1,2,3,5)]
 df.wide <- pivot_wider(cat_df, names_from = NChrDat, values_from = c(NCstDat),id_cols = c(NDat,NTaxDat))
 head(df.wide)
 
-#get rid of id column
+#get rid of NDat species code column
 df.wide<-df.wide[,-1]
 
 #keep only distinct values per trait per species
@@ -57,10 +59,10 @@ for(i in 1:length(colnames(df.wide.chosen))) {
   }
 }
 
+#output table of all of the PROTEUS states for each trait (to help construct recoding table)
 write.csv(trait_codes,"outputs/all_states_per_trait.csv")
 
 #subset dataframe to include only those chosen categories and species names
-#what about ID?
 df.wide.chosen<-df.wide[,c("NTaxDat",chosen_cats)]
 
 #rename columns to proteus trait number
@@ -80,12 +82,10 @@ df_recode<-read.csv("data/trait_recoding - Categorical to categorical.csv")
 #empty list to store traits
 trait_list<-list()
 
+#reset i
 i<-1
 
-######
-# The loop below appears to remove Rafflesia - find out the problem!
-######
-
+# loop through traits to build trait list
 for(i in 1:length(unique(df_recode$new_trait))){
 
   #get df for trait
@@ -112,8 +112,6 @@ for(i in 1:length(unique(df_recode$new_trait))){
   #select only old states of interest
   new_trait_df<-new_trait_df[new_trait_df[,2]%in%trait_df$old_state,]
 
-  merge(trait_df,new_trait_df,by.x = 'old_state', by.y = 2, all.x = T)
-
   #merge, adding new row that recodes old states to new states
   trait_df_merged<-merge(trait_df,new_trait_df,by.x = 'old_state', by.y = 2, all.x = T)
 
@@ -121,8 +119,10 @@ for(i in 1:length(unique(df_recode$new_trait))){
   trait_list[[i]]<-trait_df_merged[,c('NTaxDat','new_state')]
   
   ###
-  # Figure out why this is necessary
+  # duplicate combinations may arise when trait recoding acts on multiple states for the same species
+  # e.g. Viburnum rufidulum is coded as a tree and a shrub in PROTEUS leading to two duplicate 'woody' states in the trait list 
   ###
+  
   #remove duplicate combinations
   trait_list[[i]]<-unique(trait_list[[i]])
   trait_list[[i]][,2]=as.character(trait_list[[i]][,2])
@@ -133,7 +133,6 @@ for(i in 1:length(unique(df_recode$new_trait))){
   #loop through polymorphic species
   for(j in 1:length(poly_sp)){
     
-    
     #combine multiple states into one
     poly_state<-paste(sort(trait_list[[i]][trait_list[[i]]$NTaxDat%in%poly_sp[j],]$new_state),collapse = "_")
     
@@ -142,7 +141,7 @@ for(i in 1:length(unique(df_recode$new_trait))){
     
   }
   
-  #remove duplicate combinations
+  #remove duplicate combinations introduced when recoding polymorphic species
   trait_list[[i]]<-unique(trait_list[[i]])
   
   #name list
@@ -152,13 +151,13 @@ for(i in 1:length(unique(df_recode$new_trait))){
 
 str(trait_list)
 
-#ensure that woodiness has data for all species
+#ensure that woodiness has data for all species (or species will drop out, like Rafflesia did)
 no_wood<-setdiff(sort(unique(df$NTaxDat)),trait_list[[1]]$NTaxDat)
 
-#add missing species
+#add species that lack woodiness data
 trait_list[[1]]<-rbind(trait_list[[1]],c(no_wood,NA))
 
-#Merge dataframes in list
+#merge dataframes in list
 for(i in 1:length(trait_list)){
   if(i == 1){
     disc_df<-trait_list[[i]]
@@ -171,6 +170,7 @@ for(i in 1:length(trait_list)){
 #fix column name
 colnames(disc_df)[2]<-"Woodiness"
 
+#output csv for downstream use
 write.csv(disc_df,"outputs/proteus_discrete_recoded.csv")
 
 

@@ -1,12 +1,16 @@
+rm(list=ls())
+
+#load libraries
 library(PVR)
 library(ape)
-
 library(dplyr)
 library(ape)
 library(corHMM)
 
-#load formatted data
+#load data
 df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+
+#load one-hot data
 #df<-readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
 
 #insert '_' into rownames to match phylo
@@ -72,3 +76,5 @@ rownames(phy_imp_df)<-df$species
 #write csv
 write.csv(phy_imp_df,"outputs/imputed_with_phylo.csv")
 
+#write csv
+#write.csv(phy_imp_df,"outputs/imputed_with_phylo_one_hot.csv")

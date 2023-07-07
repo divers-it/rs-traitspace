@@ -1,28 +1,40 @@
+rm(list=ls())
 
-#cleanup
-disc_df<-read.csv("outputs/proteus_discrete_recoded.csv")
-disc_df<-disc_df[,-1]
-str(disc_df)
+#load discrete data
+disc_df<-read.csv("outputs/proteus_discrete_recoded.csv",row.names = 1)
+head(disc_df)
 
-qr_df<-read.csv("outputs/proteus_quant_recoded.csv")
-qr_df<-qr_df[,-1]
+#load recoded quantitative data
+qr_df<-read.csv("outputs/proteus_quant_recoded.csv",row.names = 1)
+head(qr_df)
 
-quant_df<-read.csv("outputs/proteus_quantitative.csv")
-quant_df<-quant_df[,-1]
+#load quantitative data
+quant_df<-read.csv("outputs/proteus_quantitative.csv",row.names = 1)
+str(quant_df)
 
 #merge discrete and recoded discrete
 disc_qr_df<-merge(disc_df, qr_df, by.x = 'NTaxDat', by.y = 'species', all.x = T)
-disc_qr_df[,c('NTaxDat','Mating','outcrossing_rate')]
+head(disc_qr_df[,c('NTaxDat','Mating','outcrossing_rate')])
 
-#fill in gaps with new data
-
+#fill in gaps with recoded outcrossing rate data
 for(i in 1:length(disc_qr_df$NTaxDat)){
   
   #if na value for Mating column
-  if(is.na(disc_qr_df$Mating[i]) & !is.na(disc_qr_df$outcrossing_rate[i])){
+  if(is.na(disc_qr_df$Mating[i]) && !is.na(disc_qr_df$outcrossing_rate[i])){
     
     #add discretized outcrossing rate
     disc_qr_df$Mating[i]<-disc_qr_df$outcrossing_rate[i]
+    
+    #if there are states for both sources of outcrossing rate
+  } else if (!is.na(disc_qr_df$Mating[i]) && !is.na(disc_qr_df$outcrossing_rate[i])){
+    
+    #if the states are not the name
+    if(disc_qr_df$Mating[i]!=disc_qr_df$outcrossing_rate[i]){
+      
+      #replace Mating state with polymorphic state
+      disc_qr_df$Mating[i]<-paste(disc_qr_df$Mating[i],disc_qr_df$outcrossing_rate[i],sep="_")
+      
+    }
     
   }
   
@@ -31,12 +43,11 @@ for(i in 1:length(disc_qr_df$NTaxDat)){
 #make all outcrossing/mixed/selfing combinations into mixed
 disc_qr_df$Mating[grep("_",disc_qr_df$Mating)]<-'mixed'
 
-#remove quant outcrossing
+#remove recoded outcrossing
 disc_qr_df<-disc_qr_df[,-grep("outcrossing_rate",colnames(disc_qr_df))]
-
 #view(disc_qr_df)
 
-#remove min and max
+#remove min and max from quantitative df
 quant_df<-quant_df[,c(1,grep("meanValDat",colnames(quant_df)))]
 
 #remove quant outcrossing
@@ -54,7 +65,7 @@ colnames(disc_qr_quant_df)<-gsub("meanValDat_","",colnames(disc_qr_quant_df))
 colnames(disc_qr_quant_df)<-gsub('[0-9]+', '', colnames(disc_qr_quant_df))
 colnames(disc_qr_quant_df)
 
-#remove first row (numbers) and add to rownames
+#remove first row and add to rownames
 proteus_combined<-disc_qr_quant_df[,-1]
 rownames(proteus_combined)<-disc_qr_quant_df[,"NTaxDat"]
 
@@ -62,41 +73,32 @@ rownames(proteus_combined)<-disc_qr_quant_df[,"NTaxDat"]
 fl<-proteus_combined$Flowerlength
 fw<-proteus_combined$Flowerdiameter
 
-#make NA 0 to get max values
-fl[is.na(fl)]<-0
-fw[is.na(fw)]<-0
-
 #retrieve max values
-fs<-pmax(fl,fw)
-fs
-
-#convert 0s back to NAs
-fs[fs==0]<-NA
+fs<-pmax(fl,fw,na.rm = TRUE)
 
 #make new column with maximum of length and diameter
 proteus_combined$flowerSize <- fs
 
-#remove flowerDiameter (included in flowerSize)
+#remove flowerDiameter and Length (included in flowerSize)
 proteus_combined<-subset(proteus_combined, select=-c(Flowerdiameter))
-
-#fix column name
-#colnames(proteus_combined)[1]<-"Woodiness"
+proteus_combined<-subset(proteus_combined, select=-c(Flowerlength))
 
 #####
 #add seed mass data
 #####
 
-#remove one duplicate row Corokia
-#synonyms are present e.g. Cleistes -> Cleistesiopsis
+#Removed one duplicate row Corokia
 seedMass<-read.csv("data/seedWeight.csv")
 rownames(seedMass)<-paste(seedMass$Genus,seedMass$Species,sep=" ")
+
+#check rownames match
 rownames(seedMass)==rownames(proteus_combined)
 
-#check differences between datasets
+#check differences between data sets
 setdiff(rownames(proteus_combined),rownames(seedMass))
 setdiff(rownames(seedMass),rownames(proteus_combined))
 
-#Synonymy issues
+#Fix synonymy issues
 rownames(seedMass)[grep("Arctostaphylos uvaursi",rownames(seedMass))]<-"Arctostaphylos uva-ursi"
 rownames(seedMass)[grep("Cleistes bifaria",rownames(seedMass))]<-"Cleistesiopsis bifaria"
 rownames(seedMass)[grep("Pitcairnia albifilos",rownames(seedMass))]<-"Pitcairnia albiflos"
@@ -111,14 +113,14 @@ table(is.na(seedMass$Seed_weight))[2]/length(seedMass$Seed_weight)
 #make df for merging
 seedMass_merge<-seedMass[rownames(proteus_combined)%in%rownames(seedMass),]
 
-#check row names
+#check row names after fixing synonyms
 rownames(proteus_combined)==rownames(seedMass_merge)
 
 #merge
 proteus_combined<-cbind(proteus_combined,seedMass_merge$Seed_weight)
 
 #rename
-colnames(proteus_combined)[ncol(proteus_combined)]<-"seed_mass"
+colnames(proteus_combined)[ncol(proteus_combined)]<-"seedMass"
 
 #write dataset
 write.csv(proteus_combined,"outputs/proteus_combined.csv")

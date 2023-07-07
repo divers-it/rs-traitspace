@@ -43,6 +43,9 @@ setdiff(rownames(df),diaz_c$Species_name_standardized_against_TPL)
 #filter by number of observations
 diaz_cf<-diaz_cf[diaz_cf$Number_of_traits_with_values>3,]
 
+#set row names
+rownames(diaz_cf)<-diaz_cf$Species_name_standardized_against_TPL
+
 #only those columns for PCOA
 diaz_pcf<-diaz_cf[,c(
                 #"Adaptation_to_terrestrial_or_aquatic_habitats",
@@ -109,7 +112,7 @@ rownames(diaz_pcf)==rownames(df_filt)
 saveRDS(df_filt, file = here::here("outputs/df_filt_trans_shared.rds"))
 
 #plot PCOA points on first two axes
-ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2, fill = as.factor(df_filt$Showiness))) +
+ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2, fill = as.factor(df_filt$Woodiness))) +
   geom_point(
     color="black",
     shape=21,
@@ -137,6 +140,9 @@ divers_dist <- daisy(df_filt,
 #check names
 labels(diaz_dist)==labels(divers_dist)
 
+png(filename = "scatterplot_dist_diaz_vs_divers.png")
+
 #compare pairwaise distances of the two matrices
 plot(diaz_dist,divers_dist)
 
+dev.off()

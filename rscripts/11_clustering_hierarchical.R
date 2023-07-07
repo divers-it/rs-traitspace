@@ -226,8 +226,7 @@ brewer.pal(7, "Dark2")
 dendro <- as.dendrogram(aggl.clust.w)
 dendro.col <- dendro %>%
   set("branches_k_color",
-      k = 3,
-      value = brewer.pal(7, "Dark2")) %>%
+      k = 3) %>%
   set("branches_lwd", 0.6) %>%
   set("labels_colors",
       value = c("darkslategray")) %>%
@@ -251,9 +250,9 @@ wk6 <- ggplot(ggd1, theme = theme_minimal()) +
   labs(x = "Num. observations", y = "Height", title = "Dendrogram agglomerative ward, k = 6")
 
 library(patchwork)
-wk3 + wk6
-ggsave("figures/dendro_ward_k3_k6.png",
-       width = 20,
+wk3# + wk6
+ggsave("figures/dendro_ward_k3.png",
+       width = 10,
        height = 10)
 
 ## --------- Heatmap of cluster properties (categorical only) ---------

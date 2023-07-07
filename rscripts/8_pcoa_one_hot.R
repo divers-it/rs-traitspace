@@ -3,12 +3,22 @@
 rm(list=ls())
 library(dplyr)
 library(ggplot2)
-library(vegan)
+#library(vegan)
+
+#load data set
+df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+
+#dissimilarity matrix calculation
+gower_df <- daisy(df,
+                  metric = "gower" )
+summary(gower_df)
 
 #load formatted data
 df2<-readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
 df2[sapply(df2, is.factor)] <- lapply(df2[sapply(df2, is.factor)],
                                      as.integer)
+
+
 
 
 #Not necessary anymore
@@ -47,6 +57,19 @@ library(cluster)
 gower_df2 <- daisy(df2, metric = "gower" )
 
 summary(gower_df2)
+
+#check names
+setdiff(labels(gower_df),labels(gower_df2))
+
+
+#check names
+labels(gower_df)==labels(gower_df2)
+
+#compare pairwaise distances of matrices with missing data and with imputed
+png("figures/scatterplot_dist_og_vs_one_hot.png",width = 500,height = 500)
+plot(gower_df,gower_df2,xlim=c(0,1),ylim=c(0,1),xlab = "original",ylab="one-hot")
+dev.off()
+
 
 dataset_dist2 <- stats::as.dist(gower_df2)
 #dataset_dist3 <- stats::as.dist(gower_df3)

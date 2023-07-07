@@ -1,16 +1,14 @@
+rm(list=ls())
+
+#Load libraries
 library(dplyr)
 
 #load formatted data
 df<-readRDS(file = here::here("outputs/df_filt_one_hot.rds"))
 
-#remove mating system
-#df<-subset(df, select=-c(sexmorphs))
-
 #numeric columns only
 nums <- unlist(lapply(df, is.numeric))
-#nums <- seq(91,101)
 facts <- unlist(lapply(df, is.factor))
-#facts <- seq(1,90)
 
 str(df)
 

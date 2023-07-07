@@ -4,10 +4,10 @@ library(VarSelLCM)
 df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
 
 #load data with NAs imputed
-df2<-read.csv("outputs/imputed_with_phylo.csv",row.names = 1)
+df2<-read.csv("outputs/imputed_with_phylo.csv",row.names = 1,stringsAsFactors = TRUE)
 
 #remove biasing quantitative columns
-df2<-subset(df2, select = -c(Number.of.fertile.stamens,Fusion.of.ovaries,Number.of.ovules.per.carpel))
+df2<-subset(df2, select = -c(Numberoffertilestamens,Fusionofovaries,Numberofovulesperfunctionalcarpel))
 
 # Cluster analysis without variable selection
 res_without <- VarSelCluster(df2, gvals = 1:5, vbleSelec = FALSE, crit.varsel = "BIC")

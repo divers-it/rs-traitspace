@@ -1,4 +1,4 @@
-"","NTaxDat","Woodiness","Climbing","Aquatic","SexualSystem","Lifespan","Mating","Pollination","Dispersal_mode","Dispersal_dist","FlowerSex","OvaryPosition","FloralReward","FlowerSymmetry","Showiness"
+"","NTaxDat","Woodiness","Climbing","Aquatic","SexualSystem","Lifespan","Mating","Pollination","DispersalMode","DispersalDist","FlowerSex","OvaryPosition","FloralReward","FlowerSymmetry","Showiness"
 "1","Abolboda pulchella","herbaceous","non-climbing","non-aquatic","monomorphic","long",NA,"biotic",NA,NA,"bisexual","superior","nectar","zygomorphic","bright"
 "2","Achatocarpus praecox","woody","non-climbing","non-aquatic","dimorphic","long","outcrossing","biotic","biotic","long","unisexual","superior",NA,"actinomorphic","bright_dull"
 "3","Acorus calamus","herbaceous","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic","abiotic","long","bisexual","superior","other","zygomorphic","bright_dull"

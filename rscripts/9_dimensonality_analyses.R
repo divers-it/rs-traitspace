@@ -12,7 +12,7 @@ percent_list <- seq(0.1, 0.8, by = 0.1)
 dataset <- readRDS(file = here::here("outputs/df_filt_trans.rds"))
 
 # Run Analysis ----
-run_analysis(dataset, name = "proteus_2022")
+run_analysis(dataset, name = "proteus_2023")
 rm(list = "dataset")
 
 ## Import Results ----
@@ -189,7 +189,7 @@ p <- ggplot(res_for_graph_dim, aes(x = dim, y = AUC, colour = taxa)) +
   
   scale_y_continuous(breaks = seq(0.1, 1, 0.2))
 
-grDevices::png(file = here::here("figures", "dimensionality_no_axes.png"))
+grDevices::png(file = here::here("figures", "dimensionality_no_axes.png"),width = 1000,height=500)
 
 print(p)
 

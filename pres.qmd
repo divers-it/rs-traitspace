@@ -1,0 +1,106 @@
+---
+title: "Reproductive strategies update"
+subtitle: "12/07/2023"
+author: "Andrew Helmstetter"
+format: revealjs
+editor: visual
+---
+
+## Bullets
+
+When you click the **Render** button a document will be generated that includes:
+
+-   Content authored with markdown
+-   Output from executable code
+
+## Code
+
+When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+<!-- Input data set -->
+
+## Data set completion (pre-clean)
+
+![](figures/missing_data_pre_clean.png){fig-align="center"}
+
+-   26 traits, 363 species, 25% missing data
+
+## Data set completion (post-clean)
+
+![](figures/missing_data_post_clean.png){fig-align="center"}
+
+-   21 traits, 360 species, 12.5% missing data
+
+## Distribution in Diaz et al.
+
+## Scatterplot of PCoA coloured by missing data
+
+![](figures/scatter_pcoa_missing.png){fig-align="center"}
+
+## Scatter of PCoA coloured by reproductive traits
+
+![](figures/scatter_pcoa_coloured_by_traits.png){fig-align="center"}
+
+## Trait space quality comparisons
+
+![](figures/dimensionality_no_axes.png){fig-align="center"}
+
+## One hot vs original
+
+![](figures/scatterplot_dist_og_vs_one_hot.png){fig-align="center"}
+
+## Missing data imputation using phylogeny
+
+![](figures/scatterplot_dist_missing_vs_imputed.png){fig-align="center"}
+
+## Transition rates
+
+<!-- Clustering methods -->
+
+## Hierarchical clustering
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](figures/dendro_ward_k3.png){fig-align="center"}
+:::
+
+::: {.column width="50%"}
+![](figures/pcoa_hclust_k3.png){fig-align="center"}
+:::
+
+::::
+
+## Kpro clustering
+
+![](figures/pcoa_kproto_k3.png){fig-align="center"}
+
+## Partitioning around medoids clustering
+
+![](figures/scatter_pcoa_pam_clusters.png){fig-align="center"}
+
+## LCM
+
+![](figures/pcoa_LCM_k4.png){fig-align="center"}
+
+## Density peak clustering
+
+<!-- Robust groups -->
+
+## Sankey plot demonstrate robust groups
+
+## Robust groups kpro plot
+
+![](figures/scatter_pcoa_kpro_robust.png){fig-align="center"}
+
+<!-- Reproductive strategies -->
+
+## Clustering similarities and differences 
+
+## Characteristics of robust groups
+
+## Strategies on phylogenetic tree

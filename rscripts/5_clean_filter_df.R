@@ -1,6 +1,7 @@
-#' @header *********************************************************************
-#' @dataset (01) PROTEUS 2022
-#' @header *********************************************************************
+rm(list=ls())
+
+#load libraries
+library(visdat)
 
 # Read Dataset ----
 
@@ -25,23 +26,23 @@ df[sapply(df, is.integer)] <- lapply(df[sapply(df, is.integer)],
 #check structure
 str(df)
 
-#limit missing data
-library(visdat)
-
-png("figures/missing_data.png",height = 500,width = 1000)
+#visualise missing data
+png("figures/missing_data_pre_clean.png",height = 500,width = 1000)
 vis_miss(df)
 dev.off()
 
 # Remove traits with too much missing data ----
+# limit currently at 50%
 df <- df[ , (colSums(is.na(df)) < length(df[,1])*0.5)]
 str(df)
 
 # Remove line with too much missing data ----
+# limit currently at 50%
 df <- df[(rowSums(is.na(df)) < length(df[1,])*0.5), ]
 
- ## ----- Outlier removal -----
+## ----- Outlier removal -----
 
-## Think about removal thresholds
+# Note: Removal thresholds are subjective
 
 #remove outlier in no. structural carpels
 df$Numberofstructuralcarpels[df$Numberofstructuralcarpels>998]<-NA
@@ -54,6 +55,11 @@ df$Numberoffertilestamens[df$Numberoffertilestamens==0]<-0.0001
 
 #remove outlier in no. ovules per carpel
 df$Numberofstructuralcarpels[df$Numberofstructuralcarpels==0]<-0.0001
+
+#visualise missing data after cleaning
+png("figures/missing_data_post_clean.png",height = 500,width = 1000)
+vis_miss(df)
+dev.off()
 
 # Save filtered dataset
 saveRDS(df, file = here::here("outputs/df_filt.rds"))

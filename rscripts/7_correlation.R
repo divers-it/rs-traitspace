@@ -1,17 +1,23 @@
- # Read in trait data ----
+rm(list=ls())
+
+#load libraries
 library(dplyr)
 library(ggmosaic)
 library(tibble)
-
+library(factoextra)
+library(dplyr)
+library(cluster)
+library(GGally)
+ 
 #load formatted data
-df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+dataset<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
 
 # Correlation between Traits ----
 
-dataset<-df
-
+#make empty matrix for correlation results
 dataset_cor <- matrix(0, ncol(dataset), ncol(dataset))
 
+#do kendall rank correlation between all traits
 for (i in 1:ncol(dataset)) {
 
   for (j in i:ncol(dataset)) {
@@ -24,11 +30,13 @@ for (i in 1:ncol(dataset)) {
   }
 }
 
-dataset_cor[lower.tri(dataset_cor)] <- t(
-  dataset_cor)[lower.tri(dataset_cor)]
+#transpose matrix to lower triangle
+dataset_cor[lower.tri(dataset_cor)] <- t(dataset_cor)[lower.tri(dataset_cor)]
 
+#make diagonal NA
 diag(dataset_cor) <- NA
 
+#correlation stats
 dataset_cor_summ <- data.frame(
   mean_cor = mean(abs(dataset_cor), na.rm = TRUE),
   sd_cor   = sd(abs(dataset_cor),   na.rm = TRUE),
@@ -38,41 +46,77 @@ dataset_cor_summ <- data.frame(
 
 dataset_cor_summ
 
-#mosaic plot
-ggplot(data = df) +
-  geom_mosaic(aes(x = product(Mating,Pollination,Lifespan), fill=Mating), na.rm=TRUE) + 
-  labs(x = "Measurement_1", y = "Measurement_2")
 
-#plot pairs of variables (removing some with high cat count)
-library(GGally)
-#pdf("figures/ggpairs.pdf",height=30,width=30)
-png("figures/ggpairs.png",width=4000,height=4000,res=100)
-ggpairs(df,cardinality_threshold=16) 
-dev.off()
+#Alternative correlation on numeric traits
+
+#make vectors to split numeric and factor columns
+nums <- unlist(lapply(dataset, is.numeric))
+
+#examine data distribution
+dataset_num<-(dataset[ , nums])
+
+#make empty matrix for correlation results
+dataset_cor_num <- matrix(0, ncol(dataset), ncol(dataset))
+
+#do correlation between all traits
+for (i in 1:ncol(dataset_num)) {
+  
+  for (j in i:ncol(dataset_num)) {
+    
+    dataset_cor_num[i, j] <- stats::cor(
+      x      = rank(dataset_num[ , i]),
+      y      = rank(dataset_num[ , j]),
+      method = "pearson"
+    )
+  }
+}
+
+#transpose matrix to lower triangle
+dataset_cor_num[lower.tri(dataset_cor_num)] <- t(dataset_cor_num)[lower.tri(dataset_cor_num)]
+
+#make diagonal NA
+diag(dataset_cor_num) <- NA
+
+#correlation stats for numeric traits
+dataset_cor_num_summ <- data.frame(
+  mean_cor = mean(abs(dataset_cor_num), na.rm = TRUE),
+  sd_cor   = sd(abs(dataset_cor_num),   na.rm = TRUE),
+  max_cor  = max(abs(dataset_cor_num),  na.rm = TRUE),
+  min_cor  = min(abs(dataset_cor_num),  na.rm = TRUE)
+)
+dataset_cor_num_summ
+
+###
+# Uncomment to run (takes quite a long time)
+###
+
+##plot pairs of variables (removing some with high cat count)
+#png("figures/ggpairs.png",width=4000,height=4000,res=100)
+#ggpairs(df,cardinality_threshold=16) 
+#dev.off()
 
 #dissimilarity matrix calc
 par(mfrow=c(1,1))
-library(cluster)
+
 gower_df <- daisy(df,
                   metric = "gower" )
 
 summary(gower_df)
 
-#introduced NAs - need to solve better
-#gower_df[is.na(gower_df)]<-0
-
 #visualize the distances between species
-#Need R > 4.0
-library(factoextra)
-png("figures/proteus_fviz_dist.png")
+png("figures/distance_heatmap.png")
 fviz_dist(dist.obj = gower_df,
           order = TRUE, show_labels = F)
 dev.off()
 
+#One-liner to look at frequency of trait combinations
+combo_df <-
+  df %>% group_by(Woodiness, Mating, Lifespan, .drop = FALSE) %>%
+  summarize(count = n())
+combo_df
 
-#trait combinations
-library(dplyr)
+#mosaic plot to reperesent combinations visually
+ggplot(data = dataset) +
+  geom_mosaic(aes(x = product(Mating,Pollination,Lifespan), fill=Mating), na.rm=TRUE) + 
+  labs(x = "Measurement_1", y = "Measurement_2")
 
-combo_df <- df %>% group_by(Woodiness, Mating, Lifespan, .drop=FALSE) %>% summarize(count=n())
-
-view(combo_df)
