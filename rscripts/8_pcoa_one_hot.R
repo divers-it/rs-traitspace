@@ -3,7 +3,8 @@
 rm(list=ls())
 library(dplyr)
 library(ggplot2)
-#library(vegan)
+library(vegan)
+library(cluster)
 
 #load data set
 df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
@@ -67,7 +68,7 @@ labels(gower_df)==labels(gower_df2)
 
 #compare pairwaise distances of matrices with missing data and with imputed
 png("figures/scatterplot_dist_og_vs_one_hot.png",width = 500,height = 500)
-plot(gower_df,gower_df2,xlim=c(0,1),ylim=c(0,1),xlab = "original",ylab="one-hot")
+plot(gower_df,gower_df2,xlim=c(0,1),ylim=c(0,1),xlab = "original",ylab="one-hot") + abline(0,1,lty=2,col="red")
 dev.off()
 
 

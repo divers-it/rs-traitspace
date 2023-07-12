@@ -392,6 +392,6 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
   ) + geom_text(aes(size = count,label = label),
                 position = position_stack(vjust = .5)) + coord_flip()
 
-ggsave("figures/stacked_barplots_robust_groups_kpro.pdf",width=15,height=15)
+ggsave("figures/stacked_barplots_robust_groups_kpro.png",width=15,height=15)
 
 save.image(file = "outputs/kpro.RData")

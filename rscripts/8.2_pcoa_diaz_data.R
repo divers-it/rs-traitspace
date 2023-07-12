@@ -116,14 +116,15 @@ df_pcoa<-df_pcoa[match(diaz_cf$Species_name_standardized_against_TPL, rownames(d
 df_pcoa[rownames(df_pcoa)=="Zostera marina",c(1:3)]
 
 #plot PCOA points on first two axes
-ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2, fill = as.factor(diaz_cf$divers))) +
+ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2)) +
   geom_point(
-    color="black",
-    shape=21,
+    aes(pch = as.factor(diaz_cf$divers),
+        fill = as.factor(diaz_cf$divers),
+        size = as.factor(diaz_cf$divers)),
     alpha=0.75,
-    size=2,
     stroke = 0.5
-  ) +
+  ) + scale_shape_manual(values=c(21,24)) +
+  scale_size_manual(values=c(2,4)) +
   xlab(paste("Axis 1: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[1],2))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[2],2)))
 

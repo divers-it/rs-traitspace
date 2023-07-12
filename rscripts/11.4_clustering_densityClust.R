@@ -1,6 +1,7 @@
 rm(list = ls())
 library(densityClust)
 library(cluster)
+library(ggplot2)
 
 #load formatted data
 df <- readRDS(file = here::here("outputs/df_filt_trans.rds"))
@@ -11,6 +12,12 @@ gower_df <- daisy(df,
 
 summary(gower_df)
 
+#convert to distance matrix
+dataset_dist <- stats::as.dist(gower_df)
+
+#run PCOA
+dataset_pcoa <- ape::pcoa(dataset_dist)
+
 #
 protClust <- densityClust(gower_df, gaussian=TRUE)
 
@@ -18,14 +25,32 @@ protClust <- densityClust(gower_df, gaussian=TRUE)
 plot(protClust) 
 
 #
-protClust <- findClusters(protClust, rho = 25,delta = 0.2,verbose = FALSE,plot = TRUE)
+protClust <- findClusters(protClust, rho = 30,delta = 0.07,verbose = FALSE,plot = TRUE)
+
+#plot points on first two axes, coloured by cluster
+ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.factor(protClust$clusters))) +
+  geom_point(
+    color="black",
+    shape=21,
+    alpha=0.5,
+    size=3,
+    stroke = 0.5
+  ) + 
+  stat_ellipse(geom = "polygon",
+               aes(fill = as.factor(protClust$clusters)), 
+               alpha = 0.25) +
+  xlab(paste("Axis 1: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[1],2))) +
+  ylab(paste("Axis 2: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[2],2)))
+
+ggsave("figures/pcoa_dens_4_clusters.png",width = 12,height=10)
+
 
 #view cluster membership of species
 split(rownames(df), protClust$clusters)
 
 #vectors of values of stats for decision graphs that yield 2 to 7 clusters
-rho_v<-c(45,35,29,25,25,25)
-delta_v<-c(0.6,0.6,0.6,0.6,0.5,0.2)
+rho_v<-c(30,30,30,15,8,8)
+delta_v<-c(0.6,0.15,0.1,0.1,0.08,0.07)
 
 #make df with different numbers of clusters
 for(i in 1:length(rho_v)){
@@ -313,5 +338,5 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
   ) + geom_text(aes(size = count,label = label),
                                 position = position_stack(vjust = .5)) + coord_flip()
 
-ggsave("figures/stacked_barplots_dens.pdf",width=15,height=10)
+ggsave("figures/stacked_barplots_dens.png",width=15,height=10)
 

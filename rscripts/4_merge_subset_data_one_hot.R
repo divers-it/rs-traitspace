@@ -19,16 +19,79 @@ quant_df<-quant_df[,c(1,grep("meanValDat",colnames(quant_df)))]
 disc_qr_df<-merge(disc_df, qr_df, by.x = 'NTaxDat', by.y = 'species', all.x = T)
 
 ##
-# TO RECODE
+# TO RECODE: CURRENTLY OUTCROSSING RATE DATA OVERWRITES MATING SYSTEM DATA
 ##
 
+
+#fill in gaps with recoded outcrossing rate data
+for(i in 1:length(disc_qr_df$NTaxDat)){
+  
+  #if outcrossing rate data is present
+  if(!is.na(disc_qr_df$outcrossing_rate[i])){
+    
+    
+    #if na value for Mating_mixed column
+    if(is.na(disc_qr_df$Mating_mixed[i]) && disc_qr_df$outcrossing_rate[i]=="mixed"){
+      
+      #add 1 to mixed column and 0 to other columns if they are NA
+      disc_qr_df$Mating_mixed[i]<-1
+      
+      if(is.na(disc_qr_df$Mating_outcrossing[i])){
+        disc_qr_df$Mating_outcrossing[i]<-0
+      }
+      
+      if(is.na(disc_qr_df$Mating_selfing[i])){
+        disc_qr_df$Mating_selfing[i]<-0
+      }
+
+    }
+    
+    #if na value for Mating_mixed column
+    if(is.na(disc_qr_df$Mating_outcrossing[i]) && disc_qr_df$outcrossing_rate[i]=="outcrossing"){
+      
+      #add 1 to outcrossing column and 0 to other columns if they are NA
+      disc_qr_df$Mating_outcrossing[i]<-1
+      
+      if(is.na(disc_qr_df$Mating_mixed[i])){
+        disc_qr_df$Mating_mixed[i]<-0
+      }
+      
+      if(is.na(disc_qr_df$Mating_selfing[i])){
+        disc_qr_df$Mating_selfing[i]<-0
+      }
+      
+    }
+    
+    #if na value for Mating_mixed column
+    if(is.na(disc_qr_df$Mating_selfing[i]) && disc_qr_df$outcrossing_rate[i]=="selfing"){
+      
+      #add 1 to mixed column and 0 to other columns if they are NA
+      disc_qr_df$Mating_selfing[i]<-1
+      
+      if(is.na(disc_qr_df$Mating_outcrossing[i])){
+        disc_qr_df$Mating_outcrossing[i]<-0
+      }
+      
+      if(is.na(disc_qr_df$Mating_mixed[i])){
+        disc_qr_df$Mating_mixed[i]<-0
+      }
+      
+    }
+      
+    
+  }
+  
+  
+}
+
+#NOTE: throws errors with new traits
 #merge mating traits (discrete- and rate-based)
-disc_qr_df[is.na(disc_qr_df$Mating_selfing),]$Mating_selfing=disc_qr_df[is.na(disc_qr_df$Mating_selfing),]$outcrossing_rate_selfing
-disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_selfing) & disc_qr_df$outcrossing_rate_selfing==1,]$Mating_selfing=disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_selfing) & disc_qr_df$outcrossing_rate_selfing==1,]$outcrossing_rate_selfing
-disc_qr_df[is.na(disc_qr_df$Mating_outcrossing),]$Mating_outcrossing=disc_qr_df[is.na(disc_qr_df$Mating_outcrossing),]$outcrossing_rate_outcrossing
-disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_outcrossing) & disc_qr_df$outcrossing_rate_outcrossing==1,]$Mating_outcrossing=disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_outcrossing) & disc_qr_df$outcrossing_rate_outcrossing==1,]$outcrossing_rate_outcrossing
-disc_qr_df[is.na(disc_qr_df$Mating_mixed),]$Mating_mixed=disc_qr_df[is.na(disc_qr_df$Mating_mixed),]$outcrossing_rate_mixed
-disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_mixed) & disc_qr_df$outcrossing_rate_mixed==1,]$Mating_mixed=disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_mixed) & disc_qr_df$outcrossing_rate_mixed==1,]$outcrossing_rate_mixed
+#disc_qr_df[is.na(disc_qr_df$Mating_selfing),]$Mating_selfing = disc_qr_df[is.na(disc_qr_df$Mating_selfing),]$outcrossing_rate_selfing
+#disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_selfing) & disc_qr_df$outcrossing_rate_selfing==1,]$Mating_selfing=disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_selfing) & disc_qr_df$outcrossing_rate_selfing==1,]$outcrossing_rate_selfing
+#disc_qr_df[is.na(disc_qr_df$Mating_outcrossing),]$Mating_outcrossing=disc_qr_df[is.na(disc_qr_df$Mating_outcrossing),]$outcrossing_rate_outcrossing
+#disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_outcrossing) & disc_qr_df$outcrossing_rate_outcrossing==1,]$Mating_outcrossing=disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_outcrossing) & disc_qr_df$outcrossing_rate_outcrossing==1,]$outcrossing_rate_outcrossing
+#disc_qr_df[is.na(disc_qr_df$Mating_mixed),]$Mating_mixed=disc_qr_df[is.na(disc_qr_df$Mating_mixed),]$outcrossing_rate_mixed
+#disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_mixed) & disc_qr_df$outcrossing_rate_mixed==1,]$Mating_mixed=disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_mixed) & disc_qr_df$outcrossing_rate_mixed==1,]$outcrossing_rate_mixed
 
 #remove rate-based mating system
 disc_qr_df<-disc_qr_df[,-c(grep("outcrossing_rate",colnames(disc_qr_df)))]

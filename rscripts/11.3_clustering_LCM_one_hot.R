@@ -32,7 +32,7 @@ summary(res_with)
 plot(res_with)
 
 # Summary of categorical variable
-plot(res_with, y="Woodiness_herbaceous")
+#plot(res_with, y="Woodiness_herbaceous")
 
 # More detailed output
 print(res_with)
@@ -77,4 +77,4 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.f
   xlab(paste("Axis 1: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[1],2))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[2],2)))
 
-ggsave("figures/pcoa_LCM_k4.png",width = 12,height=10)
+ggsave("figures/pcoa_LCM.png",width = 12,height=10)

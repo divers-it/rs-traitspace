@@ -23,14 +23,14 @@ protClust <- densityClust(gower_df, gaussian=TRUE)
 plot(protClust) 
 
 #
-protClust <- findClusters(protClust, rho = 15,delta = 0.075,verbose = FALSE,plot = TRUE)
+protClust <- findClusters(protClust, rho = 3.5,delta = 0.05,verbose = FALSE,plot = TRUE)
 
 #view cluster membership of species
 split(rownames(df), protClust$clusters)
 
 #vectors of values of stats for decision graphs that yield 2 to 7 clusters
-rho_v<-c(22,21,21,16.5,16,15)
-delta_v<-c(0.5,0.5,0.2,0.09,0.075,0.075)
+rho_v<-c(22,22,22,5,4,3.5)
+delta_v<-c(0.55,0.15,0.1,0.05,0.05,0.05)
 
 #make df with different numbers of clusters
 for(i in 1:length(rho_v)){
@@ -319,5 +319,5 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
                 size = 2,
                 position = position_stack(vjust = .5)) + coord_flip()
 
-ggsave("figures/stacked_barplots_dens_one_hot.pdf",width=15,height=15)
+ggsave("figures/stacked_barplots_dens_one_hot.png",width=15,height=15)
 

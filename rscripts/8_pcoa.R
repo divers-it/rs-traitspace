@@ -28,7 +28,7 @@ labels(gower_df)==gsub("_"," ",labels(gower_df_no_miss))
 
 #compare pairwaise distances of matrices with missing data and with imputed
 png("figures/scatterplot_dist_missing_vs_imputed.png",width = 500,height = 500)
-plot(gower_df,gower_df_no_miss,xlim=c(0,1),ylim=c(0,1))
+plot(gower_df,gower_df_no_miss,xlim=c(0,1),ylim=c(0,1)) + abline(0,1,lty=2,col="red")
 dev.off()
 
 #make into distance object

@@ -156,37 +156,37 @@ brewer.pal(7, "Dark2")
 #ggplot(ggd1, theme = theme_minimal()) +
 #  labs(x = "Num. observations", y = "Height", title = "Dendrogram agglomerative average, k = 6")
 
-# dendrogram with clusters agglomerative ward k = 3
+# dendrogram with clusters agglomerative ward k = 4
 dendro <- as.dendrogram(aggl.clust.w)
 dendro.col <- dendro %>%
   set("branches_k_color",
-      k = 3,
+      k = 4,
       value = brewer.pal(7, "Dark2")) %>%
   set("branches_lwd", 0.6) %>%
   set("labels_colors",
       value = c("darkslategray")) %>%
   set("labels_cex", 0.5)
 ggd1 <- as.ggdend(dendro.col)
-wk3 <- ggplot(ggd1, theme = theme_minimal()) +
-  labs(x = "Num. observations", y = "Height", title = "Dendrogram agglomerative ward, k = 3")
+wk4 <- ggplot(ggd1, theme = theme_minimal()) +
+  labs(x = "Num. observations", y = "Height", title = "Dendrogram agglomerative ward, k = 4")
 
-# dendrogram with clusters agglomerative ward k = 6
+# dendrogram with clusters agglomerative ward k = 5
 dendro <- as.dendrogram(aggl.clust.w)
 dendro.col <- dendro %>%
   set("branches_k_color",
-      k = 6,
+      k = 5,
       value = brewer.pal(7, "Dark2")) %>%
   set("branches_lwd", 0.6) %>%
   set("labels_colors",
       value = c("darkslategray")) %>%
   set("labels_cex", 0.5)
 ggd1 <- as.ggdend(dendro.col)
-wk6 <- ggplot(ggd1, theme = theme_minimal()) +
-  labs(x = "Num. observations", y = "Height", title = "Dendrogram agglomerative ward, k = 6")
+wk5 <- ggplot(ggd1, theme = theme_minimal()) +
+  labs(x = "Num. observations", y = "Height", title = "Dendrogram agglomerative ward, k = 5")
 
 library(patchwork)
-wk3 + wk6
-ggsave("figures/dendro_ward_k3_k6_one_hot.png",
+wk4 + wk5
+ggsave("figures/dendro_ward_k4_k5_one_hot.png",
        width = 20,
        height = 10)
 
@@ -342,7 +342,7 @@ library(gridExtra)
 rownames(df2)==rownames(clust.num.k.2.7.df)
 
 #add label to group
-df_labelled<-cbind(df2,clust.num.k.2.7.df$`4clusters`)
+df_labelled<-cbind(df2,clust.num.k.2.7.df$`3clusters`)
 
 #change colname for label
 colnames(df_labelled)[length(colnames(df_labelled))]<-"cluster"
@@ -364,7 +364,7 @@ for(i in 1:(length(colnames(df_labelled))-1)){
   
 }
 
-pdf("figures/k4_ward_plots.pdf",width = 15,height = 15)
+pdf("figures/k3_ward_plots.pdf",width = 15,height = 15)
 
 print(grid.arrange(grobs=plot_list[1:4],ncol=2,nrow=2))
 print(grid.arrange(grobs=plot_list[5:8],ncol=2,nrow=2))
@@ -424,4 +424,4 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
                 size = 2,
                 position = position_stack(vjust = .5)) + coord_flip()
 
-ggsave("figures/stacked_barplots_k4_ward_one_hot.pdf",width=15,height=15)
+ggsave("figures/stacked_barplots_k3_ward_one_hot.pdf",width=15,height=15)

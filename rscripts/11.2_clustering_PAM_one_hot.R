@@ -22,7 +22,12 @@ summary(gower_df)
 #gower_df[is.na(gower_df)]<-0
 
 #Silhouette Width to select the optimal number of clusters
-#The silhouette width is one of the very popular choices when it comes to selecting the optimal number of clusters. It measures the similarity of each point to its cluster, and compares that to the similarity of the point with the closest neighboring cluster. This metric ranges between -1 to 1, where a higher value implies better similarity of the points to their clusters. Therefore, a higher value of the Silhouette Width is desirable. We calculate this metric for a range of cluster numbers and find where it is maximized. The following code shows the implementation in R:
+#The silhouette width is one of the very popular choices when it comes to selecting the optimal number of clusters. 
+#It measures the similarity of each point to its cluster, and compares that to the similarity of the point
+#with the closest neighboring cluster. This metric ranges between -1 to 1, where a higher value implies better similarity 
+#of the points to their clusters. Therefore, a higher value of the Silhouette Width is desirable. 
+#We calculate this metric for a range of cluster numbers and find where it is maximized. 
+#The following code shows the implementation in R:
 silhouette <- c()
 silhouette = c(silhouette, NA)
 for(i in 2:10){
@@ -62,9 +67,9 @@ rownames(clust.num.k.2.7.df)<-names(pam.gower$clustering)
 saveRDS(clust.num.k.2.7.df, file = here::here("outputs/clust_num_k_2_7_pam_one_hot.rds"))
 
 #construct a PAM model with X clusters, and try to interpret the behavior of these clusters with the help of the medoids.
-pam.gower = pam(gower_df, diss = TRUE, k =3)
+pam.gower = pam(gower_df, diss = TRUE, k =5)
 df[pam.gower$medoids, ]
-write.csv(df[pam.gower$medoids, ], "outputs/pam_medoids_k3_one_hot.csv")
+write.csv(df[pam.gower$medoids, ], "outputs/pam_medoids_k5_one_hot.csv")
 
 #To dig deeper into the characteristics of each cluster, we find the summary stats.
 pam_summary <- df %>%

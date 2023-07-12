@@ -342,7 +342,7 @@ ggplot(
   geom_point(
     aes(shape = as.factor(clust.num.k.2.7.df$`3clusters`)),
     alpha = 0.5,
-    size = 3,
+    size = 5,
     stroke = 0.5
   )
 
@@ -467,5 +467,5 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
   ) + geom_text(aes(size = count,label = label),
                 position = position_stack(vjust = .5)) + coord_flip()
 
-ggsave("figures/stacked_barplots_robust_groups_pam.pdf",width=15,height=15)
+ggsave("figures/stacked_barplots_robust_groups_pam.png",width=15,height=15)
 

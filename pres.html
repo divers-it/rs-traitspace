@@ -7,7 +7,7 @@
 <link href="pres_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="pres_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
 <link href="pres_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.2.475">
+  <meta name="generator" content="quarto-1.2.269">
 
   <meta name="author" content="Andrew Helmstetter">
   <title>Reproductive strategies update</title>
@@ -318,6 +318,9 @@
       margin-right: 0; 
     }
   </style>
+  
+  <script src="pres_files/libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="pres_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -336,23 +339,22 @@ Andrew Helmstetter
 </div>
 
 </section>
-<section id="bullets" class="slide level2">
-<h2>Bullets</h2>
-<p>When you click the <strong>Render</strong> button a document will be generated that includes:</p>
+<section id="introduction" class="slide level2">
+<h2>Introduction</h2>
 <ul>
-<li>Content authored with markdown</li>
-<li>Output from executable code</li>
+<li>Angiosperms have an exceptional diversity of breeding systems</li>
+<li>Simple associations are known e.g.&nbsp;selfing + short life span, dioecy + tree form</li>
+<li>Can we use multi-trait approaches to identify more integrated reproductive strategies?</li>
 </ul>
-</section>
-<section id="code" class="slide level2">
-<h2>Code</h2>
-<p>When you click the <strong>Render</strong> button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
 <!-- Input data set -->
+</section>
+<section id="data-set" class="slide level2">
+<h2>Data set</h2>
+<p>Two new traits added:</p>
+<ul>
+<li>dispersal distance (and dispersal mode)</li>
+<li>seed mass</li>
+</ul>
 </section>
 <section id="data-set-completion-pre-clean" class="slide level2">
 <h2>Data set completion (pre-clean)</h2>
@@ -368,35 +370,32 @@ Andrew Helmstetter
 <li>21 traits, 360 species, 12.5% missing data</li>
 </ul>
 </section>
-<section id="distribution-in-diaz-et-al." class="slide level2">
-<h2>Distribution in Diaz et al.</h2>
-</section>
+<section id="how-well-do-our-species-cover-the-classic-trait-space-of-diaz-et-al." class="slide level2">
+<h2>How well do our species cover the ‘classic’ trait space of Diaz et al.?</h2>
+
+<img data-src="figures/scatter_pcoa_divers_in_diaz.png" class="r-stretch quarto-figure-center"></section>
 <section id="scatterplot-of-pcoa-coloured-by-missing-data" class="slide level2">
 <h2>Scatterplot of PCoA coloured by missing data</h2>
 
 <img data-src="figures/scatter_pcoa_missing.png" class="r-stretch quarto-figure-center"></section>
-<section id="scatter-of-pcoa-coloured-by-reproductive-traits" class="slide level2">
-<h2>Scatter of PCoA coloured by reproductive traits</h2>
-
-<img data-src="figures/scatter_pcoa_coloured_by_traits.png" class="r-stretch quarto-figure-center"></section>
 <section id="trait-space-quality-comparisons" class="slide level2">
 <h2>Trait space quality comparisons</h2>
 
-<img data-src="figures/dimensionality_no_axes.png" class="r-stretch quarto-figure-center"></section>
-<section id="one-hot-vs-original" class="slide level2">
-<h2>One hot vs original</h2>
-
-<img data-src="figures/scatterplot_dist_og_vs_one_hot.png" class="r-stretch quarto-figure-center"></section>
+<img data-src="figures/dimensionality_no_axes_diaz.png" class="r-stretch quarto-figure-center"></section>
 <section id="missing-data-imputation-using-phylogeny" class="slide level2">
 <h2>Missing data imputation using phylogeny</h2>
+<ul>
+<li>missForest()</li>
+</ul>
 
 <img data-src="figures/scatterplot_dist_missing_vs_imputed.png" class="r-stretch quarto-figure-center"></section>
-<section id="transition-rates" class="slide level2">
-<h2>Transition rates</h2>
+<section id="how-does-one-hot-encoding-affect-distances" class="slide level2">
+<h2>How does one-hot encoding affect distances?</h2>
+
 <!-- Clustering methods -->
-</section>
+<img data-src="figures/scatterplot_dist_og_vs_one_hot.png" class="r-stretch quarto-figure-center"></section>
 <section id="hierarchical-clustering" class="slide level2">
-<h2>Hierarchical clustering</h2>
+<h2>1. Hierarchical clustering</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
@@ -413,38 +412,199 @@ Andrew Helmstetter
 </div>
 </div>
 </section>
-<section id="kpro-clustering" class="slide level2">
-<h2>Kpro clustering</h2>
+<section id="k-prototypes" class="slide level2">
+<h2>2. K-prototypes</h2>
 
 <img data-src="figures/pcoa_kproto_k3.png" class="r-stretch quarto-figure-center"></section>
-<section id="partitioning-around-medoids-clustering" class="slide level2">
-<h2>Partitioning around medoids clustering</h2>
+<section id="partition-around-medoids-pam" class="slide level2">
+<h2>3. Partition around medoids (PAM)</h2>
 
 <img data-src="figures/scatter_pcoa_pam_clusters.png" class="r-stretch quarto-figure-center"></section>
-<section id="lcm" class="slide level2">
-<h2>LCM</h2>
+<section id="density-peak" class="slide level2">
+<h2>4. Density peak</h2>
 
-<img data-src="figures/pcoa_LCM_k4.png" class="r-stretch quarto-figure-center"></section>
-<section id="density-peak-clustering" class="slide level2">
-<h2>Density peak clustering</h2>
 <!-- Robust groups -->
+<img data-src="figures/pcoa_dens_4_clusters.png" class="r-stretch quarto-figure-center"></section>
+<section id="choosing-the-number-of-clusters" class="slide level2">
+<h2>Choosing the number of clusters</h2>
+<ul>
+<li>Choice of k (number of clusters) can be quite arbitrary</li>
+<li>Values of k vary among different approaches</li>
+</ul>
 </section>
-<section id="sankey-plot-demonstrate-robust-groups" class="slide level2">
-<h2>Sankey plot demonstrate robust groups</h2>
-</section>
-<section id="robust-groups-kpro-plot" class="slide level2">
-<h2>Robust groups kpro plot</h2>
+<section id="how-are-clusters-related-when-changeing-values-of-k" class="slide level2">
+<h2>How are clusters related when changeing values of k?</h2>
+
+<img data-src="figures/sankey_ward.png" class="r-stretch quarto-figure-center"></section>
+<section id="which-species-consistently-stick-together" class="slide level2">
+<h2>Which species consistently stick together?</h2>
+
+<img data-src="figures/sankey_kpro.png" class="r-stretch quarto-figure-center"></section>
+<section id="clusters-and-robust-groups-pam" class="slide level2">
+<h2>Clusters and robust groups (PAM)</h2>
 
 <!-- Reproductive strategies -->
-<img data-src="figures/scatter_pcoa_kpro_robust.png" class="r-stretch quarto-figure-center"></section>
-<section id="clustering-similarities-and-differences" class="slide level2">
-<h2>Clustering similarities and differences</h2>
+<img data-src="figures/scatter_pcoa_pam_robust.png" class="r-stretch quarto-figure-center"></section>
+<section id="characteristics-of-clusters" class="slide level2">
+<h2>Characteristics of clusters</h2>
+
+<img data-src="figures/stacked_barplots_k3_ward.png" class="r-stretch quarto-figure-center"></section>
+<section id="diversity-metrics-of-clusters" class="slide level2">
+<h2>Diversity metrics of clusters</h2>
+
+<img data-src="figures/stacked_barplots_k3_ward.png" class="r-stretch quarto-figure-center"><div class="cell-output-display">
+
+<table class="table" style="font-size: 18px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> X </th>
+   <th style="text-align:right;"> sp_richn </th>
+   <th style="text-align:right;"> fdis </th>
+   <th style="text-align:right;"> fmpd </th>
+   <th style="text-align:right;"> fnnd </th>
+   <th style="text-align:right;"> feve </th>
+   <th style="text-align:right;"> fric </th>
+   <th style="text-align:right;"> fdiv </th>
+   <th style="text-align:right;"> fori </th>
+   <th style="text-align:right;"> fspe </th>
+   <th style="text-align:right;"> fide_PC1 </th>
+   <th style="text-align:right;"> fide_PC2 </th>
+   <th style="text-align:right;"> fide_PC3 </th>
+   <th style="text-align:right;"> fide_PC4 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> k_3_cluster_1 </td>
+   <td style="text-align:right;"> 172 </td>
+   <td style="text-align:right;"> 0.4170694 </td>
+   <td style="text-align:right;"> 0.4244752 </td>
+   <td style="text-align:right;"> 0.2290156 </td>
+   <td style="text-align:right;"> 0.784752 </td>
+   <td style="text-align:right;"> 0.2838916 </td>
+   <td style="text-align:right;"> 0.7810958 </td>
+   <td style="text-align:right;"> 0.2200200 </td>
+   <td style="text-align:right;"> 0.4014795 </td>
+   <td style="text-align:right;"> 0.1257547 </td>
+   <td style="text-align:right;"> 0.0188032 </td>
+   <td style="text-align:right;"> -0.0155620 </td>
+   <td style="text-align:right;"> -0.0078715 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> k_3_cluster_2 </td>
+   <td style="text-align:right;"> 87 </td>
+   <td style="text-align:right;"> 0.4698220 </td>
+   <td style="text-align:right;"> 0.4762449 </td>
+   <td style="text-align:right;"> 0.2876122 </td>
+   <td style="text-align:right;"> 0.770962 </td>
+   <td style="text-align:right;"> 0.2829305 </td>
+   <td style="text-align:right;"> 0.7417284 </td>
+   <td style="text-align:right;"> 0.2725470 </td>
+   <td style="text-align:right;"> 0.5638579 </td>
+   <td style="text-align:right;"> -0.2055724 </td>
+   <td style="text-align:right;"> 0.0710673 </td>
+   <td style="text-align:right;"> -0.0152231 </td>
+   <td style="text-align:right;"> -0.0376983 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> k_3_cluster_3 </td>
+   <td style="text-align:right;"> 101 </td>
+   <td style="text-align:right;"> 0.3042550 </td>
+   <td style="text-align:right;"> 0.3195047 </td>
+   <td style="text-align:right;"> 0.1969453 </td>
+   <td style="text-align:right;"> 0.781576 </td>
+   <td style="text-align:right;"> 0.0857518 </td>
+   <td style="text-align:right;"> 0.6935406 </td>
+   <td style="text-align:right;"> 0.1832367 </td>
+   <td style="text-align:right;"> 0.3361637 </td>
+   <td style="text-align:right;"> -0.0370793 </td>
+   <td style="text-align:right;"> -0.0932377 </td>
+   <td style="text-align:right;"> 0.0396146 </td>
+   <td style="text-align:right;"> 0.0458778 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
 </section>
+<section id="diversity-indices-of-clusters" class="slide level2">
+<h2>Diversity indices of clusters</h2>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Cluster 2</a></li><li><a href="#tabset-1-2">Cluster 3</a></li><li><a href="#tabset-1-3">Cluster 1</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<ul>
+<li>predominantly woody, dimorphic species</li>
+<li>species are quite dissimilar within cluster (MPD, NND)</li>
+<li>Species in cluster and distinct from other species in global pool (Fspe, Fori)</li>
+</ul>
+</div>
+<div id="tabset-1-2">
+<ul>
+<li>predominantly woody, monomorphic species</li>
+<li>species are similar to each other within cluster (NND, MPD)</li>
+<li>functional space filled by cluster is small (Fric)</li>
+</ul>
+</div>
+<div id="tabset-1-3">
+<ul>
+<li>predominantly herbaceous, monomorphic species</li>
+<li>many species have extreme traits (near edge of cluster) (Fdiv)</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="scatterplot-of-pcoa-coloured-and-shaped-by-reproductive-traits" class="slide level2">
+<h2>Scatterplot of PCoA coloured and shaped by reproductive traits</h2>
+
+<img data-src="figures/scatter_pcoa_coloured_by_traits.png" class="r-stretch quarto-figure-center"></section>
 <section id="characteristics-of-robust-groups" class="slide level2">
 <h2>Characteristics of robust groups</h2>
+
+<img data-src="figures/stacked_barplots_robust_groups_pam.png" class="r-stretch quarto-figure-center"></section>
+<section id="characteristics-of-robust-groups-1" class="slide level2">
+<h2>Characteristics of robust groups</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/barplots_pam_robust_height.png"></p>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/barplots_pam_robust_flowersize.png"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="clustering-similarities-and-differences" class="slide level2">
+<h2>Clustering similarities and differences</h2>
+<p>Strategies are broadly defined by two axes:</p>
+<ul>
+<li><p>Woody vs herbaceous</p></li>
+<li><p>Monomorphic vs dimorphic</p></li>
+</ul>
+<p>Other traits like dispersal, mating system, symmetry split groups at finer scale but are not ‘strategy defining’</p>
+<ul>
+<li>these traits vary among clustering approaches</li>
+</ul>
 </section>
 <section id="strategies-on-phylogenetic-tree" class="slide level2">
 <h2>Strategies on phylogenetic tree</h2>
+
+<img data-src="figures/phylo_ward.png" class="r-stretch quarto-figure-center"></section>
+<section id="looking-forward" class="slide level2">
+<h2>Looking forward</h2>
+<ul>
+<li>Choosing the ‘best’ results to present</li>
+<li>Improving our interpretation of these results</li>
+<li>Make a stronger link between this ‘static’ ecological approach and our ‘dynamic’ evolutionary perspective</li>
+<li>Calculate transition rates among states, clusters</li>
+</ul>
 <div class="footer footer-default">
 
 </div>

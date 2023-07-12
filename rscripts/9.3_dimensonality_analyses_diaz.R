@@ -85,7 +85,7 @@ diaz_pcf_od$Diaspore_mass_mg<-diaz_pcf_od$Diaspore_mass_mg + 1
 #log transform and scale
 diaz_pcf_od<-log(diaz_pcf_od)
 diaz_pcf_od<-scale(diaz_pcf_od, center = T, scale = T)
-z
+
 dataset<-data.frame(diaz_pcf_od)
 
 #missing data visualisation
@@ -241,7 +241,6 @@ library(ggplot2)
 p <- ggplot(res_for_graph_dim, aes(x = dim, y = AUC, colour = taxa)) + 
   stat_summary(fun = "mean", geom = "line", size = 1, alpha = 0.4) +
   stat_summary(fun = "mean", size = 0.88) +
-  
   labs(x = "Number of dimensions(PCoA axes)") + 
   labs(y = "Quality of species trait space (AUC)") +
   facet_wrap(~ taxa,ncol = 6) + theme_bw() +
@@ -274,11 +273,15 @@ p <- ggplot(res_for_graph_dim, aes(x = dim, y = AUC, colour = taxa)) +
              aes(label = paste0("Elbow-AUC = ", elbow, "\n", 
                                 "#S = ", SP , "\n",
                                 "#T = ", trait),
-                 y = 0.5, x = 10), size = 2.1, hjust = 0) +
+                 y = 0.5, x = 10), size = 3, hjust = 0) +
+  
+  geom_label(data = res_for_graph_dim, 
+             aes(label = paste0("data set = ", taxa),
+                 y = 0.95, x = 0), size = 4, hjust = 0) +
   
   scale_y_continuous(breaks = seq(0.1, 1, 0.2))
 
-grDevices::png(file = here::here("figures", "dimensionality_no_axes_diaz.png"),width=1000,height=750)
+grDevices::png(file = here::here("figures", "dimensionality_no_axes.png"),width=1000,height=500)
 
 print(p)
 

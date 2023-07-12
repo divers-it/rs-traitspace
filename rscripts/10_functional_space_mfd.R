@@ -1,6 +1,10 @@
 #FROM:
 #https://frbcesab.github.io/workshop-free/practice.html
 
+#load packages
+load(tidyr)
+load(dplyr)
+
 #load formatted data
 df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
 
@@ -171,6 +175,60 @@ big_plot$"patchwork"
 dev.off()
 
 ## Computing and plotting alpha FD indices ----
+
+#read in clustering
+clust_ward<-readRDS("outputs/clust_num_k_2_7_ward.rds")
+
+#make df with clustering info
+clust_ward_df<-as.data.frame(cbind(rownames(clust_ward),clust_ward$`3clusters`))
+colnames(clust_ward_df)<-c("species","cluster")
+
+#recode df into one-hot with species as columns
+clust_ward_recode <- clust_ward_df %>% mutate(value = 1)  %>% spread(species, value,  fill = 0 ) 
+
+#remove cluster label column and add as name
+cw<-clust_ward_recode[,c(2:length(colnames(clust_ward_recode)))]
+rownames(cw)<-clust_ward_recode$cluster
+
+#check names
+table(colnames(cw)==rownames(sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")]))
+
+#compute 5 functional indices
+alpha_fd_indices <- mFD::alpha.fd.multidim(
+  sp_faxes_coord   = as.matrix(sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")]),
+  asb_sp_w         = as.matrix(cw),
+  #ind_vect         = c("fdis", "fric", "fdiv","fspe", "fide"), #output all
+  scaling          = TRUE,
+  check_input      = TRUE,
+  details_returned = TRUE)
+
+#output indices
+fd_ind_values <- alpha_fd_indices$"functional_diversity_indices"
+fd_ind_values
+write.csv(fd_ind_values,"outputs/mfd_indices_ward_k3.csv")
+
+#FDis Functional Dispersion: the biomass weighted deviation of species traits values from the center of the functional space filled by the #assemblage i.e. the biomass-weighted mean distance to the biomass-weighted mean trait values of the assemblage.
+#
+#FRic Functional Richness: the proportion of functional space filled by species of the studied assemblage, i.e. the volume inside the convex#-hull shaping species. To compute FRic the number of species must be at least higher than the number of functional axis + 1.
+#
+#FDiv Functional Divergence: the proportion of the biomass supported by the species with the most extreme functional traits i.e. the ones #located close to the edge of the convex-hull filled by the assemblage.
+#
+#FEve Functional Evenness: the regularity of biomass distribution in the functional space using the Minimum Spanning Tree linking all species #present in the assemblage.
+#
+#FSpe Functional Specialization: the biomass weighted mean distance to the mean position of species from the global pool (present in all #assemblages).
+#
+#FMPD Functional Mean Pairwise Distance: the mean weighted distance between all species pairs.
+#
+#FNND Functional Mean Nearest Neighbour Distance: the weighted distance to the nearest neighbor within the assemblage.
+#
+#FIde Functional Identity: the mean traits values for the assemblage. FIde is always computed when FDis is computed.
+#
+#FOri Functional Originality: the weighted mean distance to the nearest species from the global species pool.
+
+###
+# phylo stuff
+###
+
 
 library(ape)
 phy<-read.tree("outputs/pruned_tree.tre")

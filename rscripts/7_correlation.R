@@ -36,6 +36,13 @@ dataset_cor[lower.tri(dataset_cor)] <- t(dataset_cor)[lower.tri(dataset_cor)]
 #make diagonal NA
 diag(dataset_cor) <- NA
 
+#make df for labelling
+dataset_cor_df<-as.data.frame(dataset_cor)
+rownames(dataset_cor_df)<-colnames(dataset)
+colnames(dataset_cor_df)<-colnames(dataset)
+
+view(dataset_cor_df)
+
 #correlation stats
 dataset_cor_summ <- data.frame(
   mean_cor = mean(abs(dataset_cor), na.rm = TRUE),
@@ -98,7 +105,7 @@ dataset_cor_num_summ
 #dissimilarity matrix calc
 par(mfrow=c(1,1))
 
-gower_df <- daisy(df,
+gower_df <- daisy(dataset,
                   metric = "gower" )
 
 summary(gower_df)
@@ -111,7 +118,7 @@ dev.off()
 
 #One-liner to look at frequency of trait combinations
 combo_df <-
-  df %>% group_by(Woodiness, Mating, Lifespan, .drop = FALSE) %>%
+  dataset %>% group_by(SexualSystem, FlowerSex, .drop = FALSE) %>%
   summarize(count = n())
 combo_df
 

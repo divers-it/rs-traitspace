@@ -226,7 +226,8 @@ brewer.pal(7, "Dark2")
 dendro <- as.dendrogram(aggl.clust.w)
 dendro.col <- dendro %>%
   set("branches_k_color",
-      k = 3) %>%
+      k = 3,
+      value = c("#4DAF4A","#377EB8","#E41A1C")) %>%
   set("branches_lwd", 0.6) %>%
   set("labels_colors",
       value = c("darkslategray")) %>%
@@ -788,5 +789,5 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
   ) + geom_text(aes(size = count,label = label),
                 position = position_stack(vjust = .5)) + coord_flip()
 
-ggsave("figures/stacked_barplots_k3_ward.pdf",width=15,height=10)
+ggsave("figures/stacked_barplots_k3_ward.png",width=15,height=10)
 
