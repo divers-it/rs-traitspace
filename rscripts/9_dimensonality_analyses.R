@@ -28,7 +28,7 @@ rm(list = "dataset")
 dataset <- readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
 
 # Run Analysis ----
-run_analysis(dataset, name = "DiveRS_2023_one_hot")
+run_analysis(dataset, name = "DiveRS_one_hot_2023")
 rm(list = "dataset")
 
 ###
@@ -39,7 +39,7 @@ rm(list = "dataset")
 dataset <- readRDS(file = here::here("outputs/df_filt_trans_shared.rds"))
 
 # Run Analysis ----
-run_analysis(dataset, name = "DiveRS_2023_shared")
+run_analysis(dataset, name = "DiveRS_shared_2023")
 rm(list = "dataset")
 
 ###
@@ -120,7 +120,7 @@ diaz_pcf_od<-scale(diaz_pcf_od, center = T, scale = T)
 dataset<-data.frame(diaz_pcf_od)
 
 # Run Analysis ----
-run_analysis(dataset, name = "diaz_2022_shared")
+run_analysis(dataset, name = "diaz_shared_2022")
 rm(list = "dataset")
 
 ## Import Results ----

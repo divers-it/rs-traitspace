@@ -42,22 +42,27 @@ dataset_dist2 <- stats::as.dist(gower_df2)
 
 #NOT RUN:
 #original ape pcoa
-#dataset_pcoa2b <- ape::pcoa(dataset_dist2)
-#dataset_pcoa2b$values
+dataset_pcoa2b <- ape::pcoa(dataset_dist2)
+dataset_pcoa2b$values$Eigenvalues
+
+#Recalculate relative eigenvalues by removing negative eigenvalues as in Mouillot et al.  
+ev_pcoa <- dataset_pcoa2b$values$Eigenvalues
+ev_pcoa_g0 <- ev_pcoa[ev_pcoa>0]
+rel_ev_pcoa_g0 <- ev_pcoa_g0/sum(ev_pcoa_g0)
 
 #Make data frame of first 9 relative eigenvalues
-eig_df2<-data.frame(c(1:9),dataset_pcoa2b$values$Relative_eig[1:9])
-colnames(eig_df2)<-c("pcoa_axis","relative_eigenvalue")
-eig_df2$pcoa_axis<-as.character(eig_df2$pcoa_axis)
+eig_df<-data.frame(c(1:9),rel_ev_pcoa_g0[1:9])
+colnames(eig_df)<-c("pcoa_axis","relative_eigenvalue")
+eig_df$pcoa_axis<-as.character(eig_df$pcoa_axis)
 
 #plot barplot of first 9 relative eigenvalues
-ggplot(eig_df2, aes(x=pcoa_axis, y=relative_eigenvalue)) + 
+ggplot(eig_df, aes(x=pcoa_axis, y=relative_eigenvalue)) + 
   geom_bar(stat = "identity")
 ggsave("figures/barplot_relative_eigenvalues_pcoa_one_hot.png")
 
 #Change pcoa method (using the method from the "vegan" package)
 #Weight version
-dataset_pcoa2 <- wcmdscale(d = dataset_dist2, eig = TRUE, add = "lingoes")
+dataset_pcoa2 <- wcmdscale(d = dataset_dist2, eig = TRUE)
 dataset_pcoa2
 
 #difference between ape and vegan pcoa eigenvalues
@@ -80,12 +85,9 @@ ggplot(species_scores, aes(x = Dim1, y = Dim2)) +
     alpha=0.75,
     size=2,
     stroke = 0.5
-  ) 
-
-#NOTE: Unsure how to get eigenvalues for axes
-#+
-#  xlab(paste("Axis 1: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[1],2))) +
-#  ylab(paste("Axis 2: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[2],2)))
+  )  +
+  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
+  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
 #save plot
 ggsave("figures/scatter_pcoa_missing_one_hot.png",
@@ -109,8 +111,8 @@ p1 <- ggplot(species_scores, aes(x = Dim1, y = Dim2, fill = as.factor(df$SexualS
   ) + 
   scale_shape_manual(values=c(21,22,23)) +
   guides(fill = guide_legend(override.aes = list(shape = 24))) +
-  #xlab(paste("Axis 1: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[1],2))) +
-  #ylab(paste("Axis 2: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[2],2))) + 
+  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
+  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) + 
   theme(legend.position="bottom",
         legend.title = element_blank(),
         legend.box="vertical", 
@@ -127,8 +129,8 @@ p2 <- ggplot(species_scores, aes(x = Dim1, y = Dim2, fill = as.factor(df$Mating)
   ) + 
   scale_shape_manual(values=c(21,22,23)) +
   guides(fill = guide_legend(override.aes = list(shape = 24) ) ) +
-  #xlab(paste("Axis 1: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[1],2))) +
-  #ylab(paste("Axis 2: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[2],2))) + 
+  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
+  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) + 
   theme(legend.position="bottom",
         legend.title = element_blank(),
         legend.box="vertical", 

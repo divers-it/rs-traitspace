@@ -35,7 +35,7 @@ dev.off()
 dataset_dist <- stats::as.dist(gower_df)
 
 #run PCoA on distance matrix
-dataset_pcoa <- ape::pcoa(dataset_dist,correction = "ca")
+dataset_pcoa <- ape::pcoa(dataset_dist)
 
 #Recalculate relative eigenvalues by removing negative eigenvalues as in Mouillot et al.  
 ev_pcoa <- dataset_pcoa$values$Eigenvalues
