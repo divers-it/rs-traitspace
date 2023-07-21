@@ -33,12 +33,13 @@ dev.off()
 
 # Remove traits with too much missing data ----
 # limit currently at 50%
-df <- df[ , (colSums(is.na(df)) < length(df[,1])*0.5)]
+df <- df[ , (colSums(is.na(df)) <= length(df[,1])*0.5)]
 str(df)
 
 # Remove line with too much missing data ----
 # limit currently at 50%
-df <- df[(rowSums(is.na(df)) < length(df[1,])*0.5), ]
+df <- df[(rowSums(is.na(df)) <= length(df[1,])*0.5), ]
+str(df)
 
 ## ----- Outlier removal -----
 

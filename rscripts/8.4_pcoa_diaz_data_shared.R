@@ -1,8 +1,11 @@
 rm(list=ls())
+
+#load libraries
 library(dplyr)
 library(ggplot2)
 
-par(mar=c(4,4,4,4))
+#set plot margins
+par(mar=c(3,3,3,3))
 
 #load formatted DiveRS data
 df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
@@ -83,19 +86,23 @@ diaz_pcf<-scale(diaz_pcf, center = T, scale = T)
 library(cluster)
 gower_df <- daisy(diaz_pcf,
                   metric = "gower" )
-
 summary(gower_df)
 
-#euclidean distance
+#NOT RUN:
+#Replace NA with 0 to calculate Euclidean distance
 #diaz_pcf[is.na(diaz_pcf)] <- 0
 #gower_df <- dist(diaz_pcf)
 
+#set as distance
 dataset_dist <- stats::as.dist(gower_df)
+
+#run PCoA
 dataset_pcoa <- ape::pcoa(dataset_dist)
 
-#save/load pcoa image
-#save.image("outputs/diaz_pcoa.Rdata")
-#load("outputs/diaz_pcoa.Rdata")
+#Recalculate relative eigenvalues by removing negative eigenvalues as in Mouillot et al.  
+ev_pcoa <- dataset_pcoa$values$Eigenvalues
+ev_pcoa_g0 <- ev_pcoa[ev_pcoa>0]
+rel_ev_pcoa_g0 <- ev_pcoa_g0/sum(ev_pcoa_g0)
 
 #set rownames
 rownames(diaz_pcf)<-diaz_cf$Species_name_standardized_against_TP
@@ -111,23 +118,26 @@ rownames(diaz_pcf)==rownames(df_filt)
 #save df with only species shared between divers and Diaz et al. for trait space quality comparison
 saveRDS(df_filt, file = here::here("outputs/df_filt_trans_shared.rds"))
 
-#plot PCOA points on first two axes
+#plot PCOA points on first two axes coloured by woodiness
 ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2, fill = as.factor(df_filt$Woodiness))) +
   geom_point(
     color="black",
     shape=21,
     alpha=0.75,
-    size=2,
+    size=3,
     stroke = 0.5
   ) +
-  xlab(paste("Axis 1: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[2],2)))
+  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
+  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
-#relative eigenvalues
-eig_df<-data.frame(c(1:9),dataset_pcoa$values$Relative_eig[1:9])
-colnames(eig_df)<-c("axis","relative_eigenvalue")
-eig_df$axis<-as.character(eig_df$axis)
-sum(na.omit(eig_df$relative_eigenvalue))
+#Make data frame of first 9 relative eigenvalues
+eig_df<-data.frame(c(1:9),rel_ev_pcoa_g0[1:9])
+colnames(eig_df)<-c("pcoa_axis","relative_eigenvalue")
+eig_df$pcoa_axis<-as.character(eig_df$pcoa_axis)
+
+ggplot(eig_df, aes(x=pcoa_axis, y=relative_eigenvalue)) + 
+  geom_bar(stat = "identity")
+ggsave("figures/rel_eig_pcoa_diaz_shared.png")
 
 #rename diaz data
 diaz_dist<-gower_df
@@ -136,13 +146,10 @@ diaz_dist<-gower_df
 divers_dist <- daisy(df_filt,
                   metric = "gower" )
 
-
 #check names
 labels(diaz_dist)==labels(divers_dist)
 
-png(filename = "scatterplot_dist_diaz_vs_divers.png")
-
-#compare pairwaise distances of the two matrices
-plot(diaz_dist,divers_dist)
-
+#compare pairwaise distances of the DiveRS and Diaz distance matrices
+png(filename = "scatterplot_dist_diaz_vs_divers.png",width = 500,height = 500)
+plot(diaz_dist,divers_dist,xlim=c(0,1),ylim=c(0,1))
 dev.off()

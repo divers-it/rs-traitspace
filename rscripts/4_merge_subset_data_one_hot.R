@@ -18,17 +18,11 @@ quant_df<-quant_df[,c(1,grep("meanValDat",colnames(quant_df)))]
 #merge discrete+recoded discrete
 disc_qr_df<-merge(disc_df, qr_df, by.x = 'NTaxDat', by.y = 'species', all.x = T)
 
-##
-# TO RECODE: CURRENTLY OUTCROSSING RATE DATA OVERWRITES MATING SYSTEM DATA
-##
-
-
-#fill in gaps with recoded outcrossing rate data
+#Loop to fill in gaps with recoded outcrossing rate data
 for(i in 1:length(disc_qr_df$NTaxDat)){
   
   #if outcrossing rate data is present
   if(!is.na(disc_qr_df$outcrossing_rate[i])){
-    
     
     #if na value for Mating_mixed column
     if(is.na(disc_qr_df$Mating_mixed[i]) && disc_qr_df$outcrossing_rate[i]=="mixed"){
@@ -77,21 +71,10 @@ for(i in 1:length(disc_qr_df$NTaxDat)){
       }
       
     }
-      
     
   }
   
-  
 }
-
-#NOTE: throws errors with new traits
-#merge mating traits (discrete- and rate-based)
-#disc_qr_df[is.na(disc_qr_df$Mating_selfing),]$Mating_selfing = disc_qr_df[is.na(disc_qr_df$Mating_selfing),]$outcrossing_rate_selfing
-#disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_selfing) & disc_qr_df$outcrossing_rate_selfing==1,]$Mating_selfing=disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_selfing) & disc_qr_df$outcrossing_rate_selfing==1,]$outcrossing_rate_selfing
-#disc_qr_df[is.na(disc_qr_df$Mating_outcrossing),]$Mating_outcrossing=disc_qr_df[is.na(disc_qr_df$Mating_outcrossing),]$outcrossing_rate_outcrossing
-#disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_outcrossing) & disc_qr_df$outcrossing_rate_outcrossing==1,]$Mating_outcrossing=disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_outcrossing) & disc_qr_df$outcrossing_rate_outcrossing==1,]$outcrossing_rate_outcrossing
-#disc_qr_df[is.na(disc_qr_df$Mating_mixed),]$Mating_mixed=disc_qr_df[is.na(disc_qr_df$Mating_mixed),]$outcrossing_rate_mixed
-#disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_mixed) & disc_qr_df$outcrossing_rate_mixed==1,]$Mating_mixed=disc_qr_df[!is.na(disc_qr_df$outcrossing_rate_mixed) & disc_qr_df$outcrossing_rate_mixed==1,]$outcrossing_rate_mixed
 
 #remove rate-based mating system
 disc_qr_df<-disc_qr_df[,-c(grep("outcrossing_rate",colnames(disc_qr_df)))]
@@ -163,6 +146,7 @@ rownames(seedMass)[grep("Pitcairnia albifilos",rownames(seedMass))]<-"Pitcairnia
 rownames(seedMass)[grep("Ruellia nudiflora",rownames(seedMass))]<-"Ruellia ciliatiflora"
 rownames(seedMass)[grep("Veronica anagallisaquatica",rownames(seedMass))]<-"Veronica anagallis-aquatica"
 
+#check structure
 str(seedMass[rownames(proteus_combined)%in%rownames(seedMass),])
 
 #percentage missing data
@@ -180,4 +164,5 @@ proteus_combined<-cbind(proteus_combined,seedMass_merge$Seed_weight)
 #rename
 colnames(proteus_combined)[ncol(proteus_combined)]<-"seedMass"
 
+#write output csv
 write.csv(proteus_combined,"outputs/proteus_combined_one_hot.csv")

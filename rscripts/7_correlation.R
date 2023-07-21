@@ -53,7 +53,6 @@ dataset_cor_summ <- data.frame(
 
 dataset_cor_summ
 
-
 #Alternative correlation on numeric traits
 
 #make vectors to split numeric and factor columns

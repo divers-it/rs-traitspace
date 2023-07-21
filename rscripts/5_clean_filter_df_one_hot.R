@@ -36,8 +36,15 @@ str(df)
 
 # Remove line with too much missing data IN NORMAL (NON-ONE-HOT DATA) ----
 # This is done so comparisons can be made across data sets (requires same set of species)
-df2 <- df2[ , (colSums(is.na(df2)) < length(df2[,1])*0.5)]
-df <- df[(rowSums(is.na(df2)) < length(df2[1,])*0.5), ]
+df2 <- df2[ , (colSums(is.na(df2)) <= length(df2[,1])*0.5)]
+df <- df[(rowSums(is.na(df2)) <= length(df2[1,])*0.5), ]
+str(df)
+
+#NOT RUN:
+# But this might inlude some species that have more missing data than 50% after transformation
+# check for species removed in one-hot but not in original 
+#df_temp<-df[(rowSums(is.na(df)) <= length(df[1,])*0.5), ]
+#setdiff(rownames(df),rownames(df_temp))
 
 ## ----- Outlier removal -----
 

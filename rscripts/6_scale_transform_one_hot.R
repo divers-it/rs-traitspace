@@ -6,54 +6,51 @@ library(dplyr)
 #load formatted data
 df<-readRDS(file = here::here("outputs/df_filt_one_hot.rds"))
 
-#numeric columns only
+#make vectors to split numeric and factor columns
 nums <- unlist(lapply(df, is.numeric))
 facts <- unlist(lapply(df, is.factor))
 
-str(df)
-
+#examine data distribution
 boxplot(df[ , nums])
 
-#centring introduced negative numbers that cant be logged
-boxplot(scale(df[ , nums],center = F))
-
-#scale and combine
-df2<-cbind(scale(df[ , nums],center = F),df[ , facts])
-
-nums <- unlist(lapply(df2, is.numeric))
-facts <- unlist(lapply(df2, is.factor))
+#combine to ensure correct order
+df2<-cbind(df[ , nums],df[ , facts])
 
 #plot histograms of quantitative variables
 pdf("figures/proteus_trait_hists_one_hot.pdf")
-par(mfrow=c(3,ceiling(sum(nums==TRUE)/3)))
+par(mfrow=c(3,3))
 #look at hists
-for(i in 1:length(df2)){
-  if(nums[i]){
+for(i in 1:7){
   hist(df2[,i],main=colnames(df2)[i])
-}
 }
 dev.off()
 
 #plot histograms of logged (log10) variables
 pdf("figures/proteus_trait_hists_transformed_one_hot.pdf")
-par(mfrow=c(3,ceiling(sum(nums==TRUE)/3)))
+par(mfrow=c(3,3))
 
-for(i in 1:length(df2)){
-  if(nums[i]){
+for(i in 1:7){
   hist(log(df2[,i]),main=colnames(df2)[i])
-}
 }
 dev.off()
 
 #do log transformations
-#not logging ovaries outcrossing rate
-for(i in 1:length(df2)){
-  if(nums[i]){
-	if(colnames(df2)[i] != "Outcrossing.rate" & colnames(df2)[i] != "Fusion.of.ovaries"){
+#NOTE: not logging ovaries and others that don't work
+for(i in c(1,2,3,4,6,7)){
   df2[,i]<-log(df2[,i])
 }
+
+#scale and centre numeric traits
+df2<-cbind(scale(df2[ , 1:7],center = T, scale = T),df[ , facts])
+
+#plot histograms of logged (log10) variables
+pdf("figures/proteus_trait_hists_transformed_scaled_one_hot.pdf")
+par(mfrow=c(3,3))
+
+for(i in 1:7){
+  hist(df2[,i],main=colnames(df2)[i])
 }
-}
+dev.off()
 
 # Save scaled and transformed dataset
 saveRDS(df2, file = here::here("outputs/df_filt_trans_one_hot.rds"))
