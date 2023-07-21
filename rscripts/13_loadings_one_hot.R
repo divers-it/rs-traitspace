@@ -34,22 +34,21 @@ dft<-readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
 df_ord=as.data.frame(c(dft,speciesd))
 
 # read clusters
-clusters_ward=readRDS(file = here::here("outputs/clust_num_k_2_7_ward_one_hot.rds"))
+clusters_ward_one_hot=readRDS(file = here::here("outputs/clust_num_k_2_7_ward_one_hot.rds"))
+clusters_ward=readRDS(file = here::here("outputs/clust_num_k_2_7_ward.rds"))
+clusters_kpro_one_hot=readRDS(file = here::here("outputs/clust_num_k_2_7_kpro_one_hot.rds"))
+clusters_kpro=readRDS(file = here::here("outputs/clust_num_k_2_7_kpro.rds"))
+clusters_pam_one_hot=readRDS(file = here::here("outputs/clust_num_k_2_7_pam_one_hot.rds"))
+clusters_pam=readRDS(file = here::here("outputs/clust_num_k_2_7_pam.rds"))
+clusters_density_one_hot=readRDS(file = here::here("outputs/clust_num_k_2_7_density_one_hot.rds"))
+clusters_density=readRDS(file = here::here("outputs/clust_num_k_2_7_density.rds"))
+
 
 #select number of clusters
 # divisive.clust = 3
 # aggl.clust.c (complete) = 4
 # aggl.clust.a (average) = 2
 # aggl.clust.w (ward) = 5
-clust.num <- cutree(aggl.clust.w, k = 4)
-df_clust=merge(clust.num,dft,by=0)
-names(df_clust)[c(1,2)]=c("species","clust")
-write.csv(file="outputs/species_hclust_k4_one_hot.csv",df_clust)
-
-clust.num <- cutree(aggl.clust.w, k = 6)
-df_clust=merge(clust.num,dft,by=0)
-names(df_clust)[c(1,2)]=c("species","clust")
-write.csv(file="outputs/species_hclust_k6_one_hot.csv",df_clust)
 
 #clust.num[clust.num==1]="showy perennials"
 #clust.num[clust.num==2]="dioecious trees"
@@ -107,6 +106,79 @@ ggsave("figures/pcoa_hclust_k3_loadings_one_hot.png",
        width = 20,
        height = 40,
        units = 'cm')
+
+
+#compare clustering methods
+# "normal encoding" first
+
+numclust="6clusters"
+
+clust.num=data.frame(clust.num=clusters_ward[,numclust])
+rownames(clust.num)=rownames(clusters_ward)
+df_ord_clust=as.data.frame(c(df_ord,clust.num))
+
+p1=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none") + ggtitle("ward")
+
+clust.num=data.frame(clust.num=clusters_kpro[,numclust])
+rownames(clust.num)=rownames(clusters_kpro)
+df_ord_clust=as.data.frame(c(df_ord,clust.num))
+
+p2=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none") + ggtitle("kproto")
+
+clust.num=data.frame(clust.num=clusters_pam[,numclust])
+rownames(clust.num)=rownames(clusters_pam)
+df_ord_clust=as.data.frame(c(df_ord,clust.num))
+
+p3=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none") + ggtitle("pam")
+
+clust.num=data.frame(clust.num=clusters_density[,numclust])
+rownames(clust.num)=rownames(clusters_density)
+df_ord_clust=as.data.frame(c(df_ord,clust.num))
+
+p4=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none") + ggtitle("density")
+
+p1 + p2 + p3 + p4
+
+ggsave("figures/pcoa_clustering_k6_loadings.png",
+       width = 40,
+       height = 20,
+       units = 'cm')
+
+#one-hot based clustering
+
+numclust="6clusters"
+
+clust.num=data.frame(clust.num=clusters_ward_one_hot[,numclust])
+rownames(clust.num)=rownames(clusters_ward_one_hot)
+df_ord_clust=as.data.frame(c(df_ord,clust.num))
+
+p1=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none") + ggtitle("ward")
+
+clust.num=data.frame(clust.num=clusters_kpro_one_hot[,numclust])
+rownames(clust.num)=rownames(clusters_kpro_one_hot)
+df_ord_clust=as.data.frame(c(df_ord,clust.num))
+
+p2=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none") + ggtitle("kproto")
+
+clust.num=data.frame(clust.num=clusters_pam_one_hot[,numclust])
+rownames(clust.num)=rownames(clusters_pam_one_hot)
+df_ord_clust=as.data.frame(c(df_ord,clust.num))
+
+p3=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none") + ggtitle("pam")
+
+clust.num=data.frame(clust.num=clusters_density_one_hot[,numclust])
+rownames(clust.num)=rownames(clusters_density_one_hot)
+df_ord_clust=as.data.frame(c(df_ord,clust.num))
+
+p4=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none") + ggtitle("density")
+
+p1 + p2 + p3 + p4
+
+ggsave("figures/pcoa_clustering_one_hot_k6_loadings.png",
+       width = 40,
+       height = 20,
+       units = 'cm')
+
 
 #3d
 
