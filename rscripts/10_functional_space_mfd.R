@@ -1,9 +1,13 @@
+rm(list=ls())
+
 #FROM:
 #https://frbcesab.github.io/workshop-free/practice.html
 
 #load packages
-load(tidyr)
-load(dplyr)
+library(tidyr)
+library(dplyr)
+library(mFD)
+library(ggplot2)
 
 #load formatted data
 df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
@@ -23,34 +27,33 @@ for(i in 1:length(colnames(df))){
   
 }
 
-#make data frame
+#make data frame with trait types
 trait_code_df<-data.frame(colnames(df),trait_code)
 colnames(trait_code_df)<-c("trait_name","trait_type")
 
-library(mFD)
-
+#calculate functional distances using gower
 sp_dist <- mFD::funct.dist(
   sp_tr         = df,
   tr_cat        = trait_code_df,
   metric        = "gower",
-  scale_euclid  = "scale_center",
+#  scale_euclid  = "scale_center", #already done
   ordinal_var   = "classic",
   weight_type   = "equal",
   stop_if_NA    = F)
 
-
+#do PCoA and evaluate quality of space as axes are added
 fspaces_quality <- mFD::quality.fspaces(
   sp_dist             = sp_dist,
   maxdim_pcoa         = 15,
   deviation_weighting = "absolute",
   fdist_scaling       = FALSE,
-  fdendro             = "average")
+  fdendro             = "ward.D")
 
 ## Quality metrics of functional spaces ----
 
 #The space with the best quality has the lowest quality metric.
 round(fspaces_quality$"quality_fspaces", 3)
-write.csv(round(fspaces_quality$"quality_fspaces", 3),"outputs/mfd_qual.csv")
+#write.csv(round(fspaces_quality$"quality_fspaces", 3),"outputs/mfd_qual.csv")
 
 #With the mFD package, it is possible to illustrate the quality of PCoA-based multidimensional spaces according
 #to deviation between trait-based distances and distances in the functional space
@@ -94,7 +97,7 @@ sp_faxes_coord <- fspaces_quality$"details_fspaces"$"sp_pc_coord"
 
 #correlation of continuous traits
 df_faxes <- mFD::traits.faxes.cor(
-  sp_tr          = df[,c(1:6)], 
+  sp_tr          = df[,c(1:7)], 
   sp_faxes_coord = sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")],
   stop_if_NA = F,
   plot = TRUE)
@@ -107,9 +110,9 @@ png("figures/mfd_traits_vs_axes_quant.png",width=2500,height = 2000,res=200)
 df_faxes$"tr_faxes_plot"
 dev.off()
 
-#correlation of discrete traits 7-10
+#correlation of discrete traits 8-14
 df_faxes <- mFD::traits.faxes.cor(
-  sp_tr          = df[,c(7:10)], 
+  sp_tr          = df[,c(8:14)], 
   sp_faxes_coord = sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")],
   stop_if_NA = F,
   plot = TRUE)
@@ -118,13 +121,13 @@ df_faxes <- mFD::traits.faxes.cor(
 df_faxes$"tr_faxes_stat"[which(df_faxes$"tr_faxes_stat"$"p.value" < 0.05), ]
 
 #plot
-png("figures/mfd_traits_vs_axes_qual_7_10.png",width=4000,height = 2000,res=200)
+png("figures/mfd_traits_vs_axes_qual_1.png",width=4000,height = 2000,res=200)
 df_faxes$"tr_faxes_plot"
 dev.off()
 
-#correlation of qualitative traits 11-14
+#correlation of qualitative traits 15-21
 df_faxes <- mFD::traits.faxes.cor(
-  sp_tr          = df[,c(11:14)], 
+  sp_tr          = df[,c(15:21)], 
   sp_faxes_coord = sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")],
   stop_if_NA = F,
   plot = TRUE)
@@ -133,23 +136,7 @@ df_faxes <- mFD::traits.faxes.cor(
 df_faxes$"tr_faxes_stat"[which(df_faxes$"tr_faxes_stat"$"p.value" < 0.05), ]
 
 #plot
-png("figures/mfd_traits_vs_axes_qual_11_14.png",width=4000,height = 2000,res=200)
-df_faxes$"tr_faxes_plot"
-dev.off()
-
-
-#correlation of qualitative traits 15-18
-df_faxes <- mFD::traits.faxes.cor(
-  sp_tr          = df[,c(15:18)], 
-  sp_faxes_coord = sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")],
-  stop_if_NA = F,
-  plot = TRUE)
-
-# Print traits with significant effect
-df_faxes$"tr_faxes_stat"[which(df_faxes$"tr_faxes_stat"$"p.value" < 0.05), ]
-
-#plot
-png("figures/mfd_traits_vs_axes_qual_15_18.png",width=4000,height = 2000,res=200)
+png("figures/mfd_traits_vs_axes_qual_2.png",width=4000,height = 2000,res=200)
 df_faxes$"tr_faxes_plot"
 dev.off()
 
@@ -225,63 +212,6 @@ write.csv(fd_ind_values,"outputs/mfd_indices_ward_k3.csv")
 #
 #FOri Functional Originality: the weighted mean distance to the nearest species from the global species pool.
 
-###
-# phylo stuff
-###
-
-
-library(ape)
-phy<-read.tree("outputs/pruned_tree.tre")
-
-#pdf("figures/phy.pdf",height = 20, width = 20)
-#plot(phy,cex=0.5)
-#nodelabels(cex=0.5)
-#dev.off()
-
-#split species into monocots, magnoliids and dicots
-#NODES NEED TO BE CHANGED FOR NEW TREE
-
-monocots_phy<-extract.clade(phy,node=609)
-monocots_phy$tip.label
-mag_phy<-extract.clade(phy,node=665)
-mag_phy$tip.label
-dicot_phy<-extract.clade(phy,node=347)
-dicot_phy$tip.label
-
-#species not in previous three categories
-other<-setdiff(sort(phy$tip.label),sort(c(monocots_phy$tip.label,
-                                    mag_phy$tip.label,
-                                    dicot_phy$tip.label)))
-
-#make empty data frame
-df_w<-data.frame(matrix(, nrow=4, ncol=length(phy$tip.label)))
-colnames(df_w)<-sort(phy$tip.label)
-
-#put 0/1 rows denoting group membership
-df_w[1,]<-as.numeric(colnames(df_w)%in%monocots_phy$tip.label)
-df_w[2,]<-as.numeric(colnames(df_w)%in%mag_phy$tip.label)
-df_w[3,]<-as.numeric(colnames(df_w)%in%dicot_phy$tip.label)
-df_w[4,]<-as.numeric(colnames(df_w)%in%other)
-
-#rename rows
-rownames(df_w)<-c("monocots","mag","dicots","other")
-
-#remove underscore to match df names
-colnames(df_w)<-gsub("_"," ",sort(phy$tip.label))
-
-#remove species not present in df
-df_w<-df_w[, colnames(df_w) %in% rownames(df)]
-
-#compute 5 functional indices
-alpha_fd_indices <- mFD::alpha.fd.multidim(
-  sp_faxes_coord   = sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")],
-  asb_sp_w         = as.matrix(df_w),
-  ind_vect         = c("fdis", "fric", "fdiv", 
-                       "fspe", "fide"),
-  scaling          = TRUE,
-  check_input      = TRUE,
-  details_returned = TRUE)
-
 #output indices
 fd_ind_values <- alpha_fd_indices$"functional_diversity_indices"
 fd_ind_values
@@ -293,10 +223,10 @@ write.csv(fd_ind_values,"outputs/mfd_ind_values.csv")
 details_list <- alpha_fd_indices$"details"
 details_list
 
-#plot functional indices
+#plot functional indices of clusters 1 and 2
 plots_alpha <- mFD::alpha.multidim.plot(
   output_alpha_fd_multidim = alpha_fd_indices,
-  plot_asb_nm              = c("monocots", "dicots"),
+  plot_asb_nm              = c("k_3_cluster_1", "k_3_cluster_2"),
   ind_nm                   = c("fdis", "fric", "fdiv", 
                                "fspe", "fide"),
   faxes                    = NULL,
@@ -310,7 +240,7 @@ plots_alpha <- mFD::alpha.multidim.plot(
 #FRic representation: the colored shapes reflect the convex-hull of the studied assemblages
 #and the white shape reflects the convex-hull of the global pool of species:
 
-png("figures/mfd_funct_rich_monocot_dicot.png",height = 1500, width = 1500,res=150)
+png("figures/mfd_funct_rich_clust1_clust2.png",height = 1500, width = 1500,res=150)
 plots_alpha$"fric"$"patchwork"
 dev.off()
 
@@ -318,7 +248,7 @@ dev.off()
 #assemblages are plotted as a square and a triangle. The two colored circles represent the mean
 #distance of species to the gravity center for each assemblage. Species of each assemblage 
 #have different size given their relative weight into the assemblage.
-png("figures/mfd_funct_div_monocot_dicot.png",height = 1500, width = 1500,res=150)
+png("figures/mfd_funct_div_clust1_clust2.png",height = 1500, width = 1500,res=150)
 plots_alpha$"fdiv"$"patchwork"
 dev.off()
 
@@ -327,7 +257,7 @@ dev.off()
 #gravity is plotted with a purple diamond. Species of each assemblage have different size given
 #their relative weight into the assemblage.
 
-png("figures/mfd_funct_disp_monocot_dicot.png",height = 1500, width = 1500, res=150)
+png("figures/mfd_funct_disp_clust1_clust2.png",height = 1500, width = 1500, res=150)
 plots_alpha$"fdis"$"patchwork"
 dev.off()
 
@@ -335,10 +265,9 @@ dev.off()
 #along each axis. Species of each assemblage have different size given their relative weight
 #into the assemblage.
 
-pngg("figures/mfd_funct_ident_monocot_dicot.png",,height = 1500, width = 1500, res=150)
+pngg("figures/mfd_funct_ident_clust1_clust2.png",,height = 1500, width = 1500, res=150)
 plots_alpha$"fide"$"patchwork"
 dev.off()
-
 
 ## Functional originality at regional scale ----
 library(funrar)
@@ -367,7 +296,6 @@ new_dissim <- dist(sp_faxes_coord[, c("PC1", "PC2", "PC3", "PC4")])
 sp_di_alt <- distinctiveness_global(new_dissim, di_name = "alt_di")
 
 #We can now compare both distinctiveness values.
-
 sp_all_di <- merge(sp_di, sp_di_alt, by = "species")
 
 plot(sp_all_di$distinctiveness, sp_all_di$alt_di)
@@ -376,9 +304,18 @@ cor.test(sp_all_di$distinctiveness, sp_all_di$alt_di)
 
 #Both seems very correlated, so in our case using either one should be fine. However, it can be better 
 #to use dissimilarity based on a reduced number of well-defined axes because: (1) there are more 
-#interpretable thanks to the multivariate analysis, (2) the first one contain de most information, 
+#interpretable thanks to the multivariate analysis, (2) the first ones contain the most information, 
 #(3) they explicitly take into account potentially strong correlations between provided traits. 
 #We’ll stick here with raw dissimilarity for the sake of simplicity.
+
+##make empty data frame
+df_w<-data.frame(matrix(nrow=3, ncol=length(df$Maximumverticalheight)))
+colnames(df_w)<-rownames(df)
+#
+##put 0/1 rows denoting group membership
+df_w[1,]<-as.numeric(colnames(df_w)%in%rownames(clust_ward[clust_ward$`3clusters`=="k_3_cluster_1",]))
+df_w[2,]<-as.numeric(colnames(df_w)%in%rownames(clust_ward[clust_ward$`3clusters`=="k_3_cluster_2",]))
+df_w[3,]<-as.numeric(colnames(df_w)%in%rownames(clust_ward[clust_ward$`3clusters`=="k_3_cluster_3",]))
 
 #To compute uniqueness at regional scale we also need the regional level functional dissimilarity matrix 
 #with the uniqueness() function, and the site-species matrix:
@@ -393,7 +330,7 @@ quantile(sp_ui$Ui, probs = seq(0, 1, by = 0.1))
 #the most isolated species in the functional space. Meaning that they have the most distant nearest neighbors.
 subset(sp_ui, Ui >= 0.21)
 
-#We already saw in part 1 how to visualize the functional space using the pre-made functions of mFD. Here we will use our own functions to be able to color species in function of their functional originality.
+# Color species in function of their functional originality.
 
 # Make a summary data.frame
 sp_coord_di_ui <- as.data.frame(sp_faxes_coord[, 1:2])
@@ -402,7 +339,7 @@ rownames(sp_coord_di_ui) <- NULL
 sp_coord_di_ui <- sp_coord_di_ui[, c(3, 1, 2)]
 sp_coord_di_ui <- merge(sp_coord_di_ui, sp_di, by = "species")
 sp_coord_di_ui <- merge(sp_coord_di_ui, sp_ui, by = "species")
-library("ggplot2")
+
 
 plot_reg_distinctiveness <- ggplot(sp_coord_di_ui, aes(PC1, PC2)) +
   geom_hline(yintercept = 0, linetype = 2) +
@@ -425,3 +362,61 @@ ggsave("figures/mfd_distinctiveness.png", width= 8, height = 8)
 
 plot_reg_uniqueness
 ggsave("figures/mfd_uniqueness.png", width= 8, height = 8)
+
+
+
+####
+## NOT RUN: phylo stuff
+####
+#
+#library(ape)
+#phy<-read.tree("outputs/pruned_tree.tre")
+#
+#pdf("figures/phy.pdf",height = 20, width = 20)
+#plot(phy,cex=0.5)
+#nodelabels(cex=0.5)
+#dev.off()
+#
+##split species into monocots, magnoliids and dicots
+##NODES NEED TO BE CHANGED FOR NEW TREE
+#
+#monocots_phy<-extract.clade(phy,node=609)
+#monocots_phy$tip.label
+#mag_phy<-extract.clade(phy,node=665)
+#mag_phy$tip.label
+#dicot_phy<-extract.clade(phy,node=347)
+#dicot_phy$tip.label
+#
+##species not in previous three categories
+#other<-setdiff(sort(phy$tip.label),sort(c(monocots_phy$tip.label,
+#                                    mag_phy$tip.label,
+#                                    dicot_phy$tip.label)))
+#
+##make empty data frame
+#df_w<-data.frame(matrix(, nrow=4, ncol=length(phy$tip.label)))
+#colnames(df_w)<-sort(phy$tip.label)
+#
+##put 0/1 rows denoting group membership
+#df_w[1,]<-as.numeric(colnames(df_w)%in%monocots_phy$tip.label)
+#df_w[2,]<-as.numeric(colnames(df_w)%in%mag_phy$tip.label)
+#df_w[3,]<-as.numeric(colnames(df_w)%in%dicot_phy$tip.label)
+#df_w[4,]<-as.numeric(colnames(df_w)%in%other)
+#
+##rename rows
+#rownames(df_w)<-c("monocots","mag","dicots","other")
+#
+##remove underscore to match df names
+#colnames(df_w)<-gsub("_"," ",sort(phy$tip.label))
+#
+##remove species not present in df
+#df_w<-df_w[, colnames(df_w) %in% rownames(df)]
+#
+##compute 5 functional indices
+#alpha_fd_indices <- mFD::alpha.fd.multidim(
+#  sp_faxes_coord   = sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")],
+#  asb_sp_w         = as.matrix(df_w),
+#  ind_vect         = c("fdis", "fric", "fdiv", 
+#                       "fspe", "fide"),
+#  scaling          = TRUE,
+#  check_input      = TRUE,
+#  details_returned = TRUE)

@@ -9,7 +9,6 @@ df2<-readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
 #dissimilarity matrix
 library(cluster)
 gower_df2 <- daisy(df2, metric = "gower" )
-
 summary(gower_df2)
 
 # The main input for the code below is dissimilarity (distance matrix)
@@ -424,4 +423,4 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
                 size = 2,
                 position = position_stack(vjust = .5)) + coord_flip()
 
-ggsave("figures/stacked_barplots_k3_ward_one_hot.pdf",width=15,height=15)
+ggsave("figures/stacked_barplots_k3_ward_one_hot.png",width=15,height=15)
