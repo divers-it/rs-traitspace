@@ -179,6 +179,62 @@ ggsave("figures/pcoa_clustering_one_hot_k6_loadings.png",
        height = 20,
        units = 'cm')
 
+# read robust groups 
+groups_kpro_one_hot=readRDS(file = here::here("outputs/robust_vect_kpro_full_one_hot.rds"))
+groups_kpro=readRDS(file = here::here("outputs/robust_vect_kpro_full.rds"))
+groups_pam_one_hot=readRDS(file = here::here("outputs/robust_vect_pam_full_one_hot.rds"))
+groups_pam=readRDS(file = here::here("outputs/robust_vect_pam_full.rds"))
+groups_density_one_hot=readRDS(file = here::here("outputs/robust_vect_dens_full_one_hot.rds"))
+groups_density=readRDS(file = here::here("outputs/robust_vect_dens_full.rds"))
+
+
+rownames(df_ord)=rownames(groups_kpro)
+
+df_ord_clust=as.data.frame(c(df_ord,as.data.frame(groups_kpro)))
+names(df_ord_clust)[401]="group"
+
+p1=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(group)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust[!is.na(df_ord_clust$group),], geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(group)), alpha = 0.25) + theme(legend.position="none") + ggtitle("kproto")
+
+df_ord_clust=as.data.frame(c(df_ord,as.data.frame(groups_pam)))
+names(df_ord_clust)[401]="group"
+
+p2=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(group)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust[!is.na(df_ord_clust$group),], geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(group)), alpha = 0.25) + theme(legend.position="none") + ggtitle("pam")
+
+df_ord_clust=as.data.frame(c(df_ord,as.data.frame(groups_density)))
+names(df_ord_clust)[401]="group"
+
+p3=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(group)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust[!is.na(df_ord_clust$group),], geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(group)), alpha = 0.25) + theme(legend.position="none") + ggtitle("density")
+
+p1 + p2 + p3
+
+ggsave("figures/pcoa_clustering_robust_loadings.png",
+       width = 40,
+       height = 20,
+       units = 'cm')
+
+#one-hot
+
+df_ord_clust=as.data.frame(c(df_ord,as.data.frame(groups_kpro_one_hot)))
+names(df_ord_clust)[401]="group"
+
+p1=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(group)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust[!is.na(df_ord_clust$group),], geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(group)), alpha = 0.25) + theme(legend.position="none") + ggtitle("kproto")
+
+df_ord_clust=as.data.frame(c(df_ord,as.data.frame(groups_pam_one_hot)))
+names(df_ord_clust)[401]="group"
+
+p2=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(group)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust[!is.na(df_ord_clust$group),], geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(group)), alpha = 0.25) + theme(legend.position="none") + ggtitle("pam")
+
+df_ord_clust=as.data.frame(c(df_ord,as.data.frame(groups_density_one_hot)))
+names(df_ord_clust)[401]="group"
+
+p3=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(group)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust[!is.na(df_ord_clust$group),], geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(group)), alpha = 0.25) + theme(legend.position="none") + ggtitle("density")
+
+p1 + p2 + p3
+
+ggsave("figures/pcoa_clustering_robust_one_hot_loadings.png",
+       width = 40,
+       height = 20,
+       units = 'cm')
 
 #3d
 
