@@ -2,7 +2,7 @@ rm(list = ls())
 library(cluster)
 library(ggplot2)
 
-df <- readRDS(file = here::here("outputs/df_filt_trans_one_hot_stringent.rds"))
+df <- readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
 gower_df <- daisy(df,
                   metric = "gower" )
 dataset_dist <- stats::as.dist(gower_df)
@@ -28,11 +28,13 @@ df_dclust=merge(df,dclust,by=0)
 #names(df_dclust)[22]="core"
 
 ###
-# Plot qualitative stats of robust groups
+# Plot qualitative stats of robust groups 
 ###
 library(data.table)
 
-df_labelled=df_dclust
+#read human-readable traits
+df_orig=readRDS(file = here::here("outputs/df_filt_trans.rds"))
+df_orig=merge(df_orig,dclust,by=0)
 
 df_labelled$cluster<-as.character(df_labelled$cluster)
 
@@ -51,6 +53,7 @@ for (i in 1:length(unique(df_labelled$cluster))) {
 
 #make as factor for grouping
 df_labelled$cluster<-as.factor(df_labelled$cluster)
+df_labelled$cluster <- reorder(df_labelled$cluster,dclust$cluster)
 
 #qualitative only
 facts <- unlist(lapply(df_labelled, is.factor))
@@ -62,10 +65,18 @@ df_temp_melt_counts <- df_temp_melt %>% group_by(cluster,variable,value) %>% sum
 
 #add new column to remove text labels if counts are <5
 df_temp_melt_counts$label<-df_temp_melt_counts$value
-df_temp_melt_counts$label[df_temp_melt_counts$count<3]<-NA
+df_temp_melt_counts$fraction=NA
+for(i in levels(df_temp_melt_counts$cluster)){
+	for(j in levels(df_temp_melt_counts[df_temp_melt_counts$cluster==i,]$variable)){
+		df_temp_melt_counts[df_temp_melt_counts$cluster==i & df_temp_melt_counts$variable==j,]$fraction=df_temp_melt_counts[df_temp_melt_counts$cluster==i & df_temp_melt_counts$variable==j,]$count/sum(df_temp_melt_counts[df_temp_melt_counts$cluster==i & df_temp_melt_counts$variable==j,]$count)
+	}
+}
+df_temp_melt_counts$label[df_temp_melt_counts$fraction<0.1]<-NA
+#df_temp_melt_counts$label[df_temp_melt_counts$count<3]<-NA
 
 #make new column for text size
 #df_temp_melt_counts$text_size<-df_temp_melt_counts$count^(1/2)
+c52 <- sample(rainbow(52))
 
 #plot stacked barplots per robust group for each qualitative trait, with labels
 ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
@@ -74,7 +85,7 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
     axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
     axis.title.x = element_blank(),
     plot.margin = unit(c(1, 1, 1, 1), "cm")
-  ) + geom_text(aes(size = count,label = label),
+  ) + scale_fill_manual(values=c52) + geom_text(aes(label = label),
                 angle = 90,
                 position = position_stack(vjust = .5))
 
