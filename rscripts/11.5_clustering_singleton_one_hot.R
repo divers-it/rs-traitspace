@@ -2,7 +2,7 @@ rm(list = ls())
 library(cluster)
 library(ggplot2)
 
-df <- readRDS(file = here::here("outputs/df_filt_trans.rds"))
+df <- readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
 gower_df <- daisy(df,
                   metric = "gower" )
 dataset_dist <- stats::as.dist(gower_df)
@@ -89,7 +89,7 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
                 angle = 90,
                 position = position_stack(vjust = .5))
 
-ggsave("figures/stacked_barplots_singl.pdf",width=15,height=15)
+ggsave("figures/stacked_barplots_singl_one_hot.pdf",width=15,height=15)
 
 
 dataset_pcoa <- ape::pcoa(dataset_dist)
@@ -144,12 +144,12 @@ ggplot(data.frame(dataset_pcoa$vectors),
     round(dataset_pcoa$values$Relative_eig[2]/sum(dataset_pcoa$values$Relative_eig[dataset_pcoa$values$Relative_eig>0]), 2)
   ))
 
-ggsave("figures/pcoa_singletons_core_halo.png",
+ggsave("figures/pcoa_singletons_one_hot_core_halo.png",
        width = 12,
        height = 10)
 
 clust_results=df_dclust[,c("cluster","core","center")]
-saveRDS(clust_results, file = here::here("outputs/clusters_singleton.rds"))
+saveRDS(clust_results, file = here::here("outputs/clusters_singleton_one_hot.rds"))
 
 
 
