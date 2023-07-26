@@ -32,6 +32,17 @@ run_analysis(dataset, name = "DiveRS_one_hot_2023")
 rm(list = "dataset")
 
 ###
+# DiveRS one-hot dataset
+###
+
+# Read Dataset ----
+dataset <- read.csv(file = here::here("outputs/imputed_with_phylo.csv"),row.names = 1,stringsAsFactors = TRUE)
+
+# Run Analysis ----
+run_analysis(dataset, name = "DiveRS_imputed_2023")
+rm(list = "dataset")
+
+###
 # Species from DiveRS data set also in Diaz data set
 ###
 
@@ -120,7 +131,7 @@ diaz_pcf_od<-scale(diaz_pcf_od, center = T, scale = T)
 dataset<-data.frame(diaz_pcf_od)
 
 # Run Analysis ----
-run_analysis(dataset, name = "diaz_shared_2022")
+run_analysis(dataset, name = "Diaz_shared_2022")
 rm(list = "dataset")
 
 ## Import Results ----
@@ -291,11 +302,15 @@ p <- ggplot(res_for_graph_dim, aes(x = dim, y = AUC, colour = taxa)) +
                                 "#T = ", trait),
                  y = 0.5, x = 10), size = 2.1, hjust = 0) +
   
+  geom_label(data = res_for_graph_dim, 
+             aes(label = paste0("data set = ", taxa),
+                 y = 0.95, x = 0), size = 2.1, hjust = 0) +
+  
   scale_y_continuous(breaks = seq(0.1, 1, 0.2))
 
 
 #save plot
-grDevices::png(file = here::here("figures", "dimensionality_no_axes.png"),width = 1000,height=500)
+grDevices::png(file = here::here("figures", "dimensionality_no_axes.png"),width = 6250,height=2500,res=500)
 print(p)
 dev.off()
 
@@ -359,10 +374,13 @@ p2 <- ggplot(res_for_graph_miss, aes(x = miss_percent * 100, y = AUC,
         panel.background = element_blank(),
         axis.title.x     = element_text( size=14, face="bold"),
         axis.title.y     = element_text( size=14, face="bold"),
-        legend.position  = "none")
+        legend.position  = "none") + 
+  geom_label(data = res_for_graph_miss, 
+             aes(label = paste0("data set = ", taxa),
+                 y = 0.95, x = 10), size = 2.1, hjust = 0)
 
 #save figure
-grDevices::png(file = here::here("figures", "dimensionality_trait_omission.png")) #SAVE A4
+grDevices::png(file = here::here("figures", "dimensionality_trait_omission.png"))
 print(p2)
 dev.off()
 
@@ -457,8 +475,11 @@ p3 <- ggplot(res_for_graph_single, aes(x = Pcoa1, y = Pcoa2)) +
         axis.text.y      = element_blank(),
         axis.title.x     = element_text(size = 14, face = "bold"),
         axis.title.y     = element_text(size = 14, face = "bold"),
-        axis.ticks       = element_blank())
+        axis.ticks       = element_blank()) + 
+  geom_label(data = res_for_graph_single, 
+             aes(label = paste0("data set = ", taxa),
+                 y = 0.5, x = -0.5), size = 2.1, hjust = 0)
 
-grDevices::png(file = here::here("figures", "dimensionality_singleton.png")) #SAVE A4
+grDevices::png(file = here::here("figures", "dimensionality_singleton.png"),width = 8000,height=2000,res=400) #SAVE A4
 print(p3)
 dev.off()

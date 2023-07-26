@@ -7,11 +7,12 @@ library(dplyr)
 library(ape)
 library(corHMM)
 
+#UNCOMMENT DEPENDING ON WHETHER STANDARD OR ONE-HOT IS NEEDED
 #load data
-df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+#df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
 
 #load one-hot data
-#df<-readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
+df<-readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
 
 #insert '_' into rownames to match phylo
 df$species<-gsub(" ","_",rownames(df))
@@ -53,8 +54,8 @@ sum(x@Eigen$values[1:10])/sum(x@Eigen$values)
 df <- as.data.frame(unclass(df),                     
                        stringsAsFactors = TRUE)
 
-# Imputation without Phylo data
-imp <- missForest::missForest(df[2:length(colnames(df))], maxiter = 15, ntree = 100, variablewise = FALSE)
+#NOT RUN: Imputation without Phylo data
+#imp <- missForest::missForest(df[2:length(colnames(df))], maxiter = 15, ntree = 100, variablewise = FALSE)
 
 # Combine traits and PVRs
 traits.pvrs <- cbind(df[2:length(colnames(df))], pvrs)
@@ -71,10 +72,9 @@ phy_imp_df <- phy_imp$ximp[,c(1:(length(colnames(df))-1))]
 #add species names
 rownames(phy_imp_df)<-df$species
 
-#CHECK THE ORDER IS CORRECT BETWEEN DF AND IMPUTED DF
+#UNCOMMENT DEPENDING ON WHETHER STANDARD OR ONE-HOT IS NEEDED
+#write standard csv
+#write.csv(phy_imp_df,"outputs/imputed_with_phylo.csv")
 
-#write csv
-write.csv(phy_imp_df,"outputs/imputed_with_phylo.csv")
-
-#write csv
-#write.csv(phy_imp_df,"outputs/imputed_with_phylo_one_hot.csv")
+#write one-hot csv
+write.csv(phy_imp_df,"outputs/imputed_with_phylo_one_hot.csv")

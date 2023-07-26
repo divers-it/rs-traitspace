@@ -1,7 +1,14 @@
 rm(list = ls())
+
+#load packages
 library(densityClust)
 library(cluster)
 library(ggplot2)
+library(networkD3)
+library(dplyr)
+library(gridExtra)
+library(data.table)
+library(ggrepel)
 
 #load formatted data
 df <- readRDS(file = here::here("outputs/df_filt_trans.rds"))
@@ -9,7 +16,6 @@ df <- readRDS(file = here::here("outputs/df_filt_trans.rds"))
 #calc gower distance
 gower_df <- daisy(df,
                   metric = "gower" )
-
 summary(gower_df)
 
 #convert to distance matrix
@@ -18,32 +24,56 @@ dataset_dist <- stats::as.dist(gower_df)
 #run PCOA
 dataset_pcoa <- ape::pcoa(dataset_dist)
 
-#
+#Recalculate relative eigenvalues by removing negative eigenvalues as in Mouillot et al.  
+ev_pcoa <- dataset_pcoa$values$Eigenvalues
+ev_pcoa_g0 <- ev_pcoa[ev_pcoa>0]
+rel_ev_pcoa_g0 <- ev_pcoa_g0/sum(ev_pcoa_g0)
+
+#run initial density clustering
 protClust <- densityClust(gower_df, gaussian=TRUE)
 
 # Inspect clustering attributes to define thresholds
 plot(protClust) 
 
-#
+#set values of rho and delta to choose numbers of clusters
+#k=4
 protClust <- findClusters(protClust, rho = 30,delta = 0.07,verbose = FALSE,plot = TRUE)
 
+#species that represent cluster peaks
+protClust$peaks
+
+#check order
+rownames(dataset_pcoa$vectors)==names(protClust$halo)
+
+#make df for plotting
+pcoa_df<-data.frame(dataset_pcoa$vectors)
+
+#add names to data to be plotted
+pcoa_df$names<-NA
+
+#put in name of medoids
+for(i in 1:length(protClust$peaks)){
+  pcoa_df$names[protClust$peaks[i]]<-names(protClust$peaks[i])
+}
+
 #plot points on first two axes, coloured by cluster
-ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.factor(protClust$clusters))) +
+ggplot(pcoa_df, aes(x = Axis.1, y = Axis.2, fill = as.factor(protClust$clusters))) +
   geom_point(
     color="black",
     shape=21,
     alpha=0.5,
     size=3,
     stroke = 0.5
-  ) + 
+  ) + geom_text_repel(aes(label = pcoa_df$names, colour = as.factor(protClust$clusters)),
+                        size = 3.5)  + 
   stat_ellipse(geom = "polygon",
                aes(fill = as.factor(protClust$clusters)), 
                alpha = 0.25) +
-  xlab(paste("Axis 1: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[2],2)))
+  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
+  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
-ggsave("figures/pcoa_dens_4_clusters.png",width = 12,height=10)
-
+#save image
+ggsave("figures/scatterplot_pcoa_dens_4_clusters.png",width = 12,height=10)
 
 #view cluster membership of species
 split(rownames(df), protClust$clusters)
@@ -70,17 +100,15 @@ colnames(dens_df)<-c("2clusters",
                     "6clusters",
                     "7clusters")
 clust.num.k.2.7.df <-as.data.frame(dens_df)
-
 rownames(clust.num.k.2.7.df)<-rownames(df)
 
-
-####
-# Sankey plot
-####
+###
+# ---- Sankey plot ----
+###
 
 #from: https://r-graph-gallery.com/321-introduction-to-interactive-sankey-diagram-2.html
-#table of different k values (2-7)
 
+#table of different k values (2-7) adding label
 for (i in 1:6) {
   if (i == 1) {
     clust.num.k.2.7 <- paste("k",i+1,"cluster",as.character(clust.num.k.2.7.df[,i]),sep="_")
@@ -97,10 +125,12 @@ colnames(clust.num.k.2.7)<-c("2clusters",
                              "6clusters",
                              "7clusters")
 clust.num.k.2.7.df <-as.data.frame(clust.num.k.2.7)
+head(clust.num.k.2.7.df)
 
+#save RDS for downstream use
 saveRDS(clust.num.k.2.7.df, file = here::here("outputs/clust_num_k_2_7_density.rds"))
 
-
+# A connection data frame is a list of flows with intensity for each flow
 for(i in 1:(length(colnames(clust.num.k.2.7.df))-1)){
   if(i == 1){
     links<-as.data.frame(table(clust.num.k.2.7.df[,c(i,(i+1))]))
@@ -115,7 +145,6 @@ for(i in 1:(length(colnames(clust.num.k.2.7.df))-1)){
   
 }
 
-
 # From these flows we need to create a node data frame: it lists every entities involved in the flow
 nodes <- data.frame(
   name=c(as.character(links$source), 
@@ -125,28 +154,23 @@ nodes <- data.frame(
 # With networkD3, connection must be provided using id, not using real name like in the links dataframe.. So we need to reformat it.
 links$IDsource <- match(links$source, nodes$name)-1 
 links$IDtarget <- match(links$target, nodes$name)-1
-
 links
 
 #remove rows where values are 0
 links<-links[links$value>0,]
 
-# Library
-library(networkD3)
-library(dplyr)
 # Make the Network
 p <- sankeyNetwork(Links = links, Nodes = nodes,
                    Source = "IDsource", Target = "IDtarget",
                    Value = "value", NodeID = "name", 
                    sinksRight=FALSE)
-
 p
 
+#save as html
 saveNetwork(p, "figures/sankey_density.html")
 
-
 ###
-# Robust combinations
+# ---- Robust combinations ----
 ###
 
 #make data frame of combo frequencies
@@ -169,7 +193,6 @@ robust<-list()
 robust_vect_dens<-rep(NA,length(rownames(df)))
 names(robust_vect_dens)<-rownames(df)
 
-
 #loop through ordered table to extract robust groups
 for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>20])){
   foo<-as.numeric(rownames(clust.num.k.2.7.df[clust.num.k.2.7.df[, 1] == combos[i, 1] & 
@@ -186,7 +209,7 @@ for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>20])){
 }
 
 #robust groups
-robust
+head(robust)
 
 #complete vector of robust groups and non-robust 
 robust_vect_dens_full<-robust_vect_dens
@@ -243,14 +266,9 @@ rownames(rob_mat_names)<-paste("robust",c(1:length(unique(robust_vect_dens))),se
 colnames(rob_mat_names)<-colnames(df)
 rob_mat_names
 
-
-#####
-#Boxplots and stacked barplots for robust groups
-#####
-
-# library
-library(ggplot2)
-library(gridExtra)
+###
+# ---- Boxplots and stacked barplots for robust groups ----
+###
 
 #make label
 robust_group<-paste("dens_robust_",robust_vect_dens_full,sep="")
@@ -293,8 +311,8 @@ dev.off()
 ###
 # Plot qualitative stats of robust groups
 ###
-library(data.table)
 
+#make cluster as character
 df_labelled$cluster<-as.character(df_labelled$cluster)
 
 #add group size to robust group label
@@ -325,7 +343,7 @@ df_temp_melt_counts <- df_temp_melt %>% group_by(cluster,variable,value) %>% sum
 df_temp_melt_counts$label<-df_temp_melt_counts$value
 df_temp_melt_counts$label[df_temp_melt_counts$count<3]<-NA
 
-#make new column for text size
+#NOT RUN: make new column for text size
 #df_temp_melt_counts$text_size<-df_temp_melt_counts$count^(1/2)
 
 #plot stacked barplots per robust group for each qualitative trait, with labels
@@ -338,5 +356,6 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
   ) + geom_text(aes(size = count,label = label),
                                 position = position_stack(vjust = .5)) + coord_flip()
 
+#save image
 ggsave("figures/stacked_barplots_dens.png",width=15,height=10)
 

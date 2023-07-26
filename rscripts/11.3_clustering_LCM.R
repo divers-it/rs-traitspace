@@ -6,16 +6,14 @@ library(ggplot2)
 library(cluster)
 
 #load data with NAs imputed
-#UNCOMMENT DEPENDING ON WHETHER STANDARD OR ONE-HOT IS NEEDED
 #NOTE: Run "impute_missing_data.R" to update missing data
-#df2<-read.csv("outputs/imputed_with_phylo.csv",row.names = 1,stringsAsFactors = TRUE)
-df2<-read.csv("outputs/imputed_with_phylo_one_hot.csv",row.names = 1,stringsAsFactors = TRUE)
+df2<-read.csv("outputs/imputed_with_phylo.csv",row.names = 1,stringsAsFactors = TRUE)
 
 #NOTE: This could be modified but some columns that are quantitative and difficult
 #to interpret / neutral in their expected effect on strategies appear to bias this
 #method much more than the others
 #remove biasing quantitative columns
-df2<-subset(df2, select = -c(Number.of.fertile.stamens,Fusion.of.ovaries,Number.of.ovules.per.carpel))
+df2<-subset(df2, select = -c(Numberoffertilestamens,Fusionofovaries,Numberofovulesperfunctionalcarpel))
 
 # Cluster analysis without variable selection
 res_without <- VarSelCluster(df2, gvals = 1:5, vbleSelec = FALSE, crit.varsel = "BIC")
@@ -42,10 +40,10 @@ summary(res_with)
 plot(res_with)
 
 # Summary of qualitative variable
-plot(res_with, y="Woodiness_herbaceous")
+plot(res_with, y="Woodiness")
 
 # Summary of quantitative variable
-plot(res_with, y="Maximum.vertical.height")
+plot(res_with, y="Maximumverticalheight")
 
 # More detailed output
 print(res_with)
@@ -85,4 +83,4 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.f
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
-ggsave("figures/pcoa_LCM_one_hot.png",width = 12,height=10)
+ggsave("figures/pcoa_LCM.png",width = 12,height=10)

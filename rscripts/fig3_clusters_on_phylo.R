@@ -30,7 +30,6 @@ phy$tip.label==rownames(df)
 #colours
 palette(brewer.pal(3,"Set1"))
 
-
 png("figures/phylo_ward.png",width=750,height=750)
 #plot phylogeny and example trait
 plot(phy, show.tip.label = FALSE
