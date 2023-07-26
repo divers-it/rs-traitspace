@@ -179,6 +179,26 @@ ggsave("figures/pcoa_clustering_one_hot_k6_loadings.png",
        height = 20,
        units = 'cm')
 
+# singleton clustering
+
+clusters_singleton_one_hot=readRDS(file = here::here("outputs/clusters_singleton_one_hot.rds"))
+clusters_singleton=readRDS(file = here::here("outputs/clusters_singleton.rds"))
+
+
+df_ord_clust=as.data.frame(c(df_ord,clusters_singleton))
+
+p1=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(cluster)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(cluster)), alpha = 0.25) + theme(legend.position="none") + ggtitle("singleton")
+
+df_ord_clust=as.data.frame(c(df_ord,clusters_singleton_one_hot))
+p2=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(cluster)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(cluster)), alpha = 0.25) + theme(legend.position="none") + ggtitle("singleton, one-hot")
+
+p1 + p2
+
+ggsave("figures/pcoa_clustering_singleton_loadings.png",
+       width = 40,
+       height = 20,
+       units = 'cm')
+
 # read robust groups 
 groups_kpro_one_hot=readRDS(file = here::here("outputs/robust_vect_kpro_full_one_hot.rds"))
 groups_kpro=readRDS(file = here::here("outputs/robust_vect_kpro_full.rds"))
