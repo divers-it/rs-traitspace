@@ -1,16 +1,22 @@
-# FROM:
-# https://github.com/mrborges23/delta_statistic
+rm(list=ls())
+# FROM: https://github.com/mrborges23/delta_statistic
 
-par(mar=c(4,4,4,4))
-
+#load libraries
 library(ape)
+library(phylosignal)
+library(adephylo)
+library(phylobase)
+
+#load functions
 source("R/delta.R")
+
+#set margins
+par(mar=c(4,4,4,4))
 
 #load formatted data
 df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
 
 #numeric/factor columns only
-nums <- unlist(lapply(df, is.numeric))
 facts <- unlist(lapply(df, is.factor))
 
 #make only categorical dataset
@@ -97,16 +103,9 @@ results<-data.frame(deltas,pvals)
 results_facts
 
 ###
-# Continuous
+# ---- Continuous ----
 ### 
-# http://www.francoiskeck.fr/phylosignal/demo_general.html
-library(phylosignal)
-library(adephylo)
-library(ape)
-library(phylobase)
-
-#load formatted data
-df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+# FROM: http://www.francoiskeck.fr/phylosignal/demo_general.html
 
 #numeric/factor columns only
 nums <- unlist(lapply(df, is.numeric))

@@ -73,7 +73,7 @@ ggplot(pcoa_df, aes(x = Axis.1, y = Axis.2, fill = as.factor(protClust$clusters)
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
 #save image
-ggsave("figures/scatterplot_pcoa_dens_4_clusters.png",width = 12,height=10)
+ggsave("figures/scatterplot_pcoa_dens.png",width = 12,height=10)
 
 #view cluster membership of species
 split(rownames(df), protClust$clusters)
@@ -298,7 +298,7 @@ for(i in 1:(length(colnames(df_labelled))-1)){
   
 }
 
-pdf("figures/robust_dens_plots.pdf",width = 15,height = 15)
+pdf("figures/clusters_by_trait_dens.pdf",width = 15,height = 15)
 
 print(grid.arrange(grobs=plot_list[1:4],ncol=2,nrow=2))
 print(grid.arrange(grobs=plot_list[5:8],ncol=2,nrow=2))
@@ -311,6 +311,9 @@ dev.off()
 ###
 # Plot qualitative stats of robust groups
 ###
+
+#reset margins
+par(mar=c(3,3,3,3))
 
 #make cluster as character
 df_labelled$cluster<-as.character(df_labelled$cluster)
@@ -357,5 +360,5 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
                                 position = position_stack(vjust = .5)) + coord_flip()
 
 #save image
-ggsave("figures/stacked_barplots_dens.png",width=15,height=10)
+ggsave("figures/stacked_barplots_traits_by_cluster_dens.png",width=15,height=10)
 

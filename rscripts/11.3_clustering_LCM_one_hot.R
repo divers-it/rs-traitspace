@@ -6,9 +6,7 @@ library(ggplot2)
 library(cluster)
 
 #load data with NAs imputed
-#UNCOMMENT DEPENDING ON WHETHER STANDARD OR ONE-HOT IS NEEDED
 #NOTE: Run "impute_missing_data.R" to update missing data
-#df2<-read.csv("outputs/imputed_with_phylo.csv",row.names = 1,stringsAsFactors = TRUE)
 df2<-read.csv("outputs/imputed_with_phylo_one_hot.csv",row.names = 1,stringsAsFactors = TRUE)
 
 #NOTE: This could be modified but some columns that are quantitative and difficult

@@ -9,6 +9,7 @@ library(cluster)
 library(RColorBrewer)
 library(ggrepel)
 library(data.table)
+library(networkD3)
 
 #load formatted data
 df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
@@ -209,9 +210,6 @@ links
 #remove rows where values are 0
 links<-links[links$value>0,]
 
-# Library
-library(networkD3)
-library(dplyr)
 # Make the Network
 p <- sankeyNetwork(Links = links, Nodes = nodes,
                    Source = "IDsource", Target = "IDtarget",
@@ -406,7 +404,7 @@ for(i in 1:(length(colnames(df_labelled))-1)){
 }
 
 #plot figures on pages of PDF
-pdf("figures/robust_pam_plots.pdf",width = 15,height = 15)
+pdf("figures/clusters_by_trait_pam.pdf",width = 15,height = 15)
 
 print(grid.arrange(grobs=plot_list[1:4],ncol=2,nrow=2))
 print(grid.arrange(grobs=plot_list[5:8],ncol=2,nrow=2))
@@ -419,6 +417,9 @@ dev.off()
 ###
 # ---- Plot qualitative stats of robust groups ----
 ###
+
+#reset margins
+par(mar=c(3,3,3,3))
 
 #add group size to robust group label
 for (i in 1:length(unique(df_labelled$robust_group))) {
@@ -462,5 +463,5 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
                 position = position_stack(vjust = .5)) + coord_flip()
 
 #save plot
-ggsave("figures/stacked_barplots_robust_groups_pam.png",width=15,height=15)
+ggsave("figures/stacked_barplots_traits_by_cluster_pam.png",width=15,height=10)
 

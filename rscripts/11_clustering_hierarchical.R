@@ -39,15 +39,7 @@ aggl.clust.a <- hclust(gower_df, method = "average")
 plot(aggl.clust.a, main = "Agglomerative, average", cex = 0.25)
 
 aggl.clust.w <- hclust(gower_df, method = "ward.D2")
-
-png(
-  "figures/agglomerative_hclust_ward_dendrogram.png",
-  width = 3000,
-  height = 3000,
-  res = 300
-)
 plot(aggl.clust.w, main = "Agglomerative, Ward", cex = 0.25)
-dev.off()
 
 ## ------------ CLUSTERING STATS ------------
 
@@ -119,7 +111,7 @@ aes(x = cluster.number, y = within.cluster.ss)) +
   ggtitle("Agglomerative clustering, Ward") +
   labs(x = "Num.of clusters", y = "Within clusters sum of squares (SS)") +
   theme(plot.title = element_text(hjust = 0.5))
-# k = 5
+# k = 3
 ggsave("figures/within_ss_ward.png",
        width = 5,
        height = 5)
@@ -178,8 +170,8 @@ wk6 <- ggplot(ggd1, theme = theme_minimal()) +
   labs(x = "Num. observations", y = "Height", title = "Dendrogram agglomerative ward, k = 6")
 
 #plot coloured dendrogram
-wk3# + wk6
-ggsave("figures/dendro_ward_k3.png",
+wk3 + wk6
+ggsave("figures/dendro_ward.png",
        width = 10,
        height = 10)
 
@@ -191,8 +183,8 @@ dataset_dist <- stats::as.dist(gower_df)
 #run PCOA
 dataset_pcoa <- ape::pcoa(dataset_dist)
 
-#select number of clusters to plot (5)
-clust.num <- cutree(aggl.clust.w, k = 5)
+#select number of clusters to plot (6)
+clust.num <- cutree(aggl.clust.w, k = 6)
 
 #get subset of species names to highlight
 sp_names <- rownames(dataset_pcoa$vectors)
@@ -226,7 +218,7 @@ ggplot(data.frame(dataset_pcoa$vectors),
   ))
 
 #save image
-ggsave("figures/pcoa_hclust_k5.png",
+ggsave("figures/pcoa_hclust_k6.png",
        width = 12,
        height = 10)
 
@@ -370,7 +362,7 @@ for(i in 1:(length(colnames(df_labelled))-1)){
 }
 
 #plot as multiple pages in PDF
-pdf("figures/k3_kpro_plots.pdf",width = 15,height = 15)
+pdf("figures/clusters_by_trait_ward.pdf",width = 15,height = 15)
 
 print(grid.arrange(grobs=plot_list[1:4],ncol=2,nrow=2))
 print(grid.arrange(grobs=plot_list[5:8],ncol=2,nrow=2))
@@ -426,5 +418,5 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
                 position = position_stack(vjust = .5)) + coord_flip()
 
 #save plot 
-ggsave("figures/stacked_barplots_k3_ward.png",width=15,height=10)
+ggsave("figures/stacked_barplots_traits_by_cluster_ward_one_hot.png",width=15,height=10)
 

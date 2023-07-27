@@ -74,11 +74,11 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.f
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
 #save plot
-ggsave("figures/pcoa_kproto_k5.png",width = 12,height=10)
+ggsave("figures/pcoa_kpro.png",width = 12,height=10)
 
-####
-# Sankey plot
-####
+###
+# ---- Sankey plot ----
+###
 
 #from: https://r-graph-gallery.com/321-introduction-to-interactive-sankey-diagram-2.html
 #table of different k values (2-7)
@@ -309,7 +309,7 @@ for(i in 1:(length(colnames(df_labelled))-1)){
 }
 
 #save plots as pages of PDF
-pdf("figures/robust_kpro_plots.pdf",width = 15,height = 15)
+pdf("figures/clusters_by_trait_kpro.pdf",width = 15,height = 15)
 
 print(grid.arrange(grobs=plot_list[1:4],ncol=2,nrow=2))
 print(grid.arrange(grobs=plot_list[5:8],ncol=2,nrow=2))
@@ -322,6 +322,9 @@ dev.off()
 ###
 # ---- Plot qualitative stats of robust groups ----
 ###
+
+#reset margins
+par(mar=c(3,3,3,3))
 
 #add group size to robust group label
 for (i in 1:length(unique(df_labelled$robust_group))) {
@@ -365,7 +368,7 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
                 position = position_stack(vjust = .5)) + coord_flip()
 
 #save plot
-ggsave("figures/stacked_barplots_robust_groups_kpro.png",width=15,height=15)
+ggsave("figures/stacked_barplots_traits_by_cluster_kpro.png",width=15,height=10)
 
 #save image as takes long to run
 save.image(file = "outputs/kpro.RData")

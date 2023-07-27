@@ -1,24 +1,24 @@
+rm(list=ls())
+
+#load packages
 library(dplyr)
 library(clustMixType)
 library(wesanderson)
+library(ggplot2)
+library(cluster)
+library(networkD3)
+library(data.table)
 
 #load formatted data
 df<-readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
 
-#numeric columns only
-nums <- unlist(lapply(df, is.numeric))
-facts <- unlist(lapply(df, is.factor))
-
-df2<-cbind(df[ , nums],df[ , facts])
-
-str(df2)
-
+#set up empty vectors
 ss<-vector()
-
 clust_memb<-vector()
 
+#run clustering with different values of K up to 10
 for(i in 2:10){
-  kproto_out<-kproto(df2, k=i, lambda = NULL, iter.max = 1000, nstart = 10, na.rm = F)
+  kproto_out<-kproto(df, k=i, lambda = NULL, iter.max = 1000, nstart = 10, na.rm = F)
   ss[i]<-kproto_out$tot.withinss
   
   if(i == 2){
@@ -26,50 +26,24 @@ for(i in 2:10){
   } else {
     clust_memb<-cbind(clust_memb,kproto_out$cluster)
   }
+  
 }
 
+head(clust_memb)
+
 #check alignment of names
-kproto_out2<-kproto(df2, k=2, lambda = NULL, iter.max = 1000, nstart = 10, na.rm = F)
-kproto_out3<-kproto(df2, k=3, lambda = NULL, iter.max = 1000, nstart = 10, na.rm = F)
-names(kproto_out2$cluster)==names(kproto_out3$cluster)
+kproto_out2<-kproto(df, k=2, lambda = NULL, iter.max = 1000, nstart = 10, na.rm = F)
 names(kproto_out2$cluster)==rownames(clust_memb)
 
-#plot total ss
+#plot total ss to choose 
 plot(ss,type='b')
-# k = 3 or 6
 
 #rerun with chosen value of k
-kproto_out<-kproto(df2, k=4, lambda = NULL, iter.max = 1000, nstart = 10, na.rm = F)
-
-#relationships of dataset properties to clusters
-
-
-#removes asking for plot
-source("R/myclprofiles.R")
-
-n=ncol(df2[,nums])
-png("figures/kproto_cluster_characteristics_quant_one_hot.png",height = 2000, width=1500,res=200)
-par(mfrow=c(3,ceiling(n/3)))
-myclprofiles(kproto_out, df2[,1:6], col = wes_palette("Royal1", 4, type = "continuous"))
-dev.off()
-
-m=ncol(df2[,facts])
-png("figures/kproto_cluster_characteristics_qual1_one_hot.png",height = 2000, width=1500,res=200)
-par(mfrow=c(3,ceiling(m/6)))
-myclprofiles(kproto_out, df2[,(n+1):(n+ceiling(m/2))], col = wes_palette("Royal1", 4, type = "discrete"))
-dev.off()
-
-png("figures/kproto_cluster_characteristics_qual2_one_hot.png",height = 2000, width=1500,res=200)
-par(mfrow=c(3,ceiling(m/6)))
-myclprofiles(kproto_out, df2[,(n+ceiling(m/2)+1):(n+m)], col = wes_palette("Royal1", 4, type = "discrete"))
-dev.off()
+kproto_out<-kproto(df, k=4, lambda = NULL, iter.max = 1000, nstart = 10, na.rm = F)
 
 ## --------- PCOA scatterplot with cluster annotation ---------
 
-par(mfrow=c(1,1))
-
 #dissimilarity matrix calculation
-library(cluster)
 gower_df <- daisy(df,
                   metric = "gower" )
 
@@ -78,6 +52,11 @@ dataset_dist <- stats::as.dist(gower_df)
 
 #run PCOA
 dataset_pcoa <- ape::pcoa(dataset_dist)
+
+#Recalculate relative eigenvalues by removing negative eigenvalues as in Mouillot et al.  
+ev_pcoa <- dataset_pcoa$values$Eigenvalues
+ev_pcoa_g0 <- ev_pcoa[ev_pcoa>0]
+rel_ev_pcoa_g0 <- ev_pcoa_g0/sum(ev_pcoa_g0)
 
 #plot points on first two axes, coloured by cluster
 ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.factor(kproto_out$cluster))) +
@@ -91,15 +70,15 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.f
   stat_ellipse(geom = "polygon",
                aes(fill = as.factor(kproto_out$cluster)), 
                alpha = 0.25) +
-  xlab(paste("Axis 1: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(dataset_pcoa$values$Relative_eig[2],2)))
+  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
+  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
-ggsave("figures/pcoa_kproto_k3_one_hot.png",width = 12,height=10)
+#save plot
+ggsave("figures/pcoa_kpro_one_hot.png",width = 12,height=10)
 
-
-####
-# Sankey plot
-####
+###
+# ---- Sankey plot ----
+###
 
 #from: https://r-graph-gallery.com/321-introduction-to-interactive-sankey-diagram-2.html
 #table of different k values (2-7)
@@ -113,8 +92,6 @@ for (i in 1:6) {
   }
 }
 
-clust_memb
-
 colnames(clust.num.k.2.7)<-c("2clusters",
                              "3clusters",
                              "4clusters",
@@ -125,7 +102,7 @@ clust.num.k.2.7.df <-as.data.frame(clust.num.k.2.7)
 
 rownames(clust.num.k.2.7.df)<-rownames(clust_memb)
 
-saveRDS(clust.num.k.2.7.df, file = here::here("outputs/clust_num_k_2_7_kpro_one_hot.rds"))
+saveRDS(clust.num.k.2.7.df, file = here::here("outputs/clust_num_k_2_7_kpro.rds"))
 
 # A connection data frame is a list of flows with intensity for each flow
 
@@ -143,7 +120,6 @@ for(i in 1:(length(colnames(clust.num.k.2.7.df))-1)){
   
 }
 
-
 # From these flows we need to create a node data frame: it lists every entities involved in the flow
 nodes <- data.frame(
   name=c(as.character(links$source), 
@@ -153,28 +129,23 @@ nodes <- data.frame(
 # With networkD3, connection must be provided using id, not using real name like in the links dataframe.. So we need to reformat it.
 links$IDsource <- match(links$source, nodes$name)-1 
 links$IDtarget <- match(links$target, nodes$name)-1
-
 links
 
 #remove rows where values are 0
 links<-links[links$value>0,]
 
-# Library
-library(networkD3)
-library(dplyr)
-# Make the Network
-
+# Make and plot the Network
 p <- sankeyNetwork(Links = links, Nodes = nodes,
                    Source = "IDsource", Target = "IDtarget",
                    Value = "value", NodeID = "name", 
                    sinksRight=FALSE)
-
 p
 
+#save as html
 saveNetwork(p, "figures/sankey_kpro_one_hot.html")
 
 ###
-# Robust combinations
+# ---- Robust combinations ----
 ###
 
 #make data frame of combo frequencies
@@ -190,7 +161,7 @@ combos <- combos[order(combos$Freq, decreasing = T), ]
 combos <-data.frame(lapply(combos, as.character), stringsAsFactors = FALSE)
 
 #table of different combinations and their frequencies
-combos
+head(combos)
 
 #empty list
 robust<-list()
@@ -267,11 +238,12 @@ for(i in 1:length(unique(robust_vect_kpro))){
   
 }
 
-#add row and column names
+#average values for each robust group
 rownames(rob_mat)<-paste("robust",c(1:length(unique(robust_vect_kpro))),sep="")
 colnames(rob_mat)<-colnames(df)
 rob_mat
 
+#most frequent state for each robust group
 rownames(rob_mat_names)<-paste("robust",c(1:length(unique(robust_vect_kpro))),sep="")
 colnames(rob_mat_names)<-colnames(df)
 rob_mat_names
@@ -279,8 +251,8 @@ rob_mat_names
 #check order
 rownames(dataset_pcoa$vectors)==rownames(clust.num.k.2.7.df)
 
-#Plot robust groups
-#plot points on first two axes, coloured by cluster
+#Plot robust groups on PCoA scatterplot
+#plot points on first two axes, coloured by robust group, shaped by cluster
 ggplot(
   data.frame(dataset_pcoa$vectors),
   aes(
@@ -296,20 +268,21 @@ ggplot(
     stroke = 0.5
   )
 
+#save plot
+ggsave("figures/scatter_pcoa_kpro_robust_one_hot.png",width=12,height=10)
+
+#Check amount of missing data in non-robust species
 #species that dont belong to robust group
 df_not_robust<-df[is.na(robust_vect_kpro_full),]
 mean(is.na(df_not_robust))
 
+#species that do belong to robust group
 df_robust<-df[!is.na(robust_vect_kpro_full),]
 mean(is.na(df_robust))
 
-
-#####
-#Boxplots and stacked barplots for robust groups
-#####
-
-# library
-library(ggplot2)
+###
+# ---- Boxplots and stacked barplots for robust groups ----
+###
 
 #make label
 robust_group<-paste("kpro_robust_",robust_vect_kpro_full,sep="")
@@ -334,7 +307,8 @@ for(i in 1:(length(colnames(df_labelled))-1)){
   
 }
 
-pdf("figures/robust_kpro_one_hot_plots.pdf",width = 15,height = 15)
+#save plots as pages of PDF
+pdf("figures/clusters_by_trait_kpro_one_hot.pdf",width = 15,height = 15)
 
 print(grid.arrange(grobs=plot_list[1:4],ncol=2,nrow=2))
 print(grid.arrange(grobs=plot_list[5:8],ncol=2,nrow=2))
@@ -345,9 +319,11 @@ print(grid.arrange(grobs=plot_list[17:19],ncol=2,nrow=2))
 dev.off()
 
 ###
-# Plot qualitative stats of robust groups
+# ---- Plot qualitative stats of robust groups ----
 ###
-library(data.table)
+
+#reset margins
+par(mar=c(3,3,3,3))
 
 #add group size to robust group label
 for (i in 1:length(unique(df_labelled$robust_group))) {
@@ -377,21 +353,22 @@ df_temp_melt_counts <- df_temp_melt %>% group_by(robust_group,variable,value) %>
 df_temp_melt_counts$label<-df_temp_melt_counts$value
 df_temp_melt_counts$label[df_temp_melt_counts$count<3]<-NA
 
-#make new column for text size
+#NOT RUN: make new column for text size
 #df_temp_melt_counts$text_size<-df_temp_melt_counts$count^(1/2)
 
 #plot stacked barplots per robust group for each qualitative trait, with labels
 ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
   geom_col(position = 'stack') + facet_wrap(. ~ robust_group, scales = "free")  + theme(
     legend.position = "none",
-    axis.text.x = element_text( vjust = 0.5, hjust=1),
+    axis.text.x = element_text(vjust = 0.5, hjust=1),
     axis.title.x = element_blank(),
     plot.margin = unit(c(1, 1, 1, 1), "cm")
-  ) + geom_text(aes(label = label),
-                size = 2,
+  ) + geom_text(aes(size = count,label = label),
                 position = position_stack(vjust = .5)) + coord_flip()
 
-ggsave("figures/stacked_barplots_robust_groups_kpro_one_hot.pdf",width=15,height=15)
+#save plot
+ggsave("figures/stacked_barplots_traits_by_cluster_kpro_one_hot.png",width=15,height=10)
 
+#save image as takes long to run
 save.image(file = "outputs/kpro_one_hot.RData")
 

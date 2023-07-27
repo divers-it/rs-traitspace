@@ -1,10 +1,16 @@
+rm(list=ls())
+
+#load libraries
 library(dplyr)
 library(ape)
 library(corHMM)
+library(RColorBrewer)
 
-#load formatted data
-df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
-dfo<-readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
+#Load formatted data
+#NOTE: Uncomment depending on whether you want standard or one-hot
+#df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+df<-readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
+
 #numeric/factor columns only
 nums <- unlist(lapply(df, is.numeric))
 facts <- unlist(lapply(df, is.factor))
@@ -52,9 +58,6 @@ phy2<-drop.tip(phy,setdiff(phy$tip.label,df3$species))
 #sort df to match order of tips in phylo
 df3<-df3[match(phy2$tip.label, df3$species),]
 
-#make woodiness binary SOLVE LATER BY MAKING NEW DF FOR ASR
-#df2$Woodiness<-gsub("herbaceous_woody","woody",df2$Woodiness)
-
 #plot phylogeny and example trait
 plot(phy2, show.tip.label = FALSE,type='fan')
 tiplabels(pch = 16, col = as.factor(df3[,2]), cex = 1)
@@ -70,6 +73,67 @@ no_states[i-1]<-length(unique(df3[,2]))
 
 df_rates<-data.frame(states,rates,tree_sizes,no_states)
 df_rates[order(df_rates$rates,decreasing = T),]
+
+saveRDS(df_rates, file = here::here("outputs/transition_rates_one_hot.rds"))
+
+###
+# ---- Compare phylogenetic signal and transition rates ----
+###
+
+load("outputs/phylo_signal.Rdata")
+
+d1<-results[order(row.names(results)),]
+
+d2<-df_rates[order(df_rates$states),]
+d2<-d2[c(1,2,4:12),]
+
+d2$states==row.names(results)
+
+plot(d1$deltas~d2$rates)
+
+###
+# ---- Transitions between strategies ----
+###
+
+#read in clustering results
+df<-read.csv("outputs/collate_clustering_results.csv",row.names=1)
+
+#insert '_' into rownames to match phylo
+rownames(df)<-gsub(" ","_",rownames(df))
+
+#read in phylogenetic tree
+phy<-read.tree("outputs/pruned_tree.tre")
+
+#in dataset but not in phylo
+setdiff(rownames(df),phy$tip.label)
+
+#in phylo but not in dataset
+setdiff(phy$tip.label,rownames(df))
+
+#in phylo but not in dataset
+setdiff(phy$tip.label,rownames(df))
+
+#drop tips
+phy<-drop.tip(phy,setdiff(phy$tip.label,rownames(df)))
+
+#check order
+df<-df[match(phy$tip.label,rownames(df)),]
+phy$tip.label==rownames(df)
+
+#colours
+palette(brewer.pal(3,"Set1"))
+
+#plot phylogeny and example trait
+png("figures/phylo_ward.png",width=750,height=750)
+plot(phy, show.tip.label = FALSE
+     ,type='fan'
+)
+tiplabels(pch = 16, col = as.factor(df$ward), cex = 1.2)
+dev.off()
+
+#add another rate category
+HMM_2state <- corHMM(phy = phy, data = data, rate.cat = 2, model = "SYM", get.tip.states = TRUE)
+HMM_2state
 
 #EXTRA FROM TUTORIAL:
 #plot transition rates
@@ -92,17 +156,8 @@ simmap <- makeSimmap(tree = phy, data = data, model = model, rate.cat = 1, nSim 
 phytools::plotSimmap(simmap[[1]], fsize = 0.5, type="fan")
 
 #add another rate category
-HMM_2state <- corHMM(phy = phy, data = data, rate.cat = 2, model = "SYM", get.tip.states = TRUE)
+HMM_2state <- corHMM(phy = phy, data = data, rate.cat = 2, model = "ARD", get.tip.states = TRUE)
 HMM_2state
 
-#plot phylo signal against transition rates
-load("outputs/phylo_signal.Rdata")
+par(mar=c(1,1,1,1))
 
-d1<-results[order(row.names(results)),]
-
-d2<-df_rates[order(df_rates$states),]
-d2<-d2[c(1,2,4:12),]
-
-d2$states==row.names(results)
-
-plot(d1$deltas~d2$rates)
