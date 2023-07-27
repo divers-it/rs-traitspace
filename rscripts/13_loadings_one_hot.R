@@ -35,8 +35,13 @@ ev_pcoa_g0 <- ev_pcoa[ev_pcoa>0]
 rel_ev_pcoa_g0 <- ev_pcoa_g0/sum(ev_pcoa_g0)
 
 # add original traits (multistate) for visualization
-df_ord=as.data.frame(c(df2,speciesd))
 
+if(sum(rownames(df2)==rownames(speciesd))==nrow(df2)){
+	df_ord=as.data.frame(c(df2,speciesd))
+	rownames(df_ord)=rownames(df2)
+} else {
+	stop("Row (species) names are not identical")
+}
 # read clusters
 clusters_ward_one_hot=readRDS(file = here::here("outputs/clust_num_k_2_7_ward_one_hot.rds"))
 clusters_ward=readRDS(file = here::here("outputs/clust_num_k_2_7_ward.rds"))
@@ -299,6 +304,122 @@ ggsave("figures/pcoa_clustering_robust_one_hot_loadings.png",
        width = 40,
        height = 20,
        units = 'cm')
+
+#Big table for checking characters
+
+df<-readRDS(file = here::here("outputs/df_filt.rds"))
+tax<-readRDS(file = here::here("outputs/taxonomy.rds"))
+
+if(sum(rownames(df)==rownames(tax))==nrow(df)){
+	df_tax=as.data.frame(c(tax,df))
+	rownames(df_tax)=rownames(df)
+} else {
+	stop("Row (species) names are not identical")
+}
+
+
+if(sum(rownames(df_tax)==rownames(as.data.frame(groups_pam)))==nrow(df_tax)){
+	df_tax_clust=as.data.frame(c(df_tax,as.data.frame(groups_pam)))
+	rownames(df_tax_clust)=rownames(df_tax)
+} else {
+	stop("Row (species) names are not identical")
+}
+if(sum(rownames(df_tax_clust)==rownames(as.data.frame(groups_pam_one_hot)))==nrow(df_tax_clust)){
+	df_tax_clust=as.data.frame(c(df_tax_clust,as.data.frame(groups_pam_one_hot)))
+	rownames(df_tax_clust)=rownames(df_tax)
+} else {
+	stop("Row (species) names are not identical")
+}
+if(sum(rownames(df_tax_clust)==rownames(as.data.frame(groups_density)))==nrow(df_tax_clust)){
+	df_tax_clust=as.data.frame(c(df_tax_clust,as.data.frame(groups_density)))
+	rownames(df_tax_clust)=rownames(df_tax)
+} else {
+	stop("Row (species) names are not identical")
+}
+if(sum(rownames(df_tax_clust)==rownames(as.data.frame(groups_density_one_hot)))==nrow(df_tax_clust)){
+	df_tax_clust=as.data.frame(c(df_tax_clust,as.data.frame(groups_density_one_hot)))
+	rownames(df_tax_clust)=rownames(df_tax)
+} else {
+	stop("Row (species) names are not identical")
+}
+if(sum(rownames(df_tax_clust)==rownames(as.data.frame(groups_kpro)))==nrow(df_tax_clust)){
+	df_tax_clust=as.data.frame(c(df_tax_clust,as.data.frame(groups_kpro)))
+	rownames(df_tax_clust)=rownames(df_tax)
+} else {
+	stop("Row (species) names are not identical")
+}
+if(sum(rownames(df_tax_clust)==rownames(as.data.frame(groups_kpro_one_hot)))==nrow(df_tax_clust)){
+	df_tax_clust=as.data.frame(c(df_tax_clust,as.data.frame(groups_kpro_one_hot)))
+	rownames(df_tax_clust)=rownames(df_tax)
+} else {
+	stop("Row (species) names are not identical")
+}
+
+write.csv(df_tax_clust,file="outputs/robust_clust_data.csv")
+
+#One-hot encoding for shannon entropy
+
+if(sum(rownames(df2)==rownames(as.data.frame(groups_pam)))==nrow(df2)){
+	df2_clust=as.data.frame(c(df2,as.data.frame(groups_pam)))
+	rownames(df2_clust)=rownames(df2)
+} else {
+	stop("Row (species) names are not identical")
+}
+if(sum(rownames(df2_clust)==rownames(as.data.frame(groups_pam_one_hot)))==nrow(df2_clust)){
+	df2_clust=as.data.frame(c(df2_clust,as.data.frame(groups_pam_one_hot)))
+	rownames(df2_clust)=rownames(df2)
+} else {
+	stop("Row (species) names are not identical")
+}
+if(sum(rownames(df2_clust)==rownames(as.data.frame(groups_density)))==nrow(df2_clust)){
+	df2_clust=as.data.frame(c(df2_clust,as.data.frame(groups_density)))
+	rownames(df2_clust)=rownames(df2)
+} else {
+	stop("Row (species) names are not identical")
+}
+if(sum(rownames(df2_clust)==rownames(as.data.frame(groups_density_one_hot)))==nrow(df2_clust)){
+	df2_clust=as.data.frame(c(df2_clust,as.data.frame(groups_density_one_hot)))
+	rownames(df2_clust)=rownames(df2)
+} else {
+	stop("Row (species) names are not identical")
+}
+if(sum(rownames(df2_clust)==rownames(as.data.frame(groups_kpro)))==nrow(df2_clust)){
+	df2_clust=as.data.frame(c(df2_clust,as.data.frame(groups_kpro)))
+	rownames(df2_clust)=rownames(df2)
+} else {
+	stop("Row (species) names are not identical")
+}
+if(sum(rownames(df2_clust)==rownames(as.data.frame(groups_kpro_one_hot)))==nrow(df2_clust)){
+	df2_clust=as.data.frame(c(df2_clust,as.data.frame(groups_kpro_one_hot)))
+	rownames(df2_clust)=rownames(df2)
+} else {
+	stop("Row (species) names are not identical")
+}
+
+library(aqp)
+
+df_groupings=data.frame(traits=names(df2[,unlist(lapply(df2,is.integer)),]))
+#df_groupings$density_ent=NA
+df_groupings$density_fpval=NA
+df_groupings$density_oh_fpval=NA
+df_groupings$pam_fpval=NA
+df_groupings$pam_oh_fpval=NA
+df_groupings$kproto_fpval=NA
+df_groupings$kproto_oh_fpval=NA
+
+for(i in seq(1,ncol(df2))){
+if(is.integer(df2_clust[,i])){
+trait=names(df2_clust)[i]
+#ent=shannonEntropy(table(df2_clust$groups_density,df2_clust[,i])[,2]/table(df2_clust$groups_density))
+#df_groupings[df_groupings$traits==trait,]$density_ent=ent
+df_groupings[df_groupings$traits==trait,]$density_fpval=fisher.test(table(df2_clust$groups_density,df2_clust[,i]),workspace=20000000)$p.value
+df_groupings[df_groupings$traits==trait,]$density_oh_fpval=fisher.test(table(df2_clust$groups_density_one_hot,df2_clust[,i]),workspace=20000000)$p.value
+df_groupings[df_groupings$traits==trait,]$pam_fpval=fisher.test(table(df2_clust$groups_pam,df2_clust[,i]),workspace=20000000)$p.value
+df_groupings[df_groupings$traits==trait,]$pam_oh_fpval=fisher.test(table(df2_clust$groups_pam_one_hot,df2_clust[,i]),workspace=20000000)$p.value
+df_groupings[df_groupings$traits==trait,]$kproto_fpval=fisher.test(table(df2_clust$groups_kpro,df2_clust[,i]),workspace=20000000)$p.value
+df_groupings[df_groupings$traits==trait,]$kproto_oh_fpval=fisher.test(table(df2_clust$groups_kpro_one_hot,df2_clust[,i]),workspace=20000000)$p.value
+}
+}
 
 #3d
 
