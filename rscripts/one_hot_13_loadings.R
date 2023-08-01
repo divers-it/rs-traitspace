@@ -388,14 +388,29 @@ if(is.integer(df2_clust[,i])){
 trait=names(df2_clust)[i]
 #ent=shannonEntropy(table(df2_clust$groups_density,df2_clust[,i])[,2]/table(df2_clust$groups_density))
 #df_groupings[df_groupings$traits==trait,]$density_ent=ent
-df_groupings[df_groupings$traits==trait,]$density_fpval=fisher.test(table(df2_clust$groups_density,df2_clust[,i]),workspace=40000000)$p.value
-df_groupings[df_groupings$traits==trait,]$density_oh_fpval=fisher.test(table(df2_clust$groups_density_one_hot,df2_clust[,i]),workspace=40000000)$p.value
-df_groupings[df_groupings$traits==trait,]$pam_fpval=fisher.test(table(df2_clust$groups_pam,df2_clust[,i]),workspace=40000000)$p.value
-df_groupings[df_groupings$traits==trait,]$pam_oh_fpval=fisher.test(table(df2_clust$groups_pam_one_hot,df2_clust[,i]),workspace=40000000)$p.value
-df_groupings[df_groupings$traits==trait,]$kproto_fpval=fisher.test(table(df2_clust$groups_kpro,df2_clust[,i]),workspace=40000000)$p.value
-df_groupings[df_groupings$traits==trait,]$kproto_oh_fpval=fisher.test(table(df2_clust$groups_kpro_one_hot,df2_clust[,i]),workspace=40000000)$p.value
+df_groupings[df_groupings$traits==trait,]$density_fpval=fisher.test(table(df2_clust$groups_density,df2_clust[,i]),workspace=2e8)$p.value
+df_groupings[df_groupings$traits==trait,]$density_oh_fpval=fisher.test(table(df2_clust$groups_density_one_hot,df2_clust[,i]),workspace=2e8)$p.value
+df_groupings[df_groupings$traits==trait,]$pam_fpval=fisher.test(table(df2_clust$groups_pam,df2_clust[,i]),workspace=2e8)$p.value
+df_groupings[df_groupings$traits==trait,]$pam_oh_fpval=fisher.test(table(df2_clust$groups_pam_one_hot,df2_clust[,i]),workspace=2e8)$p.value
+df_groupings[df_groupings$traits==trait,]$kproto_fpval=fisher.test(table(df2_clust$groups_kpro,df2_clust[,i]),workspace=2e8)$p.value
+df_groupings[df_groupings$traits==trait,]$kproto_oh_fpval=fisher.test(table(df2_clust$groups_kpro_one_hot,df2_clust[,i]),workspace=2e8)$p.value
 }
 }
+for(i in seq(1,ncol(df2))){
+if(is.integer(df2_clust[,i])){
+trait=names(df2_clust)[i]
+#ent=shannonEntropy(table(df2_clust$groups_density,df2_clust[,i])[,2]/table(df2_clust$groups_density))
+#df_groupings[df_groupings$traits==trait,]$density_ent=ent
+df_groupings[df_groupings$traits==trait,]$density_fpval=chisq.test(table(df2_clust$groups_density,df2_clust[,i]))$p.value
+df_groupings[df_groupings$traits==trait,]$density_oh_fpval=chisq.test(table(df2_clust$groups_density_one_hot,df2_clust[,i]))$p.value
+df_groupings[df_groupings$traits==trait,]$pam_fpval=chisq.test(table(df2_clust$groups_pam,df2_clust[,i]))$p.value
+df_groupings[df_groupings$traits==trait,]$pam_oh_fpval=chisq.test(table(df2_clust$groups_pam_one_hot,df2_clust[,i]))$p.value
+df_groupings[df_groupings$traits==trait,]$kproto_fpval=chisq.test(table(df2_clust$groups_kpro,df2_clust[,i]))$p.value
+df_groupings[df_groupings$traits==trait,]$kproto_oh_fpval=chisq.test(table(df2_clust$groups_kpro_one_hot,df2_clust[,i]))$p.value
+}
+}
+df_gr_gg=melt(df_groupings,id.vars="traits")
+ggplot(df_gr_gg,aes(x=traits,y=value,colour=variable))+geom_point()+scale_y_continuous(trans="log10")+theme(axis.text.x=element_text(angle = 90, hjust = 1))
 
 #3d
 
