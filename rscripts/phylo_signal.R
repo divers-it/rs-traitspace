@@ -51,6 +51,8 @@ setdiff(phy$tip.label,df2$species)
 deltas<-vector()
 pvals<-vector()
 
+pdf("figures/asr_phylos.pdf")
+
 #NOTE: Produces NaNs
 #loop through all characters
 #for(i in 2:length(colnames(df2))){
@@ -95,6 +97,8 @@ for(i in 2:length(colnames(df2))){
   cat(paste("finished: ",colnames(df2)[i],"\n"))
   
 }
+
+dev.off()
 
 #clean up
 names(deltas)<-colnames(df2)
@@ -161,7 +165,7 @@ for(i in 2:length(colnames(df2))){
   p4d <- phylo4d(tree, trait)
   
   #plot phylogeny and trait
-  #barplot.phylo4d(p4d, tree.type = "phylo", tree.ladderize = TRUE)
+  barplot.phylo4d(p4d, tree.type = "phylo", tree.ladderize = TRUE)
   
   #calculate signal with all methods
   p4d_s<-phyloSignal(p4d = p4d, method = "all")

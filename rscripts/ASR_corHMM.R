@@ -92,13 +92,26 @@ saveRDS(df_rates, file = here::here("outputs/one_hot_transition_rates.rds"))
 # ---- Compare phylogenetic signal and transition rates ----
 ###
 
-#load("outputs/phylo_signal.Rdata")
+#read in phylogenetic signal results for qualitiative traits
+psq<-readRDS(file = here::here("outputs/phylo_signal_qualitative.rds"))
 
-#d1 <- results[order(row.names(results)), ]
-#d2 <- df_rates[order(df_rates$states), ]
-#d2 <- d2[c(1, 2, 4:12), ]
-#d2$states == row.names(results)
-#plot(d1$deltas ~ d2$rates)
+#reorder
+d1 <- psq[order(row.names(psq)), ]
+
+#reorder transition rates
+d2 <- df_rates[order(df_rates$states), ]
+
+#check order matches
+d2$states == row.names(d1)
+
+#combine data frames
+d1d2<-cbind(d1,d2)
+
+#remove outliers
+d1d2<-d1d2[d1d2$deltas<100,]
+
+#plot signal vs transition rates
+plot(d1d2$deltas ~ d1d2$rates)
 
 ###
 # ---- Transitions between strategies ----
