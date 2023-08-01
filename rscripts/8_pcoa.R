@@ -12,7 +12,6 @@ df<-read.csv("outputs/imputed_with_phylo.csv",row.names=1,stringsAsFactors = TRU
 #dissimilarity matrix calculation
 gower_df_no_miss <- daisy(df,
                           metric = "gower" )
-
 summary(gower_df_no_miss)
 
 #load data set

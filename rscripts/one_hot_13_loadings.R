@@ -174,15 +174,15 @@ ggsave("figures/one_hot_13_scatterplot_pcoa_k6_loadings_by_clustering_method.png
 
 numclust="6clusters"
 
-clust.num=data.frame(clusters_ward_one_hot[,numclust])
+clust.num=data.frame(clust.num=clusters_ward_one_hot[,numclust])
 rownames(clust.num)=rownames(clusters_ward_one_hot)
 df_ord_clust=as.data.frame(c(df_ord,clust.num))
 
-p1=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none") + ggtitle("ward") +
+p1=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none") + ggtitle("ward") +
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
-clust.num=data.frame(clusters_kpro_one_hot[,numclust])
+clust.num=data.frame(clust.num=clusters_kpro_one_hot[,numclust])
 rownames(clust.num)=rownames(clusters_kpro_one_hot)
 df_ord_clust=as.data.frame(c(df_ord,clust.num))
 
@@ -190,7 +190,7 @@ p2=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(c
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
-clust.num=data.frame(clusters_pam_one_hot[,numclust])
+clust.num=data.frame(clust.num=clusters_pam_one_hot[,numclust])
 rownames(clust.num)=rownames(clusters_pam_one_hot)
 df_ord_clust=as.data.frame(c(df_ord,clust.num))
 
@@ -198,7 +198,7 @@ p3=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(c
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
-clust.num=data.frame(clusters_density_one_hot[,numclust])
+clust.num=data.frame(clust.num=clusters_density_one_hot[,numclust])
 rownames(clust.num)=rownames(clusters_density_one_hot)
 df_ord_clust=as.data.frame(c(df_ord,clust.num))
 
@@ -209,26 +209,6 @@ p4=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(c
 p1 + p2 + p3 + p4
 
 ggsave("figures/one_hot_13_scatterplot_pcoa_k6_loadings_by_one_hot_clustering_method.png",
-       width = 40,
-       height = 20,
-       units = 'cm')
-
-# singleton clustering
-
-clusters_singleton_one_hot=readRDS(file = here::here("outputs/clusters_singleton_one_hot.rds"))
-clusters_singleton=readRDS(file = here::here("outputs/clusters_singleton.rds"))
-
-
-df_ord_clust=as.data.frame(c(df_ord,clusters_singleton))
-
-p1=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(cluster)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(cluster)), alpha = 0.25) + theme(legend.position="none") + ggtitle("singleton")
-
-df_ord_clust=as.data.frame(c(df_ord,clusters_singleton_one_hot))
-p2=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(cluster)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(cluster)), alpha = 0.25) + theme(legend.position="none") + ggtitle("singleton, one-hot")
-
-p1 + p2
-
-ggsave("figures/pcoa_clustering_singleton_loadings.png",
        width = 40,
        height = 20,
        units = 'cm')
@@ -408,12 +388,12 @@ if(is.integer(df2_clust[,i])){
 trait=names(df2_clust)[i]
 #ent=shannonEntropy(table(df2_clust$groups_density,df2_clust[,i])[,2]/table(df2_clust$groups_density))
 #df_groupings[df_groupings$traits==trait,]$density_ent=ent
-df_groupings[df_groupings$traits==trait,]$density_fpval=fisher.test(table(df2_clust$groups_density,df2_clust[,i]),workspace=20000000)$p.value
-df_groupings[df_groupings$traits==trait,]$density_oh_fpval=fisher.test(table(df2_clust$groups_density_one_hot,df2_clust[,i]),workspace=20000000)$p.value
-df_groupings[df_groupings$traits==trait,]$pam_fpval=fisher.test(table(df2_clust$groups_pam,df2_clust[,i]),workspace=20000000)$p.value
-df_groupings[df_groupings$traits==trait,]$pam_oh_fpval=fisher.test(table(df2_clust$groups_pam_one_hot,df2_clust[,i]),workspace=20000000)$p.value
-df_groupings[df_groupings$traits==trait,]$kproto_fpval=fisher.test(table(df2_clust$groups_kpro,df2_clust[,i]),workspace=20000000)$p.value
-df_groupings[df_groupings$traits==trait,]$kproto_oh_fpval=fisher.test(table(df2_clust$groups_kpro_one_hot,df2_clust[,i]),workspace=20000000)$p.value
+df_groupings[df_groupings$traits==trait,]$density_fpval=fisher.test(table(df2_clust$groups_density,df2_clust[,i]),workspace=40000000)$p.value
+df_groupings[df_groupings$traits==trait,]$density_oh_fpval=fisher.test(table(df2_clust$groups_density_one_hot,df2_clust[,i]),workspace=40000000)$p.value
+df_groupings[df_groupings$traits==trait,]$pam_fpval=fisher.test(table(df2_clust$groups_pam,df2_clust[,i]),workspace=40000000)$p.value
+df_groupings[df_groupings$traits==trait,]$pam_oh_fpval=fisher.test(table(df2_clust$groups_pam_one_hot,df2_clust[,i]),workspace=40000000)$p.value
+df_groupings[df_groupings$traits==trait,]$kproto_fpval=fisher.test(table(df2_clust$groups_kpro,df2_clust[,i]),workspace=40000000)$p.value
+df_groupings[df_groupings$traits==trait,]$kproto_oh_fpval=fisher.test(table(df2_clust$groups_kpro_one_hot,df2_clust[,i]),workspace=40000000)$p.value
 }
 }
 
