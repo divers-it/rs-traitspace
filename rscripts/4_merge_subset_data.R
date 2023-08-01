@@ -1,16 +1,16 @@
 rm(list=ls())
 
 #load discrete data
-disc_df<-read.csv("outputs/proteus_discrete_recoded.csv",row.names = 1)
+disc_df<-read.csv("outputs/1_proteus_discrete_recoded.csv",row.names = 1)
 head(disc_df)
 
-#load recoded quantitative data
-qr_df<-read.csv("outputs/proteus_quant_recoded.csv",row.names = 1)
-head(qr_df)
-
 #load quantitative data
-quant_df<-read.csv("outputs/proteus_quantitative.csv",row.names = 1)
+quant_df<-read.csv("outputs/2_proteus_quantitative.csv",row.names = 1)
 str(quant_df)
+
+#load recoded quantitative data
+qr_df<-read.csv("outputs/3_proteus_quant_recoded.csv",row.names = 1)
+head(qr_df)
 
 #merge discrete and recoded discrete
 disc_qr_df<-merge(disc_df, qr_df, by.x = 'NTaxDat', by.y = 'species', all.x = T)
@@ -123,4 +123,4 @@ proteus_combined<-cbind(proteus_combined,seedMass_merge$Seed_weight)
 colnames(proteus_combined)[ncol(proteus_combined)]<-"seedMass"
 
 #write dataset
-write.csv(proteus_combined,"outputs/proteus_combined.csv")
+write.csv(proteus_combined,"outputs/4_proteus_combined.csv")

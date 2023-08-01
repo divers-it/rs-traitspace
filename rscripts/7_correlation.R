@@ -10,7 +10,7 @@ library(cluster)
 library(GGally)
  
 #load formatted data
-dataset<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+dataset<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
 # Correlation between Traits ----
 
@@ -41,7 +41,8 @@ dataset_cor_df<-as.data.frame(dataset_cor)
 rownames(dataset_cor_df)<-colnames(dataset)
 colnames(dataset_cor_df)<-colnames(dataset)
 
-view(dataset_cor_df)
+#NOT RUN: examine correlations
+#view(dataset_cor_df)
 
 #correlation stats
 dataset_cor_summ <- data.frame(
@@ -110,10 +111,14 @@ gower_df <- daisy(dataset,
 summary(gower_df)
 
 #visualize the distances between species
-png("figures/distance_heatmap.png")
 fviz_dist(dist.obj = gower_df,
           order = TRUE, show_labels = F)
-dev.off()
+
+#save plot
+ggsave("figures/7_heatmap_distance.png",
+       width = 20,
+       height = 15,
+       units = 'cm')
 
 #One-liner to look at frequency of trait combinations
 combo_df <-

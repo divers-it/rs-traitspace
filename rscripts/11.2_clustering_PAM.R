@@ -12,7 +12,7 @@ library(data.table)
 library(networkD3)
 
 #load formatted data
-df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
 #build distance matrix
 gower_df <- daisy(df,
@@ -105,7 +105,7 @@ for(i in 1:length(pam.gower$medoids)){
   tsne_df$names[ind]<-rownames(df)[ind]
 }
 
-#plot points on first tSNA two axes, coloured by cluster
+#plot points on first tSNE two axes, coloured by cluster
 ggplot(tsne_df, aes(x = X, y = Y, fill = as.factor(cluster))) +
   geom_point(
     color="black",
@@ -123,7 +123,7 @@ ggplot(tsne_df, aes(x = X, y = Y, fill = as.factor(cluster))) +
   ylab("t-SNE Axis 2")
 
 #save image
-ggsave("figures/scatter_tsne_pam_clusters.png",width=12,height=10)
+ggsave("figures/11.2_scatterplot_tsne_pam_k3_coloured_by_cluster.png",width=12,height=10)
 
 #run pcoa
 dataset_dist <- stats::as.dist(gower_df)
@@ -149,7 +149,7 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.f
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1]))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2])))
 
-ggsave("figures/scatter_pcoa_pam_clusters.png",width=12,height=10)
+ggsave("figures/11.2_scatterplot_pcoa_pam_k3_coloured_by_cluster.png",width=12,height=10)
 
 ###
 # ---- Sankey plot ----
@@ -179,7 +179,7 @@ clust.num.k.2.7.df <-as.data.frame(clust.num.k.2.7)
 rownames(clust.num.k.2.7.df)<-names(pam.gower$clustering)
 
 #save RDS
-saveRDS(clust.num.k.2.7.df, file = here::here("outputs/clust_num_k_2_7_pam.rds"))
+saveRDS(clust.num.k.2.7.df, file = here::here("outputs/11.2_clust_num_k_2_7_pam.rds"))
 
 # A connection data frame is a list of flows with intensity for each flow
 for(i in 1:(length(colnames(clust.num.k.2.7.df))-1)){
@@ -219,7 +219,7 @@ p <- sankeyNetwork(Links = links, Nodes = nodes,
 p
 
 #save as HTML
-saveNetwork(p, "figures/sankey_pam.html")
+saveNetwork(p, "figures/11.2_sankey_pam.html")
 
 ###
 # ---- Robust combinations ----
@@ -265,7 +265,7 @@ robust
 
 #complete vector of robust groups and non-robust 
 robust_vect_pam_full<-robust_vect_pam
-saveRDS(robust_vect_pam_full, file = here::here("outputs/robust_vect_pam_full.rds"))
+saveRDS(robust_vect_pam_full, file = here::here("outputs/11.2_robust_vect_pam_full.rds"))
 
 #remove species not in robust groups
 robust_vect_pam<-na.omit(robust_vect_pam)
@@ -340,7 +340,7 @@ ggplot(
     stroke = 0.5
   )
 
-ggsave("figures/scatter_pcoa_pam_robust.png",width=12,height=10)
+ggsave("figures/11.2_scatterplot_pcoa_pam_coloured_by_robust.png",width=12,height=10)
 
 #Make df of tsne locations and robust groups
 tsne_df_robust<-cbind(tsne_df,robust_vect_pam_full)
@@ -365,7 +365,7 @@ ggplot(
   )
 
 #save plot
-ggsave("figures/scatter_tsne_pam_robust.png",width=12,height=10)
+ggsave("figures/11.2_scatterplot_tsne_pam_coloured_by_robust.png",width=12,height=10)
 
 #Proportion of missing data 
 #species that dont belong to robust group
@@ -404,7 +404,7 @@ for(i in 1:(length(colnames(df_labelled))-1)){
 }
 
 #plot figures on pages of PDF
-pdf("figures/clusters_by_trait_pam.pdf",width = 15,height = 15)
+pdf("figures/11.2_boxplots_stacked_barplots_pam_clusters_by_trait.pdf",width = 15,height = 15)
 
 print(grid.arrange(grobs=plot_list[1:4],ncol=2,nrow=2))
 print(grid.arrange(grobs=plot_list[5:8],ncol=2,nrow=2))
@@ -463,5 +463,5 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
                 position = position_stack(vjust = .5)) + coord_flip()
 
 #save plot
-ggsave("figures/stacked_barplots_traits_by_cluster_pam.png",width=15,height=10)
+ggsave("figures/11.2_stacked_barplots_pam_traits_by_cluster.png",width=15,height=10)
 

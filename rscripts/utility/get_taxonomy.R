@@ -4,7 +4,7 @@ rm(list=ls())
 library(taxize)
 
 #load data set
-df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
 #get list of species in dataset
 specieslist <- rownames(df)

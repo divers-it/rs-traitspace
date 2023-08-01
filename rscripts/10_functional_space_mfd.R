@@ -8,9 +8,10 @@ library(tidyr)
 library(dplyr)
 library(mFD)
 library(ggplot2)
+library(funrar)
 
 #load formatted data
-df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
 #empty trait code vector
 trait_code<-vector()
@@ -70,8 +71,6 @@ round(fspaces_quality$"quality_fspaces", 3)
 
 #on the third row (bottom), the y-axis shows the absolute or squared deviation of the (“scaled”) distance in 
 #the functional space. It is the deviation that is taken into account for computing the quality metric.
-
-png("figures/mfd_quality.png",height=1000,width=3000,res=200)
 mFD::quality.fspaces.plot(
   fspaces_quality            = fspaces_quality,
   quality_metric             = "mad",
@@ -85,6 +84,8 @@ mFD::quality.fspaces.plot(
   gradient_deviation_quality = c(low = "yellow", high = "red"),
   x_lab                      = "Trait-based distance")
 dev.off()
+
+ggsave("figures/10_scatterplots_mfd_fspace_quality.png",width=30,height=15,units = "cm")
 
 ## Testing the correlation between functional axes and traits ----
 
@@ -106,9 +107,8 @@ df_faxes <- mFD::traits.faxes.cor(
 df_faxes$"tr_faxes_stat"[which(df_faxes$"tr_faxes_stat"$"p.value" < 0.05), ]
 
 #plot
-png("figures/mfd_traits_vs_axes_quant.png",width=2500,height = 2000,res=200)
 df_faxes$"tr_faxes_plot"
-dev.off()
+ggsave("figures/10_scatterplots_mfd_quant_traits_vs_axes.png",width=30,height=20,units = "cm")
 
 #correlation of discrete traits 8-14
 df_faxes <- mFD::traits.faxes.cor(
@@ -121,9 +121,8 @@ df_faxes <- mFD::traits.faxes.cor(
 df_faxes$"tr_faxes_stat"[which(df_faxes$"tr_faxes_stat"$"p.value" < 0.05), ]
 
 #plot
-png("figures/mfd_traits_vs_axes_qual_1.png",width=4000,height = 2000,res=200)
 df_faxes$"tr_faxes_plot"
-dev.off()
+ggsave("figures/10_scatterplots_mfd_qual_traits_vs_axes_1.png",width=30,height=20,units = "cm")
 
 #correlation of qualitative traits 15-21
 df_faxes <- mFD::traits.faxes.cor(
@@ -136,9 +135,8 @@ df_faxes <- mFD::traits.faxes.cor(
 df_faxes$"tr_faxes_stat"[which(df_faxes$"tr_faxes_stat"$"p.value" < 0.05), ]
 
 #plot
-png("figures/mfd_traits_vs_axes_qual_2.png",width=4000,height = 2000,res=200)
 df_faxes$"tr_faxes_plot"
-dev.off()
+ggsave("figures/10_scatterplots_mfd_qual_traits_vs_axes_2.png",width=30,height=20,units = "cm")
 
 ## Plotting the selected functional space and position of species ----
 
@@ -157,14 +155,13 @@ big_plot <- mFD::funct.space.plot(
   plot_sp_nm      = NULL,
   check_input     = TRUE)
 
-png("figures/mfd_functional_space.png",width=2000,height = 2000, res=200)
 big_plot$"patchwork"
-dev.off()
+ggsave("figures/10_scatterplots_mfd_functional_space.png",width=30,height=30,units = "cm")
 
 ## Computing and plotting alpha FD indices ----
 
 #read in clustering
-clust_ward<-readRDS("outputs/clust_num_k_2_7_ward.rds")
+clust_ward<-readRDS("outputs/11_clust_num_k_2_7_ward.rds")
 
 #make df with clustering info
 clust_ward_df<-as.data.frame(cbind(rownames(clust_ward),clust_ward$`3clusters`))
@@ -192,7 +189,7 @@ alpha_fd_indices <- mFD::alpha.fd.multidim(
 #output indices
 fd_ind_values <- alpha_fd_indices$"functional_diversity_indices"
 fd_ind_values
-write.csv(fd_ind_values,"outputs/mfd_indices_ward_k3.csv")
+write.csv(fd_ind_values,"outputs/10_mfd_indices_ward_k3.csv")
 
 #FDis Functional Dispersion: the biomass weighted deviation of species traits values from the center of the functional space filled by the #assemblage i.e. the biomass-weighted mean distance to the biomass-weighted mean trait values of the assemblage.
 #
@@ -215,7 +212,7 @@ write.csv(fd_ind_values,"outputs/mfd_indices_ward_k3.csv")
 #output indices
 fd_ind_values <- alpha_fd_indices$"functional_diversity_indices"
 fd_ind_values
-write.csv(fd_ind_values,"outputs/mfd_ind_values.csv")
+write.csv(fd_ind_values,"outputs/10_mfd_ind_values.csv")
 
 #information such as coordinates of centroids, distances and identity of the nearest neighbour, 
 #distances to the centroid, etc. The user does not have to directly use it but it will be useful 
@@ -240,44 +237,35 @@ plots_alpha <- mFD::alpha.multidim.plot(
 #FRic representation: the colored shapes reflect the convex-hull of the studied assemblages
 #and the white shape reflects the convex-hull of the global pool of species:
 
-png("figures/mfd_funct_rich_clust1_clust2.png",height = 1500, width = 1500,res=150)
 plots_alpha$"fric"$"patchwork"
-dev.off()
+ggsave("figures/10_scatterplots_mfd_funct_rich_clust1_clust2.png",width=30,height=30,units = "cm")
 
 #FDiv representation: the gravity centers of vertices (i.e. species with the most extreme functional traits) of each 
 #assemblages are plotted as a square and a triangle. The two colored circles represent the mean
 #distance of species to the gravity center for each assemblage. Species of each assemblage 
 #have different size given their relative weight into the assemblage.
-png("figures/mfd_funct_div_clust1_clust2.png",height = 1500, width = 1500,res=150)
 plots_alpha$"fdiv"$"patchwork"
-dev.off()
+ggsave("figures/10_scatterplots_mfd_funct_div_clust1_clust2.png",width=30,height=30,units = "cm")
 
 #FSpe representation: colored traits represent distances of each species from a given assemblage 
 #to the center of gravity of the global pool (i.e center of the functional space). the center of
 #gravity is plotted with a purple diamond. Species of each assemblage have different size given
 #their relative weight into the assemblage.
-
-png("figures/mfd_funct_disp_clust1_clust2.png",height = 1500, width = 1500, res=150)
 plots_alpha$"fdis"$"patchwork"
-dev.off()
+ggsave("figures/10_scatterplots_mfd_funct_disp_clust1_clust2.png",width=30,height=30,units = "cm")
 
 #FIde representation:colored lines refer to the weighted average position of species of each assemblage
 #along each axis. Species of each assemblage have different size given their relative weight
 #into the assemblage.
-
-pngg("figures/mfd_funct_ident_clust1_clust2.png",,height = 1500, width = 1500, res=150)
 plots_alpha$"fide"$"patchwork"
-dev.off()
+ggsave("figures/10_scatterplots_mfd_funct_ident_clust1_clust2.png",width=30,height=30,units = "cm")
 
 ## Functional originality at regional scale ----
-library(funrar)
-
 sp_di <- distinctiveness_global(sp_dist, di_name = "distinctiveness")
 
 #We get one value of distinctiveness per species. 
 #It only considers the functional dissimilarity of all species in the dissimilarity matrix without
 #considering their spatial distributions. We get one value of distinctiveness per species.
-
 summary(sp_di)
 
 quantile(sp_di$distinctiveness, probs = seq(0, 1, by = 0.1))
@@ -358,12 +346,10 @@ plot_reg_uniqueness <- ggplot(sp_coord_di_ui, aes(PC1, PC2)) +
   theme_bw()
 
 plot_reg_distinctiveness
-ggsave("figures/mfd_distinctiveness.png", width= 8, height = 8)
+ggsave("figures/10_scatterplot_mfd_distinctiveness.png", width= 8, height = 8)
 
 plot_reg_uniqueness
-ggsave("figures/mfd_uniqueness.png", width= 8, height = 8)
-
-
+ggsave("figures/10_scatterplot_mfd_uniqueness.png", width= 8, height = 8)
 
 ####
 ## NOT RUN: phylo stuff
@@ -372,7 +358,7 @@ ggsave("figures/mfd_uniqueness.png", width= 8, height = 8)
 #library(ape)
 #phy<-read.tree("outputs/pruned_tree.tre")
 #
-#pdf("figures/phy.pdf",height = 20, width = 20)
+#pdf("figures/10_phy.pdf",height = 20, width = 20)
 #plot(phy,cex=0.5)
 #nodelabels(cex=0.5)
 #dev.off()

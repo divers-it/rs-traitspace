@@ -11,10 +11,12 @@ library(phylobase)
 source("R/delta.R")
 
 #set margins
-par(mar=c(4,4,4,4))
+par(mar=c(3,3,3,3))
 
+#NOTE: choose based on whether you want standard or one-hot data
 #load formatted data
-df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+#df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+df<-readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
 
 #numeric/factor columns only
 facts <- unlist(lapply(df, is.factor))
@@ -31,8 +33,9 @@ rownames(df2)<-NULL
 #put species column first
 df2<-df2[,c(length(colnames(df2)),1:(length(colnames(df2)) - 1))]
 
+#NOTE: for standard data set only
 #remove FloralReward, which currently has too many categories
-df2<-subset(df2, select = -c(FloralReward))
+#df2<-subset(df2, select = -c(FloralReward))
 
 #read in phylogenetic tree
 phy<-read.tree("outputs/pruned_tree.tre")
@@ -48,6 +51,7 @@ setdiff(phy$tip.label,df2$species)
 deltas<-vector()
 pvals<-vector()
 
+#NOTE: Produces NaNs
 #loop through all characters
 #for(i in 2:length(colnames(df2))){
 for(i in 2:length(colnames(df2))){
@@ -96,11 +100,14 @@ for(i in 2:length(colnames(df2))){
 names(deltas)<-colnames(df2)
 deltas<-na.omit(deltas)
 
-names(pvalss)<-colnames(df2)
+names(pvals)<-colnames(df2)
 pvals<-na.omit(pvals)
 
 results<-data.frame(deltas,pvals)
-results_facts
+results
+
+#NOTE: UNCOMMENT TO SAVE
+saveRDS(results, file = here::here("outputs/phylo_signal_qualitative.rds"))
 
 ###
 # ---- Continuous ----
@@ -124,17 +131,14 @@ df2<-df2[,c(length(colnames(df2)),1:(length(colnames(df2)) - 1))]
 
 #read in phylogenetic tree
 phy<-read.tree("outputs/pruned_tree.tre")
-plot(phy,cex=0.5)
 
 #in dataset but not in phylo
 setdiff(df2$species,phy$tip.label)
 
 #in phylo but not in dataset
 setdiff(phy$tip.label,df2$species)
-#WHY SO MANY?
 
 #loop through all characters
-#for(i in 2:length(colnames(df2))){
 for(i in 2:length(colnames(df2))){
   #make new dataframe with only trait of interest
   df3<-df2[,c(1,i)]
@@ -174,7 +178,6 @@ for(i in 2:length(colnames(df2))){
   
 }
 
-
 #row and column names
 rownames(pvals)<-colnames(df2)[2:length(colnames(df2))]
 rownames(signals)<-colnames(df2)[2:length(colnames(df2))]
@@ -183,14 +186,8 @@ rownames(signals)<-colnames(df2)[2:length(colnames(df2))]
 signals
 
 #p values
-pvals
+colnames(pvals)<-paste("p_",colnames(pvals),sep="")
 
-#Assessing the behavior of these methods with this phylogeny 
-#along a Brownian-Motion influence gradient
-phylosim <- phyloSim(tree = phy, method = "all", nsim = 100, reps = 99)
-plot(phylosim, stacked.methods = FALSE, quantiles = c(0.05, 0.95))
-plot.phylosim(phylosim, what = "pval", stacked.methods = TRUE)
-
-
-save.image(file="outputs/phylo_signal.Rdata")
+#NOTE: UNCOMMENT TO SAVE
+saveRDS(cbind(pvals,signals), file = here::here("outputs/phylo_signal_quantitative.rds"))
 

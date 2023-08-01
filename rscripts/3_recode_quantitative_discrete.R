@@ -4,7 +4,7 @@ rm(list=ls())
 library(reshape2)
 
 #read in quantitative data
-df<-read.csv("outputs/proteus_quantitative.csv")
+df<-read.csv("outputs/2_proteus_quantitative.csv")
 
 #get columns for val, min and max outcrossing rate
 outc<-df[,grep("84.",colnames(df))]
@@ -60,4 +60,4 @@ outc_df <- na.omit(outc_df)
 head(outc_df)
 
 #write output csv
-write.csv(outc_df,"outputs/proteus_quant_recoded.csv")
+write.csv(outc_df,"outputs/3_proteus_quant_recoded.csv")

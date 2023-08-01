@@ -16,7 +16,7 @@ library(gridExtra)
 library(data.table)
 
 #load formatted data
-df <- readRDS(file = here::here("outputs/df_filt_trans.rds"))
+df <- readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
 #dissimilarity matrix
 gower_df <- daisy(df,
@@ -112,9 +112,6 @@ aes(x = cluster.number, y = within.cluster.ss)) +
   labs(x = "Num.of clusters", y = "Within clusters sum of squares (SS)") +
   theme(plot.title = element_text(hjust = 0.5))
 # k = 3
-ggsave("figures/within_ss_ward.png",
-       width = 5,
-       height = 5)
 
 ## --------- Choosing the number of clusters - silhouette ---------
 
@@ -132,9 +129,6 @@ aes(x = cluster.number, y = avg.silwidth)) +
   labs(x = "Num.of clusters", y = "Average silhouette width") +
   theme(plot.title = element_text(hjust = 0.5))
 # k = 2
-ggsave("figures/silwidth_ward.png",
-       width = 5,
-       height = 5)
 
 ## --------- Plotting clusters on dendrogram  ---------
 
@@ -144,13 +138,13 @@ brewer.pal(7, "Dark2")
 # dendrogram with clusters agglomerative ward k = 3
 dendro <- as.dendrogram(aggl.clust.w)
 dendro.col <- dendro %>%
-  set("branches_k_color",
+  dendextend::set("branches_k_color",
       k = 3,
       value = c("#4DAF4A","#377EB8","#E41A1C")) %>%
-  set("branches_lwd", 0.6) %>%
-  set("labels_colors",
+  dendextend::set("branches_lwd", 0.6) %>%
+  dendextend::set("labels_colors",
       value = c("darkslategray")) %>%
-  set("labels_cex", 0.5)
+  dendextend::set("labels_cex", 0.5)
 ggd1 <- as.ggdend(dendro.col)
 wk3 <- ggplot(ggd1, theme = theme_minimal()) +
   labs(x = "Num. observations", y = "Height", title = "Dendrogram agglomerative ward, k = 3")
@@ -158,20 +152,20 @@ wk3 <- ggplot(ggd1, theme = theme_minimal()) +
 # dendrogram with clusters agglomerative ward k = 6
 dendro <- as.dendrogram(aggl.clust.w)
 dendro.col <- dendro %>%
-  set("branches_k_color",
+  dendextend::set("branches_k_color",
       k = 6,
       value = brewer.pal(7, "Dark2")) %>%
-  set("branches_lwd", 0.6) %>%
-  set("labels_colors",
+  dendextend::set("branches_lwd", 0.6) %>%
+  dendextend::set("labels_colors",
       value = c("darkslategray")) %>%
-  set("labels_cex", 0.5)
+  dendextend::set("labels_cex", 0.5)
 ggd1 <- as.ggdend(dendro.col)
 wk6 <- ggplot(ggd1, theme = theme_minimal()) +
   labs(x = "Num. observations", y = "Height", title = "Dendrogram agglomerative ward, k = 6")
 
 #plot coloured dendrogram
 wk3 + wk6
-ggsave("figures/dendro_ward.png",
+ggsave("figures/11_dendrograms_ward2_coloured_by_cluster.png",
        width = 10,
        height = 10)
 
@@ -218,7 +212,7 @@ ggplot(data.frame(dataset_pcoa$vectors),
   ))
 
 #save image
-ggsave("figures/pcoa_hclust_k6.png",
+ggsave("figures/11_scatterplot_pcoa_wardD2_k6_coloured_by_cluster.png",
        width = 12,
        height = 10)
 
@@ -251,7 +245,7 @@ ggplot(data.frame(dataset_pcoa$vectors),
     round(dataset_pcoa$values$Relative_eig[2], 2)
   ))
 
-ggsave("figures/pcoa_hclust_k3.png",
+ggsave("figures/11_scatterplot_pcoa_wardD2_k3_coloured_by_cluster.png",
        width = 12,
        height = 10)
 
@@ -280,7 +274,7 @@ clust.num.k.2.7.df <-as.data.frame(clust.num.k.2.7)
 rownames(clust.num.k.2.7.df)<-names(cutree(aggl.clust.w, k = 2))
 
 #save output for downstream use
-saveRDS(clust.num.k.2.7.df, file = here::here("outputs/clust_num_k_2_7_ward.rds"))
+saveRDS(clust.num.k.2.7.df, file = here::here("outputs/11_clust_num_k_2_7_ward.rds"))
 
 
 # Build a connection data frame - a list of flows (links between clusters)
@@ -324,7 +318,7 @@ p <- sankeyNetwork(Links = links, Nodes = nodes,
 p
 
 #save as html
-saveNetwork(p, "figures/sankey_ward.html")
+saveNetwork(p, "figures/11_sankey_wardD2.html")
 
 ###
 # ---- Boxplots and stacked barplots for robust groups ----
@@ -362,7 +356,7 @@ for(i in 1:(length(colnames(df_labelled))-1)){
 }
 
 #plot as multiple pages in PDF
-pdf("figures/clusters_by_trait_ward.pdf",width = 15,height = 15)
+pdf("figures/11_boxplots_stacked_barplots_wardD2_clusters_by_trait.pdf",width = 15,height = 15)
 
 print(grid.arrange(grobs=plot_list[1:4],ncol=2,nrow=2))
 print(grid.arrange(grobs=plot_list[5:8],ncol=2,nrow=2))
@@ -418,5 +412,5 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
                 position = position_stack(vjust = .5)) + coord_flip()
 
 #save plot 
-ggsave("figures/stacked_barplots_traits_by_cluster_ward_one_hot.png",width=15,height=10)
+ggsave("figures/11_stacked_barplots_wardD2_traits_by_cluster.png",width=15,height=10)
 

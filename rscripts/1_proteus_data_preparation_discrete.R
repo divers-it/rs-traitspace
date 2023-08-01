@@ -60,7 +60,7 @@ for(i in 1:length(colnames(df.wide.chosen))) {
 }
 
 #output table of all of the PROTEUS states for each trait (to help construct recoding table)
-write.csv(trait_codes,"outputs/all_states_per_trait.csv")
+write.csv(trait_codes,"outputs/1_all_states_per_trait.csv")
 
 #subset dataframe to include only those chosen categories and species names
 df.wide.chosen<-df.wide[,c("NTaxDat",chosen_cats)]
@@ -171,6 +171,6 @@ for(i in 1:length(trait_list)){
 colnames(disc_df)[2]<-"Woodiness"
 
 #output csv for downstream use
-write.csv(disc_df,"outputs/proteus_discrete_recoded.csv")
+write.csv(disc_df,"outputs/1_proteus_discrete_recoded.csv")
 
 

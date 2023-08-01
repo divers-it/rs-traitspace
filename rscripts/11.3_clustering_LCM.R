@@ -51,6 +51,11 @@ print(res_with)
 # Print model parameter
 coef(res_with)
 
+#make clustering vector
+lcm_res<-as.factor(fitted(res_with))
+names(lcm_res)<-rownames(res_with@data@dataContinuous@notNA)
+saveRDS(lcm_res, file = here::here("outputs/11.3_clust_vect_lcm.rds"))
+
 #dissimilarity matrix
 gower_df <- daisy(df2,
                   metric = "gower" )
@@ -83,4 +88,4 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.f
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
-ggsave("figures/pcoa_LCM.png",width = 12,height=10)
+ggsave("figures/11.3_scatterplot_pcoa_lcm_k3_coloured_by_cluster.png",width = 12,height=10)

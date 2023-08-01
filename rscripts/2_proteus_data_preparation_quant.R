@@ -85,5 +85,5 @@ df.wide <- pivot_wider(summ_q_df, names_from = NChrDat, values_from = c(meanValD
 #view(df.wide)
 
 #write output csv
-write.csv(df.wide,"outputs/proteus_quantitative.csv")
+write.csv(df.wide,"outputs/2_proteus_quantitative.csv")
 

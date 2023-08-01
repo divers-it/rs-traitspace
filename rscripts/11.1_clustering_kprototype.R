@@ -10,7 +10,7 @@ library(networkD3)
 library(data.table)
 
 #load formatted data
-df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
 #set up empty vectors
 ss<-vector()
@@ -74,7 +74,7 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.f
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
 #save plot
-ggsave("figures/pcoa_kpro.png",width = 12,height=10)
+ggsave("figures/11.1_scatterplot_pcoa_kpro_k5_coloured_by_cluster.png",width = 12,height=10)
 
 ###
 # ---- Sankey plot ----
@@ -102,7 +102,7 @@ clust.num.k.2.7.df <-as.data.frame(clust.num.k.2.7)
 
 rownames(clust.num.k.2.7.df)<-rownames(clust_memb)
 
-saveRDS(clust.num.k.2.7.df, file = here::here("outputs/clust_num_k_2_7_kpro.rds"))
+saveRDS(clust.num.k.2.7.df, file = here::here("outputs/11.1_clust_num_k_2_7_kpro.rds"))
 
 # A connection data frame is a list of flows with intensity for each flow
 
@@ -143,7 +143,7 @@ p <- sankeyNetwork(Links = links, Nodes = nodes,
 p
 
 #save as html
-saveNetwork(p, "figures/sankey_kpro.html")
+saveNetwork(p, "figures/11.1_sankey_kpro.html")
 
 ###
 # ---- Robust combinations ----
@@ -195,7 +195,7 @@ robust
 
 #complete vector of robust groups and non-robust 
 robust_vect_kpro_full<-robust_vect_kpro
-saveRDS(robust_vect_kpro_full, file = here::here("outputs/robust_vect_kpro_full.rds"))
+saveRDS(robust_vect_kpro_full, file = here::here("outputs/11.1_robust_vect_kpro_full.rds"))
 
 #remove species not in robust groups
 robust_vect_kpro<-na.omit(robust_vect_kpro)
@@ -263,14 +263,14 @@ ggplot(
   )
 ) +
   geom_point(
-    aes(shape = as.factor(clust.num.k.2.7.df$`3clusters`)),
+    aes(shape = as.factor(clust.num.k.2.7.df$`5clusters`)),
     alpha = 0.5,
     size = 3,
     stroke = 0.5
   )
 
 #save plot
-ggsave("figures/scatter_pcoa_kpro_robust.png",width=12,height=10)
+ggsave("figures/11.1_scatterplot_pcoa_kpro_k5_coloured_by_robust.png",width=12,height=10)
 
 #Check amount of missing data in non-robust species
 #species that dont belong to robust group
@@ -309,7 +309,7 @@ for(i in 1:(length(colnames(df_labelled))-1)){
 }
 
 #save plots as pages of PDF
-pdf("figures/clusters_by_trait_kpro.pdf",width = 15,height = 15)
+pdf("figures/11.1_boxplots_stacked_barplots_kpro_clusters_by_trait.pdf",width = 15,height = 15)
 
 print(grid.arrange(grobs=plot_list[1:4],ncol=2,nrow=2))
 print(grid.arrange(grobs=plot_list[5:8],ncol=2,nrow=2))
@@ -368,7 +368,7 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
                 position = position_stack(vjust = .5)) + coord_flip()
 
 #save plot
-ggsave("figures/stacked_barplots_traits_by_cluster_kpro.png",width=15,height=10)
+ggsave("figures/11.1_stacked_barplots_kpro_traits_by_robust.png",width=15,height=10)
 
 #save image as takes long to run
-save.image(file = "outputs/kpro.RData")
+save.image(file = "outputs/11.1_kpro.RData")

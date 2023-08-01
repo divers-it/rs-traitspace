@@ -4,7 +4,7 @@ rm(list=ls())
 library(dplyr)
 
 #load formatted data
-df<-readRDS(file = here::here("outputs/df_filt.rds"))
+df<-readRDS(file = here::here("outputs/5_df_filt.rds"))
 
 #make vectors to split numeric and factor columns
 nums <- unlist(lapply(df, is.numeric))
@@ -17,7 +17,7 @@ boxplot(df[ , nums])
 df2<-cbind(df[ , nums],df[ , facts])
 
 #plot histograms of quantitative variables
-pdf("figures/proteus_trait_hists.pdf")
+pdf("figures/6_histograms.pdf")
 par(mfrow=c(3,3))
 #look at hists
 for(i in 1:7){
@@ -26,7 +26,7 @@ for(i in 1:7){
 dev.off()
 
 #plot histograms of logged (log10) variables
-pdf("figures/proteus_trait_hists_transformed.pdf")
+pdf("figures/6_histograms_transformed.pdf")
 par(mfrow=c(3,3))
 
 for(i in 1:7){
@@ -44,7 +44,7 @@ for(i in c(1,2,3,4,6,7)){
 df2<-cbind(scale(df2[ , 1:7],center = T, scale = T),df[ , facts])
 
 #plot histograms of logged (log10) variables
-pdf("figures/proteus_trait_hists_transformed_scaled.pdf")
+pdf("figures/6_histograms_transformed_scaled.pdf")
 par(mfrow=c(3,3))
 
 for(i in 1:7){
@@ -53,4 +53,4 @@ for(i in 1:7){
 dev.off()
 
 # Save scaled and transformed dataset
-saveRDS(df2, file = here::here("outputs/df_filt_trans.rds"))
+saveRDS(df2, file = here::here("outputs/6_df_filt_trans.rds"))

@@ -11,7 +11,7 @@ library(data.table)
 library(ggrepel)
 
 #load formatted data
-df <- readRDS(file = here::here("outputs/df_filt_trans.rds"))
+df <- readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
 #calc gower distance
 gower_df <- daisy(df,
@@ -73,7 +73,7 @@ ggplot(pcoa_df, aes(x = Axis.1, y = Axis.2, fill = as.factor(protClust$clusters)
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
 #save image
-ggsave("figures/scatterplot_pcoa_dens.png",width = 12,height=10)
+ggsave("figures/11.4_scatterplot_pcoa_dens_k4_coloured_by_cluster.png",width = 12,height=10)
 
 #view cluster membership of species
 split(rownames(df), protClust$clusters)
@@ -128,7 +128,7 @@ clust.num.k.2.7.df <-as.data.frame(clust.num.k.2.7)
 head(clust.num.k.2.7.df)
 
 #save RDS for downstream use
-saveRDS(clust.num.k.2.7.df, file = here::here("outputs/clust_num_k_2_7_density.rds"))
+saveRDS(clust.num.k.2.7.df, file = here::here("outputs/11.4_clust_num_k_2_7_density.rds"))
 
 # A connection data frame is a list of flows with intensity for each flow
 for(i in 1:(length(colnames(clust.num.k.2.7.df))-1)){
@@ -167,7 +167,7 @@ p <- sankeyNetwork(Links = links, Nodes = nodes,
 p
 
 #save as html
-saveNetwork(p, "figures/sankey_density.html")
+saveNetwork(p, "figures/11.4_sankey_dens.html")
 
 ###
 # ---- Robust combinations ----
@@ -213,7 +213,7 @@ head(robust)
 
 #complete vector of robust groups and non-robust 
 robust_vect_dens_full<-robust_vect_dens
-saveRDS(robust_vect_dens_full, file = here::here("outputs/robust_vect_dens_full.rds"))
+saveRDS(robust_vect_dens_full, file = here::here("outputs/11.4_robust_vect_dens_full.rds"))
 
 #remove species not in robust groups
 robust_vect_dens<-na.omit(robust_vect_dens)
@@ -298,7 +298,7 @@ for(i in 1:(length(colnames(df_labelled))-1)){
   
 }
 
-pdf("figures/clusters_by_trait_dens.pdf",width = 15,height = 15)
+pdf("figures/11.4_boxplots_stacked_barplots_dens_clusters_by_trait.pdf",width = 15,height = 15)
 
 print(grid.arrange(grobs=plot_list[1:4],ncol=2,nrow=2))
 print(grid.arrange(grobs=plot_list[5:8],ncol=2,nrow=2))
@@ -360,5 +360,5 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
                                 position = position_stack(vjust = .5)) + coord_flip()
 
 #save image
-ggsave("figures/stacked_barplots_traits_by_cluster_dens.png",width=15,height=10)
+ggsave("figures/11.4_stacked_barplots_dens_traits_by_cluster.png",width=15,height=10)
 

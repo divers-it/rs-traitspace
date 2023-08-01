@@ -16,7 +16,7 @@ gower_df_no_miss <- daisy(df,
 summary(gower_df_no_miss)
 
 #load data set
-df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
 #dissimilarity matrix calculation
 gower_df <- daisy(df,
@@ -27,7 +27,7 @@ summary(gower_df)
 labels(gower_df)==gsub("_"," ",labels(gower_df_no_miss))
 
 #compare pairwaise distances of matrices with missing data and with imputed
-png("figures/scatterplot_dist_missing_vs_imputed.png",width = 500,height = 500)
+png("figures/8_scatterplot_dist_missing_vs_imputed.png",width = 500,height = 500)
 plot(gower_df,gower_df_no_miss,xlim=c(0,1),ylim=c(0,1)) + abline(0,1,lty=2,col="red")
 dev.off()
 
@@ -61,7 +61,7 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
 #save plot
-ggsave("figures/scatter_pcoa_missing.png",
+ggsave("figures/8_scatterplot_pcoa_missing.png",
        width = 20,
        height = 15,
        units = 'cm')
@@ -74,7 +74,7 @@ eig_df$pcoa_axis<-as.character(eig_df$pcoa_axis)
 #plot barplot of first 9 relative eigenvalues
 ggplot(eig_df, aes(x=pcoa_axis, y=relative_eigenvalue)) + 
   geom_bar(stat = "identity")
-ggsave("figures/barplot_relative_eigenvalues_pcoa.png")
+ggsave("figures/8_barplot_relative_eigenvalues_pcoa.png")
 
 #plot points on first two axes with point style changed by two variables
 #reproductive systems (color) and woodiness (shape)
@@ -117,7 +117,7 @@ p2 <- ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill 
 p1 | p2
 
 #save
-ggsave("figures/scatter_pcoa_coloured_by_traits.png",
+ggsave("figures/8_scatterplot_pcoa_coloured_by_traits.png",
        width = 30,
        height = 15,
        units = 'cm')
@@ -133,7 +133,7 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
     stroke = 0.5
   )
 
-ggsave("figures/scatter_pcoa_density_polygon.png",
+ggsave("figures/8_scatterplot_pcoa_density_polygon.png",
        width = 20,
        height = 15,
        units = 'cm')
@@ -185,7 +185,7 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
-ggsave("figures/scatter_pcoa_taxonomy.png",
+ggsave("figures/8_scatterplot_pcoa_taxonomy.png",
        width = 20,
        height = 15,
        units = 'cm')

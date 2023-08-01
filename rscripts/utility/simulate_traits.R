@@ -4,7 +4,7 @@ library(phytools)
 phy<-read.tree("outputs/pruned_tree.tre")
 
 #load formatted data
-df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
 #http://www.phytools.org/static.help/fastBM.html
 #simulate quantitative trait using BM model and bounded by values from real data

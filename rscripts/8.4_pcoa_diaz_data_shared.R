@@ -8,7 +8,7 @@ library(ggplot2)
 par(mar=c(3,3,3,3))
 
 #load formatted DiveRS data
-df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
 #load Diaz data
 diaz<-read.csv("data/diaz_species_mean_traits.csv")
@@ -116,7 +116,7 @@ df_filt<-df[rownames(df)%in%rownames(diaz_pcf),]
 rownames(diaz_pcf)==rownames(df_filt)
 
 #save df with only species shared between divers and Diaz et al. for trait space quality comparison
-saveRDS(df_filt, file = here::here("outputs/df_filt_trans_shared.rds"))
+saveRDS(df_filt, file = here::here("outputs/8.4_df_filt_trans_shared.rds"))
 
 #plot PCOA points on first two axes coloured by woodiness
 ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2, fill = as.factor(df_filt$Woodiness))) +
@@ -130,6 +130,11 @@ ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2, fill = as.factor(df_filt$Woodiness))
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
+ggsave("figures/8.4_scatterplot_pcoa_diaz_shared_coloured_by_woodiness.png",
+       width = 30,
+       height = 30,
+       units = 'cm')
+
 #Make data frame of first 9 relative eigenvalues
 eig_df<-data.frame(c(1:9),rel_ev_pcoa_g0[1:9])
 colnames(eig_df)<-c("pcoa_axis","relative_eigenvalue")
@@ -137,7 +142,7 @@ eig_df$pcoa_axis<-as.character(eig_df$pcoa_axis)
 
 ggplot(eig_df, aes(x=pcoa_axis, y=relative_eigenvalue)) + 
   geom_bar(stat = "identity")
-ggsave("figures/rel_eig_pcoa_diaz_shared.png")
+ggsave("figures/8.4_barplot_relative_eigenvalues_pcoa_diaz_shared.png")
 
 #rename diaz data
 diaz_dist<-gower_df
@@ -150,6 +155,6 @@ divers_dist <- daisy(df_filt,
 labels(diaz_dist)==labels(divers_dist)
 
 #compare pairwaise distances of the DiveRS and Diaz distance matrices
-png(filename = "scatterplot_dist_diaz_vs_divers.png",width = 500,height = 500)
+png(filename = "figures/8.4_scatterplot_distances_diaz_vs_divers.png",width = 500,height = 500)
 plot(diaz_dist,divers_dist,xlim=c(0,1),ylim=c(0,1))
 dev.off()

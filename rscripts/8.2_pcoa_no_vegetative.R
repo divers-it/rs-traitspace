@@ -7,7 +7,7 @@ library(cluster)
 library(patchwork)
 
 #load data set
-df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
 #remove reproductive traits
 df2<-subset(df,select=-c(Woodiness,Lifespan,Maximumverticalheight))
@@ -43,7 +43,7 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
 #save plot
-ggsave("figures/scatter_pcoa_no_vegetative.png",
+ggsave("figures/8.2_scatterplot_pcoa_no_vegetative.png",
        width = 20,
        height = 15,
        units = 'cm')
@@ -56,7 +56,7 @@ eig_df$pcoa_axis<-as.character(eig_df$pcoa_axis)
 #plot barplot of first 9 relative eigenvalues
 ggplot(eig_df, aes(x=pcoa_axis, y=relative_eigenvalue)) + 
   geom_bar(stat = "identity")
-ggsave("figures/barplot_relative_eigenvalues_pcoa_no_vegetative.png")
+ggsave("figures/8.2_barplot_relative_eigenvalues_pcoa_no_vegetative.png")
 
 #plot points on first two axes with point style changed by two variables
 #reproductive systems (color) and woodiness (shape)
@@ -99,7 +99,7 @@ p2 <- ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill 
 p1 | p2
 
 #save
-ggsave("figures/scatter_pcoa_coloured_by_traits_no_vegetative.png",
+ggsave("figures/8.2_scatterplot_pcoa_coloured_by_traits_no_vegetative.png",
        width = 30,
        height = 15,
        units = 'cm')

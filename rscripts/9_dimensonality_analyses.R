@@ -14,7 +14,7 @@ percent_list <- seq(0.1, 0.8, by = 0.1)
 ###
 
 # Read Dataset ----
-dataset <- readRDS(file = here::here("outputs/df_filt_trans.rds"))
+dataset <- readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
 # Run dimensionality nalyses ----
 run_analysis(dataset, name = "DiveRS_2023")
@@ -25,14 +25,14 @@ rm(list = "dataset")
 ###
 
 # Read Dataset ----
-dataset <- readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
+dataset <- readRDS(file = here::here("outputs/one_hot_6_df_filt_trans.rds"))
 
 # Run Analysis ----
 run_analysis(dataset, name = "DiveRS_one_hot_2023")
 rm(list = "dataset")
 
 ###
-# DiveRS one-hot dataset
+# DiveRS imputed dataset with no NA
 ###
 
 # Read Dataset ----
@@ -47,7 +47,7 @@ rm(list = "dataset")
 ###
 
 # Read Dataset ----
-dataset <- readRDS(file = here::here("outputs/df_filt_trans_shared.rds"))
+dataset <- readRDS(file = here::here("outputs/8.4_df_filt_trans_shared.rds"))
 
 # Run Analysis ----
 run_analysis(dataset, name = "DiveRS_shared_2023")
@@ -58,7 +58,7 @@ rm(list = "dataset")
 ###
 
 #load formatted DiveRS data
-df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
 #load Diaz data
 diaz<-read.csv("data/diaz_species_mean_traits.csv")
@@ -310,7 +310,7 @@ p <- ggplot(res_for_graph_dim, aes(x = dim, y = AUC, colour = taxa)) +
 
 
 #save plot
-grDevices::png(file = here::here("figures", "dimensionality_no_axes.png"),width = 6250,height=2500,res=500)
+grDevices::png(file = here::here("figures", "9_dimensionality_no_axes.png"),width = 6250,height=2500,res=500)
 print(p)
 dev.off()
 
@@ -377,10 +377,10 @@ p2 <- ggplot(res_for_graph_miss, aes(x = miss_percent * 100, y = AUC,
         legend.position  = "none") + 
   geom_label(data = res_for_graph_miss, 
              aes(label = paste0("data set = ", taxa),
-                 y = 0.95, x = 10), size = 2.1, hjust = 0)
+                 y = 0.95, x = 10), size = 2.1, hjust = 0, fill='white')
 
 #save figure
-grDevices::png(file = here::here("figures", "dimensionality_trait_omission.png"))
+grDevices::png(file = here::here("figures", "9_dimensionality_trait_omission.png"),width = 6250,height=2500,res=500)
 print(p2)
 dev.off()
 
@@ -480,6 +480,6 @@ p3 <- ggplot(res_for_graph_single, aes(x = Pcoa1, y = Pcoa2)) +
              aes(label = paste0("data set = ", taxa),
                  y = 0.5, x = -0.5), size = 2.1, hjust = 0)
 
-grDevices::png(file = here::here("figures", "dimensionality_singleton.png"),width = 8000,height=2000,res=400) #SAVE A4
+grDevices::png(file = here::here("figures", "9_dimensionality_singleton.png"),width = 8000,height=2000,res=400) #SAVE A4
 print(p3)
 dev.off()

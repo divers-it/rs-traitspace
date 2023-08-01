@@ -6,11 +6,12 @@ library(ggplot2)
 library(ggalt)
 library(cluster)
 
+#NOTE: UNCOMMENT TO LOAD WHEN NEEDED
 #load most recent PCoA image
-load("outputs/diaz_pcoa.Rdata")
+load("outputs/8.3_diaz_pcoa.Rdata")
 
 #load formatted DiveRS data
-df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
+df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
 #load Diaz data
 diaz<-read.csv("data/diaz_species_mean_traits.csv")
@@ -93,7 +94,7 @@ diaz_pcf<-as.data.frame(diaz_pcf)
 #rel_ev_pcoa_g0 <- ev_pcoa_g0/sum(ev_pcoa_g0)
 #
 ##save pcoa image
-#save.image("outputs/diaz_pcoa.Rdata")
+#save.image("outputs/8.3_diaz_pcoa.Rdata")
 
 #make pcoa vectors a data frame
 df_pcoa<-data.frame(dataset_pcoa$vectors)
@@ -143,7 +144,7 @@ ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2)) +
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
-ggsave("figures/scatter_pcoa_divers_in_diaz.png",
+ggsave("figures/8.3_scatterplot_pcoa_diaz_coloured_by_divers.png",
        width = 30,
        height = 30,
        units = 'cm')
@@ -155,4 +156,4 @@ eig_df$pcoa_axis<-as.character(eig_df$pcoa_axis)
 
 ggplot(eig_df, aes(x=pcoa_axis, y=relative_eigenvalue)) + 
   geom_bar(stat = "identity")
-ggsave("figures/rel_eig_pcoa_diaz.png")
+ggsave("figures/8.3_barplot_relative_eigenvalues_pcoa_diaz.png")
