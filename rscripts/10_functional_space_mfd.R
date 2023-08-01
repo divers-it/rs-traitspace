@@ -83,7 +83,6 @@ mFD::quality.fspaces.plot(
   gradient_deviation         = c(neg = "darkblue", nul = "grey80", pos = "darkred"),
   gradient_deviation_quality = c(low = "yellow", high = "red"),
   x_lab                      = "Trait-based distance")
-dev.off()
 
 ggsave("figures/10_scatterplots_mfd_fspace_quality.png",width=30,height=15,units = "cm")
 
@@ -189,7 +188,7 @@ alpha_fd_indices <- mFD::alpha.fd.multidim(
 #output indices
 fd_ind_values <- alpha_fd_indices$"functional_diversity_indices"
 fd_ind_values
-write.csv(fd_ind_values,"outputs/10_mfd_indices_ward_k3.csv")
+write.csv(fd_ind_values,"outputs/10_mfd_indices_wardD2_k3.csv")
 
 #FDis Functional Dispersion: the biomass weighted deviation of species traits values from the center of the functional space filled by the #assemblage i.e. the biomass-weighted mean distance to the biomass-weighted mean trait values of the assemblage.
 #
@@ -238,27 +237,27 @@ plots_alpha <- mFD::alpha.multidim.plot(
 #and the white shape reflects the convex-hull of the global pool of species:
 
 plots_alpha$"fric"$"patchwork"
-ggsave("figures/10_scatterplots_mfd_funct_rich_clust1_clust2.png",width=30,height=30,units = "cm")
+ggsave("figures/10_scatterplots_mfd_funct_rich_wardD2_k3_clust1_clust2.png",width=30,height=30,units = "cm")
 
 #FDiv representation: the gravity centers of vertices (i.e. species with the most extreme functional traits) of each 
 #assemblages are plotted as a square and a triangle. The two colored circles represent the mean
 #distance of species to the gravity center for each assemblage. Species of each assemblage 
 #have different size given their relative weight into the assemblage.
 plots_alpha$"fdiv"$"patchwork"
-ggsave("figures/10_scatterplots_mfd_funct_div_clust1_clust2.png",width=30,height=30,units = "cm")
+ggsave("figures/10_scatterplots_mfd_funct_div_wardD2_k3_clust1_clust2.png",width=30,height=30,units = "cm")
 
 #FSpe representation: colored traits represent distances of each species from a given assemblage 
 #to the center of gravity of the global pool (i.e center of the functional space). the center of
 #gravity is plotted with a purple diamond. Species of each assemblage have different size given
 #their relative weight into the assemblage.
 plots_alpha$"fdis"$"patchwork"
-ggsave("figures/10_scatterplots_mfd_funct_disp_clust1_clust2.png",width=30,height=30,units = "cm")
+ggsave("figures/10_scatterplots_mfd_funct_disp_wardD2_k3_clust1_clust2.png",width=30,height=30,units = "cm")
 
 #FIde representation:colored lines refer to the weighted average position of species of each assemblage
 #along each axis. Species of each assemblage have different size given their relative weight
 #into the assemblage.
 plots_alpha$"fide"$"patchwork"
-ggsave("figures/10_scatterplots_mfd_funct_ident_clust1_clust2.png",width=30,height=30,units = "cm")
+ggsave("figures/10_scatterplots_mfd_funct_ident_wardD2_k3_clust1_clust2.png",width=30,height=30,units = "cm")
 
 ## Functional originality at regional scale ----
 sp_di <- distinctiveness_global(sp_dist, di_name = "distinctiveness")

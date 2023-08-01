@@ -15,8 +15,8 @@ par(mar=c(3,3,3,3))
 
 #NOTE: choose based on whether you want standard or one-hot data
 #load formatted data
-#df<-readRDS(file = here::here("outputs/df_filt_trans.rds"))
-df<-readRDS(file = here::here("outputs/df_filt_trans_one_hot.rds"))
+#df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
+df<-readRDS(file = here::here("outputs/one_hot_6_df_filt_trans.rds"))
 
 #numeric/factor columns only
 facts <- unlist(lapply(df, is.factor))
