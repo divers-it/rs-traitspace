@@ -100,7 +100,13 @@ colnames(dens_df)<-c("2clusters",
                     "6clusters",
                     "7clusters")
 clust.num.k.2.7.df <-as.data.frame(dens_df)
+
+#check names
+names(protClust$halo)==rownames(df)
+
+#add rownames
 rownames(clust.num.k.2.7.df)<-rownames(df)
+head(clust.num.k.2.7.df)
 
 ###
 # ---- Sankey plot ----
@@ -125,6 +131,7 @@ colnames(clust.num.k.2.7)<-c("2clusters",
                              "6clusters",
                              "7clusters")
 clust.num.k.2.7.df <-as.data.frame(clust.num.k.2.7)
+rownames(clust.num.k.2.7.df)<-rownames(df)
 head(clust.num.k.2.7.df)
 
 #save RDS for downstream use
