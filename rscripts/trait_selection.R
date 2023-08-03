@@ -23,6 +23,10 @@ dataset_dist2 <- stats::as.dist(gower_df2)
 #vector for order of columns dropped
 cols_dropped<-matrix(nrow=length(colnames(df))-1,ncol=2)
 
+#empty list
+list_auc_changes<-list()
+
+
 for (i in 1:(length(colnames(df))-1)) {
   
   auc_changes <- vector()
@@ -41,6 +45,8 @@ for (i in 1:(length(colnames(df))-1)) {
   
   names(auc_changes)<-colnames(df2)
   
+  list_auc_changes[[i]]<-auc_changes
+  
   #remove auc value with least change
   df2 <- df2[, !colnames(df2) %in% names(sort(auc_changes)[1])]
   
@@ -50,6 +56,9 @@ for (i in 1:(length(colnames(df))-1)) {
 
   
 }
+
+#examine an AUC change comparison
+list_auc_changes[[1]]
 
 cols_dropped<-as.data.frame(cols_dropped)
 colnames(cols_dropped)<-c('trait','AUC_decrease')
