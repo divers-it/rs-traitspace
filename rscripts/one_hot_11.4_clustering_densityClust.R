@@ -131,6 +131,7 @@ colnames(clust.num.k.2.7)<-c("2clusters",
                              "6clusters",
                              "7clusters")
 clust.num.k.2.7.df <-as.data.frame(clust.num.k.2.7)
+rownames(clust.num.k.2.7.df)<-rownames(df)
 head(clust.num.k.2.7.df)
 
 #save RDS for downstream use
@@ -201,12 +202,12 @@ names(robust_vect_dens)<-rownames(df)
 
 #loop through ordered table to extract robust groups
 for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>20])){
-  foo<-as.numeric(rownames(clust.num.k.2.7.df[clust.num.k.2.7.df[, 1] == combos[i, 1] & 
+  foo<-rownames(clust.num.k.2.7.df[clust.num.k.2.7.df[, 1] == combos[i, 1] & 
                                                 clust.num.k.2.7.df[, 2] == combos[i, 2] &
                                                 clust.num.k.2.7.df[, 3] == combos[i, 3] &
                                                 clust.num.k.2.7.df[, 4] == combos[i, 4] &
                                                 clust.num.k.2.7.df[, 5] == combos[i, 5] &
-                                                clust.num.k.2.7.df[, 6] == combos[i, 6],]))
+                                                clust.num.k.2.7.df[, 6] == combos[i, 6],])
   
   robust[[i]]<-rownames(df)[foo]
   
