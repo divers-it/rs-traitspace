@@ -45,48 +45,48 @@ rates <- vector()
 tree_sizes <- vector()
 no_states <- vector()
 
-#NOTE: Uncommen to read in transition rates from previous run
-#df_rates<-readRDS(file = here::here("outputs/one_hot_transition_rates.rds"))
+#NOTE: Uncomment to read in transition rates from previous run
+df_rates<-readRDS(file = here::here("outputs/one_hot_transition_rates.rds"))
 
-#loop through all characters
-for (i in 2:length(colnames(df2))) {
-  #make new dataframe with only trait of interest
-  df3 <- df2[, c(1, i)]
-  
-  #omit missing data
-  df3 <- na.omit(df3)
-  
-  #drop tips not in dataset
-  phy2 <- drop.tip(phy, setdiff(phy$tip.label, df3$species))
-  
-  #sort df to match order of tips in phylo
-  df3 <- df3[match(phy2$tip.label, df3$species), ]
-  
-  #plot phylogeny and example trait
-  plot(phy2, show.tip.label = FALSE, type = 'fan')
-  tiplabels(pch = 16,
-            col = as.factor(df3[, 2]),
-            cex = 1)
-  
-  #fit model with 1 rate category on woodiness trait
-  MK_2state <- corHMM(
-    phy = phy2,
-    data = df3,
-    rate.cat = 1,
-    model = "ER"
-  )
-  
-  states[i - 1] <- colnames(df3)[2]
-  rates[i - 1] <- MK_2state$solution[1, 2]
-  tree_sizes[i - 1] <- length(phy2$tip.label)
-  no_states[i - 1] <- length(unique(df3[, 2]))
-}
-
-df_rates <- data.frame(states, rates, tree_sizes, no_states)
-df_rates[order(df_rates$rates, decreasing = T), ]
+# #loop through all characters
+# for (i in 2:length(colnames(df2))) {
+#   #make new dataframe with only trait of interest
+#   df3 <- df2[, c(1, i)]
+#   
+#   #omit missing data
+#   df3 <- na.omit(df3)
+#   
+#   #drop tips not in dataset
+#   phy2 <- drop.tip(phy, setdiff(phy$tip.label, df3$species))
+#   
+#   #sort df to match order of tips in phylo
+#   df3 <- df3[match(phy2$tip.label, df3$species), ]
+#   
+#   #plot phylogeny and example trait
+#   plot(phy2, show.tip.label = FALSE, type = 'fan')
+#   tiplabels(pch = 16,
+#             col = as.factor(df3[, 2]),
+#             cex = 1)
+#   
+#   #fit model with 1 rate category on woodiness trait
+#   MK_2state <- corHMM(
+#     phy = phy2,
+#     data = df3,
+#     rate.cat = 1,
+#     model = "ER"
+#   )
+#   
+#   states[i - 1] <- colnames(df3)[2]
+#   rates[i - 1] <- MK_2state$solution[1, 2]
+#   tree_sizes[i - 1] <- length(phy2$tip.label)
+#   no_states[i - 1] <- length(unique(df3[, 2]))
+# }
+# 
+# df_rates <- data.frame(states, rates, tree_sizes, no_states)
+# df_rates[order(df_rates$rates, decreasing = T), ]
 
 #NOTE: uncomment to save transition rates
-saveRDS(df_rates, file = here::here("outputs/one_hot_transition_rates.rds"))
+#saveRDS(df_rates, file = here::here("outputs/one_hot_transition_rates.rds"))
 
 ###
 # ---- Compare phylogenetic signal and transition rates ----
@@ -183,6 +183,7 @@ png(
 )
 
 par(mar = c(1, 1, 1, 1))
+palette(brewer.pal(3, "Set1"))
 
 #plot phylo
 plot(
