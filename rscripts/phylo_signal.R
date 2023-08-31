@@ -168,7 +168,7 @@ for(i in 2:length(colnames(df2))){
   barplot.phylo4d(p4d, tree.type = "phylo", tree.ladderize = TRUE)
   
   #calculate signal with all methods
-  p4d_s<-phyloSignal(p4d = p4d, method = "all")
+  p4d_s<-phyloSignal(p4d = p4d, method = "all", reps=999)
   
   if(i == 2){
     pvals <- p4d_s$pvalue

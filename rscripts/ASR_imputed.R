@@ -48,45 +48,60 @@ for(i in 2:length(colnames(df2))){
   df2[,i] <- gsub("_","&",df2[,i])
 }
 
-#loop through all characters
-for (i in 2:length(colnames(df2))) {
+#UNCOMMENT:
+#load previous run
+mods<-readRDS(file = here::here("outputs/imputed_transition_rate_models.rds"))
 
- #make new dataframe with only trait of interest
- df3 <- df2[, c(1, i)]
- 
- #omit missing data
- df3 <- na.omit(df3)
- 
- #drop tips not in dataset
- phy2 <- drop.tip(phy, setdiff(phy$tip.label, df3$species))
- 
- #sort df to match order of tips in phylo
- df3 <- df3[match(phy2$tip.label, df3$species), ]
- 
- #plot phylogeny and example trait
- plot(phy2, show.tip.label = FALSE, type = 'fan')
- tiplabels(pch = 16,
-           col = as.factor(df3[, 2]),
-           cex = 1)
- 
- #fit model with 1 rate category on woodiness trait
- mod <- corHMM(
-   phy = phy2,
-   data = df3,
-   rate.cat = 1,
-   model = "ARD"
- )
- 
- mods[[i - 1]] <- mod
- traits[i - 1] <- colnames(df3)[2]
- rates[[i - 1]] <- mod$solution
- tree_sizes[i - 1] <- length(phy2$tip.label)
- no_states[i - 1] <- length(unique(df3[, 2]))
- 
-}
+# #UNCOMMENT:
+# #loop through all characters
+# for (i in 2:length(colnames(df2))) {
+# 
+#  #make new dataframe with only trait of interest
+#  df3 <- df2[, c(1, i)]
+#  
+#  #omit missing data
+#  df3 <- na.omit(df3)
+#  
+#  #drop tips not in dataset
+#  phy2 <- drop.tip(phy, setdiff(phy$tip.label, df3$species))
+#  
+#  #sort df to match order of tips in phylo
+#  df3 <- df3[match(phy2$tip.label, df3$species), ]
+#  
+#  #plot phylogeny and example trait
+#  plot(phy2, show.tip.label = FALSE, type = 'fan')
+#  tiplabels(pch = 16,
+#            col = as.factor(df3[, 2]),
+#            cex = 1)
+#  
+#  #fit model with 1 rate category
+#  mod <- corHMM(
+#    phy = phy2,
+#    data = df3,
+#    rate.cat = 1,
+#    model = "ARD"
+#  )
+#  
+#  mods[[i - 1]] <- mod
+#  traits[i - 1] <- colnames(df3)[2]
+#  rates[[i - 1]] <- mod$solution
+#  tree_sizes[i - 1] <- length(phy2$tip.label)
+#  no_states[i - 1] <- length(unique(df3[, 2]))
+#  
+# }
+# 
+# names(mods)<-traits
+# names(rates)<-traits
+# 
+# #NOTE: uncomment to save models transition rate matrices
+# saveRDS(mods, file = here::here("outputs/imputed_transition_rate_models.rds"))
 
-names(mods)<-traits
-names(rates)<-traits
+#list of models
+mods
 
-#NOTE: uncomment to save models transition rate matrices
-saveRDS(mods, file = here::here("outputs/imputed_transition_rate_Models.rds"))
+sg_mods<-readRDS(file = here::here("outputs/mk_list.rds"))
+
+
+sg_mods$woodiness$mat
+
+mods$Woodiness$states

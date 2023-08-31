@@ -61,7 +61,7 @@ for(i in 1:length(summ_q_df$meanValDat)){
     # option #1
     # if val is NA, replace with mean of min and max
     # Note: if one of min/max is NA then this may produce an NA 
-    # Note 2: this should be the same as method below, but leabing this in just in case
+    # Note 2: this should be the same as method below, but leaving this in just in case
     # (this doesnt occur in latest dataset after cursory check 07/07/23)
     
     #summ_q_df$meanValDat[i] <- (summ_q_df$meanMinDat[i] + summ_q_df$meanMaxDat[i]) / 2

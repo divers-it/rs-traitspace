@@ -77,7 +77,7 @@ ggsave("figures/8_barplot_relative_eigenvalues_pcoa.png")
 
 #plot points on first two axes with point style changed by two variables
 #reproductive systems (color) and woodiness (shape)
-p1 <- ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.factor(df$SexualSystem), shape=as.factor(df$Woodiness))) +
+p1 <- ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.3, y = Axis.4, fill = as.factor(df$DispersalMode), shape=as.factor(df$Woodiness))) +
   geom_point(
     color="black",
 #    shape=21,
@@ -93,6 +93,8 @@ p1 <- ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill 
         legend.title = element_blank(),
         legend.box="vertical", 
         legend.margin=margin())
+
+p1
 
 # mating system (colour) and woodiness (shape)
 p2 <- ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.factor(df$Mating), shape=as.factor(df$Woodiness))) +

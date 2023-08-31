@@ -20,8 +20,6 @@ species_names <- angio_tree$tip.label
 continous_traits <- df_recoded[,c(1:7)]
 discrete_traits <- df_recoded[,c(8:21)]
 
-
-
 # Fitting evolution models for each trait ####
 
 # Function to fit an OU model to a continuous trait and return the model parameters
@@ -74,7 +72,6 @@ fit_disc <- function(ttf) {
 # creating and saving the list of transition matrices (take some time)
 mk_list <- lapply(discrete_traits,fit_disc)
 saveRDS(mk_list,"outputs/mk_list.rds")
-
 
 # Simulating independent traits according to the fitted evolution model ####
 

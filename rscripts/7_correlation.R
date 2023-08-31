@@ -42,7 +42,7 @@ rownames(dataset_cor_df)<-colnames(dataset)
 colnames(dataset_cor_df)<-colnames(dataset)
 
 #NOT RUN: examine correlations
-#view(dataset_cor_df)
+view(dataset_cor_df)
 
 #correlation stats
 dataset_cor_summ <- data.frame(
@@ -70,7 +70,7 @@ for (i in 1:ncol(dataset_num)) {
   
   for (j in i:ncol(dataset_num)) {
     
-    dataset_cor_num[i, j] <- stats::cor(
+    dataset_cor_num[i, j] <- stats::cor.(
       x      = rank(dataset_num[ , i]),
       y      = rank(dataset_num[ , j]),
       method = "pearson"
