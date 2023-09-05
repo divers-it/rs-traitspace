@@ -1,4 +1,4 @@
-
+library(cluster)
 library(GGally)
 
 sim_list <- readRDS("outputs/phylo_simulated_datasets.rds")
@@ -31,10 +31,9 @@ gower_sim <- daisy(df_sim,
 
 gsub("_"," ",rownames(df_sim))==rownames(df_final)
 
-plot(gower_sim~gower_onehot)
-
-pairs(c(gower_final,gower_onehot,gower_imputed))
-
+plot(gower_sim~gower_final,xlim=c(0,1),ylim=c(0,1))
+plot(gower_sim~gower_onehot,xlim=c(0,1),ylim=c(0,1))
+plot(gower_sim~gower_imputed,xlim=c(0,1),ylim=c(0,1))
 
 pairs(data.frame(list("original"=as.vector(gower_final),
     "onehot"=as.vector(gower_onehot),
@@ -47,3 +46,8 @@ pairs(data.frame(list("original"=as.vector(gower_final),
 png("figures/ggpairs_sim.png",width=4000,height=4000,res=100)
 ggpairs(df_sim,cardinality_threshold=16) 
 dev.off()
+
+
+tmp<-sim_list[[1]]
+
+table(tmp$matingsystem,tmp$dioecy)
