@@ -37,6 +37,9 @@ png("figures/scatterplot_dist_og_vs_one_hot.png",width = 500,height = 500)
 plot(gower_df,gower_df2,xlim=c(0,1),ylim=c(0,1),xlab = "original",ylab="one-hot") + abline(0,1,lty=2,col="red")
 dev.off()
 
+#linear model
+summary(lm(gower_df~gower_df2))
+
 #make into distance matrix
 dataset_dist2 <- stats::as.dist(gower_df2)
 
@@ -54,6 +57,9 @@ rel_ev_pcoa_g0 <- ev_pcoa_g0/sum(ev_pcoa_g0)
 eig_df<-data.frame(c(1:9),rel_ev_pcoa_g0[1:9])
 colnames(eig_df)<-c("pcoa_axis","relative_eigenvalue")
 eig_df$pcoa_axis<-as.character(eig_df$pcoa_axis)
+
+#prop variation first two axes explain
+sum(rel_ev_pcoa_g0[1:2])
 
 #plot barplot of first 9 relative eigenvalues
 ggplot(eig_df, aes(x=pcoa_axis, y=relative_eigenvalue)) + 

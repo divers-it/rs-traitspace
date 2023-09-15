@@ -5,6 +5,7 @@ library(dplyr)
 library(ggplot2)
 library(cluster)
 library(patchwork)
+library(wesanderson)
 
 #read in imputed data set
 df<-read.csv("outputs/imputed_with_phylo.csv",row.names=1,stringsAsFactors = TRUE)
@@ -29,6 +30,9 @@ labels(gower_df)==gsub("_"," ",labels(gower_df_no_miss))
 png("figures/8_scatterplot_dist_missing_vs_imputed.png",width = 500,height = 500)
 plot(gower_df,gower_df_no_miss,xlim=c(0,1),ylim=c(0,1)) + abline(0,1,lty=2,col="red")
 dev.off()
+
+#linear model
+summary(lm(gower_df~gower_df_no_miss))
 
 #make into distance object
 dataset_dist <- stats::as.dist(gower_df)
@@ -69,6 +73,9 @@ ggsave("figures/8_scatterplot_pcoa_missing.png",
 eig_df<-data.frame(c(1:9),rel_ev_pcoa_g0[1:9])
 colnames(eig_df)<-c("pcoa_axis","relative_eigenvalue")
 eig_df$pcoa_axis<-as.character(eig_df$pcoa_axis)
+
+#prop variation first two axes explain
+sum(rel_ev_pcoa_g0[1:2])
 
 #plot barplot of first 9 relative eigenvalues
 ggplot(eig_df, aes(x=pcoa_axis, y=relative_eigenvalue)) + 
@@ -123,20 +130,86 @@ ggsave("figures/8_scatterplot_pcoa_coloured_by_traits.png",
        height = 15,
        units = 'cm')
 
+
+library(rphylopic)
+
+#choose from the different ones for a grass species
+img <- pick_phylopic(name = "Oryza sativa", n = 5)
+# Get a single image uuid
+uuid <- get_uuid(name = "Oryza sativa", n = 1)
+# Get the image for that uuid
+grass_pp <- get_phylopic(uuid = uuid)
+
+#dimorphic species
+uuid <- get_uuid(name = "Phoenix dactylifera", n = 1)
+phoenix_pp <- get_phylopic(uuid = uuid)
+
+
+
+# mono herb species
+uuid <- get_uuid(name = "Solanum dulcamara", n = 2)
+solanum_pp <- get_phylopic(uuid = uuid[1])
+
+uuid <- get_uuid(name = "Plantago lanceolata", n = 2)
+plantago_pp <- get_phylopic(uuid = uuid)
+
+uuid <- get_uuid(name = "Trithuria submersa", n = 2)
+trithuria_pp <- get_phylopic(uuid = uuid)
+
+# mono woody species
+uuid <- get_uuid(name = "Coffea arabica", n = 3)
+coffea_pp <- get_phylopic(uuid = uuid[2])
+
+uuid <- get_uuid(name = "Cornus florida", n = 1)
+cornus_pp <- get_phylopic(uuid = uuid)
+
+#add new factor level e.g.  None 
+df$Woodiness = factor(df$Woodiness, levels=c(levels(df$Woodiness), "None"))
+#df$SexualSystem = factor(df$SexualSystem, levels=c(levels(df$SexualSystem), "None"))
+
+#convert all NA's to None
+df$Woodiness[is.na(df$Woodiness)] = "None"
+#df$SexualSystem = factor(df$SexualSystem, levels=c(levels(df$SexualSystem), "None"))
+
 #PCoA scatterplot with density polygons
-ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) + 
-  stat_density_2d(aes(fill = ..level..), geom = "polygon", colour="white") +
+ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
+  stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", col=NA , n=100, bins=20) +
+  scale_fill_distiller(palette = "Greys", direction = 1, guide = "none") +
   geom_point(
-    aes(color = as.factor(df$Pollination), shape=as.factor(df$Woodiness)),
-    #    shape=21,
-    alpha=0.5,
-    size=4,
-    stroke = 0.5
+    aes(
+      color = as.factor(df$SexualSystem),
+      shape = as.factor(df$Woodiness)),
+    # shape=21,
+    alpha = 0.7,
+    size = 2.5,
+    stroke = 0.5) + 
+  scale_color_manual(values=wes_palette("FantasticFox1", 3),
+                     labels=c('Dimorphic', 'Dimorphic & Monomorphic', 'Monomorphic','No Data')) +
+  scale_shape_discrete(labels=c('Herbaceous', 'Herbaceous & Woody', 'Woody','No Data')) +
+  xlab(paste("PCoA Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
+  ylab(paste("PCoA Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) +
+  xlim(-0.55,0.5) + 
+  ylim(-0.4,0.5) + 
+  add_phylopic(img=plantago_pp,x = 0.4, y=0, ysize = 0.15,col = "grey30") +
+  add_phylopic(img=phoenix_pp,x = -0.5, y=0, ysize = 0.15,col = "grey30") +
+  add_phylopic(img=coffea_pp,x = -0.06, y=-0.35, ysize = 0.125,col = "grey30") +
+  theme_bw() + theme(
+    panel.border = element_blank(),
+    #panel.grid.major = element_line(colour = "darkgrey"),
+    #panel.grid.minor = element_line(colour = "grey"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = c(0.9, 0.8),
+    axis.line = element_line(colour = "black")
+  ) + 
+  labs(
+    colour = "Sexual system",
+    shape = "Woodiness"
   )
 
 ggsave("figures/8_scatterplot_pcoa_density_polygon.png",
-       width = 20,
-       height = 15,
+       width = 30,
+       height = 20,
        units = 'cm')
 
 #Plot density raster with PCoA scatterplot points overlain

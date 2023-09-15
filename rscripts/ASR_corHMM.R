@@ -83,17 +83,21 @@ df_rates<-readRDS(file = here::here("outputs/one_hot_transition_rates.rds"))
 # }
 # 
 # df_rates <- data.frame(states, rates, tree_sizes, no_states)
-# df_rates[order(df_rates$rates, decreasing = T), ]
+ 
 
-#NOTE: uncomment to save transition rates
-#saveRDS(df_rates, file = here::here("outputs/one_hot_transition_rates.rds"))
+#NOTE: uncomment to save/load transition rates
+#write.csv(df_rates, file = here::here("outputs/one_hot_transition_rates.csv"))
+df_rates<-read.csv(file = here::here("outputs/one_hot_transition_rates.csv"),row.names = 1)
+
+#ordered results
+df_rates[order(df_rates$rates, decreasing = T), ]
 
 ###
 # ---- Compare phylogenetic signal and transition rates ----
 ###
 
 #read in phylogenetic signal results for qualitiative traits
-psq<-readRDS(file = here::here("outputs/phylo_signal_qualitative.rds"))
+psq<-read.csv(file = here::here("outputs/phylo_signal_qualitative.csv"),row.names = 1)
 
 #reorder
 d1 <- psq[order(row.names(psq)), ]
@@ -174,6 +178,12 @@ trans_mat <- data.frame(round(HMM_ARD$solution, 4))
 colnames(trans_mat)<-c("->1","->2","->3")
 rownames(trans_mat)<-c("1->","2->","3->")
 
+####
+# ---- Figure 5: Reproductive strategy ASR phylogenetic tree ----
+####
+
+library(wesanderson)
+
 #plot tree with marginal probabilites on nodes
 png(
   "figures/phylo_asr_clusters.png",
@@ -183,49 +193,54 @@ png(
 )
 
 par(mar = c(1, 1, 1, 1))
-palette(brewer.pal(3, "Set1"))
+palette(wes_palette("IsleofDogs1", 3))
 
 #plot phylo
 plot(
   phy,
   show.tip.label = FALSE,
   type = 'fan',
-  x.lim = c(-160, 160),
-  y.lim = c(-160, 160)
+  x.lim = c(-150, 150),
+  y.lim = c(-150, 150)
 )
 
 #NOTE: linked to chosen clustering method
 #add tip and node labels based on tip states and reconstructions
-tiplabels(pch = 16,
-          col = as.factor(clust_df$ward),
-          cex = 2)
+tiplabels(pch = 21,
+          col="black",
+          bg=as.factor(clust_df$ward),
+          piecol = as.factor(clust_df$ward),
+          cex = 1.25)
 nodelabels(pie = HMM_ARD$states,
-           piecol = brewer.pal(3, "Set1"),
-           cex = 0.3)
+           piecol = wes_palette("IsleofDogs1", 3),
+           cex = 0.25)
 
 #NOTE: linked to chosen clustering method
 #add legend
 legend(
-  x = -160,
-  y = 160,
+  x = -151,
+  y = 150,
   legend = c(
-    "1. Monomorphic herbs",
-    "2. Dimorphic herbs & trees",
-    "3. Monomorphic trees"
+    "1. Monomorphic herbaceous",
+    "2. Dimorphic",
+    "3. Monomorphic woody"
   ),
-  fill = brewer.pal(3, "Set1")
+  fill = wes_palette("IsleofDogs1", 3),
+  bty = "n",
+  cex=1.3
 )
 
 #NOTE: linked to chosen clustering method
 #add transition table
 addtable2plot(
-  -160,
-  120,
+  -147,
+  107,
   trans_mat,
   bty = "o",
   display.rownames = TRUE,
   hlines = TRUE,
-  vlines = TRUE
+  vlines = TRUE,
+  cex=1.2
 )
 
 dev.off()

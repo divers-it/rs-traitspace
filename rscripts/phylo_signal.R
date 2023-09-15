@@ -110,8 +110,10 @@ pvals<-na.omit(pvals)
 results<-data.frame(deltas,pvals)
 results
 
-#NOTE: UNCOMMENT TO SAVE
-saveRDS(results, file = here::here("outputs/phylo_signal_qualitative.rds"))
+#NOTE: UNCOMMENT TO SAVE/LOAD
+#write.csv(results, file = here::here("outputs/phylo_signal_qualitative.csv"))
+results<-read.csv( file = here::here("outputs/phylo_signal_qualitative.csv"),row.names = 1)
+
 
 ###
 # ---- Continuous ----
@@ -193,5 +195,13 @@ signals
 colnames(pvals)<-paste("p_",colnames(pvals),sep="")
 
 #NOTE: UNCOMMENT TO SAVE
-saveRDS(cbind(pvals,signals), file = here::here("outputs/phylo_signal_quantitative.rds"))
+#write.csv(cbind(signals,pvals), file = here::here("outputs/phylo_signal_quantitative.csv"))
+quant_results<-read.csv( file = here::here("outputs/phylo_signal_quantitative.csv"),row.names = 1)
 
+### Qual results threshold
+results
+table(results$pvals<0.05)
+
+### Quant results
+quant_results
+table(quant_results$p_Lambda<0.05)

@@ -70,8 +70,8 @@ fit_disc <- function(ttf) {
   return(list("mat"=fit$transition_matrix,"anc_st"=fit$ancestral_likelihoods[1,]))
 }
 # creating and saving the list of transition matrices (take some time)
-mk_list <- lapply(discrete_traits,fit_disc)
-saveRDS(mk_list,"outputs/mk_list.rds")
+#mk_list <- lapply(discrete_traits,fit_disc)
+#saveRDS(mk_list,"outputs/mk_list.rds")
 
 # Simulating independent traits according to the fitted evolution model ####
 
@@ -176,16 +176,16 @@ df_ev <- data.frame(
 )
 # Plot
 ggplot(data = df_ev,aes(x=c(1:21))) +
-  geom_line(aes(y=final,col="final")) +
-  geom_point(aes(y=final,col="final")) +
+  geom_line(aes(y=final,col="original")) +
+  geom_point(aes(y=final,col="original")) +
   geom_line(aes(y=onehot,col="onehot")) +
   geom_point(aes(y=onehot,col="onehot")) +
-  geom_line(aes(y=recoded,col="recoded")) +
-  geom_point(aes(y=recoded,col="recoded")) +
+#  geom_line(aes(y=recoded,col="recoded")) + # not needed
+#  geom_point(aes(y=recoded,col="recoded")) +
   geom_errorbar(aes(ymin=sim_min,ymax=sim_max)) +
   xlab("Rank of eigenvalues") + ylab("Relative eigenvalues") +
   labs(col = "Trait matrix")
-ggsave("figures/observed_vs_simulated_eigenvalues.pdf")
+ggsave("figures/observed_vs_simulated_eigenvalues.png")
 
 
 # Looking at the traits in the simulated datasets

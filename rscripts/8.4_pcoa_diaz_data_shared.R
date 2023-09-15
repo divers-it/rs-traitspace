@@ -158,3 +158,6 @@ labels(diaz_dist)==labels(divers_dist)
 png(filename = "figures/8.4_scatterplot_distances_diaz_vs_divers.png",width = 500,height = 500)
 plot(diaz_dist,divers_dist,xlim=c(0,1),ylim=c(0,1))
 dev.off()
+
+#linear model
+summary(lm(diaz_dist~divers_dist))

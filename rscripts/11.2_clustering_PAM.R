@@ -143,13 +143,15 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.f
     size=3,
     stroke = 0.5
   ) + 
+  geom_text_repel(aes(label = rownames(df), colour = as.factor(pam.gower$clustering)),
+                  size = 3.5,max.overlaps = Inf)  + 
   stat_ellipse(geom = "polygon",
                aes(fill =  as.factor(pam.gower$clustering)), 
                alpha = 0.25) +
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1]))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2])))
 
-ggsave("figures/11.2_scatterplot_pcoa_pam_k3_coloured_by_cluster.png",width=12,height=10)
+ggsave("figures/11.2_scatterplot_pcoa_pam_k3_coloured_by_cluster.png",width=20,height=20)
 
 ###
 # ---- Sankey plot ----
@@ -367,6 +369,75 @@ ggplot(
 #save plot
 ggsave("figures/11.2_scatterplot_tsne_pam_coloured_by_robust.png",width=12,height=10)
 
+
+####
+# ---- Figure X: UMAP PAM clustering / robust ----- 
+####
+
+library(ochRe)
+library(umap)
+custom_config <- umap.defaults
+custom_config$n_components <-  2# number of dimensions targeted
+custom_config$n_neighbors <- 25 # number of dimensions targeted
+custom_config$input <- "dist" # The input matrix is a distance matrix
+umap_final <- umap(d = as.matrix(gower_df),config = custom_config)
+df_umap_final <- data.frame(umap_final$layout)
+rownames(df_umap_final) <- rownames(df) #CHECK
+
+df_umap_final
+
+#add new factor level e.g.  None 
+df$Woodiness = factor(df$Woodiness, levels=c(levels(df$Woodiness), "None"))
+#convert all NA's to None
+df$Woodiness[is.na(df$Woodiness)] = "None"
+
+#PCoA scatterplot with density polygons
+s1 <- ggplot(
+  data.frame(df_umap_final),
+  aes(
+    x = X1,
+    y = X2,
+    fill = as.factor(robust_vect_pam_full)
+  )
+) +
+  geom_point(
+    aes(shape = as.factor(clust.num.k.2.7.df$`3clusters`)),
+    alpha = 0.7,
+    size = 5,
+    stroke = 0.5) + 
+  scale_fill_manual(values=c(ochre_pal("healthy_reef")(7)[1:5],"thistle",ochre_pal("healthy_reef")(7)[7])) +
+  #scale_color_ochre(palette = "healthy_reef") +
+  scale_shape_manual(values=c(21,22,23), labels=c('1', '2', '3')) +
+  xlab("UMAP Axis 1") +
+  ylab("UMAP Axis 2") +
+  #xlim(-0.55,0.5) + 
+  #ylim(-0.4,0.5) + 
+  theme_bw() + theme(
+    panel.border = element_blank(),
+    #panel.grid.major = element_line(colour = "darkgrey"),
+    #panel.grid.minor = element_line(colour = "grey"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = c(0.9, 0.8),
+    axis.line = element_line(colour = "black")
+  ) + 
+  labs(
+    colour = "Robust group",
+    shape = "PAM cluster"
+  ) + 
+  guides(fill = guide_legend(override.aes = list(size = 3,
+                                                 shape=21,
+                                                 fill=c(ochre_pal("healthy_reef")(7)[1:5],
+                                                         "thistle",
+                                                         ochre_pal("healthy_reef")(7)[7],
+                                                         "grey")), title = "Robust group")
+         )
+
+s1
+
+#save plot
+ggsave("figures/11.2_scatterplot_umap_pam_coloured_by_robust.png",width=10,height=10)
+
 #Proportion of missing data 
 #species that dont belong to robust group
 df_not_robust<-df[is.na(robust_vect_pam_full),]
@@ -454,14 +525,253 @@ df_temp_melt_counts$label[df_temp_melt_counts$count<3]<-NA
 
 #plot stacked barplots per robust group for each qualitative trait, with labels
 ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
-  geom_col(position = 'stack') + facet_wrap(. ~ robust_group, scales = "free")  + theme(
+  geom_col(position = 'stack') + 
+  facet_wrap(. ~ robust_group, scales = "free")  + 
+  scale_fill_brewer(palette = "Set1"
+                    , name = "age_group") +
+  theme(
     legend.position = "none",
     axis.text.x = element_text(vjust = 0.5, hjust=1),
     axis.title.x = element_blank(),
-    plot.margin = unit(c(1, 1, 1, 1), "cm")
-  ) + geom_text(aes(size = count,label = label),
-                position = position_stack(vjust = .5)) + coord_flip()
+    plot.margin = unit(c(0.2, 0.2, 0.2, 0.2), "cm")
+  ) + 
+  geom_text(aes(size = count,label = label), position = position_stack(vjust = .5)) + 
+  coord_flip()
+
+
+####
+# ---- Figure X: Stacked barplots ----
+####
+
+#palette from scatterplot
+cols <- c(ochre_pal("healthy_reef")(7)[1:5],"thistle",ochre_pal("healthy_reef")(7)[7])
+
+#theme
+my_theme <- function() {
+  theme(
+    # add border 1)
+    panel.border = element_blank(),
+    # color background 2)
+    panel.background = element_rect(fill = "white"),
+    # modify grid 3)
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    # modify text, axis and colour 4) and 5)
+    axis.text.x = element_text(),
+    axis.text.y = element_text(),
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    axis.ticks.x = element_line(),
+    axis.ticks.length=unit(.25, "cm"),
+    axis.ticks.y = element_blank(),
+    # legend
+    legend.position = "none",
+    # margin
+    plot.margin = unit(c(0.2, 0.2, 0.2, 0.2), "cm")
+  )
+}
+
+#set NA labels to blank
+#df_temp_melt_counts$label[is.na(df_temp_melt_counts$label)]<-""
+
+## Robust group 1
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group=="pam_robust_1 (n = 71)",]
+
+#get palette based on max counts
+pal1<-colorRampPalette(c("white",cols[1]))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal1[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p1 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme()
+
+p1
+
+## Robust group 2
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group=="pam_robust_2 (n = 56)",]
+
+#get palette based on max counts
+pal<-colorRampPalette(c("white",cols[2]))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p2 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme() +
+  theme(
+    axis.text.y = element_blank()
+  )
+
+p2
+
+## Robust group 3
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group=="pam_robust_3 (n = 53)",]
+
+#get palette based on max counts
+pal<-colorRampPalette(c("white",cols[3]))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p3 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme()
+p3
+
+## Robust group 4
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group=="pam_robust_3 (n = 53)",]
+
+#get palette based on max counts
+pal<-colorRampPalette(c("white",cols[4]))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p4 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme() +
+  theme(
+    axis.text.y = element_blank()
+  )
+
+p4
+
+## Robust group 5
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group=="pam_robust_5 (n = 37)",]
+
+#get palette based on max counts
+pal<-colorRampPalette(c("white",cols[5]))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p5 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip()+
+  my_theme()
+
+p5
+
+## Robust group 6
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group=="pam_robust_6 (n = 28)",]
+
+#get palette based on max counts
+pal<-colorRampPalette(c("white",cols[6]))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p6 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme() +
+  theme(
+    axis.text.y = element_blank()
+  )
+
+p6
+
+## Robust group 7
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group=="pam_robust_7 (n = 21)",]
+
+#get palette based on max counts
+pal<-colorRampPalette(c("white",cols[7]))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p7 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme() + 
+  theme(
+    axis.title.x = element_text()
+  )
+
+p7
+
+## Robust group 8
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group=="pam_robust_NA (n = 46)",]
+
+#get palette based on max counts
+pal<-colorRampPalette(c("white","grey"))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p8 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  ggtitle("No Robust Group") + 
+  coord_flip() +
+  my_theme() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.title.x = element_text()
+  )
+
+p8
+
+
+library(patchwork)
+
+(p1 + p2 ) / (p3 + p4) / (p5 + p6) / (p7 + p8)
+
 
 #save plot
-ggsave("figures/11.2_stacked_barplots_pam_traits_by_cluster.png",width=15,height=10)
+ggsave("figures/11.2_stacked_barplots_pam_traits_by_robust.png",width=10,height=20)
 
+
+#combined plot
+
+s1 | (p1 + p2 ) / (p3 + p4) / (p5 + p6) / (p7 + p8)
+
+ggsave("figures/11.2_scatterplot_and_stacked_barplots.png",width=25,height=15)

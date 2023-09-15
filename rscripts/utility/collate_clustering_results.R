@@ -40,15 +40,15 @@ rownames(rob_df)==names(pam)
 #merge
 rob_df<-cbind(rob_df,pam)
 
-### LCM
-
-lcm <- readRDS(file = here::here("outputs/11.3_clust_vect_lcm.rds"))
-
-#check names
-gsub(" ","_",rownames(rob_df))==names(lcm)
-
-#merge
-rob_df<-cbind(rob_df,lcm)
+# ### LCM
+# 
+# lcm <- readRDS(file = here::here("outputs/11.3_clust_vect_lcm.rds"))
+# 
+# #check names
+# gsub(" ","_",rownames(rob_df))==names(lcm)
+# 
+# #merge
+# rob_df<-cbind(rob_df,lcm)
 
 ### Density clustering
 
@@ -103,15 +103,15 @@ rownames(rob_df)==names(one_hot_pam)
 #merge
 rob_df<-cbind(rob_df,one_hot_pam)
 
-### LCM
-
-one_hot_lcm <- readRDS(file = here::here("outputs/one_hot_11.3_clust_vect_lcm.rds"))
-
-#check names
-gsub(" ","_",rownames(rob_df))==names(one_hot_lcm)
-
-#merge
-rob_df<-cbind(rob_df,one_hot_lcm )
+# ### LCM
+# 
+# one_hot_lcm <- readRDS(file = here::here("outputs/one_hot_11.3_clust_vect_lcm.rds"))
+# 
+# #check names
+# gsub(" ","_",rownames(rob_df))==names(one_hot_lcm)
+# 
+# #merge
+# rob_df<-cbind(rob_df,one_hot_lcm )
 
 ### Density clustering
 
@@ -127,7 +127,7 @@ rob_df<-cbind(rob_df,one_hot_dens)
 table(rob_df$ward,rob_df$one_hot_ward)
 table(rob_df$pam,rob_df$one_hot_pam)
 table(rob_df$kpro,rob_df$one_hot_kpro)
-table(rob_df$lcm,rob_df$one_hot_lcm)
+#table(rob_df$lcm,rob_df$one_hot_lcm)
 
 #output csv
 rownames(rob_df)==rownames(df)

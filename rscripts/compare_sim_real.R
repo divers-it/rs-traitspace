@@ -35,12 +35,14 @@ plot(gower_sim~gower_final,xlim=c(0,1),ylim=c(0,1))
 plot(gower_sim~gower_onehot,xlim=c(0,1),ylim=c(0,1))
 plot(gower_sim~gower_imputed,xlim=c(0,1),ylim=c(0,1))
 
+##plot pairwise scatterplots of different distance matrices
+png("figures/scatterplots_pairwise_distances.png",width=1500,height=1500,res=100)
 pairs(data.frame(list("original"=as.vector(gower_final),
     "onehot"=as.vector(gower_onehot),
     "imputed"=as.vector(gower_imputed),
     "simulated"=as.vector(gower_sim))),pch=16,cex=0.5
 )
-
+dev.off()
 
 ##plot pairs of variables (removing some with high cat count)
 png("figures/ggpairs_sim.png",width=4000,height=4000,res=100)
