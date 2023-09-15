@@ -171,13 +171,18 @@ df$Woodiness = factor(df$Woodiness, levels=c(levels(df$Woodiness), "None"))
 df$Woodiness[is.na(df$Woodiness)] = "None"
 #df$SexualSystem = factor(df$SexualSystem, levels=c(levels(df$SexualSystem), "None"))
 
+####
+# ---- Figure 1: PCoA with traits and density ----
+####
+
+
 #PCoA scatterplot with density polygons
 ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
   stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", col=NA , n=100, bins=20) +
   scale_fill_distiller(palette = "Greys", direction = 1, guide = "none") +
   geom_point(
     aes(
-      color = as.factor(df$SexualSystem),
+      color = as.factor(df$flowerSex),
       shape = as.factor(df$Woodiness)),
     # shape=21,
     alpha = 0.7,

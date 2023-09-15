@@ -244,3 +244,54 @@ addtable2plot(
 )
 
 dev.off()
+
+library(ggtree)
+ggtree(phy, layout="fan") + 
+  geom_text2(aes(subset=!isTip, label=node), hjust=-.3) + 
+  geom_cladelab(node=379, label="test label", angle=0, fontsize=8, offset=.5, vjust=.5)
+
+
+
+ancstats <- as.data.frame(HMM_ARD$states)
+ancstats$node <- 1:phy$Nnode+Ntip(phy)
+
+## cols parameter indicate which columns store stats
+bars <- nodebar(ancstats, cols=1:3)
+bars <- lapply(bars, function(g) g+scale_fill_manual(values=wes_palette("IsleofDogs1", 3)))
+
+tree2 <- full_join(phy, data.frame(label = rownames(df), stat = as.character(clust_df$ward) ), by = 'label')
+
+ggtree(tree2)
+
+p <- ggtree(tree2,layout = "fan") + geom_tiplab() +
+  geom_tippoint(aes(color = stat)) +
+  scale_color_manual(values=wes_palette("IsleofDogs1", 3)[1:3]) +
+  theme(legend.position = "right") + 
+  xlim(NA, 8)
+p
+
+p1 <- p + geom_inset(bars, width = .08, height = .05, x = "branch")   
+p1
+
+library(phytools)
+data(anoletree)
+x <- getStates(anoletree,"tips")
+tree <- as.phylo(anoletree)
+
+cols <- setNames(palette()[1:length(unique(x))],sort(unique(x)))
+fitER <- ape::ace(x,tree,model="ER",type="discrete")
+ancstats <- as.data.frame(fitER$lik.anc)
+ancstats$node <- 1:tree$Nnode+Ntip(tree)
+
+## cols parameter indicate which columns store stats
+bars <- nodebar(ancstats, cols=1:6)
+bars <- lapply(bars, function(g) g+scale_fill_manual(values = cols))
+
+tree2 <- full_join(tree, data.frame(label = names(x), stat = x ), by = 'label')
+p <- ggtree(tree2) + geom_tiplab() +
+  geom_tippoint(aes(color = stat)) + 
+  scale_color_manual(values = cols) +
+  theme(legend.position = "right") + 
+  xlim(NA, 8)
+p1 <- p + geom_inset(bars, width = .08, height = .05, x = "branch")   
+p1
