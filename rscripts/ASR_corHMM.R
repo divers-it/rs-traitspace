@@ -184,14 +184,24 @@ rownames(trans_mat)<-c("1->","2->","3->")
 
 library(wesanderson)
 
+#get taxonomy
+tax<-readRDS("outputs/taxonomy.rds")
+
+str(tax)
+
+tax<-tax[match(phy$tip.label,gsub(" ","_",rownames(tax))),]
+
+phy$tip.label<-make.unique(tax$order)
+
 #plot tree with marginal probabilites on nodes
 png(
   "figures/phylo_asr_clusters.png",
-  width = 1500,
-  height = 1500,
-  res = 100
+  width = 2500,
+  height = 2500,
+  res = 180
 )
 
+par(bg=NA)
 par(mar = c(1, 1, 1, 1))
 palette(wes_palette("IsleofDogs1", 3))
 
@@ -199,9 +209,10 @@ palette(wes_palette("IsleofDogs1", 3))
 plot(
   phy,
   show.tip.label = FALSE,
+  #cex=0.5,
   type = 'fan',
-  x.lim = c(-150, 150),
-  y.lim = c(-150, 150)
+  x.lim = c(-160, 160),
+  y.lim = c(-160, 160)
 )
 
 #NOTE: linked to chosen clustering method
@@ -218,23 +229,27 @@ nodelabels(pie = HMM_ARD$states,
 #NOTE: linked to chosen clustering method
 #add legend
 legend(
-  x = -151,
-  y = 150,
+  x = -166,
+  y = 165,
   legend = c(
     "1. Monomorphic herbaceous",
     "2. Dimorphic",
     "3. Monomorphic woody"
   ),
-  fill = wes_palette("IsleofDogs1", 3),
+  pt.bg = wes_palette("IsleofDogs1", 3),
   bty = "n",
-  cex=1.3
+  cex=1.3,
+  pch=21,
+  pt.cex=2,
+  #col = wes_palette("IsleofDogs1", 3)
+  col="black"
 )
 
 #NOTE: linked to chosen clustering method
 #add transition table
 addtable2plot(
-  -147,
-  107,
+  -162,
+  117,
   trans_mat,
   bty = "o",
   display.rownames = TRUE,
@@ -245,53 +260,37 @@ addtable2plot(
 
 dev.off()
 
-library(ggtree)
-ggtree(phy, layout="fan") + 
-  geom_text2(aes(subset=!isTip, label=node), hjust=-.3) + 
-  geom_cladelab(node=379, label="test label", angle=0, fontsize=8, offset=.5, vjust=.5)
+####
+# ---- GGTREE ----
+####
 
+x2<-paste("Cluster",clust_df$ward,sep="")
+names(x2)<-gsub(" ","_",rownames(df))
 
+x2[phy$tip.label]
+  
+ancstats2 <- as.data.frame(HMM_ARD$states)
+ancstats2$node <- 1:phy$Nnode+Ntip(phy)
+colnames(ancstats2) <- c("Cluster1","Cluster2","Cluster3","node")
 
-ancstats <- as.data.frame(HMM_ARD$states)
-ancstats$node <- 1:phy$Nnode+Ntip(phy)
+cols2 <- wes_palette("IsleofDogs1", 3)[1:3]
+names(cols2) <- colnames(ancstats2)[1:3]
+cols2
 
 ## cols parameter indicate which columns store stats
-bars <- nodebar(ancstats, cols=1:3)
-bars <- lapply(bars, function(g) g+scale_fill_manual(values=wes_palette("IsleofDogs1", 3)))
+bars2 <- nodebar(ancstats2, cols=1:3)
+bars2 <- lapply(bars2, function(g) g+scale_fill_manual(values = cols2))
 
-tree2 <- full_join(phy, data.frame(label = rownames(df), stat = as.character(clust_df$ward) ), by = 'label')
+tree22 <- full_join(phy, data.frame(label = names(x2), stat = x2), by = 'label')
 
-ggtree(tree2)
-
-p <- ggtree(tree2,layout = "fan") + geom_tiplab() +
-  geom_tippoint(aes(color = stat)) +
-  scale_color_manual(values=wes_palette("IsleofDogs1", 3)[1:3]) +
+p <- ggtree(tree22) + 
+  geom_tiplab() + 
+  geom_tippoint(aes(color = stat)) + 
+  scale_color_manual(values=wes_palette("IsleofDogs1", 3)[1:3]) + 
   theme(legend.position = "right") + 
-  xlim(NA, 8)
+  xlim(NA, 180)
+
 p
 
-p1 <- p + geom_inset(bars, width = .08, height = .05, x = "branch")   
-p1
-
-library(phytools)
-data(anoletree)
-x <- getStates(anoletree,"tips")
-tree <- as.phylo(anoletree)
-
-cols <- setNames(palette()[1:length(unique(x))],sort(unique(x)))
-fitER <- ape::ace(x,tree,model="ER",type="discrete")
-ancstats <- as.data.frame(fitER$lik.anc)
-ancstats$node <- 1:tree$Nnode+Ntip(tree)
-
-## cols parameter indicate which columns store stats
-bars <- nodebar(ancstats, cols=1:6)
-bars <- lapply(bars, function(g) g+scale_fill_manual(values = cols))
-
-tree2 <- full_join(tree, data.frame(label = names(x), stat = x ), by = 'label')
-p <- ggtree(tree2) + geom_tiplab() +
-  geom_tippoint(aes(color = stat)) + 
-  scale_color_manual(values = cols) +
-  theme(legend.position = "right") + 
-  xlim(NA, 8)
-p1 <- p + geom_inset(bars, width = .08, height = .05, x = "branch")   
+p1 <- p + geom_inset(bars2, width = .08, height = .05, x = "branch")   
 p1

@@ -138,17 +138,16 @@ img <- pick_phylopic(name = "Oryza sativa", n = 5)
 # Get a single image uuid
 uuid <- get_uuid(name = "Oryza sativa", n = 1)
 # Get the image for that uuid
-grass_pp <- get_phylopic(uuid = uuid)
+oryza_pp <- get_phylopic(uuid = uuid)
 
-#dimorphic species
+uuid <- get_uuid(name = "Zea mays", n = 4)
+zea_pp <- get_phylopic(uuid = uuid[3])
+
 uuid <- get_uuid(name = "Phoenix dactylifera", n = 1)
 phoenix_pp <- get_phylopic(uuid = uuid)
 
-
-
-# mono herb species
 uuid <- get_uuid(name = "Solanum dulcamara", n = 2)
-solanum_pp <- get_phylopic(uuid = uuid[1])
+solanum_pp <- get_phylopic(uuid = uuid[2])
 
 uuid <- get_uuid(name = "Plantago lanceolata", n = 2)
 plantago_pp <- get_phylopic(uuid = uuid)
@@ -156,7 +155,9 @@ plantago_pp <- get_phylopic(uuid = uuid)
 uuid <- get_uuid(name = "Trithuria submersa", n = 2)
 trithuria_pp <- get_phylopic(uuid = uuid)
 
-# mono woody species
+uuid <- get_uuid(name = "Commelina communis", n = 2)
+commelina_pp <- get_phylopic(uuid = uuid[1])
+
 uuid <- get_uuid(name = "Coffea arabica", n = 3)
 coffea_pp <- get_phylopic(uuid = uuid[2])
 
@@ -175,6 +176,10 @@ df$Woodiness[is.na(df$Woodiness)] = "None"
 # ---- Figure 1: PCoA with traits and density ----
 ####
 
+#placement of species with phylopics
+tmp<-readRDS("outputs/phylopic_uuids.rds")
+dataset_pcoa$vectors[rownames(dataset_pcoa$vectors)%in%names(tmp),][,c(1:2)]
+
 
 #PCoA scatterplot with density polygons
 ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
@@ -182,22 +187,19 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
   scale_fill_distiller(palette = "Greys", direction = 1, guide = "none") +
   geom_point(
     aes(
-      color = as.factor(df$flowerSex),
+      color = as.factor(df$FlowerSex),
       shape = as.factor(df$Woodiness)),
     # shape=21,
     alpha = 0.7,
     size = 2.5,
     stroke = 0.5) + 
   scale_color_manual(values=wes_palette("FantasticFox1", 3),
-                     labels=c('Dimorphic', 'Dimorphic & Monomorphic', 'Monomorphic','No Data')) +
+                     labels=c('Bisexual', 'Bisexual & Unisexual', 'Unisexual','No Data')) +
   scale_shape_discrete(labels=c('Herbaceous', 'Herbaceous & Woody', 'Woody','No Data')) +
   xlab(paste("PCoA Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("PCoA Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) +
-  xlim(-0.55,0.5) + 
-  ylim(-0.4,0.5) + 
-  add_phylopic(img=plantago_pp,x = 0.4, y=0, ysize = 0.15,col = "grey30") +
-  add_phylopic(img=phoenix_pp,x = -0.5, y=0, ysize = 0.15,col = "grey30") +
-  add_phylopic(img=coffea_pp,x = -0.06, y=-0.35, ysize = 0.125,col = "grey30") +
+  xlim(-0.6,0.5) + 
+  ylim(-0.44,0.6) + 
   theme_bw() + theme(
     panel.border = element_blank(),
     #panel.grid.major = element_line(colour = "darkgrey"),
@@ -210,11 +212,96 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
   labs(
     colour = "Sexual system",
     shape = "Woodiness"
-  )
+  ) +   
+  add_phylopic(img=solanum_pp,x = 0.28, y=-0.225, ysize = 0.15,col = "grey30") +
+  add_phylopic(img=commelina_pp,x = 0.44, y=0, ysize = 0.15,col = "grey30") +
+  add_phylopic(img=phoenix_pp,x = -0.52, y=0, ysize = 0.15,col = "grey30") +
+  add_phylopic(img=coffea_pp,x = -0.07, y=-0.35, ysize = 0.125,col = "grey30") +
+  add_phylopic(img=trithuria_pp,x = 0.07, y=0.55, ysize = 0.125,col = "grey30") +
+  add_phylopic(img=cornus_pp,x = -0.35, y=-0.26, ysize = 0.125,col = "grey30") +
+  add_phylopic(img=zea_pp,x = -0.39, y=0.38, ysize = 0.125,col = "grey30") +
+  annotate("text", x=-0.07, y=-0.43, label= "paste(italic(Coffea), ' ',italic(arabica))",
+               col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=-0.52, y=-0.09, label= "paste(italic(Phoenix), ' ',italic(dactylifera))",
+             col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=0.28, y=-0.32, label= "paste(italic(Solanum), ' ',italic(dulcamara))",
+             col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=0.44, y=-0.1, label= "paste(italic(Commelina), ' ',italic(communis))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=0.07, y=0.47, label= "paste(italic(Trithuria), ' ',italic(submersa))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=-0.35, y=-0.34, label= "paste(italic(Cornus), ' ',italic(florida))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=-0.39, y=0.3, label= "paste(italic(Zea), ' ',italic(mays))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("segment", #phoenix
+           #linetype=2,
+           linewidth=0.75,
+           x=-0.46,
+           xend=-0.3305978702, 
+           y=0.03,
+           yend=4.934202e-02, 
+           color = "black",
+           alpha=0.5) + 
+  annotate("segment", #solanum
+           #linetype=2,
+           linewidth=0.75,
+           x=0.25,
+           xend=0.0966219059, 
+           y=-0.2,
+           yend=-3.542270e-02, 
+           color = "black",
+           alpha=0.5) +
+  annotate("segment", #coffea
+           #linetype=2,
+           linewidth=0.75,
+           x=-0.045,
+           xend=-0.0139421126, 
+           y=-0.28,
+           yend=-0.1305380241, 
+           color = "black",
+           alpha=0.5) + 
+  annotate("segment", #trithuria
+           #linetype=2,
+           linewidth=0.75,
+           x=0.07,
+           xend=0.1230980263,
+           y=0.45,
+           yend=3.744929e-01, 
+           color = "black",
+           alpha=0.5) + 
+  annotate("segment", #cornus
+           #linetype=2,
+           linewidth=0.75,
+           x=-0.3,
+           xend=-0.1152021084,
+           y=-0.21,
+           yend=-0.1413927222, 
+           color = "black",
+           alpha=0.5) +
+  annotate("segment", #zea
+           #linetype=2,
+           linewidth=0.75,
+           x=-0.35,
+           xend=-0.1219254049,
+           y=0.35,
+           yend=2.600799e-01, 
+           color = "black",
+           alpha=0.5) +
+  annotate("segment", #Commelina
+           #linetype=2,
+           linewidth=0.75,
+           x=0.38,
+           xend=0.2257547576, 
+           y=0,
+           yend=0.0947481926, 
+           color = "black",
+           alpha=0.5)
+  
 
 ggsave("figures/8_scatterplot_pcoa_density_polygon.png",
-       width = 30,
-       height = 20,
+       width = 25,
+       height = 25,
        units = 'cm')
 
 #Plot density raster with PCoA scatterplot points overlain
