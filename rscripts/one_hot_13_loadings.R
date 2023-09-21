@@ -76,6 +76,72 @@ clust.num=data.frame(clust.num=clusters_ward[,"6clusters"])
 rownames(clust.num)=rownames(clusters_ward)
 df_ord_clust=as.data.frame(c(df_ord,clust.num))
 
+
+####
+# ---- Figure 2: Loadings scatterplot without cluster ----
+####
+
+library(wesanderson)
+library(ggimage)
+library(png)
+
+#from AJH_DiveRS/trait_circles.svg
+#trait images
+woody_img <- readPNG(paste(here::here(),"/figures/woody1.png",sep=""))
+herb_img <- readPNG(paste(here::here(),"/figures/herb1.png",sep=""))
+dull_img <- readPNG(paste(here::here(),"/figures/dull_flower1.png",sep=""))
+showy_img <- readPNG(paste(here::here(),"/figures/showy_flower1.png",sep=""))
+
+#rename traits
+df_ord_clust
+
+traitd$trait<-gsub("_"," ",traitd$trait)
+traitd$trait<-gsub("\\."," ",traitd$trait)
+
+#traitd$trait<-gsub("SexualSystem"," ",traitd$trait)
+#traitd$trait<-gsub("DispersalMode"," ",traitd$trait)
+#traitd$trait<-gsub("DispersalDist"," ",traitd$trait)
+
+#remove unimportant traits
+traitd$absDim1Dim2<-abs(traitd$Dim1)+abs(traitd$Dim2)
+hist(traitd$absDim1Dim2)
+
+traitd_labels <- traitd[traitd$absDim1Dim2>0.55,]
+
+ggplot() + 
+  geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2),shape=21,fill=wes_palette("Darjeeling1")[2],alpha=0.4,size=3) + 
+  geom_segment(data=traitd[sqrt(traitd$Dim1^2+traitd$Dim2^2)>minarrow,],
+               aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),
+               arrow=arrow(length = unit(0.4, "cm")),
+               col="grey40",
+               alpha=0.7,
+               linewidth=0.85,
+               lineend='round',
+               linejoin='round') +
+  geom_text_repel(data=traitd_labels[sqrt(traitd_labels$Dim1^2+traitd_labels$Dim2^2)>minarrow,],
+                  aes(x=Dim1/2,y=Dim2/2,label=trait),size=6) +
+  xlim(-0.5,0.5) +
+  ylim(-0.5,0.5) +
+  theme_bw() + theme(
+      panel.border = element_blank(),
+      #panel.grid.major = element_line(colour = "darkgrey"),
+      #panel.grid.minor = element_line(colour = "grey"),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      legend.position = c(0.9, 0.8),
+      axis.line = element_line(colour = "black"),
+      axis.text = element_text(size=16),
+      axis.title = element_text(size=20)) +
+  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
+  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) +
+  annotation_raster(dull_img, ymin = 0.34,ymax= 0.49,xmin = -0.4,xmax = -0.25) +
+  annotation_raster(herb_img, ymin = 0.375,ymax= 0.525,xmin = 0.225,xmax = 0.375) +
+  annotation_raster(woody_img, ymin = -0.5,ymax= -0.35,xmin = -0.475,xmax = -0.325) +
+  annotation_raster(showy_img, ymin = -0.4,ymax= -0.25,xmin = 0.26,xmax = 0.41)
+
+ggsave("figures/one_hot_13_scatterplot_pcoa_loadings.png",width=12.5,height=12.5)
+ggsave("figures/one_hot_13_scatterplot_pcoa_loadings.pdf",width=12.5,height=12.5)
+
 #plot points on first two axes, coloured by cluster
 p1=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd[sqrt(traitd$Dim1^2+traitd$Dim2^2)>minarrow,],aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd[sqrt(traitd$Dim1^2+traitd$Dim2^2)>minarrow,],aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25)+theme_bw() + theme(legend.position="top",legend.title=element_blank()) +
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
