@@ -36,8 +36,8 @@ silhouette <- c(silhouette, NA)
 #run PAM with different values of K from 2-10 and calculate sil width
 for(i in 2:10){
   pam_clusters <- pam(as.matrix(gower_df),
-                     diss = TRUE,
-                     k = i)
+                      diss = TRUE,
+                      k = i)
   silhouette <- c(silhouette ,pam_clusters$silinfo$avg.width)
 }
 
@@ -59,11 +59,11 @@ for(i in 2:7){
 }
 
 colnames(pam_df)<-c("2clusters",
-                             "3clusters",
-                             "4clusters",
-                             "5clusters",
-                             "6clusters",
-                             "7clusters")
+                    "3clusters",
+                    "4clusters",
+                    "5clusters",
+                    "6clusters",
+                    "7clusters")
 clust.num.k.2.7.df <-as.data.frame(pam_df)
 rownames(clust.num.k.2.7.df)<-names(pam.gower$clustering)
 
@@ -249,13 +249,13 @@ names(robust_vect_pam)<-rownames(dataset_pcoa$vectors)
 
 #loop through ordered table to extract robust groups
 for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>20])){
-   foo<-rownames(clust.num.k.2.7.df[clust.num.k.2.7.df[, 1] == combos[i, 1] & 
-                                             clust.num.k.2.7.df[, 2] == combos[i, 2] &
-                                             clust.num.k.2.7.df[, 3] == combos[i, 3] &
-                                             clust.num.k.2.7.df[, 4] == combos[i, 4] &
-                                             clust.num.k.2.7.df[, 5] == combos[i, 5] &
-                                             clust.num.k.2.7.df[, 6] == combos[i, 6],])
-   
+  foo<-rownames(clust.num.k.2.7.df[clust.num.k.2.7.df[, 1] == combos[i, 1] & 
+                                     clust.num.k.2.7.df[, 2] == combos[i, 2] &
+                                     clust.num.k.2.7.df[, 3] == combos[i, 3] &
+                                     clust.num.k.2.7.df[, 4] == combos[i, 4] &
+                                     clust.num.k.2.7.df[, 5] == combos[i, 5] &
+                                     clust.num.k.2.7.df[, 6] == combos[i, 6],])
+  
   robust[[i]]<-foo
   
   robust_vect_pam[foo]<-i
@@ -306,7 +306,7 @@ for(i in 1:length(unique(robust_vect_pam))){
       rob_mat[i,j]<-mean(na.omit(grp_df[,j]))
       
     }
-
+    
   }
   
 }
@@ -326,21 +326,47 @@ rownames(dataset_pcoa$vectors)==names(robust_vect_pam_full)
 #get dataframe of robust groups
 pcoa_robust<-cbind(dataset_pcoa$vectors,robust_vect_pam_full)
 
+#check order
+rownames(df)==rownames(pcoa_robust)
+
+#make vector based on wind pollination
+size_pollin<-rep("bi",length(df$Maximumverticalheight))
+size_pollin[grep("abiotic",df$Pollination)]
+
+
+####
+# ---- Figure SX: Scatterplot PAM with robust groups showing unisexual, abiotic outliers ----
+####
+
+
 #plot points on first two PCoA axes, coloured by robust group and shaped by cluster
 ggplot(
   data.frame(pcoa_robust),
   aes(
     x = Axis.1,
     y = Axis.2,
+    fill = as.factor(robust_vect_pam_full),
     col = as.factor(robust_vect_pam_full)
   )
 ) +
   geom_point(
-    aes(shape = as.factor(clust.num.k.2.7.df$`3clusters`)),
+    aes(shape = as.factor(df$Pollination),
+        size = as.factor(df$FlowerSex)),
     alpha = 0.5,
-    size = 5,
     stroke = 0.5
-  )
+  ) +
+  scale_shape_manual(values=c(23,22,8,24,4,21)) +
+  labs(
+    colour = "Robust group",
+    size = "Flower sex",
+    shape = "Pollination"
+  ) + 
+  theme_bw() +
+  guides(col = guide_legend(override.aes = list(size = 5)),
+         shape = guide_legend(override.aes = list(size = 5)),
+         fill="none") +
+  xlab("PCoA Axis 1") +
+  ylab("PCoA Axis 2")
 
 ggsave("figures/11.2_scatterplot_pcoa_pam_coloured_by_robust.png",width=12,height=10)
 
@@ -371,7 +397,7 @@ ggsave("figures/11.2_scatterplot_tsne_pam_coloured_by_robust.png",width=12,heigh
 
 
 ####
-# ---- Figure X: UMAP PAM clustering / robust ----- 
+# ---- Figure 3a: UMAP PAM clustering / robust ----- 
 ####
 
 library(ochRe)
@@ -386,11 +412,6 @@ rownames(df_umap_final) <- rownames(df) #CHECK
 
 df_umap_final
 
-#add new factor level e.g.  None 
-df$Woodiness = factor(df$Woodiness, levels=c(levels(df$Woodiness), "None"))
-#convert all NA's to None
-df$Woodiness[is.na(df$Woodiness)] = "None"
-
 #PCoA scatterplot with density polygons
 s1 <- ggplot(
   data.frame(df_umap_final),
@@ -403,7 +424,7 @@ s1 <- ggplot(
   geom_point(
     aes(shape = as.factor(clust.num.k.2.7.df$`3clusters`)),
     alpha = 0.7,
-    size = 5,
+    size = 7,
     stroke = 0.5) + 
   scale_fill_manual(values=c(ochre_pal("healthy_reef")(7)[1:5],"thistle",ochre_pal("healthy_reef")(7)[7])) +
   #scale_color_ochre(palette = "healthy_reef") +
@@ -418,20 +439,31 @@ s1 <- ggplot(
     #panel.grid.minor = element_line(colour = "grey"),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
-    legend.position = c(0.9, 0.8),
+    legend.position = c(0.125, 0.75),
+    legend.text = element_text(size=16),
+    legend.title = element_text(size=18),
+    axis.text.y = element_text(size=14),
+    axis.title.y = element_text(size=20),
+    axis.text.x = element_text(size=14),
+    axis.title.x = element_text(size=20),
     axis.line = element_line(colour = "black")
   ) + 
   labs(
     colour = "Robust group",
     shape = "PAM cluster"
   ) + 
-  guides(fill = guide_legend(override.aes = list(size = 3,
+  guides(fill = guide_legend(override.aes = list(size = 8,
                                                  shape=21,
                                                  fill=c(ochre_pal("healthy_reef")(7)[1:5],
-                                                         "thistle",
-                                                         ochre_pal("healthy_reef")(7)[7],
-                                                         "grey")), title = "Robust group")
-         )
+                                                        "thistle",
+                                                        ochre_pal("healthy_reef")(7)[7],
+                                                        "darkgrey")), title = "Robust group"),
+         shape = guide_legend(override.aes = list(size = 8))
+  ) + 
+  annotate("text", x = -4.5, y = 5.75, label = "(a)", size = 8) +
+  coord_cartesian(xlim = c(-3.5, 3.5), ylim = c(-3.5, 5), clip = "off") +
+  theme(plot.margin = unit(c(3,1,1,3), "lines"))
+
 
 s1
 
@@ -471,7 +503,7 @@ for(i in 1:(length(colnames(df_labelled))-1)){
     plot_list[[i]]<-ggplot(df_labelled, aes(x=robust_group, fill = !!as.name(colnames(df_labelled)[i]))) +
       geom_bar(stat="count") + theme(axis.text.x = element_text(angle = 90),axis.title.x = element_blank(),plot.margin = unit(c(1,1,1,1), "cm"))
   }
-
+  
 }
 
 #plot figures on pages of PDF
@@ -486,7 +518,7 @@ print(grid.arrange(grobs=plot_list[17:19],ncol=2,nrow=2))
 dev.off()
 
 ####
-# ---- Figure X: Quantitative trait boxplots for robust clusters ----
+# ---- Figure 3b: Quantitative trait boxplots for robust clusters ----
 ####
 
 #palette from scatterplot
@@ -497,9 +529,9 @@ b1 <- ggplot(df_labelled, aes(x=robust_group, y=Maximumverticalheight, fill=robu
   geom_boxplot(alpha=0.7) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols,"grey")) +
+  scale_y_continuous(limits = quantile(df_labelled$Maximumverticalheight, c(0.05, 0.95),na.rm = TRUE)) +
   ylab("Maximum vertical height") +
   theme(legend.position = "none",
-        plot.margin = unit(c(1,1,1,1), "cm"),
         # add border 1)
         #panel.border = element_blank(),
         # color background 2)
@@ -512,17 +544,23 @@ b1 <- ggplot(df_labelled, aes(x=robust_group, y=Maximumverticalheight, fill=robu
         # modify text, axis and colour 4) and 5)
         axis.line.y = element_line(),
         axis.text.x = element_blank(),
-        axis.text.y = element_text(),
+        axis.text.y = element_text(size=14),
         axis.title.x = element_blank(),
-        #axis.title.y = element_blank(),
+        axis.title.y = element_text(size=20),
         axis.ticks.x = element_blank(),
         #axis.ticks.y = element_blank()
-        )  
+  )#   + 
+  #annotate("text", x = -.5, y = 1.5, label = "(b)", size = 8) +
+  #coord_cartesian(ylim = c(-1.5, 1.75), xlim = c(1, 8), clip = "off") +
+  #theme(plot.margin = unit(c(1,1,1,3), "lines"))
+
+b1
 
 b2 <- ggplot(df_labelled, aes(x=robust_group, y=flowerSize, fill=robust_group)) + 
   geom_boxplot(alpha=0.7) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols,"grey")) +
+  scale_y_continuous(limits = quantile(df_labelled$flowerSize, c(0.05, 0.95),na.rm = TRUE)) +
   ylab("Flower size") +
   theme(legend.position = "none",
         plot.margin = unit(c(1,1,1,1), "cm"),
@@ -538,43 +576,14 @@ b2 <- ggplot(df_labelled, aes(x=robust_group, y=flowerSize, fill=robust_group)) 
         # modify text, axis and colour 4) and 5)
         axis.line.y = element_line(),
         axis.text.x = element_blank(),
-        axis.text.y = element_text(),
+        axis.text.y = element_text(size=14),
         axis.title.x = element_blank(),
-        #axis.title.y = element_blank(),
+        axis.title.y = element_text(size=20),
         axis.ticks.x = element_blank(),
         #axis.ticks.y = element_blank()
   )  
 
 b2
-
-b3 <- ggplot(df_labelled, aes(x=robust_group, y=seedMass, fill=robust_group)) + 
-  geom_boxplot(alpha=0.7) + 
-  geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
-  scale_fill_manual(values = c(cols,"grey")) +
-  ylab("Flower size") +
-  theme(legend.position = "none",
-        plot.margin = unit(c(1,1,1,1), "cm"),
-        # add border 1)
-        #panel.border = element_blank(),
-        # color background 2)
-        panel.background = element_rect(fill = "white"),
-        # modify grid 3)
-        panel.grid.major.x = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.major.y = element_line(color="grey70"),
-        panel.grid.minor.y = element_blank(),
-        # modify text, axis and colour 4) and 5)
-        axis.line.y = element_line(),
-        axis.text.x = element_blank(),
-        axis.text.y = element_text(),
-        axis.title.x = element_blank(),
-        #axis.title.y = element_blank(),
-        axis.ticks.x = element_blank(),
-        #axis.ticks.y = element_blank()
-  )  
-
-b3
-
 
 ###
 # ---- Plot qualitative stats of robust groups ----
@@ -609,7 +618,7 @@ df_temp_melt_counts <- df_temp_melt %>% group_by(robust_group,variable,value) %>
 
 #add new column to remove text labels if counts are <5
 df_temp_melt_counts$label<-df_temp_melt_counts$value
-df_temp_melt_counts$label[df_temp_melt_counts$count<3]<-NA
+df_temp_melt_counts$label[df_temp_melt_counts$count<10]<-NA
 
 #NOT RUN: make new column for text size
 #df_temp_melt_counts$text_size<-df_temp_melt_counts$count^(1/2)
@@ -631,7 +640,7 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
 
 
 ####
-# ---- Figure X: Stacked barplots ----
+# ---- Figure 3c: Stacked barplots ----
 ####
 
 #palette from scatterplot
@@ -650,8 +659,8 @@ my_theme <- function() {
     panel.grid.major.y = element_blank(),
     panel.grid.minor.y = element_blank(),
     # modify text, axis and colour 4) and 5)
-    axis.text.x = element_text(),
-    axis.text.y = element_text(),
+    axis.text.x = element_text(size=16),
+    axis.text.y = element_text(size=16),
     axis.title.x = element_blank(),
     axis.title.y = element_blank(),
     axis.ticks.x = element_line(),
@@ -666,6 +675,27 @@ my_theme <- function() {
 
 #set NA labels to blank
 #df_temp_melt_counts$label[is.na(df_temp_melt_counts$label)]<-""
+
+#remove unwanted traits for plot
+df_temp_melt_counts <- df_temp_melt_counts[!df_temp_melt_counts$variable%in%"Climbing",]
+df_temp_melt_counts <- df_temp_melt_counts[!df_temp_melt_counts$variable%in%"Aquatic",]
+
+df_temp_melt_counts$variable <- factor(df_temp_melt_counts$variable)
+
+#reorder factors in for plotting
+df_temp_melt_counts$variable <- factor(df_temp_melt_counts$variable,
+                                       levels = rev(c("SexualSystem",
+                                                      "FlowerSex",
+                                                      "Mating",
+                                                      "FlowerSymmetry",
+                                                      "Showiness",
+                                                      "FloralReward",
+                                                      "OvaryPosition",
+                                                      "Pollination",
+                                                      "DispersalMode",
+                                                      "DispersalDist",
+                                                      "Lifespan",
+                                                      "Woodiness")))
 
 ## Robust group 1
 
@@ -747,6 +777,7 @@ rob_df$pal[is.na(rob_df$value)]<-"grey20"
 p4 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
   geom_bar(position="stack", stat="identity",col="black") +
   scale_fill_identity() + 
+  scale_y_continuous(breaks=c(0, 10, 20, 30, 40)) +
   geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
   coord_flip() +
   my_theme() +
@@ -818,9 +849,10 @@ p7 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
   scale_fill_identity() + 
   geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
   coord_flip() +
+  ylab("Count") +
   my_theme() + 
   theme(
-    axis.title.x = element_text()
+    axis.title.x = element_text(size=20)
   )
 
 p7
@@ -841,12 +873,13 @@ p8 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
   geom_bar(position="stack", stat="identity",col="black") +
   scale_fill_identity() + 
   geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
-  ggtitle("No Robust Group") + 
+  #ggtitle("No Robust Group") + 
   coord_flip() +
+  ylab("Count") +
   my_theme() +
   theme(
     axis.text.y = element_blank(),
-    axis.title.x = element_text()
+    axis.title.x = element_text(size=20)
   )
 
 p8
@@ -854,19 +887,8 @@ p8
 
 library(patchwork)
 
-(p1 + p2 ) / (p3 + p4) / (p5 + p6) / (p7 + p8)
-
-
-#save plot
-ggsave("figures/11.2_stacked_barplots_pam_traits_by_robust.png",width=10,height=20)
-
-
 #combined plot
 
- ( b1 / b2 / s1)   +
-  
-  plot_layout(heights=c(1,1,2),
-              ncol=2,
-              nrow=2) | ( (p1 + p2) / (p3 + p4) / (p5 + p6) / (p7 + p8) )
+(s1 / b1 / b2 ) + plot_layout(heights=c(4, 1, 1)) | (p1 + p2) / (p3 + p4) / (p5 + p6) / (p7 + p8)
 
-ggsave("figures/11.2_scatterplot_and_stacked_barplots.png")
+ggsave("figures/11.2_scatterplot_boxplots_and_stacked_barplots.png",width=25,height=20)

@@ -252,6 +252,7 @@ ggsave("figures/11_scatterplot_pcoa_wardD2_k3_coloured_by_cluster.png",
 ###
 # ---- Sankey plot ----
 ###
+
 #from: https://r-graph-gallery.com/321-introduction-to-interactive-sankey-diagram-2.html
 
 #table of different k values (2-7)

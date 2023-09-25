@@ -188,7 +188,24 @@ alpha_fd_indices <- mFD::alpha.fd.multidim(
 #output indices
 fd_ind_values <- alpha_fd_indices$"functional_diversity_indices"
 fd_ind_values
-write.csv(fd_ind_values,"outputs/10_mfd_indices_wardD2_k3.csv")
+
+fd_ind_table<-round(fd_ind_values[,c(1:9)],3)
+rownames(fd_ind_table)<-c("Cluster 1",
+                          "Cluster 2",
+                          "Cluster 3")
+
+colnames(fd_ind_table) <- c("Species richness",
+                            "FDis",
+                            "FMPD",
+                            "FNND",
+                            "FEve",
+                            "FRic",
+                            "FDiv",
+                            "FOri",
+                            "FSpe")
+
+
+write.csv(fd_ind_table,"outputs/10_mfd_indices_wardD2_k3.csv")
 
 #FDis Functional Dispersion: the biomass weighted deviation of species traits values from the center of the functional space filled by the #assemblage i.e. the biomass-weighted mean distance to the biomass-weighted mean trait values of the assemblage.
 #
@@ -207,11 +224,6 @@ write.csv(fd_ind_values,"outputs/10_mfd_indices_wardD2_k3.csv")
 #FIde Functional Identity: the mean traits values for the assemblage. FIde is always computed when FDis is computed.
 #
 #FOri Functional Originality: the weighted mean distance to the nearest species from the global species pool.
-
-#output indices
-fd_ind_values <- alpha_fd_indices$"functional_diversity_indices"
-fd_ind_values
-write.csv(fd_ind_values,"outputs/10_mfd_ind_values.csv")
 
 #information such as coordinates of centroids, distances and identity of the nearest neighbour, 
 #distances to the centroid, etc. The user does not have to directly use it but it will be useful 

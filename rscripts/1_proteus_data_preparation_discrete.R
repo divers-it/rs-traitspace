@@ -102,7 +102,7 @@ for(i in 1:length(unique(df_recode$new_trait))){
     } else {
       tmp<-df.wide.chosen[,c("NTaxDat",as.character(trait_no[j]))]
       colnames(tmp)<-colnames(new_trait_df)
-      new_trait_df<-rbind(new_trait_df,tmp)
+     new_trait_df<-rbind(new_trait_df,tmp)
     }
   }
 

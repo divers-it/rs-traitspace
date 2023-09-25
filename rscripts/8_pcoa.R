@@ -198,7 +198,7 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
   scale_shape_discrete(labels=c('Herbaceous', 'Herbaceous & Woody', 'Woody','No Data')) +
   xlab(paste("PCoA Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("PCoA Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) +
-  xlim(-0.6,0.5) + 
+  xlim(-0.6,0.6) + 
   ylim(-0.44,0.6) + 
   theme_bw() + theme(
     panel.border = element_blank(),
@@ -206,9 +206,12 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
     #panel.grid.minor = element_line(colour = "grey"),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
-    legend.position = c(0.9, 0.8),
-    axis.line = element_line(colour = "black")
-  ) + 
+    legend.position = c(0.85, 0.8),
+    legend.text = element_text(size=13),
+    legend.title = element_text(size=15),
+    axis.line = element_line(colour = "black"),
+    axis.text = element_text(size=15),
+    axis.title = element_text(size=18)) + 
   labs(
     colour = "Sexual system",
     shape = "Woodiness"
