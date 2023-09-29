@@ -78,3 +78,19 @@ res2_out[res2_out$order=="Poales",]
 
 #output taxonomy
 saveRDS(res2_out, file = here::here("outputs/taxonomy.rds"))
+
+#NOT RUN: load data
+#res2_out<-readRDS(file = here::here("outputs/taxonomy.rds"))
+
+#get frequencies of families/orders in our data set
+sort(table(res2_out$family),decreasing = TRUE)
+sort(table(res2_out$order),decreasing = TRUE)
+
+#make data frame
+ord_df <- data.frame(sort(table(res2_out$order),decreasing = TRUE))
+
+colnames(ord_df) <- c("Order","Frequency")
+
+write.csv(ord_df,
+          row.names = FALSE,
+          file = here::here("outputs/orders.csv"))

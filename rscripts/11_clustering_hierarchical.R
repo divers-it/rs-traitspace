@@ -367,6 +367,78 @@ print(grid.arrange(grobs=plot_list[17:19],ncol=2,nrow=2))
 
 dev.off()
 
+####
+# ---- Figure 3b: Quantitative trait boxplots for robust clusters ----
+####
+
+#palette from scatterplot
+cols <- c("red","green","blue")
+
+b1 <- ggplot(df_labelled, aes(x=cluster, y=Maximumverticalheight, fill=cluster)) + 
+  geom_boxplot(alpha=0.7) + 
+  geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
+  scale_fill_manual(values = c(cols)) +
+  scale_y_continuous(limits = quantile(df_labelled$Maximumverticalheight, c(0.05, 0.95),na.rm = TRUE)) +
+  ylab("Maximum vertical height") +
+  theme(legend.position = "none",
+        # add border 1)
+        # panel.border = element_blank(),
+        # color background 2)
+        panel.background = element_rect(fill = "white"),
+        # modify grid 3)
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.y = element_line(color="grey70"),
+        panel.grid.minor.y = element_blank(),
+        # modify text, axis and colour 4) and 5)
+        axis.line.y = element_line(),
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(size=14),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size=20),
+        axis.ticks.x = element_blank(),
+        #axis.ticks.y = element_blank()
+  )#   + 
+#annotate("text", x = -.5, y = 1.5, label = "(b)", size = 8) +
+#coord_cartesian(ylim = c(-1.5, 1.75), xlim = c(1, 8), clip = "off") +
+#theme(plot.margin = unit(c(1,1,1,3), "lines"))
+
+b1
+
+b2 <- ggplot(df_labelled, aes(x=cluster, y=flowerSize, fill=cluster)) + 
+  geom_boxplot(alpha=0.7) + 
+  geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
+  scale_fill_manual(values = c(cols,"grey")) +
+  scale_y_continuous(limits = quantile(df_labelled$flowerSize, c(0.05, 0.95),na.rm = TRUE)) +
+  ylab("Flower size") +
+  theme(legend.position = "none",
+        plot.margin = unit(c(1,1,1,1), "cm"),
+        # add border 1)
+        #panel.border = element_blank(),
+        # color background 2)
+        panel.background = element_rect(fill = "white"),
+        # modify grid 3)
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.y = element_line(color="grey70"),
+        panel.grid.minor.y = element_blank(),
+        # modify text, axis and colour 4) and 5)
+        axis.line.y = element_line(),
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(size=14),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size=20),
+        axis.ticks.x = element_blank(),
+        #axis.ticks.y = element_blank()
+  )  
+
+b2
+
+b1 / b2
+
+#save plot 
+ggsave("figures/11_boxplots_wardD2_traits_by_cluster.png",width=10,height=10)
+
 ###
 # ---- Plot qualitative stats of robust groups ----
 ###
@@ -402,16 +474,101 @@ df_temp_melt_counts$label[df_temp_melt_counts$count<3]<-NA
 # NOT RUN: make new column for text size
 #df_temp_melt_counts$text_size<-df_temp_melt_counts$count^(1/2)
 
-#plot stacked barplots per robust group for each qualitative trait, with labels
-ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
-  geom_col(position = 'stack') + facet_wrap(. ~ cluster, scales = "free")  + theme(
-    legend.position = "none",
-    axis.text.x = element_text(vjust = 0.5, hjust=1),
+
+#theme
+my_theme <- function() {
+  theme(
+    # add border 1)
+    panel.border = element_blank(),
+    # color background 2)
+    panel.background = element_rect(fill = "white"),
+    # modify grid 3)
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    # modify text, axis and colour 4) and 5)
+    axis.text.x = element_text(size=16),
+    axis.text.y = element_text(size=16),
     axis.title.x = element_blank(),
-    plot.margin = unit(c(1, 1, 1, 1), "cm")
-  ) + geom_text(aes(size = count,label = label),
-                position = position_stack(vjust = .5)) + coord_flip()
+    axis.title.y = element_blank(),
+    axis.ticks.x = element_line(),
+    axis.ticks.length=unit(.25, "cm"),
+    axis.ticks.y = element_blank(),
+    # legend
+    legend.position = "none",
+    # margin
+    plot.margin = unit(c(0.2, 0.2, 0.2, 0.2), "cm")
+  )
+}
+
+## Robust group 1
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$cluster=="k_3_cluster_1 (n = 172)",]
+
+#get palette based on max counts
+pal1<-colorRampPalette(c("white","red"))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal1[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p1 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme()
+
+p1
+
+
+## Robust group 2
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$cluster=="k_3_cluster_2 (n = 87)",]
+
+#get palette based on max counts
+pal2<-colorRampPalette(c("white","green"))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal2[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p2 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme()
+
+p2
+
+
+## Robust group 3
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$cluster=="k_3_cluster_3 (n = 101)",]
+
+#get palette based on max counts
+pal3<-colorRampPalette(c("white","blue"))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal3[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p3 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme()
+
+p3
+
+p1 + p2 + p3
 
 #save plot 
-ggsave("figures/11_stacked_barplots_wardD2_traits_by_cluster.png",width=15,height=10)
+ggsave("figures/11_stacked_barplots_wardD2_traits_by_cluster.png",width=20,height=10)
 

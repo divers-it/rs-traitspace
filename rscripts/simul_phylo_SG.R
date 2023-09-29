@@ -201,7 +201,7 @@ pp <- data.frame(pcoa(daisy(df_sim,"gower"))$vectors)
 g1 <- ggplot(data=pp,aes(x=Axis.1,y=Axis.2,col=df_sim$woodiness)) + geom_point()
 g2 <- ggplot(data=pp,aes(x=Axis.2,y=Axis.3,col=df_sim$dispersaldist)) + geom_point()
 ggarrange(plotlist = list(g1,g2),ncol = 1,nrow = 2)
-ggsave("figures/pcoa_sim_ex1.pdf")
+ggsave("figures/pcoa_sim_ex1.png")
 
 df_sim <- sim_list[[2]] # pick one dataset
 df_sim[,c(8:21)] <- lapply(df_sim[,c(8:21)],as.factor)
@@ -210,7 +210,7 @@ pp <- data.frame(pcoa(daisy(df_sim,"gower"))$vectors)
 g1 <- ggplot(data=pp,aes(x=Axis.1,y=Axis.2,col=df_sim$woodiness)) + geom_point()
 g2 <- ggplot(data=pp,aes(x=Axis.2,y=Axis.3,col=df_sim$showiness)) + geom_point()
 ggarrange(plotlist = list(g1,g2),ncol = 1,nrow = 2)
-ggsave("figures/pcoa_sim_ex2.pdf")
+ggsave("figures/pcoa_sim_ex2.png")
 
 df_sim <- sim_list[[3]] # pick one dataset
 df_sim[,c(8:21)] <- lapply(df_sim[,c(8:21)],as.factor)
@@ -219,7 +219,7 @@ pp <- data.frame(pcoa(daisy(df_sim,"gower"))$vectors)
 g1 <- ggplot(data=pp,aes(x=Axis.1,y=Axis.2,col=df_sim$woodiness)) + geom_point()
 g2 <- ggplot(data=pp,aes(x=Axis.2,y=Axis.3,col=df_sim$flowersex)) + geom_point()
 ggarrange(plotlist = list(g1,g2),ncol = 1,nrow = 2)
-ggsave("figures/pcoa_sim_ex3.pdf")
+ggsave("figures/pcoa_sim_ex3.png")
 
 
 

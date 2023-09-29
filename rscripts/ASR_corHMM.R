@@ -114,8 +114,26 @@ d1d2<-cbind(d1,d2)
 #remove outliers
 d1d2<-d1d2[d1d2$deltas<100,]
 
+
+#make labels removing low values 
+d1d2$labels <- d1d2$states
+d1d2$labels[d1d2$deltas<7 & d1d2$rates<0.005]<-NA
+
+
 #plot signal vs transition rates
-plot(d1d2$deltas ~ d1d2$rates)
+ggplot(d1d2, aes(x = deltas, y = rates)) +
+  geom_point(
+    fill=wesanderson::wes_palette("Royal1",2)[2],
+    shape=21,
+    alpha=0.4,
+    size=5,
+    stroke = 0.5
+  ) + theme_bw() +
+  ggrepel::geom_text_repel(aes(label = d1d2$labels),size = 5,max.overlaps = Inf, nudge_x = 3, nudge_y = 0.0001) +
+  xlab("Phylogenetic signal (Delta)") +
+  ylab("Transition rates")
+
+ggsave("figures/scatterplot_signal_transition_rate.png")
 
 ###
 # ---- Transitions between strategies ----

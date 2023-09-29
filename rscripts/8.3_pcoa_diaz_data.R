@@ -250,6 +250,8 @@ s1 <- ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2)) +
 
 s1
 
+ggsave("figures/8.3_scatterplot_diaz_vs_divers.png",width=12,height=8)
+
 ####
 # ---- FIGURE Xb Dimensions ----
 ####
@@ -312,6 +314,8 @@ l2 <- l1 + geom_segment(data = plyr::ddply(df_shared, "taxa", dplyr::summarize, 
 
 
 l2
+
+ggsave("figures/8.3_lineplot_diaz_vs_divers.png",width=12,height=8)
 
 library(patchwork)
 

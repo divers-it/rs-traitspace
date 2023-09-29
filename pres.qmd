@@ -1,6 +1,6 @@
 ---
-title: "Reproductive strategies update"
-subtitle: "12/07/2023"
+title: "Angiosperm reproductive strategies"
+subtitle: "02/10/2023"
 author: "Andrew Helmstetter"
 format: revealjs
 editor: visual
@@ -23,37 +23,37 @@ Two new traits added:
 
 ## Data set completion (pre-clean)
 
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/missing_data_pre_clean.png){fig-align="center"}
+![](figures/5_missing_data_pre_clean.png){fig-align="center"}
 
 -   26 traits, 363 species, 25% missing data
 
 ## Data set completion (post-clean)
 
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/missing_data_post_clean.png){fig-align="center"}
+![](figures/5_missing_data_post_clean.png){fig-align="center"}
 
 -   21 traits, 360 species, 12.5% missing data
 
-## How well do our species cover the 'classic' trait space of Diaz et al.?
-
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/scatter_pcoa_divers_in_diaz.png){fig-align="center"}
-
 ## Scatterplot of PCoA coloured by missing data
 
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/scatter_pcoa_missing.png){fig-align="center"}
+![](figures/8_scatterplot_pcoa_missing.png){fig-align="center"}
+
+## How well do our species cover the 'classic' trait space of Diaz et al.?
+
+![](figures/8.3_scatterplot_diaz_vs_divers.png){fig-align="center"}
 
 ## Trait space quality comparisons
 
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/dimensionality_no_axes_diaz.png){fig-align="center"}
+![](figures/9_dimensionality_no_axes.png){fig-align="center"}
 
 ## Missing data imputation using phylogeny
 
 -   missForest()
 
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/scatterplot_dist_missing_vs_imputed.png){fig-align="center"}
+![](figures/8_scatterplot_dist_missing_vs_imputed.png){fig-align="center"}
 
 ## How does one-hot encoding affect distances?
 
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/scatterplot_dist_og_vs_one_hot.png){fig-align="center"}
+![](figures/one_hot_8_scatterplot_dist_og_vs_one_hot.png){fig-align="center"}
 
 <!-- Clustering methods -->
 
@@ -61,25 +61,25 @@ Two new traits added:
 
 ::: columns
 ::: {.column width="50%"}
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/dendro_ward_k3.png){fig-align="center"}
+![](figures/11_dendrograms_ward2_coloured_by_cluster.png){fig-align="center"}
 :::
 
 ::: {.column width="50%"}
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/pcoa_hclust_k3.png){fig-align="center"}
+![](figures/11_scatterplot_pcoa_wardD2_k3_coloured_by_cluster.png){fig-align="center"}
 :::
 :::
 
 ## 2. K-prototypes
 
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/pcoa_kproto_k3.png){fig-align="center"}
+![](figures/11.1_scatterplot_pcoa_kpro_k5_coloured_by_cluster.png){fig-align="center"}
 
 ## 3. Partition around medoids (PAM)
 
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/scatter_pcoa_pam_clusters.png){fig-align="center"}
+![](figures/11.2_scatterplot_pcoa_pam_k3_coloured_by_cluster.png){fig-align="center"}
 
 ## 4. Density peak
 
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/pcoa_dens_4_clusters.png){fig-align="center"}
+![](figures/11.4_scatterplot_pcoa_dens_k4_coloured_by_cluster.png){fig-align="center"}
 
 <!-- Robust groups -->
 
@@ -90,30 +90,30 @@ Two new traits added:
 
 ## How are clusters related when changeing values of k?
 
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/sankey_ward.png){fig-align="center"}
+![](figures/11.2_sankey_pam.png){fig-align="center"}
 
 ## Which species consistently stick together?
 
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/sankey_kpro.png){fig-align="center"}
+![](figures/11.1_sankey_kpro.png){fig-align="center"}
 
 ## Clusters and robust groups (PAM)
 
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/scatter_pcoa_pam_robust.png){fig-align="center"}
+![](figures/11.2_scatterplot_pcoa_pam_coloured_by_robust.png){fig-align="center"}
 
 <!-- Reproductive strategies -->
 
 ## Characteristics of clusters
 
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/stacked_barplots_k3_ward.png){fig-align="center"}
+![](figures/11_stacked_barplots_wardD2_traits_by_cluster.png){fig-align="center"}
 
 ## Diversity metrics of clusters
 
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/stacked_barplots_k3_ward.png){fig-align="center"}
+![](/home/andrew/Dropbox/projects/AJH_DiveRS/rs-traitspace/figures/11_boxplots_wardD2_traits_by_cluster.png){fig-align="center"}
 
 ```{r, echo=FALSE, results='asis'}
 library(knitr)
 library(kableExtra)
-tr<-read.csv(file = here::here("outputs/mfd_indices_ward_k3.csv"))
+tr<-read.csv(file = here::here("outputs/10_mfd_indices_wardD2_k3.csv"))
 kable(tr) %>% kable_styling(font_size = 18)
 ```
 
@@ -140,23 +140,19 @@ kable(tr) %>% kable_styling(font_size = 18)
 
 ## Scatterplot of PCoA coloured and shaped by reproductive traits
 
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/scatter_pcoa_coloured_by_traits.png){fig-align="center"}
+![](figures/8_scatterplot_pcoa_coloured_by_traits.png){fig-align="center"}
 
 ## Characteristics of robust groups
 
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/stacked_barplots_robust_groups_pam.png){fig-align="center"}
+![](figures/11.2_scatterplot_umap_pam_coloured_by_robust.png){fig-align="center"}
 
 ## Characteristics of robust groups
 
-::: columns
-::: {.column width="50%"}
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/barplots_pam_robust_height.png){fig-align="center"}
-:::
+![](figures/11.2_robust_stacked_barplots.png){fig-align="center"}
 
-::: {.column width="50%"}
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/barplots_pam_robust_flowersize.png){fig-align="center"}
-:::
-:::
+## Characteristics of robust groups
+
+![](figures/11.2_robust_boxplots.png){fig-align="center"}
 
 ## Clustering similarities and differences
 
@@ -170,9 +166,26 @@ Other traits like dispersal, mating system, symmetry split groups at finer scale
 
 -   these traits vary among clustering approaches
 
+## Phylogenetic signal and transition rates
+
+![](figures/scatterplot_signal_transition_rate.png){fig-align="center"}
+
 ## Strategies on phylogenetic tree
 
-![](~/Dropbox/projects/AJH_DiveRS/divers-tree/figures/phylo_ward.png){fig-align="center"}
+![](figures/figure3_phylo.png){fig-align="center"}
+
+## Simulations using the phylogeny
+
+![](figures/scatterplots_pairwise_distances.png){fig-align="center"}
+
+## Simulations using the phylogeny
+
+![](figures/observed_vs_simulated_eigenvalues.png){fig-align="center"}
+
+## Simulations using the phylogeny
+
+![](figures/pcoa_sim_ex1.png){fig-align="center"}
+
 
 ## Looking forward
 

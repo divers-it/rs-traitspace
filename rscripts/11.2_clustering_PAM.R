@@ -10,6 +10,7 @@ library(RColorBrewer)
 library(ggrepel)
 library(data.table)
 library(networkD3)
+library(patchwork)
 
 #load formatted data
 df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
@@ -460,7 +461,7 @@ s1 <- ggplot(
                                                         "darkgrey")), title = "Robust group"),
          shape = guide_legend(override.aes = list(size = 8))
   ) + 
-  annotate("text", x = -4.5, y = 5.75, label = "(a)", size = 8) +
+  #annotate("text", x = -4.5, y = 5.75, label = "(a)", size = 8) +
   coord_cartesian(xlim = c(-3.5, 3.5), ylim = c(-3.5, 5), clip = "off") +
   theme(plot.margin = unit(c(3,1,1,3), "lines"))
 
@@ -584,6 +585,10 @@ b2 <- ggplot(df_labelled, aes(x=robust_group, y=flowerSize, fill=robust_group)) 
   )  
 
 b2
+
+b1 / b2
+
+ggsave("figures/11.2_robust_boxplots.png",width=15,height=10)
 
 ###
 # ---- Plot qualitative stats of robust groups ----
@@ -885,7 +890,10 @@ p8 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
 p8
 
 
-library(patchwork)
+(p1 + p2) / (p3 + p4) | (p5 + p6) / (p7 + p8)
+
+ggsave("figures/11.2_robust_stacked_barplots.png",width=20,height=15)
+
 
 #combined plot
 
