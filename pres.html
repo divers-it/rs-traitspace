@@ -341,77 +341,201 @@ Andrew Helmstetter
 </section>
 <section id="introduction" class="slide level2">
 <h2>Introduction</h2>
+<div>
 <ul>
-<li>Angiosperms have an exceptional diversity of breeding systems</li>
-<li>Simple associations are known e.g.&nbsp;selfing + short life span, dioecy + tree form</li>
-<li>Can we use multi-trait approaches to identify more integrated reproductive strategies?</li>
+<li class="fragment">Angiosperms have an exceptional diversity of breeding systems
+<ul>
+<li class="fragment">hermaphroditism to dioecy</li>
+<li class="fragment">obligate outcrossing to selfing</li>
+</ul></li>
+<li class="fragment">Breeding systems are highly labile and impact many ecological &amp; evolutionary processes</li>
+<li class="fragment">Simple associations are known between breeding system traits
+<ul>
+<li class="fragment">e.g.&nbsp;selfing + short life span or dioecy + tree form</li>
+</ul></li>
 </ul>
+</div>
+</section>
+<section id="introduction-1" class="slide level2">
+<h2>Introduction</h2>
+<div>
+<ul>
+<li class="fragment">However, these only explain part of the variation seen in the wild.</li>
+<li class="fragment">Can we use multi-trait approaches to identify more integrated reproductive strategies?
+<ul>
+<li class="fragment">Defined by groups of traits, or ‘syndromes’</li>
+<li class="fragment">Inspired by Grime’s CSR theory</li>
+</ul></li>
+<li class="fragment">Combinations of traits can influence patterns species diversification (Helmstetter et al.&nbsp;2023, Anderson et al.&nbsp;2023)</li>
+</ul>
+</div>
+</section>
+<section id="introduction-2" class="slide level2">
+<h2>Introduction</h2>
+<div>
+<ul>
+<li class="fragment">Such approaches are commonly used in functional ecology but less so in evolutionary biology.</li>
+<li class="fragment">Evolutionary perspectives are not often taken in functional ecology studies</li>
+<li class="fragment">From a static to a dynamic viewpoint
+<ul>
+<li class="fragment">Not just fitness in a given environment but the product of a dynamic macroevolutionary process</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="introduction-3" class="slide level2">
+<h2>Introduction</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div>
+<ul>
+<li class="fragment"><p>Plant functional traits are typically based on a handful of vegetative traits (e.g.&nbsp;Diaz et al.&nbsp;2016)</p></li>
+<li class="fragment"><p>How does including reproductive traits change things?</p></li>
+</ul>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figures/diaz_fig2.jpg"></p>
+</figure>
+</div>
+</div>
+</div>
 <!-- Input data set -->
 </section>
-<section id="data-set" class="slide level2">
-<h2>Data set</h2>
-<p>Two new traits added:</p>
-<ul>
-<li>dispersal distance (and dispersal mode)</li>
-<li>seed mass</li>
-</ul>
+<section id="our-data-set" class="slide level2 center">
+<h2>Our data set</h2>
+<div class="cell">
+<style type="text/css">
+.center h2 {
+  text-align: center;
+}
+</style>
+</div>
+</section>
+<section id="two-new-traits-added" class="slide level2">
+<h2>Two new traits added!</h2>
+<div>
+<ol type="1">
+<li class="fragment">Seed mass</li>
+<li class="fragment">Dispersal split into:
+<ol type="i">
+<li class="fragment">dispersal distance</li>
+<li class="fragment">dispersal mode</li>
+</ol></li>
+</ol>
+</div>
 </section>
 <section id="data-set-completion-pre-clean" class="slide level2">
-<h2>Data set completion (pre-clean)</h2>
+<h2><span class="r-fit-text">Data set completion (pre-clean)</span></h2>
 
 <img data-src="figures/5_missing_data_pre_clean.png" class="r-stretch quarto-figure-center"><ul>
 <li>26 traits, 363 species, 25% missing data</li>
 </ul>
 </section>
 <section id="data-set-completion-post-clean" class="slide level2">
-<h2>Data set completion (post-clean)</h2>
+<h2><span class="r-fit-text">Data set completion (post-clean)</span></h2>
 
 <img data-src="figures/5_missing_data_post_clean.png" class="r-stretch quarto-figure-center"><ul>
 <li>21 traits, 360 species, 12.5% missing data</li>
 </ul>
 </section>
-<section id="scatterplot-of-pcoa-coloured-by-missing-data" class="slide level2">
-<h2>Scatterplot of PCoA coloured by missing data</h2>
-
-<img data-src="figures/8_scatterplot_pcoa_missing.png" class="r-stretch quarto-figure-center"></section>
-<section id="how-well-do-our-species-cover-the-classic-trait-space-of-diaz-et-al." class="slide level2">
-<h2>How well do our species cover the ‘classic’ trait space of Diaz et al.?</h2>
-
-<img data-src="figures/8.3_scatterplot_lineplot_diaz_vs_divers.png" class="r-stretch quarto-figure-center"></section>
-<section id="trait-space-quality-comparisons" class="slide level2">
-<h2>Trait space quality comparisons</h2>
-
-<img data-src="figures/9_dimensionality_no_axes.png" class="r-stretch quarto-figure-center"></section>
-<section id="missing-data-imputation-using-phylogeny" class="slide level2">
-<h2>Missing data imputation using phylogeny</h2>
+<section id="exploring-the-trait-space" class="slide level2 center">
+<h2>Exploring the trait space</h2>
+<div class="cell">
+<style type="text/css">
+.center h2 {
+  text-align: center;
+}
+</style>
+</div>
+</section>
+<section id="building-distance-matrices" class="slide level2">
+<h2>Building distance matrices</h2>
+<div>
 <ul>
-<li>missForest()</li>
+<li class="fragment">Gower’s distance
+<ul>
+<li class="fragment">Deals with missing data</li>
+<li class="fragment">Different types of data (qualitative and quantitative)</li>
+</ul></li>
 </ul>
-
-<img data-src="figures/8_scatterplot_dist_missing_vs_imputed.png" class="r-stretch quarto-figure-center"></section>
-<section id="how-does-one-hot-encoding-affect-distances" class="slide level2">
-<h2>How does one-hot encoding affect distances?</h2>
-
-<!-- Clustering methods -->
-<img data-src="figures/one_hot_8_scatterplot_dist_og_vs_one_hot.png" class="r-stretch quarto-figure-center"></section>
-<section id="hierarchical-clustering" class="slide level2">
-<h2>1. Hierarchical clustering</h2>
+</div>
+</section>
+<section id="missing-data-imputation-using-phylogeny" class="slide level2">
+<h2><span class="r-fit-text">Missing data imputation using phylogeny</span></h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="figures/11_dendrograms_ward2_coloured_by_cluster.png"></p>
-</figure>
+<div>
+<ul>
+<li class="fragment">missForest()</li>
+<li class="fragment">Our 21 traits + new traits representing phylogenetic distance between species</li>
+</ul>
 </div>
 </div><div class="column" style="width:50%;">
+<div>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="figures/11_scatterplot_pcoa_wardD2_k3_coloured_by_cluster.png"></p>
+<p><img data-src="figures/8_scatterplot_dist_missing_vs_imputed.png"></p>
 </figure>
+</div>
 </div>
 </div>
 </div>
 </section>
+<section id="how-does-one-hot-encoding-affect-distances" class="slide level2">
+<h2><span class="r-fit-text">How does one-hot encoding affect distances?</span></h2>
+
+<img data-src="figures/one_hot_8_scatterplot_dist_og_vs_one_hot.png" class="r-stretch quarto-figure-center"></section>
+<section id="our-species-in-the-classic-functional-trait-space-of-diaz-et-al." class="slide level2">
+<h2><span class="r-fit-text">Our species in the ‘classic’ functional trait space of Diaz et al.</span></h2>
+
+<img data-src="figures/8.3_scatterplot_diaz_vs_divers.png" class="r-stretch quarto-figure-center"></section>
+<section id="principal-coordinate-analysis-pcoa" class="slide level2">
+<h2><span class="r-fit-text">Principal Coordinate Analysis (PCoA)</span></h2>
+
+<img data-src="figures/8_scatterplot_pcoa_density_polygon.png" class="r-stretch quarto-figure-center"></section>
+<section id="visualizing-how-traits-are-correlated-with-axes-using-loadings" class="slide level2">
+<h2><span class="r-fit-text">Visualizing how traits are correlated with axes using ‘loadings’</span></h2>
+
+<img data-src="figures/one_hot_13_scatterplot_pcoa_loadings_altered.png" class="r-stretch quarto-figure-center"></section>
+<section id="visualizing-how-traits-are-correlated-with-axes-using-loadings-1" class="slide level2">
+<h2><span class="r-fit-text">Visualizing how traits are correlated with axes using ‘loadings’</span></h2>
+
+<img data-src="figures/one_hot_13_scatterplot_pcoa_loadings_axes_3_4.png" class="r-stretch quarto-figure-center"></section>
+<section id="trait-space-quality-comparisons" class="slide level2">
+<h2><span class="r-fit-text">Trait space quality comparisons</span></h2>
+
+<!-- Clustering methods -->
+<img data-src="figures/9_dimensionality_no_axes.png" class="r-stretch quarto-figure-center"></section>
+<section id="clustering-to-define-reproductive-strategies" class="slide level2 center">
+<h2>Clustering to define reproductive strategies</h2>
+<div class="cell">
+<style type="text/css">
+.center h2 {
+  text-align: center;
+}
+</style>
+</div>
+</section>
+<section id="clustering-species" class="slide level2">
+<h2>Clustering species</h2>
+<div>
+<ul>
+<li class="fragment">Clustering can be used to group species together</li>
+<li class="fragment">Many different methods available</li>
+<li class="fragment">= many different results available!</li>
+</ul>
+</div>
+</section>
+<section id="hierarchical-clustering" class="slide level2">
+<h2>1. Hierarchical clustering</h2>
+
+<img data-src="figures/11_dendrograms_ward2_coloured_by_cluster.png" class="r-stretch quarto-figure-center"></section>
+<section id="hierarchical-clustering-1" class="slide level2">
+<h2>1. Hierarchical clustering</h2>
+
+<img data-src="figures/11_scatterplot_pcoa_wardD2_k3_coloured_by_cluster.png" class="r-stretch quarto-figure-center"></section>
 <section id="k-prototypes" class="slide level2">
 <h2>2. K-prototypes</h2>
 
@@ -423,41 +547,28 @@ Andrew Helmstetter
 <section id="density-peak" class="slide level2">
 <h2>4. Density peak</h2>
 
-<!-- Robust groups -->
-<img data-src="figures/11.4_scatterplot_pcoa_dens_k4_coloured_by_cluster.png" class="r-stretch quarto-figure-center"></section>
-<section id="choosing-the-number-of-clusters" class="slide level2">
-<h2>Choosing the number of clusters</h2>
-<ul>
-<li>Choice of k (number of clusters) can be quite arbitrary</li>
-<li>Values of k vary among different approaches</li>
-</ul>
-</section>
-<section id="how-are-clusters-related-when-changeing-values-of-k" class="slide level2">
-<h2>How are clusters related when changeing values of k?</h2>
-
-<img data-src="figures/11.2_sankey_pam.png" class="r-stretch quarto-figure-center"></section>
-<section id="which-species-consistently-stick-together" class="slide level2">
-<h2>Which species consistently stick together?</h2>
-
-<img data-src="figures/11.1_sankey_kpro.png" class="r-stretch quarto-figure-center"></section>
-<section id="clusters-and-robust-groups-pam" class="slide level2">
-<h2>Clusters and robust groups (PAM)</h2>
-
 <!-- Reproductive strategies -->
-<img data-src="figures/11.2_scatterplot_pcoa_pam_coloured_by_robust.png" class="r-stretch quarto-figure-center"></section>
-<section id="characteristics-of-clusters" class="slide level2">
-<h2>Characteristics of clusters</h2>
+<img data-src="figures/11.4_scatterplot_pcoa_dens_k4_coloured_by_cluster.png" class="r-stretch quarto-figure-center"></section>
+<section id="hierarchical-clustering-2" class="slide level2">
+<h2>1. Hierarchical clustering</h2>
+
+<img data-src="figures/11_scatterplot_pcoa_wardD2_k3_coloured_by_cluster.png" class="r-stretch quarto-figure-center"></section>
+<section id="characteristics-of-clusters-qualitative" class="slide level2">
+<h2><span class="r-fit-text">Characteristics of clusters (qualitative)</span></h2>
 
 <img data-src="figures/11_stacked_barplots_wardD2_traits_by_cluster.png" class="r-stretch quarto-figure-center"></section>
-<section id="diversity-metrics-of-clusters" class="slide level2">
-<h2>Diversity metrics of clusters</h2>
+<section id="characteristics-of-clusters-quantitative" class="slide level2">
+<h2><span class="r-fit-text">Characteristics of clusters (quantitative)</span></h2>
 
-<img data-src="/home/andrew/Dropbox/projects/AJH_DiveRS/rs-traitspace/figures/11_stacked_barplots_wardD2_traits_by_cluster.png" class="r-stretch quarto-figure-center"><div class="cell-output-display">
+<img data-src="figures/11_boxplots_wardD2_traits_by_cluster.png" class="r-stretch quarto-figure-center"></section>
+<section id="functional-diversity-indices-of-clusters" class="slide level2">
+<h2><span class="r-fit-text">Functional diversity indices of clusters</span></h2>
+<div class="cell-output-display">
 
-<table class="table" style="font-size: 18px; margin-left: auto; margin-right: auto;">
+<table class="table" style="font-size: 26px; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
-   <th style="text-align:left;"> X </th>
+   <th style="text-align:left;">   </th>
    <th style="text-align:right;"> Species.richness </th>
    <th style="text-align:right;"> FDis </th>
    <th style="text-align:right;"> FMPD </th>
@@ -511,70 +622,198 @@ Andrew Helmstetter
 
 </div>
 </section>
-<section id="diversity-indices-of-clusters" class="slide level2">
-<h2>Diversity indices of clusters</h2>
+<section id="cluster-summary" class="slide level2">
+<h2>Cluster summary</h2>
 <div class="panel-tabset">
-<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Cluster 2</a></li><li><a href="#tabset-1-2">Cluster 3</a></li><li><a href="#tabset-1-3">Cluster 1</a></li></ul>
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Cluster 1</a></li><li><a href="#tabset-1-2">Cluster 2</a></li><li><a href="#tabset-1-3">Cluster 3</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1">
-<ul>
-<li>predominantly woody, dimorphic species</li>
-<li>species are quite dissimilar within cluster (MPD, NND)</li>
-<li>Species in cluster and distinct from other species in global pool (Fspe, Fori)</li>
-</ul>
-</div>
-<div id="tabset-1-2">
-<ul>
-<li>predominantly woody, monomorphic species</li>
-<li>species are similar to each other within cluster (NND, MPD)</li>
-<li>functional space filled by cluster is small (Fric)</li>
-</ul>
-</div>
-<div id="tabset-1-3">
 <ul>
 <li>predominantly herbaceous, monomorphic species</li>
 <li>many species have extreme traits (near edge of cluster) (Fdiv)</li>
 </ul>
 </div>
+<div id="tabset-1-2">
+<ul>
+<li>predominantly woody, dimorphic species with small, dull flowers</li>
+<li>species are quite dissimilar within cluster (MPD, NND)</li>
+<li>Species in cluster and distinct from other species in global pool (, FDis,Fspe, Fori)</li>
+</ul>
 </div>
+<div id="tabset-1-3">
+<ul>
+<li>predominantly woody, monomorphic species</li>
+<li>Close to the centre of the trait space (FDis)</li>
+<li>species are similar to each other within cluster (NND, MPD)</li>
+<li>functional space filled by cluster is small (Fric)</li>
+</ul>
+</div>
+</div>
+</div>
+<!-- Robust groups -->
+</section>
+<section id="choosing-the-number-of-clusters" class="slide level2">
+<h2><span class="r-fit-text">Choosing the number of clusters</span></h2>
+<div>
+<ul>
+<li class="fragment">Choice of k (number of clusters) can be quite arbitrary</li>
+<li class="fragment">Values of k vary among different approaches</li>
+<li class="fragment">And among selection criteria</li>
+</ul>
 </div>
 </section>
-<section id="scatterplot-of-pcoa-coloured-and-shaped-by-reproductive-traits" class="slide level2">
-<h2>Scatterplot of PCoA coloured and shaped by reproductive traits</h2>
+<section id="how-are-clusters-related-when-changing-values-of-k" class="slide level2">
+<h2><span class="r-fit-text">How are clusters related when changing values of k?</span></h2>
 
-<img data-src="figures/8_scatterplot_pcoa_coloured_by_traits.png" class="r-stretch quarto-figure-center"></section>
-<section id="characteristics-of-robust-groups" class="slide level2">
-<h2>Characteristics of robust groups</h2>
+<img data-src="figures/11.2_sankey_pam.png" class="r-stretch quarto-figure-center"></section>
+<section id="robust-groups-species-consistently-stick-together" class="slide level2">
+<h2><span class="r-fit-text">Robust groups: species consistently stick together</span></h2>
+
+<img data-src="figures/11.1_sankey_kpro.png" class="r-stretch quarto-figure-center"></section>
+<section id="clusters-and-robust-groups-pam" class="slide level2">
+<h2><span class="r-fit-text">Clusters and robust groups (PAM)</span></h2>
+<div>
+<ul>
+<li class="fragment">Uniform Manifold APproximation (UMAP)</li>
+<li class="fragment">Better takes into account local structure</li>
+<li class="fragment">Good for visualizing non-linear relationships</li>
+</ul>
+</div>
+</section>
+<section id="clusters-and-robust-groups-pam-1" class="slide level2">
+<h2><span class="r-fit-text">Clusters and robust groups (PAM)</span></h2>
 
 <img data-src="figures/11.2_scatterplot_umap_pam_coloured_by_robust.png" class="r-stretch quarto-figure-center"></section>
-<section id="characteristics-of-robust-groups-1" class="slide level2">
-<h2>Characteristics of robust groups</h2>
+<section id="characteristics-of-robust-groups-qualitative" class="slide level2">
+<h2><span class="r-fit-text">Characteristics of robust groups (qualitative)</span></h2>
 
-<img data-src="figures/11.2_scatterplot_boxplots_and_stacked_barplots.png" class="r-stretch quarto-figure-center"></section>
+<img data-src="figures/11.2_robust_stacked_barplots.png" class="r-stretch quarto-figure-center"></section>
+<section id="characteristics-of-robust-groups-quantitative" class="slide level2">
+<h2><span class="r-fit-text">Characteristics of robust groups (quantitative)</span></h2>
+
+<img data-src="figures/11.2_robust_boxplots.png" class="r-stretch quarto-figure-center"></section>
+<section id="what-about-the-wandering-species" class="slide level2">
+<h2><span class="r-fit-text">What about the ‘wandering’ species?</span></h2>
+<div style="font-size: 75%;">
+<ul>
+<li>Typically abiotically pollinated, monomorphic, herbaceous species (grasses)</li>
+</ul>
+</div>
+
+<img data-src="figures/11.2_scatterplot_pcoa_pam_coloured_by_robust.png" class="r-stretch quarto-figure-center"></section>
 <section id="clustering-similarities-and-differences" class="slide level2">
-<h2>Clustering similarities and differences</h2>
-<p>Strategies are broadly defined by two axes:</p>
+<h2><span class="r-fit-text">Clustering similarities and differences</span></h2>
+<div>
 <ul>
-<li><p>Woody vs herbaceous</p></li>
-<li><p>Monomorphic vs dimorphic</p></li>
-</ul>
-<p>Other traits like dispersal, mating system, symmetry split groups at finer scale but are not ‘strategy defining’</p>
+<li class="fragment">Reproductive strategies can be broadly defined by two axes:
 <ul>
-<li>these traits vary among clustering approaches</li>
+<li class="fragment">Woody vs herbaceous (and their correlates)</li>
+<li class="fragment">Unisexual vs bisexual flowers (and their correlates)</li>
+</ul></li>
+<li class="fragment">Other traits like dispersal, mating system, symmetry split groups at finer scale
+<ul>
+<li class="fragment">Typically associated with PCoA axes 3+</li>
+</ul></li>
+<li class="fragment">However, these traits vary among clustering approaches so may not be ‘strategy defining’</li>
 </ul>
+</div>
 </section>
-<section id="strategies-on-phylogenetic-tree" class="slide level2">
-<h2>Strategies on phylogenetic tree</h2>
+<section id="some-evolutionary-explorations" class="slide level2 center">
+<h2>Some evolutionary explorations</h2>
+<div class="cell">
+<style type="text/css">
+.center h2 {
+  text-align: center;
+}
+</style>
+</div>
+</section>
+<section id="phylogenetic-signal-and-transition-rates" class="slide level2">
+<h2><span class="r-fit-text">Phylogenetic signal and transition rates</span></h2>
+<div>
+<ul>
+<li class="fragment">Transition rates reconstructed using an Equal Rates model per one-hot trait
+<ul>
+<li class="fragment">Rates were relatively high except for traits with high tip ratio bias</li>
+</ul></li>
+<li class="fragment">Phylogenetic signal estimated using Delta and Lambda/k
+<ul>
+<li class="fragment">17/35 one-hot traits showed significant levels of phylogenetic signal</li>
+<li class="fragment">But generally not strong</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
+
+<img data-src="figures/scatterplot_signal_transition_rate.png" class="r-stretch quarto-figure-center"></section>
+<section id="the-evolutionary-history-of-reproductive-strategies" class="slide level2 center">
+<h2>The evolutionary history of reproductive strategies</h2>
+<div class="cell">
+<style type="text/css">
+.center h2 {
+  text-align: center;
+}
+</style>
+</div>
+</section>
+<section id="section-1" class="slide level2">
+<h2></h2>
 
 <img data-src="figures/figure3_phylo.png" class="r-stretch quarto-figure-center"></section>
-<section id="looking-forward" class="slide level2">
-<h2>Looking forward</h2>
+<section id="simulating-data-sets-using-the-phylogenetic-tree" class="slide level2 center">
+<h2>Simulating data sets using the phylogenetic tree</h2>
+<div class="cell">
+<style type="text/css">
+.center h2 {
+  text-align: center;
+}
+</style>
+</div>
+</section>
+<section id="quantitative-and-qualitative-data" class="slide level2">
+<h2><span class="r-fit-text">Quantitative and qualitative data</span></h2>
+<div>
 <ul>
-<li>Choosing the ‘best’ results to present</li>
-<li>Improving our interpretation of these results</li>
-<li>Make a stronger link between this ‘static’ ecological approach and our ‘dynamic’ evolutionary perspective</li>
-<li>Calculate transition rates among states, clusters</li>
+<li class="fragment">We fit OU / Mk models to each of our traits</li>
+<li class="fragment">Used these model parameters and the tree to simulate new data sets</li>
+<li class="fragment">Simulate 1000 data sets</li>
 </ul>
+</div>
+</section>
+<section id="comparing-empirical-simulated-distance-matrices" class="slide level2">
+<h2><span class="r-fit-text">Comparing empirical simulated distance matrices</span></h2>
+
+<img data-src="figures/scatterplots_pairwise_distances.png" class="r-stretch quarto-figure-center"></section>
+<section id="eigenvalues-of-empirical-vs-simulated-data-sets" class="slide level2">
+<h2><span class="r-fit-text">Eigenvalues of empirical vs simulated data sets</span></h2>
+
+<img data-src="figures/observed_vs_simulated_eigenvalues.png" class="r-stretch quarto-figure-center"></section>
+<section id="important-traits-in-simulated-data-sets" class="slide level2">
+<h2><span class="r-fit-text">Important traits in simulated data sets</span></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Some traits e.g.&nbsp;woodiness often appear on the more important PCoA axes</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><img data-src="figures/pcoa_sim_ex1.png" style="width:80.0%"></p>
+</div>
+</div>
+</section>
+<section id="conclusions" class="slide level2">
+<h2>Conclusions</h2>
+<div>
+<ul>
+<li class="fragment">Alongside woodiness, traits relating to sexual system play a defining role
+<ul>
+<li class="fragment">Dimorphic species are distinct!</li>
+</ul></li>
+<li class="fragment">Three major ‘Eco-evolutionary strategies’?</li>
+<li class="fragment">Reproductive traits provide a new dimension to traditional plant functional ecology</li>
+</ul>
+</div>
 <div class="footer footer-default">
 
 </div>

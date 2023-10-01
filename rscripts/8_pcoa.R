@@ -26,13 +26,16 @@ summary(gower_df)
 #check names
 labels(gower_df)==gsub("_"," ",labels(gower_df_no_miss))
 
+#linear model
+mod<-summary(lm(gower_df~gower_df_no_miss))
+mod$r.squared
+
 #compare pairwaise distances of matrices with missing data and with imputed
 png("figures/8_scatterplot_dist_missing_vs_imputed.png",width = 500,height = 500)
-plot(gower_df,gower_df_no_miss,xlim=c(0,1),ylim=c(0,1)) + abline(0,1,lty=2,col="red")
+plot(gower_df,gower_df_no_miss,xlim=c(0,1),ylim=c(0,1),xlab="Original",ylab="Imputed")
+abline(0,1,lty=2,col="red",lwd=2)
+text(x=0.15, y=0.9, labels=paste("R-squared =",round(mod$r.squared,3)))
 dev.off()
-
-#linear model
-summary(lm(gower_df~gower_df_no_miss))
 
 #make into distance object
 dataset_dist <- stats::as.dist(gower_df)
@@ -213,7 +216,7 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
     axis.text = element_text(size=15),
     axis.title = element_text(size=18)) + 
   labs(
-    colour = "Sexual system",
+    colour = "Flower sex",
     shape = "Woodiness"
   ) +   
   add_phylopic(img=solanum_pp,x = 0.28, y=-0.225, ysize = 0.15,col = "grey30") +

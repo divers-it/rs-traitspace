@@ -32,13 +32,17 @@ summary(gower_df2)
 setdiff(labels(gower_df),labels(gower_df2))
 labels(gower_df)==labels(gower_df2)
 
+#linear model
+mod<-summary(lm(gower_df~gower_df2))
+mod
+
 #compare pairwaise distances of matrices with missing data and with imputed
-png("figures/scatterplot_dist_og_vs_one_hot.png",width = 500,height = 500)
-plot(gower_df,gower_df2,xlim=c(0,1),ylim=c(0,1),xlab = "original",ylab="one-hot") + abline(0,1,lty=2,col="red")
+png("figures/one_hot_8_scatterplot_dist_og_vs_one_hot.png",width = 500,height = 500)
+plot(gower_df,gower_df2,xlim=c(0,1),ylim=c(0,1),xlab="Original",ylab="One-hot")
+abline(0,1,lty=2,col="red",lwd=2)
+text(x=0.15, y=0.9, labels=paste("R-squared =",round(mod$r.squared,3)))
 dev.off()
 
-#linear model
-summary(lm(gower_df~gower_df2))
 
 #make into distance matrix
 dataset_dist2 <- stats::as.dist(gower_df2)

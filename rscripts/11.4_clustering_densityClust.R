@@ -70,10 +70,11 @@ ggplot(pcoa_df, aes(x = Axis.1, y = Axis.2, fill = as.factor(protClust$clusters)
                aes(fill = as.factor(protClust$clusters)), 
                alpha = 0.25) +
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
+  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) +
+  theme(legend.position="none")
 
 #save image
-ggsave("figures/11.4_scatterplot_pcoa_dens_k4_coloured_by_cluster.png",width = 12,height=10)
+ggsave("figures/11.4_scatterplot_pcoa_dens_k4_coloured_by_cluster.png",width = 10,height=10)
 
 #view cluster membership of species
 split(rownames(df), protClust$clusters)

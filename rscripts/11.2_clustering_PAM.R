@@ -145,14 +145,15 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.f
     stroke = 0.5
   ) + 
   geom_text_repel(aes(label = rownames(df), colour = as.factor(pam.gower$clustering)),
-                  size = 3.5,max.overlaps = Inf)  + 
+                  size = 3.5,max.overlaps = 0)  + 
   stat_ellipse(geom = "polygon",
                aes(fill =  as.factor(pam.gower$clustering)), 
                alpha = 0.25) +
-  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1]))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2])))
+  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
+  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) + 
+  theme(legend.position = "none")
 
-ggsave("figures/11.2_scatterplot_pcoa_pam_k3_coloured_by_cluster.png",width=20,height=20)
+ggsave("figures/11.2_scatterplot_pcoa_pam_k3_coloured_by_cluster.png",width=10,height=10)
 
 ###
 # ---- Sankey plot ----
@@ -216,7 +217,7 @@ links<-links[links$value>0,]
 # Make the Network
 p <- sankeyNetwork(Links = links, Nodes = nodes,
                    Source = "IDsource", Target = "IDtarget",
-                   Value = "value", NodeID = "name", 
+                   Value = "value", NodeID = "name", fontSize = 14,
                    sinksRight=FALSE)
 
 p
@@ -352,14 +353,14 @@ ggplot(
 ) +
   geom_point(
     aes(shape = as.factor(df$Pollination),
-        size = as.factor(df$FlowerSex)),
+        size = as.factor(df$SexualSystem)),
     alpha = 0.5,
     stroke = 0.5
   ) +
   scale_shape_manual(values=c(23,22,8,24,4,21)) +
   labs(
     colour = "Robust group",
-    size = "Flower sex",
+    size = "Sexual System",
     shape = "Pollination"
   ) + 
   theme_bw() +
@@ -524,7 +525,6 @@ dev.off()
 
 #palette from scatterplot
 cols <- c(ochre_pal("healthy_reef")(7)[1:5],"thistle",ochre_pal("healthy_reef")(7)[7])
-
 
 b1 <- ggplot(df_labelled, aes(x=robust_group, y=Maximumverticalheight, fill=robust_group)) + 
   geom_boxplot(alpha=0.7) + 

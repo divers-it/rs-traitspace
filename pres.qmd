@@ -2,72 +2,187 @@
 title: "Angiosperm reproductive strategies"
 subtitle: "02/10/2023"
 author: "Andrew Helmstetter"
-format: revealjs
+format: 
+  revealjs:
+    theme: [default, custom.scss]
 editor: visual
 ---
 
 ## Introduction
 
--   Angiosperms have an exceptional diversity of breeding systems
--   Simple associations are known e.g. selfing + short life span, dioecy + tree form
--   Can we use multi-trait approaches to identify more integrated reproductive strategies?
+::: {.incremental}
+* Angiosperms have an exceptional diversity of breeding systems
+  + hermaphroditism to dioecy
+  + obligate outcrossing to selfing
+* Breeding systems are highly labile and impact many ecological & evolutionary processes
+* Simple associations are known between breeding system traits 
+  + e.g. selfing + short life span or dioecy + tree form
+:::
+
+## Introduction
+  
+::: {.incremental}
+* However, these only explain part of the variation seen in the wild.
+* Can we use multi-trait approaches to identify more integrated reproductive strategies?
+  + Defined by groups of traits, or 'syndromes'
+  + Inspired by Grime's CSR theory
+* Combinations of traits can influence patterns species diversification (Helmstetter et al. 2023, Anderson et al. 2023)
+:::
+
+## Introduction
+
+::: {.incremental}
+* Such approaches are commonly used in functional ecology but less so in evolutionary biology.
+* Evolutionary perspectives are not often taken in functional ecology studies
+* From a static to a dynamic viewpoint
+  + Not just fitness in a given environment but the product of a dynamic macroevolutionary process
+:::
+
+## Introduction
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+::: {.incremental}
+* Plant functional traits are typically based on a handful of vegetative traits (e.g. Diaz et al. 2016)
+
+* How does including reproductive traits change things?
+:::
+
+:::
+
+::: {.column width="50%"}
+
+![](figures/diaz_fig2.jpg){fig-align="center"}
+
+:::
+
+::::
+
 
 <!-- Input data set -->
 
-## Data set
+## Our data set {.center}
 
-Two new traits added:
+```{css}
+.center h2 {
+  text-align: center;
+}
+```
 
--   dispersal distance (and dispersal mode)
--   seed mass
+## Two new traits added!
 
-## Data set completion (pre-clean)
+::: {.incremental}
+1. Seed mass
+2. Dispersal split into:
+    i) dispersal distance
+    ii) dispersal mode
+    
+:::
+
+## [Data set completion (pre-clean)]{.r-fit-text}
 
 ![](figures/5_missing_data_pre_clean.png){fig-align="center"}
 
--   26 traits, 363 species, 25% missing data
+* 26 traits, 363 species, 25% missing data
 
-## Data set completion (post-clean)
+## [Data set completion (post-clean)]{.r-fit-text}
 
 ![](figures/5_missing_data_post_clean.png){fig-align="center"}
 
--   21 traits, 360 species, 12.5% missing data
+* 21 traits, 360 species, 12.5% missing data
 
-## Scatterplot of PCoA coloured by missing data
+## Exploring the trait space {.center}
 
-![](figures/8_scatterplot_pcoa_missing.png){fig-align="center"}
+```{css}
+.center h2 {
+  text-align: center;
+}
+```
 
-## How well do our species cover the 'classic' trait space of Diaz et al.?
 
-![](figures/8.3_scatterplot_diaz_vs_divers.png){fig-align="center"}
+## Building distance matrices
 
-## Trait space quality comparisons
+::: {.incremental}
+* Gower's distance
+  + Deals with missing data
+  + Different types of data (qualitative and quantitative)
+:::
 
-![](figures/9_dimensionality_no_axes.png){fig-align="center"}
+## [Missing data imputation using phylogeny]{.r-fit-text}
 
-## Missing data imputation using phylogeny
+:::: {.columns}
 
--   missForest()
+::: {.column width="50%"}
 
+::: {.incremental}
+* missForest()
+* Our 21 traits + new traits representing phylogenetic distance between species
+:::
+
+:::
+
+::: {.column width="50%"}
+
+::: {.incremental}
 ![](figures/8_scatterplot_dist_missing_vs_imputed.png){fig-align="center"}
+:::
 
-## How does one-hot encoding affect distances?
+:::
+
+::::
+
+## [How does one-hot encoding affect distances?]{.r-fit-text}
 
 ![](figures/one_hot_8_scatterplot_dist_og_vs_one_hot.png){fig-align="center"}
 
+## [Our species in the 'classic' functional trait space of Diaz et al.]{.r-fit-text}
+
+![](figures/8.3_scatterplot_diaz_vs_divers.png){fig-align="center"}
+
+## [Principal Coordinate Analysis (PCoA)]{.r-fit-text}
+
+![](figures/8_scatterplot_pcoa_density_polygon.png){fig-align="center"}
+
+## [Visualizing how traits are correlated with axes using 'loadings']{.r-fit-text}
+
+![](figures/one_hot_13_scatterplot_pcoa_loadings_altered.png){fig-align="center"}
+
+## [Visualizing how traits are correlated with axes using 'loadings']{.r-fit-text}
+
+![](figures/one_hot_13_scatterplot_pcoa_loadings_axes_3_4.png){fig-align="center"}
+
+## [Trait space quality comparisons]{.r-fit-text}
+
+![](figures/9_dimensionality_no_axes.png){fig-align="center"}
+
 <!-- Clustering methods -->
+
+## Clustering to define reproductive strategies {.center}
+
+```{css}
+.center h2 {
+  text-align: center;
+}
+```
+
+
+## Clustering species
+
+::: {.incremental}
+* Clustering can be used to group species together
+* Many different methods available
+* = many different results available!
+:::
 
 ## 1. Hierarchical clustering
 
-::: columns
-::: {.column width="50%"}
 ![](figures/11_dendrograms_ward2_coloured_by_cluster.png){fig-align="center"}
-:::
 
-::: {.column width="50%"}
+## 1. Hierarchical clustering
+
 ![](figures/11_scatterplot_pcoa_wardD2_k3_coloured_by_cluster.png){fig-align="center"}
-:::
-:::
 
 ## 2. K-prototypes
 
@@ -81,115 +196,197 @@ Two new traits added:
 
 ![](figures/11.4_scatterplot_pcoa_dens_k4_coloured_by_cluster.png){fig-align="center"}
 
-<!-- Robust groups -->
-
-## Choosing the number of clusters
-
--   Choice of k (number of clusters) can be quite arbitrary
--   Values of k vary among different approaches
-
-## How are clusters related when changeing values of k?
-
-![](figures/11.2_sankey_pam.png){fig-align="center"}
-
-## Which species consistently stick together?
-
-![](figures/11.1_sankey_kpro.png){fig-align="center"}
-
-## Clusters and robust groups (PAM)
-
-![](figures/11.2_scatterplot_pcoa_pam_coloured_by_robust.png){fig-align="center"}
-
 <!-- Reproductive strategies -->
 
-## Characteristics of clusters
+## 1. Hierarchical clustering
+
+![](figures/11_scatterplot_pcoa_wardD2_k3_coloured_by_cluster.png){fig-align="center"}
+
+## [Characteristics of clusters (qualitative)]{.r-fit-text}
 
 ![](figures/11_stacked_barplots_wardD2_traits_by_cluster.png){fig-align="center"}
 
-## Diversity metrics of clusters
+## [Characteristics of clusters (quantitative)]{.r-fit-text}
 
-![](/home/andrew/Dropbox/projects/AJH_DiveRS/rs-traitspace/figures/11_boxplots_wardD2_traits_by_cluster.png){fig-align="center"}
+![](figures/11_boxplots_wardD2_traits_by_cluster.png){fig-align="center"}
+
+## [Functional diversity indices of clusters]{.r-fit-text}
 
 ```{r, echo=FALSE, results='asis'}
 library(knitr)
 library(kableExtra)
-tr<-read.csv(file = here::here("outputs/10_mfd_indices_wardD2_k3.csv"))
-kable(tr) %>% kable_styling(font_size = 18)
+tr<-read.csv(file = here::here("outputs/10_mfd_indices_wardD2_k3.csv"),row.names=1)
+kable(tr) %>% kable_styling(font_size = 26)
 ```
 
-## Diversity indices of clusters
+## Cluster summary
 
 ::: panel-tabset
-### Cluster 2
-
--   predominantly woody, dimorphic species
--   species are quite dissimilar within cluster (MPD, NND)
--   Species in cluster and distinct from other species in global pool (Fspe, Fori)
-
-### Cluster 3
-
--   predominantly woody, monomorphic species
--   species are similar to each other within cluster (NND, MPD)
--   functional space filled by cluster is small (Fric)
 
 ### Cluster 1
 
--   predominantly herbaceous, monomorphic species
--   many species have extreme traits (near edge of cluster) (Fdiv)
+* predominantly herbaceous, monomorphic species
+* many species have extreme traits (near edge of cluster) (Fdiv)
+
+### Cluster 2
+
+* predominantly woody, dimorphic species with small, dull flowers
+* species are quite dissimilar within cluster (MPD, NND)
+* Species in cluster and distinct from other species in global pool (, FDis,Fspe, Fori)
+
+### Cluster 3
+
+* predominantly woody, monomorphic species
+* Close to the centre of the trait space (FDis)
+* species are similar to each other within cluster (NND, MPD)
+* functional space filled by cluster is small (Fric)
+
 :::
 
-## Scatterplot of PCoA coloured and shaped by reproductive traits
+<!-- Robust groups -->
 
-![](figures/8_scatterplot_pcoa_coloured_by_traits.png){fig-align="center"}
+## [Choosing the number of clusters]{.r-fit-text}
 
-## Characteristics of robust groups
+::: {.incremental}
+* Choice of k (number of clusters) can be quite arbitrary
+* Values of k vary among different approaches
++ And among selection criteria
+:::
+
+## [How are clusters related when changing values of k?]{.r-fit-text}
+
+![](figures/11.2_sankey_pam.png){fig-align="center"}
+
+## [Robust groups: species consistently stick together]{.r-fit-text}
+
+![](figures/11.1_sankey_kpro.png){fig-align="center"}
+
+## [Clusters and robust groups (PAM)]{.r-fit-text}
+
+::: {.incremental}
+* Uniform Manifold APproximation (UMAP)
+* Better takes into account local structure
+* Good for visualizing non-linear relationships
+:::
+
+## [Clusters and robust groups (PAM)]{.r-fit-text}
 
 ![](figures/11.2_scatterplot_umap_pam_coloured_by_robust.png){fig-align="center"}
 
-## Characteristics of robust groups
+## [Characteristics of robust groups (qualitative)]{.r-fit-text}
 
 ![](figures/11.2_robust_stacked_barplots.png){fig-align="center"}
 
-## Characteristics of robust groups
+## [Characteristics of robust groups (quantitative)]{.r-fit-text}
 
 ![](figures/11.2_robust_boxplots.png){fig-align="center"}
 
-## Clustering similarities and differences
+## [What about the 'wandering' species?]{.r-fit-text}
 
-Strategies are broadly defined by two axes:
+::: {style="font-size: 75%;"}
 
--   Woody vs herbaceous
+* Typically abiotically pollinated, monomorphic, herbaceous species (grasses)
 
--   Monomorphic vs dimorphic
+::: 
 
-Other traits like dispersal, mating system, symmetry split groups at finer scale but are not 'strategy defining'
+![](figures/11.2_scatterplot_pcoa_pam_coloured_by_robust.png){fig-align="center"}
 
--   these traits vary among clustering approaches
+## [Clustering similarities and differences]{.r-fit-text}
 
-## Phylogenetic signal and transition rates
+::: {.incremental}
+* Reproductive strategies can be broadly defined by two axes:
+  + Woody vs herbaceous (and their correlates)
+  + Unisexual vs bisexual flowers (and their correlates)
+* Other traits like dispersal, mating system, symmetry split groups at finer scale
+  + Typically associated with PCoA axes 3+
+* However, these traits vary among clustering approaches so may not be 'strategy defining'
+:::
+
+## Some evolutionary explorations {.center}
+
+```{css}
+.center h2 {
+  text-align: center;
+}
+```
+
+
+## [Phylogenetic signal and transition rates]{.r-fit-text}
+
+::: {.incremental}
+* Transition rates reconstructed using an Equal Rates model per one-hot trait
+  + Rates were relatively high except for traits with high tip ratio bias
+* Phylogenetic signal estimated using Delta and Lambda/k
+  + 17/35 one-hot traits showed significant levels of phylogenetic signal
+  + But generally not strong
+:::
+
+## 
 
 ![](figures/scatterplot_signal_transition_rate.png){fig-align="center"}
 
-## Strategies on phylogenetic tree
+## The evolutionary history of reproductive strategies  {.center}
+
+```{css}
+.center h2 {
+  text-align: center;
+}
+```
+
+##
 
 ![](figures/figure3_phylo.png){fig-align="center"}
 
-## Simulations using the phylogeny
+## Simulating data sets using the phylogenetic tree {.center}
+
+```{css}
+.center h2 {
+  text-align: center;
+}
+```
+
+## [Quantitative and qualitative data]{.r-fit-text}
+
+::: {.incremental}
+* We fit OU / Mk models to each of our traits
+* Used these model parameters and the tree to simulate new data sets 
+* Simulate 1000 data sets
+:::
+
+## [Comparing empirical simulated distance matrices]{.r-fit-text}
 
 ![](figures/scatterplots_pairwise_distances.png){fig-align="center"}
 
-## Simulations using the phylogeny
+## [Eigenvalues of empirical vs simulated data sets]{.r-fit-text}
 
 ![](figures/observed_vs_simulated_eigenvalues.png){fig-align="center"}
 
-## Simulations using the phylogeny
-
-![](figures/pcoa_sim_ex1.png){fig-align="center"}
+## [Important traits in simulated data sets]{.r-fit-text}
 
 
-## Looking forward
+:::: {.columns}
 
--   Choosing the 'best' results to present
--   Improving our interpretation of these results
--   Make a stronger link between this 'static' ecological approach and our 'dynamic' evolutionary perspective
--   Calculate transition rates among states, clusters
+::: {.column width="50%"}
+
+* Some traits e.g. woodiness often appear on the more important PCoA axes
+
+:::
+
+::: {.column width="50%"}
+
+![](figures/pcoa_sim_ex1.png){width=80%}
+
+:::
+
+::::
+
+
+
+## Conclusions
+
+::: {.incremental}
+* Alongside woodiness, traits relating to sexual system play a defining role
+  + Dimorphic species are distinct!
+* Three major 'Eco-evolutionary strategies'?
+* Reproductive traits provide a new dimension to traditional plant functional ecology
+:::

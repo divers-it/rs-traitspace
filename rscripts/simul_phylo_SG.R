@@ -185,7 +185,7 @@ ggplot(data = df_ev,aes(x=c(1:21))) +
   geom_errorbar(aes(ymin=sim_min,ymax=sim_max)) +
   xlab("Rank of eigenvalues") + ylab("Relative eigenvalues") +
   labs(col = "Trait matrix")
-ggsave("figures/observed_vs_simulated_eigenvalues.png")
+ggsave("figures/observed_vs_simulated_eigenvalues.png",width=10,height=10)
 
 
 # Looking at the traits in the simulated datasets

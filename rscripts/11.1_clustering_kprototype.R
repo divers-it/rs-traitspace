@@ -71,10 +71,11 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.f
                aes(fill = as.factor(kproto_out$cluster)), 
                alpha = 0.25) +
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
+  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) + 
+  theme(legend.position = "none")
 
 #save plot
-ggsave("figures/11.1_scatterplot_pcoa_kpro_k5_coloured_by_cluster.png",width = 12,height=10)
+ggsave("figures/11.1_scatterplot_pcoa_kpro_k5_coloured_by_cluster.png",width = 10,height=10)
 
 ###
 # ---- Sankey plot ----
@@ -138,7 +139,7 @@ links<-links[links$value>0,]
 # Make and plot the Network
 p <- sankeyNetwork(Links = links, Nodes = nodes,
                    Source = "IDsource", Target = "IDtarget",
-                   Value = "value", NodeID = "name", 
+                   Value = "value", NodeID = "name", fontSize = 14,
                    sinksRight=FALSE)
 p
 

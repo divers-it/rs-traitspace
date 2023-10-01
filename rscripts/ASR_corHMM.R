@@ -133,7 +133,7 @@ ggplot(d1d2, aes(x = deltas, y = rates)) +
   xlab("Phylogenetic signal (Delta)") +
   ylab("Transition rates")
 
-ggsave("figures/scatterplot_signal_transition_rate.png")
+ggsave("figures/scatterplot_signal_transition_rate.png",height=10, width=10)
 
 ###
 # ---- Transitions between strategies ----
@@ -312,3 +312,134 @@ p
 
 p1 <- p + geom_inset(bars2, width = .08, height = .05, x = "branch")   
 p1
+
+#### GGTREE ####
+
+library(ggplot2)
+library(ggtree)
+
+ggtree(phy, linewidth=0.5) +
+  geom_tiplab(size=2)
+
+#get taxonomy
+tax <- readRDS("outputs/taxonomy.rds")
+
+#read in phylogenetic tree
+phy <- read.tree("outputs/pruned_tree.tre")
+
+clust_df$species<-gsub(" ","_",rownames(clust_df$species))
+rownames(tax)<-gsub(" ","_",rownames(tax))
+
+clust_df <- clust_df[match(phy$tip.label,clust_df$species),]
+tax <- tax[match(phy$tip.label,rownames(tax)),]
+
+metadata<-data.frame(rownames(tax),clust_df$ward,tax$order)
+colnames(metadata)<-c("label","cluster","order")
+
+phy$tip.label==metadata$label
+
+
+#Make dataframe for clade nodes
+clades.df <- data.frame(
+  clade=unique(metadata$order),
+  node=NA
+)
+
+#Find the most recent common ancestor for each clade
+for (i in 1:length(clades.df$clade)) {
+  
+  clades.df$node[i] <- MRCA(
+    phy,
+    metadata$label[metadata$order == clades.df$clade[i]]
+  )
+  
+}
+
+
+#Add highlights
+g1 <- ggtree(phy, linetype=NA) %<+% metadata +
+  geom_highlight(data=clades.df, 
+                 aes(node=node, fill=clade),
+                 alpha=1,
+                 align="right",
+                 extend=0.1,
+                 show.legend=FALSE) +
+  geom_tree(linewidth=0.5) +
+  geom_tiplab(aes(label=label), size=2)
+
+g1
+
+library(dplyr)
+
+#Order the clades dataframe to match the tree
+clades.df <- clades.df[match(g1$data %>%
+                               filter(isTip == "TRUE") %>%
+                               arrange(y) %>%
+                               pull(order) %>%
+                               unique(),
+                             clades.df$clade),]
+
+#Add column with alternating binary value
+clades.df$highlight <- rep(c(0,1),
+                           length.out=length(clades.df$clade))
+
+head(clades.df)
+
+library(ggpp)
+library(deeptime)
+
+#Add highlights
+gg.tree <- ggtree(phy, linetype=NA) %<+% metadata +
+  geom_highlight(data=clades.df, 
+                 aes(node=node, fill=as.factor(highlight)),
+                 alpha=1,
+                 align="right",
+                 extend=0.1,
+                 show.legend=FALSE) +
+  geom_tree(linewidth=0.5) +
+  xlim(0,250) +
+  geom_tiplab(aes(label=label), size=2) +
+  scale_fill_manual(values=c("#0909F9", "#ECECEC"))
+
+#Add clade labels
+gg.tree +
+  geom_cladelab(data=clades.df,
+                mapping=aes(node=node, label=clade),
+                fontsize=2,
+                align=TRUE,
+                offset=50,
+                offset.text=0.01)
+
+g2 <- ggtree(phy, layout="circular", linetype=NA) %<+% metadata +
+  geom_highlight(data=clades.df, 
+                 aes(node=node, fill=as.factor(highlight)),
+                 alpha=1,
+                 align="right",
+                 extend=0.04,
+                 show.legend=FALSE) +
+  geom_cladelab(data=clades.df,
+                mapping=aes(node=node, label=clade),
+                fontsize=2,
+                align="TRUE",
+                angle="auto",
+                offset=0.04,
+                offset.text=0.01) +
+  geom_tree(linewidth=0.3) +
+  geom_tippoint(mapping=aes(color=as.factor(cluster)), 
+                size=1.5) +
+  #xlim(0, 0.35) +
+  scale_fill_manual(values=c("#DCDCDC", "#ECECEC"))
+
+colours<-harrypotter::hp(3,option="ronweasley2")
+
+pies <- nodepie(ancstats2, cols=1:3, col=colours)
+
+g2 + geom_plot(data=td_filter(!isTip), 
+               mapping=aes(x=x,y=y, label=pies),
+               vp.width=0.015, 
+               vp.height=0.015, 
+               hjust=0.75,
+               vjust=0.75
+               ) + scale_color_manual(values=colours)
+
+ggsave("figures/tree2.png")

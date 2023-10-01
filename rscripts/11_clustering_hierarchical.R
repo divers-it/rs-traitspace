@@ -164,7 +164,7 @@ wk6 <- ggplot(ggd1, theme = theme_minimal()) +
   labs(x = "Num. observations", y = "Height", title = "Dendrogram agglomerative ward, k = 6")
 
 #plot coloured dendrogram
-wk3 + wk6
+wk3# + wk6
 ggsave("figures/11_dendrograms_ward2_coloured_by_cluster.png",
        width = 10,
        height = 10)
@@ -185,6 +185,11 @@ sp_names <- rownames(dataset_pcoa$vectors)
 inds <- round (runif(320, 1, length(sp_names)))
 sp_names[inds] <- NA
 
+#Recalculate relative eigenvalues by removing negative eigenvalues as in Mouillot et al.  
+ev_pcoa <- dataset_pcoa$values$Eigenvalues
+ev_pcoa_g0 <- ev_pcoa[ev_pcoa>0]
+rel_ev_pcoa_g0 <- ev_pcoa_g0/sum(ev_pcoa_g0)
+
 #plot points on first two axes, coloured by cluster with species names
 ggplot(data.frame(dataset_pcoa$vectors),
        aes(
@@ -202,18 +207,13 @@ ggplot(data.frame(dataset_pcoa$vectors),
                        size = 3.5) +  stat_ellipse(geom = "polygon",
                                                    aes(fill = as.factor(clust.num)),
                                                    alpha = 0.25) +
-  xlab(paste(
-    "Axis 1: relative eigenvalue =",
-    round(dataset_pcoa$values$Relative_eig[1], 2)
-  )) +
-  ylab(paste(
-    "Axis 2: relative eigenvalue =",
-    round(dataset_pcoa$values$Relative_eig[2], 2)
-  ))
+  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
+  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) + 
+  theme(legend.position = "none")
 
 #save image
 ggsave("figures/11_scatterplot_pcoa_wardD2_k6_coloured_by_cluster.png",
-       width = 12,
+       width = 10,
        height = 10)
 
 #same as above but for k = 3
@@ -232,21 +232,17 @@ ggplot(data.frame(dataset_pcoa$vectors),
     alpha = 0.5,
     size = 3,
     stroke = 0.5
-  ) +
-  stat_ellipse(geom = "polygon",
-               aes(fill = as.factor(clust.num)),
-               alpha = 0.25) +
-  xlab(paste(
-    "Axis 1: relative eigenvalue =",
-    round(dataset_pcoa$values$Relative_eig[1], 2)
-  )) +
-  ylab(paste(
-    "Axis 2: relative eigenvalue =",
-    round(dataset_pcoa$values$Relative_eig[2], 2)
-  ))
+  ) +  geom_text_repel(aes(label = sp_names, colour = as.factor(clust.num)),
+                       size = 3.5) +  stat_ellipse(geom = "polygon",
+                                                   aes(fill = as.factor(clust.num)),
+                                                   alpha = 0.25) +
+  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
+  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) + 
+  theme(legend.position = "none")
+
 
 ggsave("figures/11_scatterplot_pcoa_wardD2_k3_coloured_by_cluster.png",
-       width = 12,
+       width = 10,
        height = 10)
 
 ###
