@@ -12,31 +12,63 @@ editor: visual
 
 ::: {.incremental}
 * Angiosperms have an exceptional diversity of breeding systems
-  + hermaphroditism to dioecy
-  + obligate outcrossing to selfing
+  + hermaphroditism-dioecy, outcrossing-selfing
 * Breeding systems are highly labile and impact many ecological & evolutionary processes
-* Simple associations are known between breeding system traits 
-  + e.g. selfing + short life span or dioecy + tree form
+* Simple trait associations are known
 :::
 
+. . . 
+
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+![](figures/phoenix.png){fig-align="center" width=40%}
+
+:::
+
+::: {.column width="50%"}
+
+![](figures/trago.png){fig-align="center" width=40%}
+
+:::
+
+::::
+
 ## Introduction
-  
+
 ::: {.incremental}
+
 * However, these only explain part of the variation seen in the wild.
 * Can we use multi-trait approaches to identify more integrated reproductive strategies?
   + Defined by groups of traits, or 'syndromes'
-  + Inspired by Grime's CSR theory
-* Combinations of traits can influence patterns species diversification (Helmstetter et al. 2023, Anderson et al. 2023)
+  + Inspired by Grime's C-S-R theory
+
+:::
+
+. . .
+
+![](figures/csr.jpg){fig-align="center" width=20%}
+
+## Introduction
+
+::: {.incremental}
+* Multi-trait approaches are commonly used in functional ecology but less so in evolutionary biology.
+* Likewise, evolutionary perspectives are not often taken in functional ecology studies
+* Combinations of traits can influence patterns of species diversification (Helmstetter et al. 2023, Anderson et al. 2023)
 :::
 
 ## Introduction
 
 ::: {.incremental}
-* Such approaches are commonly used in functional ecology but less so in evolutionary biology.
-* Evolutionary perspectives are not often taken in functional ecology studies
-* From a static to a dynamic viewpoint
-  + Not just fitness in a given environment but the product of a dynamic macroevolutionary process
+* Moving from a static to a dynamic viewpoint
+  + Not just fitness in a given environment but the product of a complex macroevolutionary process
 :::
+
+. . .
+
+![](figures/phy.png){fig-align="center" width=33%}
 
 ## Introduction
 
@@ -45,9 +77,10 @@ editor: visual
 ::: {.column width="50%"}
 
 ::: {.incremental}
-* Plant functional traits are typically based on a handful of vegetative traits (e.g. Diaz et al. 2016)
 
+* Plant functional traits are typically based on a handful of vegetative traits (e.g. Diaz et al. 2016)
 * How does including reproductive traits change things?
+
 :::
 
 :::
@@ -232,7 +265,7 @@ kable(tr) %>% kable_styling(font_size = 26)
 
 * predominantly woody, dimorphic species with small, dull flowers
 * species are quite dissimilar within cluster (MPD, NND)
-* Species in cluster and distinct from other species in global pool (, FDis,Fspe, Fori)
+* Species in cluster and distinct from other species in global pool  (FDis,Fspe, Fori)
 
 ### Cluster 3
 
@@ -348,7 +381,7 @@ kable(tr) %>% kable_styling(font_size = 26)
 ## [Quantitative and qualitative data]{.r-fit-text}
 
 ::: {.incremental}
-* We fit OU / Mk models to each of our traits
+* We fit OU / Mk 'ARD' models to each of our traits
 * Used these model parameters and the tree to simulate new data sets 
 * Simulate 1000 data sets
 :::
@@ -368,7 +401,10 @@ kable(tr) %>% kable_styling(font_size = 26)
 
 ::: {.column width="50%"}
 
+::: {.incremental}
 * Some traits e.g. woodiness often appear on the more important PCoA axes
+  + Traits with low tip bias 
+:::
 
 :::
 
@@ -380,13 +416,13 @@ kable(tr) %>% kable_styling(font_size = 26)
 
 ::::
 
-
-
 ## Conclusions
 
 ::: {.incremental}
-* Alongside woodiness, traits relating to sexual system play a defining role
-  + Dimorphic species are distinct!
-* Three major 'Eco-evolutionary strategies'?
-* Reproductive traits provide a new dimension to traditional plant functional ecology
+* Three major 'eco-evolutionary strategies'
+  + Pre-zygotic aspects of reproduction that link ecological strategies to evolutionary processes
+* Traits relating to woodiness & sexual system play a defining role
+  + other traits e.g. dispersal, pollination , symmetry act at second level
+  + Mating system appears less important at angiosperm scale
+* Reproduction adds a new dimension to typical trait space
 :::
