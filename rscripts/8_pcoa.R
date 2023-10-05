@@ -143,7 +143,8 @@ uuid <- get_uuid(name = "Oryza sativa", n = 1)
 # Get the image for that uuid
 oryza_pp <- get_phylopic(uuid = uuid)
 
-uuid <- get_uuid(name = "Zea mays", n = 4)
+uuid <- get_uuid(name = "Zea mays", n = 5)
+
 zea_pp <- get_phylopic(uuid = uuid[3])
 
 uuid <- get_uuid(name = "Phoenix dactylifera", n = 1)

@@ -7,6 +7,7 @@ library(corHMM)
 library(RColorBrewer)
 library(phytools)
 library(plotrix)
+library(ggplot2)
 
 #Load formatted data
 #NOTE: Uncomment depending on whether you want standard or one-hot
@@ -52,41 +53,42 @@ df_rates<-readRDS(file = here::here("outputs/one_hot_transition_rates.rds"))
 # ---- MK 2-state ----
 ####
 
-# #loop through all characters
-# for (i in 2:length(colnames(df2))) {
-#   #make new dataframe with only trait of interest
-#   df3 <- df2[, c(1, i)]
-#   
-#   #omit missing data
-#   df3 <- na.omit(df3)
-#   
-#   #drop tips not in dataset
-#   phy2 <- drop.tip(phy, setdiff(phy$tip.label, df3$species))
-#   
-#   #sort df to match order of tips in phylo
-#   df3 <- df3[match(phy2$tip.label, df3$species), ]
-#   
-#   #plot phylogeny and example trait
-#   plot(phy2, show.tip.label = FALSE, type = 'fan')
-#   tiplabels(pch = 16,
-#             col = as.factor(df3[, 2]),
-#             cex = 1)
-#   
-#   #fit model with 1 rate category on woodiness trait
-#   MK_2state <- corHMM(
-#     phy = phy2,
-#     data = df3,
-#     rate.cat = 1,
-#     model = "ER"
-#   )
-#   
-#   states[i - 1] <- colnames(df3)[2]
-#   rates[i - 1] <- MK_2state$solution[1, 2]
-#   tree_sizes[i - 1] <- length(phy2$tip.label)
-#   no_states[i - 1] <- length(unique(df3[, 2]))
-# }
-# 
-# df_rates <- data.frame(states, rates, tree_sizes, no_states)
+ #loop through all characters
+ for (i in 2:length(colnames(df2))) {
+   
+   #make new dataframe with only trait of interest
+   df3 <- df2[, c(1, i)]
+   
+   #omit missing data
+   df3 <- na.omit(df3)
+   
+   #drop tips not in dataset
+   phy2 <- drop.tip(phy, setdiff(phy$tip.label, df3$species))
+   
+   #sort df to match order of tips in phylo
+   df3 <- df3[match(phy2$tip.label, df3$species), ]
+   
+   #plot phylogeny and example trait
+   plot(phy2, show.tip.label = FALSE, type = 'fan')
+   tiplabels(pch = 16,
+             col = as.factor(df3[, 2]),
+             cex = 1)
+   
+   #fit model with 1 rate category on woodiness trait
+   MK_2state <- corHMM(
+     phy = phy2,
+     data = df3,
+     rate.cat = 1,
+     model = "ER"
+   )
+   
+   states[i - 1] <- colnames(df3)[2]
+   rates[i - 1] <- MK_2state$solution[1, 2]
+   tree_sizes[i - 1] <- length(phy2$tip.label)
+   no_states[i - 1] <- length(unique(df3[, 2]))
+ }
+ 
+ df_rates <- data.frame(states, rates, tree_sizes, no_states)
  
 
 
@@ -219,12 +221,12 @@ phy$tip.label == clust_df$species
 #make associated data frame by choosing clusters/robust column
 dat <- clust_df[, c("species", "ward")]
 
-#add another rate category
+#make model
 HMM_ARD <-
   corHMM(
     phy = phy,
     data = dat,
-    rate.cat = 2,
+    rate.cat = 1,
     model = "ARD",
     node.states = 'marginal',
     get.tip.states = TRUE
@@ -235,6 +237,23 @@ HMM_ARD
 
 #plot transition rates
 plotMKmodel(HMM_ARD)
+
+#add another rate category
+HMM_ARD2 <-
+  corHMM(
+    phy = phy,
+    data = dat,
+    rate.cat = 2,
+    model = "ARD",
+    node.states = 'marginal',
+    get.tip.states = TRUE
+  )
+
+#examine model
+HMM_ARD2
+
+#plot transition rates
+plotMKmodel(HMM_ARD2)
 
 #NOTE: linked to chosen clustering method
 #make transition rates table

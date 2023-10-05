@@ -58,13 +58,13 @@ rownames(df)==res2$query
 res2_out<-res2[,c(3:4)]
 rownames(res2_out)<-res2$query
 
-#NOTE: Temporary fix for error because of synonym
-#Pontederia crassipes (formerly Eichhornia crassipes)
+#NOTE: Temporary fix for error because of synonymy
+#Mappia nimmoniana (formerly Nothapodytes nimmoniana)
 
 #family
-res2_out["Eichhornia crassipes",][1]<-"Pontederiaceae"
+res2_out["Mappia nimmoniana",][1]<-"Icacinaceae"
 #order
-res2_out["Eichhornia crassipes",][2]<-"Commelinales"
+res2_out["Mappia nimmoniana",][2]<-"Icacinales"
 
 #NOTE: Temporary fix for unknown error in Quintinia hyehenensis
 

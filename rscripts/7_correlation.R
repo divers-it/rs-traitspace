@@ -41,6 +41,9 @@ dataset_cor_df<-as.data.frame(dataset_cor)
 rownames(dataset_cor_df)<-colnames(dataset)
 colnames(dataset_cor_df)<-colnames(dataset)
 
+#network plot
+corrr:::network_plot(dataset_cor_df,colours = c("indianred2", "white", "skyblue1"),min_cor=0.2)
+
 #NOT RUN: examine correlations
 view(dataset_cor_df)
 
@@ -70,7 +73,7 @@ for (i in 1:ncol(dataset_num)) {
   
   for (j in i:ncol(dataset_num)) {
     
-    dataset_cor_num[i, j] <- stats::cor.(
+    dataset_cor_num[i, j] <- stats::cor(
       x      = rank(dataset_num[ , i]),
       y      = rank(dataset_num[ , j]),
       method = "pearson"

@@ -10,89 +10,71 @@ editor: visual
 
 ## Introduction
 
-::: {.incremental}
-* Angiosperms have an exceptional diversity of breeding systems
-  + hermaphroditism-dioecy, outcrossing-selfing
-* Breeding systems are highly labile and impact many ecological & evolutionary processes
-* Simple trait associations are known
-:::
-
-. . . 
-
-
-:::: {.columns}
-
-::: {.column width="50%"}
-
-![](figures/phoenix.png){fig-align="center" width=40%}
-
-:::
-
-::: {.column width="50%"}
-
-![](figures/trago.png){fig-align="center" width=40%}
-
-:::
-
-::::
-
-## Introduction
-
-::: {.incremental}
-
-* However, these only explain part of the variation seen in the wild.
-* Can we use multi-trait approaches to identify more integrated reproductive strategies?
-  + Defined by groups of traits, or 'syndromes'
-  + Inspired by Grime's C-S-R theory
-
+::: incremental
+-   Angiosperms have an exceptional diversity of breeding systems
+    -   hermaphroditism-dioecy, outcrossing-selfing
+-   Breeding systems are highly labile and impact many ecological & evolutionary processes
+-   Simple trait associations are known
 :::
 
 . . .
 
-![](figures/csr.jpg){fig-align="center" width=20%}
+::: columns
+::: {.column width="50%"}
+![](figures/phoenix.png){fig-align="center" width="40%"}
+:::
 
-## Introduction
-
-::: {.incremental}
-* Multi-trait approaches are commonly used in functional ecology but less so in evolutionary biology.
-* Likewise, evolutionary perspectives are not often taken in functional ecology studies
-* Combinations of traits can influence patterns of species diversification (Helmstetter et al. 2023, Anderson et al. 2023)
+::: {.column width="50%"}
+![](figures/trago.png){fig-align="center" width="40%"}
+:::
 :::
 
 ## Introduction
 
-::: {.incremental}
-* Moving from a static to a dynamic viewpoint
-  + Not just fitness in a given environment but the product of a complex macroevolutionary process
+::: incremental
+-   However, these only explain part of the variation seen in the wild.
+-   Can we use multi-trait approaches to identify more integrated reproductive strategies?
+    -   Defined by groups of traits, or 'syndromes'
+    -   Inspired by Grime's C-S-R theory
 :::
 
 . . .
 
-![](figures/phy.png){fig-align="center" width=33%}
+![](figures/csr.jpg){fig-align="center" width="20%"}
 
 ## Introduction
 
-:::: {.columns}
-
-::: {.column width="50%"}
-
-::: {.incremental}
-
-* Plant functional traits are typically based on a handful of vegetative traits (e.g. Diaz et al. 2016)
-* How does including reproductive traits change things?
-
+::: incremental
+-   Multi-trait approaches are commonly used in functional ecology but less so in evolutionary biology.
+-   Likewise, evolutionary perspectives are not often taken in functional ecology studies
+-   Combinations of traits can influence patterns of species diversification (Helmstetter et al. 2023, Anderson et al. 2023)
 :::
 
+## Introduction
+
+::: incremental
+-   Moving from a static to a dynamic viewpoint
+    -   Not just fitness in a given environment but the product of a complex macroevolutionary process
+:::
+
+. . .
+
+![](figures/phy.png){fig-align="center" width="33%"}
+
+## Introduction
+
+::: columns
+::: {.column width="50%"}
+::: incremental
+-   Plant functional traits are typically based on a handful of vegetative traits (e.g. Diaz et al. 2016)
+-   How does including reproductive traits change things?
+:::
 :::
 
 ::: {.column width="50%"}
-
 ![](figures/diaz_fig2.jpg){fig-align="center"}
-
 :::
-
-::::
-
+:::
 
 <!-- Input data set -->
 
@@ -106,25 +88,24 @@ editor: visual
 
 ## Two new traits added!
 
-::: {.incremental}
-1. Seed mass
-2. Dispersal split into:
-    i) dispersal distance
+::: incremental
+1.  Seed mass
+2.  Dispersal split into:
+    i)  dispersal distance
     ii) dispersal mode
-    
 :::
 
 ## [Data set completion (pre-clean)]{.r-fit-text}
 
 ![](figures/5_missing_data_pre_clean.png){fig-align="center"}
 
-* 26 traits, 363 species, 25% missing data
+-   26 traits, 363 species, 25% missing data
 
 ## [Data set completion (post-clean)]{.r-fit-text}
 
 ![](figures/5_missing_data_post_clean.png){fig-align="center"}
 
-* 21 traits, 360 species, 12.5% missing data
+-   21 traits, 360 species, 12.5% missing data
 
 ## Exploring the trait space {.center}
 
@@ -134,37 +115,30 @@ editor: visual
 }
 ```
 
-
 ## Building distance matrices
 
-::: {.incremental}
-* Gower's distance
-  + Deals with missing data
-  + Different types of data (qualitative and quantitative)
+::: incremental
+-   Gower's distance
+    -   Deals with missing data
+    -   Different types of data (qualitative and quantitative)
 :::
 
 ## [Missing data imputation using phylogeny]{.r-fit-text}
 
-:::: {.columns}
-
+::: columns
 ::: {.column width="50%"}
-
-::: {.incremental}
-* missForest()
-* Our 21 traits + new traits representing phylogenetic distance between species
+::: incremental
+-   missForest()
+-   Our 21 traits + new traits representing phylogenetic distance between species
 :::
-
 :::
 
 ::: {.column width="50%"}
-
-::: {.incremental}
+::: incremental
 ![](figures/8_scatterplot_dist_missing_vs_imputed.png){fig-align="center"}
 :::
-
 :::
-
-::::
+:::
 
 ## [How does one-hot encoding affect distances?]{.r-fit-text}
 
@@ -200,13 +174,12 @@ editor: visual
 }
 ```
 
-
 ## Clustering species
 
-::: {.incremental}
-* Clustering can be used to group species together
-* Many different methods available
-* = many different results available!
+::: incremental
+-   Clustering can be used to group species together
+-   Many different methods available
+-   = many different results available!
 :::
 
 ## 1. Hierarchical clustering
@@ -255,35 +228,33 @@ kable(tr) %>% kable_styling(font_size = 26)
 ## Cluster summary
 
 ::: panel-tabset
-
 ### Cluster 1
 
-* predominantly herbaceous, monomorphic species
-* many species have extreme traits (near edge of cluster) (Fdiv)
+-   predominantly herbaceous, monomorphic species
+-   many species have extreme traits (near edge of cluster) (Fdiv)
 
 ### Cluster 2
 
-* predominantly woody, dimorphic species with small, dull flowers
-* species are quite dissimilar within cluster (MPD, NND)
-* Species in cluster and distinct from other species in global pool  (FDis,Fspe, Fori)
+-   predominantly woody, dimorphic species with small, dull flowers
+-   species are quite dissimilar within cluster (MPD, NND)
+-   Species in cluster and distinct from other species in global pool (FDis,Fspe, Fori)
 
 ### Cluster 3
 
-* predominantly woody, monomorphic species
-* Close to the centre of the trait space (FDis)
-* species are similar to each other within cluster (NND, MPD)
-* functional space filled by cluster is small (Fric)
-
+-   predominantly woody, monomorphic species
+-   Close to the centre of the trait space (FDis)
+-   species are similar to each other within cluster (NND, MPD)
+-   functional space filled by cluster is small (Fric)
 :::
 
 <!-- Robust groups -->
 
 ## [Choosing the number of clusters]{.r-fit-text}
 
-::: {.incremental}
-* Choice of k (number of clusters) can be quite arbitrary
-* Values of k vary among different approaches
-+ And among selection criteria
+::: incremental
+-   Choice of k (number of clusters) can be quite arbitrary
+-   Values of k vary among different approaches
+-   And among selection criteria
 :::
 
 ## [How are clusters related when changing values of k?]{.r-fit-text}
@@ -296,10 +267,10 @@ kable(tr) %>% kable_styling(font_size = 26)
 
 ## [Clusters and robust groups (PAM)]{.r-fit-text}
 
-::: {.incremental}
-* Uniform Manifold APproximation (UMAP)
-* Better takes into account local structure
-* Good for visualizing non-linear relationships
+::: incremental
+-   Uniform Manifold APproximation (UMAP)
+-   Better takes into account local structure
+-   Good for visualizing non-linear relationships
 :::
 
 ## [Clusters and robust groups (PAM)]{.r-fit-text}
@@ -317,22 +288,20 @@ kable(tr) %>% kable_styling(font_size = 26)
 ## [What about the 'wandering' species?]{.r-fit-text}
 
 ::: {style="font-size: 75%;"}
-
-* Typically abiotically pollinated, monomorphic, herbaceous species (grasses)
-
-::: 
+-   Typically abiotically pollinated, monomorphic, herbaceous species (grasses)
+:::
 
 ![](figures/11.2_scatterplot_pcoa_pam_coloured_by_robust.png){fig-align="center"}
 
 ## [Clustering similarities and differences]{.r-fit-text}
 
-::: {.incremental}
-* Reproductive strategies can be broadly defined by two axes:
-  + Woody vs herbaceous (and their correlates)
-  + Unisexual vs bisexual flowers (and their correlates)
-* Other traits like dispersal, mating system, symmetry split groups at finer scale
-  + Typically associated with PCoA axes 3+
-* However, these traits vary among clustering approaches so may not be 'strategy defining'
+::: incremental
+-   Reproductive strategies can be broadly defined by two axes:
+    -   Woody vs herbaceous (and their correlates)
+    -   Unisexual vs bisexual flowers (and their correlates)
+-   Other traits like dispersal, mating system, symmetry split groups at finer scale
+    -   Typically associated with PCoA axes 3+
+-   However, these traits vary among clustering approaches so may not be 'strategy defining'
 :::
 
 ## Some evolutionary explorations {.center}
@@ -343,22 +312,21 @@ kable(tr) %>% kable_styling(font_size = 26)
 }
 ```
 
-
 ## [Phylogenetic signal and transition rates]{.r-fit-text}
 
-::: {.incremental}
-* Transition rates reconstructed using an Equal Rates model per one-hot trait
-  + Rates were relatively high except for traits with high tip ratio bias
-* Phylogenetic signal estimated using Delta and Lambda/k
-  + 17/35 one-hot traits showed significant levels of phylogenetic signal
-  + But generally not strong
+::: incremental
+-   Transition rates reconstructed using an Equal Rates model per one-hot trait
+    -   Rates were relatively high except for traits with high tip ratio bias
+-   Phylogenetic signal estimated using Delta and Lambda/k
+    -   17/35 one-hot traits showed significant levels of phylogenetic signal
+    -   But generally not strong
 :::
 
 ## 
 
 ![](figures/scatterplot_signal_transition_rate.png){fig-align="center"}
 
-## The evolutionary history of reproductive strategies  {.center}
+## The evolutionary history of reproductive strategies {.center}
 
 ```{css}
 .center h2 {
@@ -366,7 +334,7 @@ kable(tr) %>% kable_styling(font_size = 26)
 }
 ```
 
-##
+## 
 
 ![](figures/figure3_phylo.png){fig-align="center"}
 
@@ -380,10 +348,10 @@ kable(tr) %>% kable_styling(font_size = 26)
 
 ## [Quantitative and qualitative data]{.r-fit-text}
 
-::: {.incremental}
-* We fit OU / Mk 'ARD' models to each of our traits
-* Used these model parameters and the tree to simulate new data sets 
-* Simulate 1000 data sets
+::: incremental
+-   We fit OU / Mk 'ARD' models to each of our traits
+-   Used these model parameters and the tree to simulate new data sets
+-   Simulate 1000 data sets
 :::
 
 ## [Comparing empirical simulated distance matrices]{.r-fit-text}
@@ -396,33 +364,26 @@ kable(tr) %>% kable_styling(font_size = 26)
 
 ## [Important traits in simulated data sets]{.r-fit-text}
 
-
-:::: {.columns}
-
+::: columns
 ::: {.column width="50%"}
-
-::: {.incremental}
-* Some traits e.g. woodiness often appear on the more important PCoA axes
-  + Traits with low tip bias 
+::: incremental
+-   Some traits e.g. woodiness often appear on the more important PCoA axes
+    -   Traits with low tip bias
 :::
-
 :::
 
 ::: {.column width="50%"}
-
-![](figures/pcoa_sim_ex1.png){width=80%}
-
+![](figures/pcoa_sim_ex1.png){width="80%"}
 :::
-
-::::
+:::
 
 ## Conclusions
 
-::: {.incremental}
-* Three major 'eco-evolutionary strategies'
-  + Pre-zygotic aspects of reproduction that link ecological strategies to evolutionary processes
-* Traits relating to woodiness & sexual system play a defining role
-  + other traits e.g. dispersal, pollination , symmetry act at second level
-  + Mating system appears less important at angiosperm scale
-* Reproduction adds a new dimension to typical trait space
+::: incremental
+-   Three major 'eco-evolutionary strategies'
+    -   Pre-zygotic aspects of reproduction that link ecological strategies to evolutionary processes
+-   Traits relating to woodiness & sexual system play a defining role
+    -   other traits e.g. dispersal, pollination , symmetry act at second level
+    -   Mating system appears less important at angiosperm scale
+-   Reproduction adds a new dimension to typical trait space
 :::

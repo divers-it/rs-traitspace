@@ -204,8 +204,92 @@ colnames(fd_ind_table) <- c("Species richness",
                             "FOri",
                             "FSpe")
 
-
 write.csv(fd_ind_table,"outputs/10_mfd_indices_wardD2_k3.csv")
+
+#####
+# ---- Sexual system functional indices ----
+#####
+
+ss_df <- data.frame(rownames(df),df[,"SexualSystem"])
+colnames(ss_df)<-c("species","SexualSystem")
+
+#remove missing species
+sfc_ss<-sp_faxes_coord[!is.na(ss_df$SexualSystem),]
+ss_df<-ss_df[!is.na(ss_df$SexualSystem),]
+ss_df$SexualSystem<-droplevels(ss_df$SexualSystem)
+
+#recode df into one-hot with species as columns
+ss_recode <- ss_df %>% mutate(value = 1)  %>% spread(species, value,  fill = 0 ) 
+
+#remove NA column
+ss_recode <- ss_recode[1:length(levels(ss_df$SexualSystem)),]
+
+#remove cluster label column and add as name
+ss<-ss_recode[,c(2:length(colnames(ss_recode)))]
+rownames(ss)<-as.character(ss_recode$SexualSystem[1:3])
+
+
+#check names
+table(colnames(ss)==rownames(sfc_ss[ , c("PC1", "PC2", "PC3", "PC4")]))
+
+#compute 5 functional indices
+alpha_fd_indices <- mFD::alpha.fd.multidim(
+  sp_faxes_coord   = as.matrix(sfc_ss[ , c("PC1", "PC2", "PC3", "PC4")]),
+  asb_sp_w         = as.matrix(ss),
+  #ind_vect         = c("fdis", "fric", "fdiv","fspe", "fide"), #output all
+  scaling          = TRUE,
+  check_input      = TRUE,
+  details_returned = TRUE)
+
+#output indices
+fd_ind_values_ss <- alpha_fd_indices$"functional_diversity_indices"
+fd_ind_values_ss
+
+#write.csv(fd_ind_table,"outputs/10_mfd_indices_SexualSystem.csv")
+
+#####
+# ---- Mating system functional indices ----
+#####
+
+ms_df <- data.frame(rownames(df),df[,"Mating"])
+colnames(ms_df)<-c("species","Mating")
+
+#remove missing species
+sfc_ms<-sp_faxes_coord[!is.na(ms_df$Mating),]
+ms_df<-ms_df[!is.na(ms_df$Mating),]
+ms_df$Mating<-droplevels(ms_df$Mating)
+
+#recode df into one-hot with species as columns
+ms_recode <- ms_df %>% mutate(value = 1)  %>% spread(species, value,  fill = 0 ) 
+
+#remove NA column
+ms_recode <- ms_recode[1:length(levels(ms_df$Mating)),]
+
+#remove cluster label column and add as name
+ms<-ms_recode[,c(2:length(colnames(ms_recode)))]
+rownames(ms)<-as.character(ms_recode$Mating[1:3])
+
+#check names
+table(colnames(ms)==rownames(sfc_ms[ , c("PC1", "PC2", "PC3", "PC4")]))
+
+#compute 5 functional indices
+alpha_fd_indices <- mFD::alpha.fd.multidim(
+  sp_faxes_coord   = as.matrix(sfc_ms[ , c("PC1", "PC2", "PC3", "PC4")]),
+  asb_sp_w         = as.matrix(ms),
+  #ind_vect         = c("fdis", "fric", "fdiv","fspe", "fide"), #output all
+  scaling          = TRUE,
+  check_input      = TRUE,
+  details_returned = TRUE)
+
+#output indices
+fd_ind_values_ms <- alpha_fd_indices$"functional_diversity_indices"
+fd_ind_values_ms
+
+find_ms_ss<-t(rbind(fd_ind_values_ms,fd_ind_values_ss))
+plot(find_ms_ss[2:length(rownames(find_ms_ss)),"selfing"]~find_ms_ss[2:length(rownames(find_ms_ss)),"dimorphic"])
+
+#write.csv(fd_ind_table,"outputs/10_mfd_indices_Mating.csv")
+
 
 #FDis Functional Dispersion: the biomass weighted deviation of species traits values from the center of the functional space filled by the #assemblage i.e. the biomass-weighted mean distance to the biomass-weighted mean trait values of the assemblage.
 #

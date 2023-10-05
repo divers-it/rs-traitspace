@@ -108,18 +108,54 @@ hist(traitd$absDim1Dim2)
 
 traitd_labels <- traitd[traitd$absDim1Dim2>0.55,]
 
+
+#add phylo signal data
+rql<-read.csv( file = here::here("outputs/phylo_signal_qualitative.csv"),row.names = 1)
+rqnt<-read.csv( file = here::here("outputs/phylo_signal_quantitative.csv"),row.names = 1)
+
+rqnt<-data.frame(rownames(rqnt),rqnt$Lambda)
+colnames(rqnt)<-c("states","signal")
+rqnt<-rqnt[order(rqnt$states),]
+
+rql<- data.frame(rownames(rql),rql$deltas)
+colnames(rql)<-c("states","signal")
+rql<-rql[order(rql$states),]
+
+
+ts<-rbind(rqnt,rql)
+ts<-ts[match(rownames(traitd),ts$states),]
+rownames(traitd)==ts$states
+#because of outlier
+traitd$signal <- log(ts$signal)
+
+
+##add transition rate
+tr<-read.csv("outputs/one_hot_transition_rates.csv")
+tr<-data.frame(tr$states,tr$rates)
+colnames(tr)<-c('states','rates')
+foo<-cbind(rqnt$species,rep(NA,length(rqnt$species)))
+colnames(foo)<-c('states','rates')
+
+tr<-rbind(tr,foo)
+tr<-tr[match(rownames(traitd),tr$states),]
+rownames(traitd)==tr$states
+traitd$transition_rates <- as.numeric(tr$rates)
+
+
 ggplot() + 
-  geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2),shape=21,fill=wes_palette("Darjeeling1")[2],alpha=0.4,size=3) + 
+  geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2),shape=21,fill="grey",alpha=0.4,size=3) + 
   geom_segment(data=traitd[sqrt(traitd$Dim1^2+traitd$Dim2^2)>minarrow,],
-               aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),
+               #aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2,col="grey30"),
+               #aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2,col=signal),
+               aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2,col=transition_rates),
                arrow=arrow(length = unit(0.4, "cm")),
-               col="grey40",
                alpha=0.7,
                linewidth=0.85,
                lineend='round',
                linejoin='round') +
   geom_text_repel(data=traitd_labels[sqrt(traitd_labels$Dim1^2+traitd_labels$Dim2^2)>minarrow,],
                   aes(x=Dim1/2,y=Dim2/2,label=trait),size=6) +
+  scale_color_gradientn(colours = rainbow(3)) +
   xlim(-0.5,0.5) +
   ylim(-0.5,0.5) +
   theme_bw() + theme(
