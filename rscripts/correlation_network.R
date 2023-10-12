@@ -5,6 +5,7 @@ library(corrr)
 library(tidyverse)
 library(rcompanion)
 library(harrypotter)
+library(vegan)
 
 #load one-hot data set
 df<-readRDS(file = here::here("outputs/one_hot_6_df_filt_trans.rds"))
@@ -81,11 +82,26 @@ curved=FALSE
 rdf <- as_matrix(cor_mat, diagonal = 1)
 distance <- 1 - abs(rdf)
 
+#CHOOSE MDS APPROACH
+
 #do pcoa
 points<-stats::cmdscale(distance, k = 2)
 points <- data.frame(points)
 colnames(points) <- c("x", "y")
 points$id <- rownames(points)
+
+# #do nmds
+# nmds <-
+#   metaMDS(distance,
+#           #distance = "gower",
+#           k = 2,
+#           maxit = 999, 
+#           trymax = 500,
+#           wascores = TRUE)
+# points <- data.frame(nmds$points)
+# colnames(points) <- c("x", "y")
+# points$id <- rownames(points)
+
 
 # Create a proximity matrix of the paths to be plotted.
 proximity <- abs(rdf)
