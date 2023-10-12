@@ -211,11 +211,11 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     legend.position = c(0.85, 0.8),
-    legend.text = element_text(size=13),
-    legend.title = element_text(size=15),
+    legend.text = element_text(size=12),
+    legend.title = element_text(size=14),
     axis.line = element_line(colour = "black"),
-    axis.text = element_text(size=15),
-    axis.title = element_text(size=18)) + 
+    axis.text = element_text(size=12),
+    axis.title = element_text(size=14)) + 
   labs(
     colour = "Flower sex",
     shape = "Woodiness"

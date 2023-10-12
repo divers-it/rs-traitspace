@@ -57,7 +57,8 @@ plot(maker_tree_s3,type="fan",cex=0.25)
 #check names
 rownames(df)==gsub("_"," ",sort(maker_tree_s3$tip.label))
 
-View(cbind(rownames(df),gsub("_"," ",sort(maker_tree_s3$tip.label))))
+#NOT RUN: check matching of names
+#View(cbind(rownames(df),gsub("_"," ",sort(maker_tree_s3$tip.label))))
 
 #write tree to file
 write.tree(maker_tree_s3,file="outputs/pruned_tree.tre")

@@ -509,7 +509,7 @@ for(i in 1:(length(colnames(df_labelled))-1)){
 }
 
 #plot figures on pages of PDF
-pdf("figures/11.2_boxplots_stacked_barplots_pam_clusters_by_trait.pdf",width = 15,height = 15)
+pdf("figures/11.2_boxplots_stacked_barplots_pam_robust_by_trait.pdf",width = 15,height = 15)
 
 print(grid.arrange(grobs=plot_list[1:4],ncol=2,nrow=2))
 print(grid.arrange(grobs=plot_list[5:8],ncol=2,nrow=2))

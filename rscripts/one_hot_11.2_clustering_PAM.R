@@ -404,7 +404,7 @@ for(i in 1:(length(colnames(df_labelled))-1)){
 }
 
 #plot figures on pages of PDF
-pdf("figures/one_hot_11.2_boxplots_stacked_barplots_pam_clusters_by_trait.pdf",width = 15,height = 15)
+pdf("figures/one_hot_11.2_boxplots_stacked_barplots_pam_robust_by_trait.pdf",width = 15,height = 15)
 
 print(grid.arrange(grobs=plot_list[1:4],ncol=2,nrow=2))
 print(grid.arrange(grobs=plot_list[5:8],ncol=2,nrow=2))
@@ -463,4 +463,4 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
                 position = position_stack(vjust = .5)) + coord_flip()
 
 #save plot
-ggsave("figures/one_hot_11.2_stacked_barplots_pam_traits_by_cluster.png",width=15,height=10)
+ggsave("figures/one_hot_11.2_stacked_barplots_pam_traits_by_robust.png",width=15,height=10)

@@ -143,18 +143,18 @@ traitd$transition_rates <- as.numeric(tr$rates)
 
 
 ggplot() + 
-  geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2),shape=21,fill="grey",alpha=0.4,size=3) + 
+  geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2),shape=21,fill="grey",alpha=0.4,size=6) + 
   geom_segment(data=traitd[sqrt(traitd$Dim1^2+traitd$Dim2^2)>minarrow,],
-               #aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2,col="grey30"),
+               aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2), col="grey30",
                #aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2,col=signal),
-               aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2,col=transition_rates),
+               #aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2,col=log(transition_rates)),
                arrow=arrow(length = unit(0.4, "cm")),
                alpha=0.7,
                linewidth=0.85,
                lineend='round',
                linejoin='round') +
   geom_text_repel(data=traitd_labels[sqrt(traitd_labels$Dim1^2+traitd_labels$Dim2^2)>minarrow,],
-                  aes(x=Dim1/2,y=Dim2/2,label=trait),size=6) +
+                  aes(x=Dim1/2,y=Dim2/2,label=trait),size=4) +
   scale_color_gradientn(colours = rainbow(3)) +
   xlim(-0.5,0.5) +
   ylim(-0.5,0.5) +
@@ -166,10 +166,10 @@ ggplot() +
       panel.grid.minor = element_blank(),
       legend.position = c(0.9, 0.8),
       axis.line = element_line(colour = "black"),
-      axis.text = element_text(size=16),
-      axis.title = element_text(size=20)) +
-  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) +
+      axis.text = element_text(size=14),
+      axis.title = element_text(size=18)) +
+  xlab(paste("PCoA Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
+  ylab(paste("PCoA Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) +
   annotation_raster(dull_img, ymin = 0.34,ymax= 0.49,xmin = -0.4,xmax = -0.25) +
   annotation_raster(herb_img, ymin = 0.375,ymax= 0.525,xmin = 0.225,xmax = 0.375) +
   annotation_raster(woody_img, ymin = -0.5,ymax= -0.35,xmin = -0.475,xmax = -0.325) +
@@ -201,7 +201,7 @@ hist(traitd$absDim3Dim4)
 traitd_labels <- traitd[traitd$absDim3Dim4>0.55,]
 
 ggplot() + 
-  geom_point(data=df_ord_clust,aes(x=Dim3,y=Dim4),shape=21,fill=wes_palette("Darjeeling1")[3],alpha=0.4,size=3) + 
+  geom_point(data=df_ord_clust,aes(x=Dim3,y=Dim4),shape=21,fill=wes_palette("Darjeeling1")[3],alpha=0.4,size=6) + 
   geom_segment(data=traitd[sqrt(traitd$Dim3^2+traitd$Dim4^2)>minarrow,],
                aes(x=0,y=0,xend=Dim3/2,yend=Dim4/2),
                arrow=arrow(length = unit(0.4, "cm")),
@@ -222,10 +222,10 @@ ggplot() +
     panel.grid.minor = element_blank(),
     legend.position = c(0.9, 0.8),
     axis.line = element_line(colour = "black"),
-    axis.text = element_text(size=16),
-    axis.title = element_text(size=20)) +
-  xlab(paste("Axis 3: relative eigenvalue =",round(rel_ev_pcoa_g0[3],2))) +
-  ylab(paste("Axis 4: relative eigenvalue =",round(rel_ev_pcoa_g0[4],2)))
+    axis.text = element_text(size=14),
+    axis.title = element_text(size=16)) +
+  xlab(paste("PCoA Axis 3: relative eigenvalue =",round(rel_ev_pcoa_g0[3],2))) +
+  ylab(paste("PCoA Axis 4: relative eigenvalue =",round(rel_ev_pcoa_g0[4],2)))
 
 ggsave("figures/one_hot_13_scatterplot_pcoa_loadings_axes_3_4.png",width=12.5,height=12.5)
 

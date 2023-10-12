@@ -45,7 +45,7 @@ colnames(dataset_cor_df)<-colnames(dataset)
 corrr:::network_plot(dataset_cor_df,colours = c("indianred2", "white", "skyblue1"),min_cor=0.2)
 
 #NOT RUN: examine correlations
-view(dataset_cor_df)
+#view(dataset_cor_df)
 
 #correlation stats
 dataset_cor_summ <- data.frame(

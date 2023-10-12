@@ -44,12 +44,13 @@ diaz_cf<-diaz_c[diaz_c$Species_name_standardized_against_TPL%in%rownames(df),]
 setdiff(rownames(df),diaz_c$Species_name_standardized_against_TPL)
 
 #filter by number of observations
-diaz_cf<-diaz_cf[diaz_cf$Number_of_traits_with_values>3,]
+#NOT RUN FOR COMBINED AS NO DISTANCE CALC ISSUES
+#diaz_cf<-diaz_cf[diaz_cf$Number_of_traits_with_values>3,]
 
 #set row names
 rownames(diaz_cf)<-diaz_cf$Species_name_standardized_against_TPL
 
-#only those columns for PCOA
+#only those columns for PCOA (not including those already in DiveRS dataset)
 diaz_pcf<-diaz_cf[,c(
   #"Adaptation_to_terrestrial_or_aquatic_habitats",
   #"Woodiness",
@@ -140,7 +141,7 @@ p1 <- ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2, fill = as.factor(combined_df$F
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
 #plot PCOA points on first two axes coloured by woodiness
-ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2, fill = as.factor(combined_df$Pollination))) +
+p2 <- ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2, fill = as.factor(combined_df$Woodiness))) +
   geom_point(
     color="black",
     shape=21,
@@ -185,12 +186,19 @@ d1 <- ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2, fill = combined_df$Leaf_area_m
     size=3,
     stroke = 0.5
   ) + 
-  scale_fill_gradientn(colours=rainbow(4)) +
-  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
+  scale_fill_gradient(low="white",high="red")
 
+d1_34 <- ggplot(df_pcoa, aes(x = Axis.3, y = Axis.4, fill = combined_df$Leaf_area_mm2)) +
+  geom_point(
+    color="black",
+    shape=21,
+    alpha=0.75,
+    size=3,
+    stroke = 0.5
+  ) + 
+  scale_fill_gradient(low="white",high="red")
 
-
+d1
 
 d2 <- ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2, fill = combined_df$Nmass_mg_g)) +
   geom_point(
@@ -200,7 +208,7 @@ d2 <- ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2, fill = combined_df$Nmass_mg_g)
     size=3,
     stroke = 0.5
   ) + 
-  scale_fill_gradientn(colours=rainbow(4)) +
+  scale_fill_gradient(low="white",high="darkgreen") +
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
@@ -212,7 +220,7 @@ d3 <- ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2, fill = combined_df$LMA_g_m2)) 
     size=3,
     stroke = 0.5
   ) + 
-  scale_fill_gradientn(colours=rainbow(4)) +
+  scale_fill_gradient(low="white",high="blue") +
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
@@ -224,7 +232,7 @@ d4 <- ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2, fill = combined_df$SSD_combine
     size=3,
     stroke = 0.5
   ) + 
-  scale_fill_gradientn(colours=rainbow(4)) +
+  scale_fill_gradient(low="white",high="purple") +
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
@@ -238,13 +246,26 @@ eig_df<-data.frame(c(1:9),rel_ev_pcoa_g0[1:9])
 colnames(eig_df)<-c("pcoa_axis","relative_eigenvalue")
 eig_df$pcoa_axis<-as.character(eig_df$pcoa_axis)
 
-par(mfrow=c(1,1))
+par(mfrow=c(2,2))
 par(mar=c(5,5,5,5))
 boxplot(combined_df$Leaf_area_mm2~combined_df$FlowerSex)
 boxplot(combined_df$Nmass_mg_g~combined_df$FlowerSex)
 boxplot(combined_df$LMA_g_m2~combined_df$FlowerSex)
 boxplot(combined_df$SSD_combined_mg_mm3~combined_df$FlowerSex)
 
+par(mfrow=c(2,2))
+par(mar=c(5,5,5,5))
+boxplot(combined_df$Leaf_area_mm2~combined_df$Woodiness)
+boxplot(combined_df$Nmass_mg_g~combined_df$Woodiness)
+boxplot(combined_df$LMA_g_m2~combined_df$Woodiness)
+boxplot(combined_df$SSD_combined_mg_mm3~combined_df$Woodiness)
+
+par(mfrow=c(2,2))
+par(mar=c(5,5,5,5))
+boxplot(combined_df$Leaf_area_mm2~combined_df$DispersalDist)
+boxplot(combined_df$Nmass_mg_g~combined_df$DispersalDist)
+boxplot(combined_df$LMA_g_m2~combined_df$DispersalDist)
+boxplot(combined_df$SSD_combined_mg_mm3~combined_df$DispersalDist)
 
 #DiveRS data distance matrix
 divers_dist <- daisy(df,
@@ -255,8 +276,9 @@ labels(dataset_dist)==labels(divers_dist)
 
 #compare pairwaise distances of the DiveRS and Diaz distance matrices
 par(mar=c(5,5,5,5))
+par(mfrow=c(1,1))
 plot(dataset_dist,divers_dist,xlim=c(0,1),ylim=c(0,1))
-
+abline(lm(divers_dist~dataset_dist),col=2,lty=2)
 
 #linear model
 summary(lm(dataset_dist~divers_dist))

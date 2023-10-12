@@ -8,6 +8,9 @@ library(RColorBrewer)
 library(phytools)
 library(plotrix)
 library(ggplot2)
+library(ggtree)
+library(ggpp)
+library(rphylopic)
 
 #Load formatted data
 #NOTE: Uncomment depending on whether you want standard or one-hot
@@ -53,42 +56,42 @@ df_rates<-readRDS(file = here::here("outputs/one_hot_transition_rates.rds"))
 # ---- MK 2-state ----
 ####
 
- #loop through all characters
- for (i in 2:length(colnames(df2))) {
-   
-   #make new dataframe with only trait of interest
-   df3 <- df2[, c(1, i)]
-   
-   #omit missing data
-   df3 <- na.omit(df3)
-   
-   #drop tips not in dataset
-   phy2 <- drop.tip(phy, setdiff(phy$tip.label, df3$species))
-   
-   #sort df to match order of tips in phylo
-   df3 <- df3[match(phy2$tip.label, df3$species), ]
-   
-   #plot phylogeny and example trait
-   plot(phy2, show.tip.label = FALSE, type = 'fan')
-   tiplabels(pch = 16,
-             col = as.factor(df3[, 2]),
-             cex = 1)
-   
-   #fit model with 1 rate category on woodiness trait
-   MK_2state <- corHMM(
-     phy = phy2,
-     data = df3,
-     rate.cat = 1,
-     model = "ER"
-   )
-   
-   states[i - 1] <- colnames(df3)[2]
-   rates[i - 1] <- MK_2state$solution[1, 2]
-   tree_sizes[i - 1] <- length(phy2$tip.label)
-   no_states[i - 1] <- length(unique(df3[, 2]))
- }
- 
- df_rates <- data.frame(states, rates, tree_sizes, no_states)
+# #loop through all characters
+# for (i in 2:length(colnames(df2))) {
+#   
+#   #make new dataframe with only trait of interest
+#   df3 <- df2[, c(1, i)]
+#   
+#   #omit missing data
+#   df3 <- na.omit(df3)
+#   
+#   #drop tips not in dataset
+#   phy2 <- drop.tip(phy, setdiff(phy$tip.label, df3$species))
+#   
+#   #sort df to match order of tips in phylo
+#   df3 <- df3[match(phy2$tip.label, df3$species), ]
+#   
+#   #plot phylogeny and example trait
+#   plot(phy2, show.tip.label = FALSE, type = 'fan')
+#   tiplabels(pch = 16,
+#             col = as.factor(df3[, 2]),
+#             cex = 1)
+#   
+#   #fit model with 1 rate category on woodiness trait
+#   MK_2state <- corHMM(
+#     phy = phy2,
+#     data = df3,
+#     rate.cat = 1,
+#     model = "ER"
+#   )
+#   
+#   states[i - 1] <- colnames(df3)[2]
+#   rates[i - 1] <- MK_2state$solution[1, 2]
+#   tree_sizes[i - 1] <- length(phy2$tip.label)
+#   no_states[i - 1] <- length(unique(df3[, 2]))
+# }
+# 
+# df_rates <- data.frame(states, rates, tree_sizes, no_states)
  
 
 
@@ -238,22 +241,32 @@ HMM_ARD
 #plot transition rates
 plotMKmodel(HMM_ARD)
 
-#add another rate category
-HMM_ARD2 <-
-  corHMM(
-    phy = phy,
-    data = dat,
-    rate.cat = 2,
-    model = "ARD",
-    node.states = 'marginal',
-    get.tip.states = TRUE
-  )
+####
+# Hidden rates model 
+####
 
-#examine model
-HMM_ARD2
-
-#plot transition rates
-plotMKmodel(HMM_ARD2)
+# #Add another rate category
+# HMM_ARD2 <-
+#   corHMM(
+#     phy = phy,
+#     data = dat,
+#     rate.cat = 2,
+#     model = "ARD",
+#     node.states = 'marginal',
+#     get.tip.states = TRUE
+#   )
+# 
+# #examine model
+# HMM_ARD2
+# 
+# #plot transition rates
+# plotMKmodel(HMM_ARD2)
+# 
+# #compare AIC
+# print("AIC of simple Mk model")
+# HMM_ARD$AIC
+# print("AIC of model with hidden rates")
+# HMM_ARD2$AIC
 
 #NOTE: linked to chosen clustering method
 #make transition rates table
@@ -274,7 +287,11 @@ str(tax)
 
 tax<-tax[match(phy$tip.label,gsub(" ","_",rownames(tax))),]
 
-phy$tip.label<-make.unique(tax$order)
+#make new tree for plotting
+phy2<-phy
+
+#make names unique
+phy2$tip.label<-make.unique(tax$order)
 
 #plot tree with marginal probabilites on nodes
 png(
@@ -290,7 +307,7 @@ palette(wes_palette("IsleofDogs1", 3))
 
 #plot phylo
 plot(
-  phy,
+  phy2,
   show.tip.label = FALSE,
   #cex=0.5,
   type = 'fan',
@@ -344,6 +361,57 @@ addtable2plot(
 dev.off()
 
 ####
+# ---- Phylopics ----
+####
+
+# Get a single image uuid
+uuid <- get_uuid(name = "Primula", n = 1)
+# Get the image for that uuid
+ericales_pp <- get_phylopic(uuid = uuid[1])
+
+uuid <- get_uuid(name = "Olea", n = 1)
+lamiales_pp <- get_phylopic(uuid = uuid[1])
+
+uuid <- get_uuid(name = "Crepis", n = 1)
+asterales_pp <- get_phylopic(uuid = uuid[1])
+
+uuid <- get_uuid(name = "Magnolia", n = 1)
+magnoliales_pp <- get_phylopic(uuid = uuid[1])
+
+uuid <- get_uuid(name = "Panicum miliaceum", n = 1)
+poales_pp <- get_phylopic(uuid = uuid[1])
+
+uuid <- get_uuid(name = "Cypripedium", n = 1)
+asparagales_pp <- get_phylopic(uuid = uuid[1])
+
+uuid <- get_uuid(name = "Cynomorium", n = 1)
+saxifragales_pp <- get_phylopic(uuid = uuid[1])
+
+uuid <- get_uuid(name = "Acer platanoides", n = 1)
+sapindales_pp <- get_phylopic(uuid = uuid[1])
+
+uuid <- get_uuid(name = "Arabidopsis thaliana", n = 1)
+brassicales_pp <- get_phylopic(uuid = uuid[1])
+
+uuid <- get_uuid(name = "Passiflora incarnata", n = 1)
+malpighiales_pp <- get_phylopic(uuid = uuid[1])
+
+uuid <- get_uuid(name = "Ficus carica", n = 1)
+rosales_pp <- get_phylopic(uuid = uuid[1])
+
+uuid <- get_uuid(name = "Nepenthes distillatoria", n = 1)
+caryophyllales_pp <- get_phylopic(uuid = uuid[1])
+
+uuid <- get_uuid(name = "Quercus robur", n = 2)
+fagales_pp <- get_phylopic(uuid = uuid[2])
+
+uuid <- get_uuid(name = "Capsicum annuum", n = 1)
+solanales_pp <- get_phylopic(uuid = uuid[1])
+
+uuid <- get_uuid(name = "Anthurium", n = 2)
+alismatales_pp <- get_phylopic(uuid = uuid[2])
+
+####
 # ---- GGTREE ----
 ####
 
@@ -351,37 +419,10 @@ x2<-paste("Cluster",clust_df$ward,sep="")
 names(x2)<-gsub(" ","_",rownames(df))
 
 x2[phy$tip.label]
-  
+
 ancstats2 <- as.data.frame(HMM_ARD$states)
 ancstats2$node <- 1:phy$Nnode+Ntip(phy)
 colnames(ancstats2) <- c("Cluster1","Cluster2","Cluster3","node")
-
-cols2 <- wes_palette("IsleofDogs1", 3)[1:3]
-names(cols2) <- colnames(ancstats2)[1:3]
-cols2
-
-## cols parameter indicate which columns store stats
-bars2 <- nodebar(ancstats2, cols=1:3)
-bars2 <- lapply(bars2, function(g) g+scale_fill_manual(values = cols2))
-
-tree22 <- full_join(phy, data.frame(label = names(x2), stat = x2), by = 'label')
-
-p <- ggtree(tree22) + 
-  geom_tiplab() + 
-  geom_tippoint(aes(color = stat)) + 
-  scale_color_manual(values=wes_palette("IsleofDogs1", 3)[1:3]) + 
-  theme(legend.position = "right") + 
-  xlim(NA, 180)
-
-p
-
-p1 <- p + geom_inset(bars2, width = .08, height = .05, x = "branch")   
-p1
-
-#### GGTREE ####
-
-library(ggplot2)
-library(ggtree)
 
 ggtree(phy, linewidth=0.5) +
   geom_tiplab(size=2)
@@ -392,7 +433,6 @@ tax <- readRDS("outputs/taxonomy.rds")
 #read in phylogenetic tree
 phy <- read.tree("outputs/pruned_tree.tre")
 
-clust_df$species<-gsub(" ","_",rownames(clust_df$species))
 rownames(tax)<-gsub(" ","_",rownames(tax))
 
 clust_df <- clust_df[match(phy$tip.label,clust_df$species),]
@@ -432,10 +472,6 @@ g1 <- ggtree(phy, linetype=NA) %<+% metadata +
   geom_tree(linewidth=0.5) +
   geom_tiplab(aes(label=label), size=2)
 
-g1
-
-library(dplyr)
-
 #Order the clades dataframe to match the tree
 clades.df <- clades.df[match(g1$data %>%
                                filter(isTip == "TRUE") %>%
@@ -447,35 +483,10 @@ clades.df <- clades.df[match(g1$data %>%
 #Add column with alternating binary value
 clades.df$highlight <- rep(c(0,1),
                            length.out=length(clades.df$clade))
-
 head(clades.df)
 
-library(ggpp)
-library(deeptime)
-
-#Add highlights
-gg.tree <- ggtree(phy, linetype=NA) %<+% metadata +
-  geom_highlight(data=clades.df, 
-                 aes(node=node, fill=as.factor(highlight)),
-                 alpha=1,
-                 align="right",
-                 extend=0.1,
-                 show.legend=FALSE) +
-  geom_tree(linewidth=0.5) +
-  xlim(0,250) +
-  geom_tiplab(aes(label=label), size=2) +
-  scale_fill_manual(values=c("#0909F9", "#ECECEC"))
-
 #Add clade labels
-gg.tree +
-  geom_cladelab(data=clades.df,
-                mapping=aes(node=node, label=clade),
-                fontsize=2,
-                align=TRUE,
-                offset=50,
-                offset.text=0.01)
-
-g2 <- ggtree(phy, layout="circular", linetype=NA) %<+% metadata +
+g1 <- ggtree(phy, layout="circular", linetype=NA) %<+% metadata +
   geom_highlight(data=clades.df, 
                  aes(node=node, fill=as.factor(highlight)),
                  alpha=1,
@@ -484,7 +495,7 @@ g2 <- ggtree(phy, layout="circular", linetype=NA) %<+% metadata +
                  show.legend=FALSE) +
   geom_cladelab(data=clades.df,
                 mapping=aes(node=node, label=clade),
-                fontsize=2,
+                fontsize=3,
                 align="TRUE",
                 angle="auto",
                 offset=0.04,
@@ -492,19 +503,49 @@ g2 <- ggtree(phy, layout="circular", linetype=NA) %<+% metadata +
   geom_tree(linewidth=0.3) +
   geom_tippoint(mapping=aes(color=as.factor(cluster)), 
                 size=1.5) +
-  #xlim(0, 0.35) +
-  scale_fill_manual(values=c("#DCDCDC", "#ECECEC"))
+  xlim(-50,200) +
+  scale_fill_manual(values=c("#ECECEC", "#FCFCFC")) +
+  theme(legend.position = c(0.5, 0.5),
+        legend.text = element_text(size=8),
+        legend.title = element_blank(),
+        legend.background = element_blank(),
+        legend.key=element_blank(),
+        legend.spacing.y = unit(-0.2, "cm"),
+        ) +
+  guides(colour = guide_legend(override.aes = list(size=3),
+                               byrow = TRUE))
+
+g1
 
 colours<-harrypotter::hp(3,option="ronweasley2")
 
 pies <- nodepie(ancstats2, cols=1:3, col=colours)
 
-g2 + geom_plot(data=td_filter(!isTip), 
+g2 <- g1 + geom_plot(data=td_filter(!isTip), 
                mapping=aes(x=x,y=y, label=pies),
-               vp.width=0.015, 
-               vp.height=0.015, 
-               hjust=0.75,
-               vjust=0.75
-               ) + scale_color_manual(values=colours)
+               vp.width=0.0125, 
+               vp.height=0.0125, 
+               hjust=0.6,
+               vjust=0.6
+               ) + scale_color_manual(values=colours,
+                                      labels=c('1. Monomorphic herbaceous', '2. Dimorphic', '3. Monomorphic woody'))
 
-ggsave("figures/tree2.png")
+#no. species = 360 for plotting y coord
+g2 +
+  add_phylopic(img=magnoliales_pp, x=195, y=14, ysize = 9,col = "grey30") +
+  add_phylopic(img=alismatales_pp, x=195, y=29, ysize = 10,col = "grey30") +
+  add_phylopic(img=asparagales_pp, x=195, y=55, ysize = 10,col = "grey30") +
+  add_phylopic(img=poales_pp, x=195, y=78, ysize = 10,col = "grey30") +
+  add_phylopic(img=saxifragales_pp, x=195, y=106, ysize = 10,col = "grey30") +
+  add_phylopic(img=sapindales_pp, x=195, y=128, ysize = 10,col = "grey30") +
+  add_phylopic(img=brassicales_pp, x=195, y=151, ysize = 10,col = "grey30") +
+  add_phylopic(img=rosales_pp, x=195, y=170, ysize = 7,col = "grey30") +
+  add_phylopic(img=fagales_pp, x=195, y=185, ysize = 10,col = "grey30") +
+  add_phylopic(img=malpighiales_pp, x=195, y=208, ysize = 13,col = "grey30") +
+  add_phylopic(img=caryophyllales_pp, x=195, y=244, ysize = 10,col = "grey30") +
+  add_phylopic(img=ericales_pp, x=195, y=272, ysize = 10,col = "grey30") + 
+  add_phylopic(img=asterales_pp, x=195, y=307, ysize = 10,col = "grey30") +
+  add_phylopic(img=solanales_pp, x=195, y=330, ysize = 10,col = "grey30") +
+  add_phylopic(img=lamiales_pp, x=195, y=348, ysize = 12,col = "grey30")
+
+ggsave("figures/figure3_tree2.png", width = 15, height=15)
