@@ -42,11 +42,6 @@ This repository is structured as follow:
   master R script to run the entire project by calling each R script
   stored in the `rscripts/` folder
 
-- [`make_one_hot.R`](https://github.com/divers-it/rs-traitspace/tree/main/make_one_hot.R):
-  modified master R script to run certain scripts with one-hot encoded
-  data, allowing trait loading to be plotted in the PCOA plot (including
-  preliminary 3D plot)
-
 ## Workflow
 
 ### 1_proteus_data_preparation_discrete.R

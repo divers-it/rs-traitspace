@@ -125,8 +125,21 @@ for(i in 1:length(rownames(points))){
   
 }
 
+
+#trait type column
+points$type<-rep("reproductive",length(points$id))
+
+points$type[grep("Aqua",points$id)] <- "vegetative"
+points$type[grep("Climb",points$id)] <- "vegetative"
+points$type[grep("Dispersal",points$id)] <- "vegetative"
+points$type[grep("Lifespan",points$id)] <- "vegetative"
+points$type[grep("height",points$id)] <- "vegetative"
+points$type[grep("Wood",points$id)] <- "vegetative"
+
+head(points)
+
 #get colours
-cols<-rev(harrypotter::hp(2,option="Ravenclaw"))
+cols<-c(rev(harrypotter::hp(2,option="Ravenclaw")),harrypotter::hp(2,option="LunaLovegood"))
 
 #make plot
 ggplot() +
@@ -164,13 +177,22 @@ ggplot() +
   #   )
   # ) + 
   geom_point(
+  data = points,
+  aes(x, y, fill = type),
+  size=3.5,
+  shape = 21,
+  alpha=0.7,
+  colour = "#CDCDCD"
+  ) +
+  geom_point(
     data = points,
     aes(x, y),
-    size=2,
+    size=1.5,
     shape = 16,
     alpha=0.7,
     colour = "black"
   ) +
+  scale_fill_manual(values = c(cols[4],cols[3]), name="Trait type") +
   scale_colour_gradientn(colours = c(cols[1],"white",cols[2]), name = "Correlation") +
   scale_size(range=c(1,15), name = "Frequency",breaks = c(25,50,100,200,300)) + 
   scale_alpha(range=c(0,1)) + 
