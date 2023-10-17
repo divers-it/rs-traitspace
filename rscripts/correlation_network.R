@@ -102,7 +102,6 @@ points$id <- rownames(points)
 # colnames(points) <- c("x", "y")
 # points$id <- rownames(points)
 
-
 # Create a proximity matrix of the paths to be plotted.
 proximity <- abs(rdf)
 proximity[upper.tri(proximity)] <- NA
