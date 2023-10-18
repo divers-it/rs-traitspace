@@ -115,7 +115,6 @@ results
 #write.csv(results, file = here::here("outputs/phylo_signal_qualitative.csv"))
 results<-read.csv( file = here::here("outputs/phylo_signal_qualitative.csv"),row.names = 1)
 
-
 ###
 # ---- Continuous ----
 ### 
@@ -168,8 +167,6 @@ for(i in 2:length(colnames(df2))){
   psl<-phylosig(tree, trait, method="lambda", test=TRUE, nsim=1000, se=NULL, start=NULL,
            control=list())
   
-  phytools_lambda[i]<-psl$lambda
-  
   psk<-phylosig(tree, trait, method="K", test=TRUE, nsim=1000, se=NULL, start=NULL,
                 control=list())
   
@@ -182,7 +179,7 @@ for(i in 2:length(colnames(df2))){
    signals <- rbind(signals,c(psl$lambda,psk$K))
   }
   
-  # Uncomment for phylosignal method
+  # Uncomment for phylosignal method (bugs with calculation)
   # #make p4d object
   # p4d <- phylo4d(tree, trait)
   # 
@@ -210,10 +207,11 @@ rownames(signals)<-colnames(df2)[2:length(colnames(df2))]
 colnames(pvals)<-c("p_lambda","p_K")
 colnames(signals)<-c("lambda","K")
 
-cbind(signals,pvals)
+sp<-round(cbind(signals,pvals),3)
+sp
 
 #NOTE: UNCOMMENT TO SAVE
-#write.csv(cbind(signals,pvals), file = here::here("outputs/phylo_signal_quantitative.csv"))
+#write.csv(sp, file = here::here("outputs/phylo_signal_quantitative.csv"))
 quant_results<-read.csv( file = here::here("outputs/phylo_signal_quantitative.csv"),row.names = 1)
 
 ### Qual results threshold
@@ -222,4 +220,4 @@ table(results$pvals<0.05)
 
 ### Quant results
 quant_results
-table(quant_results$p_Lambda<0.05)
+table(quant_results$p_lambda<0.05)
