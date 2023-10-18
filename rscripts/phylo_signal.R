@@ -6,6 +6,7 @@ library(ape)
 library(phylosignal)
 library(adephylo)
 library(phylobase)
+library(phytools)
 
 #load functions
 source("R/delta.R")
@@ -163,22 +164,41 @@ for(i in 2:length(colnames(df2))){
   trait <- df3[,2]
   tree <- phy2
   
-  #make p4d object
-  p4d <- phylo4d(tree, trait)
+  #phytools
+  psl<-phylosig(tree, trait, method="lambda", test=TRUE, nsim=1000, se=NULL, start=NULL,
+           control=list())
   
-  #plot phylogeny and trait
-  barplot.phylo4d(p4d, tree.type = "phylo", tree.ladderize = TRUE)
+  phytools_lambda[i]<-psl$lambda
   
-  #calculate signal with all methods
-  p4d_s<-phyloSignal(p4d = p4d, method = "all", reps=999)
+  psk<-phylosig(tree, trait, method="K", test=TRUE, nsim=1000, se=NULL, start=NULL,
+                control=list())
+  
   
   if(i == 2){
-    pvals <- p4d_s$pvalue
-    signals <- p4d_s$stat
+   pvals <- c(psl$P,psk$P)
+   signals <- c(psl$lambda,psk$K)
   } else {
-    pvals <- rbind(pvals,p4d_s$pvalue)
-    signals <- rbind(signals,p4d_s$pvalue)
+   pvals <- rbind(pvals,c(psl$P,psk$P))
+   signals <- rbind(signals,c(psl$lambda,psk$K))
   }
+  
+  # Uncomment for phylosignal method
+  # #make p4d object
+  # p4d <- phylo4d(tree, trait)
+  # 
+  # #plot phylogeny and trait
+  # barplot.phylo4d(p4d, tree.type = "phylo", tree.ladderize = TRUE)
+  # 
+  # #calculate signal with all methods
+  # p4d_s<-phyloSignal(p4d = p4d, method = "all", reps=999)
+  #
+  # if(i == 2){
+  #   pvals <- p4d_s$pvalue
+  #   signals <- p4d_s$stat
+  # } else {
+  #   pvals <- rbind(pvals,p4d_s$pvalue)
+  #   signals <- rbind(signals,p4d_s$pvalue)
+  # }
   
   cat(paste("finished: ",colnames(df2)[i],"\n"))
   
@@ -187,12 +207,10 @@ for(i in 2:length(colnames(df2))){
 #row and column names
 rownames(pvals)<-colnames(df2)[2:length(colnames(df2))]
 rownames(signals)<-colnames(df2)[2:length(colnames(df2))]
+colnames(pvals)<-c("p_lambda","p_K")
+colnames(signals)<-c("lambda","K")
 
-#signal values
-signals
-
-#p values
-colnames(pvals)<-paste("p_",colnames(pvals),sep="")
+cbind(signals,pvals)
 
 #NOTE: UNCOMMENT TO SAVE
 #write.csv(cbind(signals,pvals), file = here::here("outputs/phylo_signal_quantitative.csv"))
