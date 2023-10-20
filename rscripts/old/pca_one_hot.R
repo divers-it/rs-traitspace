@@ -1,4 +1,4 @@
-df<-read.csv("outputs/imputed_with_phylo.csv", row.names = 1,stringsAsFactors = T)
+df<-read.csv("outputs/one_hot_imputed_with_phylo.csv", row.names = 1,stringsAsFactors = T)
 str(df)
 
 pc <- prcomp(df,
