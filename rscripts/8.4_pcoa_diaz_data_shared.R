@@ -155,9 +155,15 @@ divers_dist <- daisy(df_filt,
 labels(diaz_dist)==labels(divers_dist)
 
 #compare pairwaise distances of the DiveRS and Diaz distance matrices
-png(filename = "figures/8.4_scatterplot_distances_diaz_vs_divers.png",width = 500,height = 500)
-plot(diaz_dist,divers_dist,xlim=c(0,1),ylim=c(0,1))
+png(filename = "figures/8.4_scatterplot_distances_diaz_vs_divers.png",width = 750,height = 750)
+par(mar=c(4,4,4,4))
+plot(x=divers_dist,y=diaz_dist,xlim=c(0,1),ylim=c(0,1),xlab="Distance (this study)",ylab="Distance (Diaz et al. 2016)")
+abline(0,1,col='red',lty=2,lwd=2)
 dev.off()
 
 #linear model
 summary(lm(diaz_dist~divers_dist))
+abline(lm(diaz_dist~divers_dist),col='blue',lty=2,lwd=2)
+
+#mantel test
+vegan::mantel(as.matrix(diaz_dist),as.matrix(divers_dist))

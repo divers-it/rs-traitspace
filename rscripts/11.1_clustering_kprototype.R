@@ -9,37 +9,46 @@ library(cluster)
 library(networkD3)
 library(data.table)
 
-#load formatted data
-df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
+# #load formatted data
+# df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
+# 
+# #UNCOMMENT TO RERUN CLUSTERING
+# #set up empty vectors
+# ss<-vector()
+# clust_memb<-vector()
+# kproto_list<-list()
+# 
+# #run clustering with different values of K up to 10
+# for(i in 2:10){
+#  
+#  kproto_out<-kproto(df, k=i, lambda = NULL, iter.max = 1000, nstart = 10, na.rm = F)
+#  
+#  kproto_list[[i]]<-kproto_out
+#  
+#  ss[i]<-kproto_out$tot.withinss
+#  
+#  if(i == 2){
+#    clust_memb<-kproto_out$cluster
+#  } else {
+#    clust_memb<-cbind(clust_memb,kproto_out$cluster)
+#  }
+#  
+# }
 
-#set up empty vectors
-ss<-vector()
-clust_memb<-vector()
+#load previous Kproto run
+load("outputs/11.1_kpro.RData")
 
-#run clustering with different values of K up to 10
-for(i in 2:10){
-  kproto_out<-kproto(df, k=i, lambda = NULL, iter.max = 1000, nstart = 10, na.rm = F)
-  ss[i]<-kproto_out$tot.withinss
-  
-  if(i == 2){
-    clust_memb<-kproto_out$cluster
-  } else {
-    clust_memb<-cbind(clust_memb,kproto_out$cluster)
-  }
-  
-}
-
+#look at clustering output
 head(clust_memb)
 
 #check alignment of names
-kproto_out2<-kproto(df, k=2, lambda = NULL, iter.max = 1000, nstart = 10, na.rm = F)
-names(kproto_out2$cluster)==rownames(clust_memb)
+names(kproto_list[[2]]$cluster)==rownames(clust_memb)
 
 #plot total ss to choose 
 plot(ss,type='b')
 
-#rerun with chosen value of k
-kproto_out<-kproto(df, k=5, lambda = NULL, iter.max = 1000, nstart = 10, na.rm = F)
+#chosen value of k
+kproto_out<-kproto_list[[5]]
 
 ## --------- PCOA scatterplot with cluster annotation ---------
 
@@ -355,21 +364,239 @@ df_temp_melt_counts <- df_temp_melt %>% group_by(robust_group,variable,value) %>
 df_temp_melt_counts$label<-df_temp_melt_counts$value
 df_temp_melt_counts$label[df_temp_melt_counts$count<3]<-NA
 
-#NOT RUN: make new column for text size
+
+# NOT RUN: make new column for text size
 #df_temp_melt_counts$text_size<-df_temp_melt_counts$count^(1/2)
 
-#plot stacked barplots per robust group for each qualitative trait, with labels
-ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
-  geom_col(position = 'stack') + facet_wrap(. ~ robust_group, scales = "free")  + theme(
-    legend.position = "none",
-    axis.text.x = element_text(vjust = 0.5, hjust=1),
+#theme
+my_theme <- function() {
+  theme(
+    # add border 1)
+    panel.border = element_blank(),
+    # color background 2)
+    panel.background = element_rect(fill = "white"),
+    # modify grid 3)
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor.y = element_blank(),
+    # modify text, axis and colour 4) and 5)
+    axis.text.x = element_text(size=16),
+    axis.text.y = element_text(size=16),
     axis.title.x = element_blank(),
-    plot.margin = unit(c(1, 1, 1, 1), "cm")
-  ) + geom_text(aes(size = count,label = label),
-                position = position_stack(vjust = .5)) + coord_flip()
+    axis.title.y = element_blank(),
+    axis.ticks.x = element_line(),
+    axis.ticks.length=unit(.25, "cm"),
+    axis.ticks.y = element_blank(),
+    # legend
+    legend.position = "none",
+    # margin
+    plot.margin = unit(c(0.2, 0.2, 0.2, 0.2), "cm")
+  )
+}
+
+#get names of robust groups
+robs<-unique(df_temp_melt_counts$robust_group)
+
+## Robust group 1
+cols<-harrypotter::hp(8,option = "lunalovegood")
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group==robs[1],]
+
+#get palette based on max counts
+pal1<-colorRampPalette(c("white",cols[1]))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal1[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p1 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme()
+
+p1
+
+
+## Robust group 2
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group==robs[2],]
+
+#get palette based on max counts
+pal2<-colorRampPalette(c("white",cols[2]))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal2[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p2 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme()
+
+p2
+
+
+## Robust group 3
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group==robs[3],]
+
+#get palette based on max counts
+pal3<-colorRampPalette(c("white",cols[3]))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal3[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p3 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme()
+
+p3
+
+## Robust group 4
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group==robs[4],]
+
+#get palette based on max counts
+pal3<-colorRampPalette(c("white",cols[4]))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal3[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p4 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme()
+
+p4
+
+## Robust group 5
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group==robs[5],]
+
+#get palette based on max counts
+pal3<-colorRampPalette(c("white",cols[5]))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal3[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p5 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme()
+
+p5
+
+## Robust group 6
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group==robs[6],]
+
+#get palette based on max counts
+pal3<-colorRampPalette(c("white",cols[6]))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal3[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p6 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme()
+
+p6
+
+## Robust group 7
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group==robs[7],]
+
+#get palette based on max counts
+pal3<-colorRampPalette(c("white",cols[7]))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal3[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p7 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme()
+
+p7
+
+## Robust group 8
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group==robs[8],]
+
+#get palette based on max counts
+pal3<-colorRampPalette(c("white",cols[8]))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal3[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p8 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme()
+
+p8
+
+## Robust group 9
+
+#subset df
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group==robs[9],]
+
+#get palette based on max counts
+pal3<-colorRampPalette(c("white","grey"))(max(rob_df$count))
+
+#make new column for colours based on count
+rob_df$pal <- pal3[rob_df$count]
+rob_df$pal[is.na(rob_df$value)]<-"grey20"
+
+p9 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
+  geom_bar(position="stack", stat="identity",col="black") +
+  scale_fill_identity() + 
+  geom_text(aes(size = count, label = label), position = position_stack(vjust = 0.5)) + 
+  coord_flip() +
+  my_theme()
+
+p9
+
+(p1 + p2 + p3) / 
+  (p4 + p5 + p6) /
+    (p7 + p8 + p9)
+
 
 #save plot
-ggsave("figures/11.1_stacked_barplots_kpro_traits_by_robust.png",width=15,height=10)
+ggsave("figures/11.1_stacked_barplots_kpro_traits_by_robust.png",width=17.5,height=20)
 
 #save image as takes long to run
 save.image(file = "outputs/11.1_kpro.RData")

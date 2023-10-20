@@ -84,23 +84,23 @@ distance <- 1 - abs(rdf)
 
 #CHOOSE MDS APPROACH
 
-#do pcoa
-points<-stats::cmdscale(distance, k = 2)
-points <- data.frame(points)
-colnames(points) <- c("x", "y")
-points$id <- rownames(points)
-
-# #do nmds
-# nmds <-
-#   metaMDS(distance,
-#           #distance = "gower",
-#           k = 2,
-#           maxit = 999, 
-#           trymax = 500,
-#           wascores = TRUE)
-# points <- data.frame(nmds$points)
+# #do pcoa
+# points<-stats::cmdscale(distance, k = 2)
+# points <- data.frame(points)
 # colnames(points) <- c("x", "y")
 # points$id <- rownames(points)
+
+ #do nmds
+ nmds <-
+   metaMDS(distance,
+           #distance = "gower",
+           k = 2,
+           maxit = 999, 
+           trymax = 500,
+           wascores = TRUE)
+ points <- data.frame(nmds$points)
+ colnames(points) <- c("x", "y")
+ points$id <- rownames(points)
 
 # Create a proximity matrix of the paths to be plotted.
 proximity <- abs(rdf)
@@ -227,7 +227,7 @@ ggplot() +
   theme(legend.key = element_blank(),
         legend.background = element_blank(),
         legend.box = "horizontal",
-        legend.position = c(0.85,0.2),
+        legend.position = c(0.85,0.1),
         panel.background = element_rect(fill='white'))
 
 

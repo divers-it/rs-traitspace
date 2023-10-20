@@ -12,34 +12,43 @@ library(data.table)
 #load formatted data
 df<-readRDS(file = here::here("outputs/one_hot_df_filt_trans.rds"))
 
+#UNCOMMENT TO RERUN CLUSTERING
 #set up empty vectors
 ss<-vector()
 clust_memb<-vector()
+kproto_list<-list()
 
 #run clustering with different values of K up to 10
 for(i in 2:10){
-  kproto_out<-kproto(df, k=i, lambda = NULL, iter.max = 1000, nstart = 10, na.rm = F)
-  ss[i]<-kproto_out$tot.withinss
-  
-  if(i == 2){
-    clust_memb<-kproto_out$cluster
-  } else {
-    clust_memb<-cbind(clust_memb,kproto_out$cluster)
-  }
-  
+
+kproto_out<-kproto(df, k=i, lambda = NULL, iter.max = 1000, nstart = 10, na.rm = F)
+
+kproto_list[[i]]<-kproto_out
+
+ss[i]<-kproto_out$tot.withinss
+
+if(i == 2){
+  clust_memb<-kproto_out$cluster
+} else {
+  clust_memb<-cbind(clust_memb,kproto_out$cluster)
 }
 
+}
+
+#load previous Kproto run
+#load("outputs/one_hot_11.1_kpro.RData")
+
+#look at clustering output
 head(clust_memb)
 
 #check alignment of names
-kproto_out2<-kproto(df, k=2, lambda = NULL, iter.max = 1000, nstart = 10, na.rm = F)
-names(kproto_out2$cluster)==rownames(clust_memb)
+names(kproto_list[[2]]$cluster)==rownames(clust_memb)
 
 #plot total ss to choose 
 plot(ss,type='b')
 
-#rerun with chosen value of k
-kproto_out<-kproto(df, k=4, lambda = NULL, iter.max = 1000, nstart = 10, na.rm = F)
+#chosen value of k
+kproto_out<-kproto_list[[5]]
 
 ## --------- PCOA scatterplot with cluster annotation ---------
 
