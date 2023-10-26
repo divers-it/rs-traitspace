@@ -1,3 +1,5 @@
+rm(list=ls())
+
 library(ape)
 library(cluster)
 library(umap)
@@ -213,7 +215,7 @@ for(knn in c(5,10,50,100)) {
 }
 
 ####
-# ---- Figure ----
+# ---- UMAP figure ----
 ####
 
 #UMAP config
@@ -222,7 +224,7 @@ custom_config$n_components <-  2# number of dimensions targeted
 custom_config$input <- "dist" # The input matrix is a distance matrix
 
 #labels
-SexualSystem <- df_final$SexualSystem
+FlowerSex <- df_final$FlowerSex
 Woodiness <- df_final$Woodiness
 
 #knn 100
@@ -232,8 +234,8 @@ df_umap_final <- data.frame(umap_final$layout)
 rownames(df_umap_final) <- species_names
 colnames(df_umap_final) <- c("dim1","dim2")
 
-p100<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=SexualSystem,shape=Woodiness)) + geom_point(size=3,alpha=0.6) + scale_color_discrete() +
-  theme(legend.position = c(0.825, 0.775), legend.background = element_rect(fill=NA)) + ggtitle("knn = 100")
+p100<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=FlowerSex,shape=Woodiness)) + geom_point(size=3,alpha=0.6) + scale_color_discrete() +
+  theme(legend.position = c(0.2, 0.25), legend.background = element_rect(fill=NA)) + ggtitle("knn = 100")
 p100
 
 #knn 50
@@ -243,7 +245,7 @@ df_umap_final <- data.frame(umap_final$layout)
 rownames(df_umap_final) <- species_names
 colnames(df_umap_final) <- c("dim1","dim2")
 
-p50<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=SexualSystem,shape=Woodiness)) + geom_point(size=3,alpha=0.6) + scale_color_discrete() + theme(legend.position = "none") + ggtitle("knn = 50")
+p50<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=FlowerSex,shape=Woodiness)) + geom_point(size=3,alpha=0.6) + scale_color_discrete() + theme(legend.position = "none") + ggtitle("knn = 50")
 
 #knn 25
 custom_config$n_neighbors <- 25 # number of dimensions targeted
@@ -251,7 +253,7 @@ umap_final <- umap(d = as.matrix(dist_final),config = custom_config)
 df_umap_final <- data.frame(umap_final$layout)
 colnames(df_umap_final) <- c("dim1","dim2")
 
-p25<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=SexualSystem,shape=Woodiness)) + geom_point(size=3,alpha=0.6) + scale_color_discrete() + theme(legend.position = "none") + ggtitle("knn = 25")
+p25<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=FlowerSex,shape=Woodiness)) + geom_point(size=3,alpha=0.6) + scale_color_discrete() + theme(legend.position = "none") + ggtitle("knn = 25")
 
 #knn 10
 custom_config$n_neighbors <- 10 # number of dimensions targeted
@@ -259,7 +261,7 @@ umap_final <- umap(d = as.matrix(dist_final),config = custom_config)
 df_umap_final <- data.frame(umap_final$layout)
 colnames(df_umap_final) <- c("dim1","dim2")
 
-p10<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=SexualSystem,shape=Woodiness)) + geom_point(size=3,alpha=0.6) + scale_color_discrete() + theme(legend.position = "none") + ggtitle("knn = 10")
+p10<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=FlowerSex,shape=Woodiness)) + geom_point(size=3,alpha=0.6) + scale_color_discrete() + theme(legend.position = "none") + ggtitle("knn = 10")
 
 library(patchwork)
 ( p100 + p50 ) /

@@ -362,3 +362,44 @@ ggsave("figures/8_scatterplot_pcoa_taxonomy.png",
        width = 20,
        height = 15,
        units = 'cm')
+
+###
+# Correlations
+###
+
+corr_mat<-matrix(nrow=4,ncol=length(colnames(df)))
+
+
+for(i in 1:length(colnames(df))){
+  
+  if(is.numeric(df[,i])){
+    
+    corr_mat[1,i] <- cor(df[,i], dataset_pcoa$vectors[,1], method="pearson", use="complete.obs")
+    corr_mat[2,i] <- cor(df[,i], dataset_pcoa$vectors[,2], method="pearson", use="complete.obs")
+    corr_mat[3,i] <- cor(df[,i], dataset_pcoa$vectors[,3], method="pearson", use="complete.obs")
+    corr_mat[4,i] <- cor(df[,i], dataset_pcoa$vectors[,4], method="pearson", use="complete.obs")
+    
+  } else {
+    
+    #https://stats.stackexchange.com/questions/119835/correlation-between-a-nominal-iv-and-a-continuous-dv-variable/124618#124618
+    corr_mat[1,i] <- summary(lm(dataset_pcoa$vectors[,1] ~ df[,i]))$r.squared
+    corr_mat[2,i] <- summary(lm(dataset_pcoa$vectors[,2] ~ df[,i]))$r.squared
+    corr_mat[3,i] <- summary(lm(dataset_pcoa$vectors[,3] ~ df[,i]))$r.squared
+    corr_mat[4,i] <- summary(lm(dataset_pcoa$vectors[,4] ~ df[,i]))$r.squared
+    
+  }
+  
+}
+
+#set rownames
+rownames(corr_mat)<-c("Axis.1","Axis.2","Axis.3","Axis.4")
+colnames(corr_mat)<-colnames(df)
+
+View(corr_mat)
+
+#transpose and order
+corr_mat<-t(corr_mat)
+corr_mat<-corr_mat[order(rownames(corr_mat)),]
+
+#write output table
+write.csv(round(corr_mat,3),"outputs/8_correlation_pcoa_axes_traits.csv")

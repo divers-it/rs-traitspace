@@ -219,6 +219,8 @@ ggsave("figures/11_scatterplot_pcoa_wardD2_k6_coloured_by_cluster.png",
 #same as above but for k = 3
 clust.num <- cutree(aggl.clust.w, k = 3)
 
+cols<-harrypotter::hp(3,option="ronweasley2")
+
 #plot points on first two axes, coloured by cluster with species names
 ggplot(data.frame(dataset_pcoa$vectors),
        aes(
@@ -236,6 +238,8 @@ ggplot(data.frame(dataset_pcoa$vectors),
                        size = 3.5) +  stat_ellipse(geom = "polygon",
                                                    aes(fill = as.factor(clust.num)),
                                                    alpha = 0.25) +
+  scale_fill_manual(values=cols) +
+  scale_colour_manual(values=cols) +
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) + 
   theme(legend.position = "none")
@@ -368,7 +372,7 @@ dev.off()
 ####
 
 #palette from scatterplot
-cols <- c("red","green","blue")
+cols<-harrypotter::hp(3,option="ronweasley2")
 
 b1 <- ggplot(df_labelled, aes(x=cluster, y=Maximumverticalheight, fill=cluster)) + 
   geom_boxplot(alpha=0.7) + 
@@ -504,7 +508,7 @@ my_theme <- function() {
 rob_df <- df_temp_melt_counts[df_temp_melt_counts$cluster=="k_3_cluster_1 (n = 172)",]
 
 #get palette based on max counts
-pal1<-colorRampPalette(c("white","red"))(max(rob_df$count))
+pal1<-colorRampPalette(c("white",cols[1]))(max(rob_df$count))
 
 #make new column for colours based on count
 rob_df$pal <- pal1[rob_df$count]
@@ -526,7 +530,7 @@ p1
 rob_df <- df_temp_melt_counts[df_temp_melt_counts$cluster=="k_3_cluster_2 (n = 87)",]
 
 #get palette based on max counts
-pal2<-colorRampPalette(c("white","green"))(max(rob_df$count))
+pal2<-colorRampPalette(c("white",cols[2]))(max(rob_df$count))
 
 #make new column for colours based on count
 rob_df$pal <- pal2[rob_df$count]
@@ -548,7 +552,7 @@ p2
 rob_df <- df_temp_melt_counts[df_temp_melt_counts$cluster=="k_3_cluster_3 (n = 101)",]
 
 #get palette based on max counts
-pal3<-colorRampPalette(c("white","blue"))(max(rob_df$count))
+pal3<-colorRampPalette(c("white",cols[3]))(max(rob_df$count))
 
 #make new column for colours based on count
 rob_df$pal <- pal3[rob_df$count]
