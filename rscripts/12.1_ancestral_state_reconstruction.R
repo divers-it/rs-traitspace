@@ -332,9 +332,9 @@ legend(
   x = -166,
   y = 165,
   legend = c(
-    "1. Monomorphic herbaceous",
-    "2. Dimorphic",
-    "3. Monomorphic woody"
+    "1. Bisexual herbaceous",
+    "2. Unisexual",
+    "3. Bisexual woody"
   ),
   pt.bg = wes_palette("IsleofDogs1", 3),
   bty = "n",
@@ -528,7 +528,7 @@ g2 <- g1 + geom_plot(data=td_filter(!isTip),
                hjust=0.6,
                vjust=0.6
                ) + scale_color_manual(values=colours,
-                                      labels=c('1. Monomorphic herbaceous', '2. Dimorphic', '3. Monomorphic woody'))
+                                      labels=c('1. Bisexual herbaceous', '2. Unisexual', '3. Bisexual woody'))
 
 #no. species = 360 for plotting y coord
 g2 +
