@@ -6,6 +6,11 @@ devtools::load_all()
 #not loading ggplot?
 library(ggplot2)
 
+#load_all doesn't load the files in R/ ?
+for (nm in list.files("R", pattern = "[.]R$")) {
+   source(file.path("R", nm))
+}
+
 # Variable to iterate over
 percent_list <- seq(0.1, 0.8, by = 0.1)
 
@@ -219,15 +224,20 @@ list_res <- lapply(files, function(x) readRDS(x))
 #get data frame of trait space quality metrics
 res_for_graph_dim <- data.frame(do.call(rbind, lapply(1:length(list_res),
                                                       function(i) {
-                                                        res <- data.frame(list_res[[i]][[3]])
-                                                        res$taxa <- gsub("_res\\.rds", "", filenames)[i]
+							res <- data.frame(list_res[[i]][[3]])
+                                                        res$taxa <- gsub("_[0-9][0-9]*_res\\.rds", "", filenames)[i]
                                                         return(res)
                                                       })))
 
+rownames(res_for_model) <- gsub("_[0-9][0-9]*", "", rownames(res_for_model))
 
 #make empty columns for species and number of traits
 res_for_graph_dim$SP    <- NA 
 res_for_graph_dim$trait <- NA 
+res_for_graph_dim$elbow <- NA
+
+#remove dataset we don't plot here
+res_for_graph_dim <- res_for_graph_dim[res_for_graph_dim$taxa != "proteus",]
 
 #fill columns
 for (i in 1:nrow(res_for_graph_dim)){ 
@@ -244,9 +254,7 @@ res_for_graph_dim$AUCwhenelbow      <- NA
 
 #fill columns
 for (i in 1:nrow(res_for_graph_dim)) { 
-  
   if (res_for_graph_dim$dim[i] == res_for_graph_dim$elbow[i]) {
-    
     res_for_graph_dim$selec_elbow_graph[i] <- res_for_graph_dim$dim[i]
     res_for_graph_dim$AUCwhenelbow[i]      <- res_for_graph_dim$AUC[i]
   }
