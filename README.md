@@ -49,9 +49,7 @@ This repository is structured as follow:
 Reads in raw PROTEUS data for all traits, then outputs a
 [table](https://github.com/divers-it/rs-traitspace/tree/main/outputs/all_states_per_trait.csv)
 of all states for each trait of interest. These are used to build the
-trait_recoding table
-(<https://docs.google.com/spreadsheets/d/14ITGqVvyfYeVSVSzbrWe9eUWF4NXO7cZvtZDk5mlTW0/edit?usp=sharing>),
-which is then reread into the script. The
+trait_recoding table, which is then reread into the script. The
 [trait_recoding](https://github.com/divers-it/rs-traitspace/tree/main/data/trait_recoding%20-%20Categorical%20to%20categorical.csv)
 table is then used to transform old PROTEUS states into new states that
 are more appropriate for analysis (in terms of reducing complexity or by
