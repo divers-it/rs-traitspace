@@ -133,6 +133,51 @@ ggsave("figures/8_scatterplot_pcoa_coloured_by_traits.png",
        height = 15,
        units = 'cm')
 
+####
+# ---- Phylo against trait distance ----
+####
+
+
+####
+# ---- Phylo dist against trait dist ----
+####
+library(ape)
+library(vegan)
+
+#read in phylogenetic tree
+phy<-read.tree("outputs/pruned_tree.tre")
+
+#add underscores to names
+df2 <- df
+rownames(df2) <- gsub(" ", "_", x = rownames(df2))
+
+#in dataset but not in phylo
+setdiff(rownames(df2),phy$tip.label)
+
+#in phylo but not in dataset
+setdiff(phy$tip.label,rownames(df2))
+
+#get pairwise phylogenetic distances
+phy_dm <- cophenetic.phylo(phy)
+
+#reduce dataset to only phylo tips
+#df2 <- df2[rownames(df2)%in%phy$tip.label,]
+
+#dissimilarity matrix calculation
+gower_df2 <- daisy(df2, metric = "gower" )
+gower_df2 <- as.matrix(gower_df2)
+
+#order rows and columns and check
+phy_dm <- phy_dm[order(rownames(phy_dm)), order(colnames(phy_dm))]
+gower_df2 <- gower_df2[order(rownames(gower_df2)), order(colnames(gower_df2))]
+rownames(gower_df2)==rownames(phy_dm)
+colnames(gower_df2)==colnames(phy_dm)
+
+#compare distance matrices
+plot(gower_df2,phy_dm,xlab="Trait distance",ylab="Phylogenetic distance")
+mantel(gower_df2,phy_dm,
+       method = "spear",
+       permutations = 100)
 
 library(rphylopic)
 
