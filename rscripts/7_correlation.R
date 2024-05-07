@@ -346,7 +346,9 @@ geom_point(
     colour = "black"
   ) +
   scale_fill_manual(values = c(cols[4],cols[3]), name="Trait type") +
-  scale_colour_gradientn(colours = c(cols[1],"white",cols[2]), name = "Correlation") +
+  scale_colour_gradientn(colours = c(cols[1],"white",cols[2]), name = "Correlation", values = c(0,
+                                                                                                abs(min(paths$proximity * paths$sign))/(max(paths$proximity * paths$sign)+abs(min(paths$proximity * paths$sign))), #to calculate where 0 point is in scale
+                                                                                                1)) +
   scale_size(range=c(1,15), name = "Frequency",breaks = c(25,50,100,200,300)) + 
   scale_alpha(range=c(0,1)) + 
   ggrepel::geom_text_repel(
