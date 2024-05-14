@@ -113,3 +113,4 @@ ggplot(eig_df, aes(x=pcoa_axis, y=relative_eigenvalue)) +
 
 #compare distance matrices
 plot(stats::as.dist(iterations),stats::as.dist(gower_df))
+mantel(stats::as.dist(iterations),stats::as.dist(gower_df))

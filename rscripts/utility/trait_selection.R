@@ -235,3 +235,43 @@ ggplot(data.frame(dataset_pcoa2$vectors), aes(x = Axis.1, y = Axis.2)) +
     stroke = 0.5
   )
 
+####
+# ---- "Best" X traits ----
+####
+
+#dissimilarity matrix calculation
+gower_df <- daisy(df,
+                  metric = "gower" )
+summary(gower_df)
+
+#make into distance object
+dataset_dist <- stats::as.dist(gower_df)
+
+#get all possible combinations for X different traits
+combos<-combn(colnames(df), 
+              m = 6 #number of traits
+              )
+str(combos)
+
+cors<-matrix(nrow = length(combos[1,]),ncol=2)
+
+for (i in 1:(length(combos[1,]))){
+  
+  df3 <- df[, colnames(df)%in%combos[,i]]
+  gower_df3 <- daisy(as.data.frame(df3), metric = "gower")
+  dataset_dist3 <- stats::as.dist(gower_df3)
+  
+  cors[i,1]<-paste(combos[,i],collapse="_")
+  cors[i,2]<-cor(dataset_dist,dataset_dist3)[1]
+
+  if(i %% 1000 == 0){
+    
+    print(paste("Combo number:",i))
+    
+  }
+  
+}
+
+#reorder based on max correlation and look at best correlates
+cors<-cors[order(cors[,2],decreasing = TRUE),]
+head(cors)
