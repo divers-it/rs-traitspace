@@ -111,3 +111,5 @@ sum(rel_ev_pcoa_g0[1:2])
 ggplot(eig_df, aes(x=pcoa_axis, y=relative_eigenvalue)) + 
   geom_bar(stat = "identity")
 
+#compare distance matrices
+plot(stats::as.dist(iterations),stats::as.dist(gower_df))
