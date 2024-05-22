@@ -16,8 +16,16 @@ gower_df <- daisy(df,
                   metric = "gower" )
 summary(gower_df)
 
+#make into distance object
+dataset_dist <- stats::as.dist(gower_df)
 
-gower_dist<-vegdist(df, method = "gower",na.rm=TRUE)
+#run PCoA on distance matrix
+dataset_pcoa <- ape::pcoa(dataset_dist)
+
+#Recalculate relative eigenvalues by removing negative eigenvalues as in Mouillot et al.  
+ev_pcoa <- dataset_pcoa$values$Eigenvalues
+ev_pcoa_g0 <- ev_pcoa[ev_pcoa>0]
+rel_ev_pcoa_g0 <- ev_pcoa_g0/sum(ev_pcoa_g0)
 
 # Running NMDS in vegan (metaMDS)
 nmds2 <-

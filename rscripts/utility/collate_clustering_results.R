@@ -103,6 +103,8 @@ rownames(rob_df)==names(one_hot_pam)
 #merge
 rob_df<-cbind(rob_df,one_hot_pam)
 
+# Clustering methods not used in manuscript
+
 # ### LCM
 # 
 # one_hot_lcm <- readRDS(file = here::here("outputs/one_hot_11.3_clust_vect_lcm.rds"))
@@ -113,22 +115,21 @@ rob_df<-cbind(rob_df,one_hot_pam)
 # #merge
 # rob_df<-cbind(rob_df,one_hot_lcm )
 
-### Density clustering
-
-one_hot_dens <- readRDS(file = here::here("outputs/one_hot_11.4_robust_vect_dens_full.rds"))
-
-#check names
-rownames(rob_df)==names(one_hot_dens)
-
-#merge
-rob_df<-cbind(rob_df,one_hot_dens)
+# ### Density clustering
+# 
+# one_hot_dens <- readRDS(file = here::here("outputs/one_hot_11.4_robust_vect_dens_full.rds"))
+# 
+# #check names
+# rownames(rob_df)==names(one_hot_dens)
+# 
+# #merge
+# rob_df<-cbind(rob_df,one_hot_dens)
 
 #compare normal to one hot
 table(rob_df$ward,rob_df$one_hot_ward)
 table(rob_df$pam,rob_df$one_hot_pam)
 table(rob_df$kpro,rob_df$one_hot_kpro)
-#table(rob_df$lcm,rob_df$one_hot_lcm)
 
 #output csv
 rownames(rob_df)==rownames(df)
-write.csv(cbind(rob_df,df),"outputs/collate_clustering_results.csv")
+write.csv(cbind(rob_df),"outputs/collate_clustering_results.csv")

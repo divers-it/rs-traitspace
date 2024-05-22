@@ -283,7 +283,7 @@ plot(gower_sim~gower_onehot,xlim=c(0,1),ylim=c(0,1))
 plot(gower_sim~gower_imputed,xlim=c(0,1),ylim=c(0,1))
 
 ##plot pairwise scatterplots of different distance matrices
-png("figures/scatterplots_pairwise_distances.png",width=1500,height=1500,res=100)
+png("figures/14_scatterplots_pairwise_distances.png",width=1500,height=1500,res=100)
 pairs(data.frame(list("original"=as.vector(gower_final),
                       "onehot"=as.vector(gower_onehot),
                       "imputed"=as.vector(gower_imputed),
@@ -291,8 +291,13 @@ pairs(data.frame(list("original"=as.vector(gower_final),
 )
 dev.off()
 
+#mantel test
+vegan::mantel(as.matrix(gower_final),as.matrix(gower_onehot))
+vegan::mantel(as.matrix(gower_final),as.matrix(gower_imputed))
+vegan::mantel(as.matrix(gower_final),as.matrix(gower_sim))
+
 ##plot pairs of variables (removing some with high cat count)
-png("figures/ggpairs_sim.png",width=4000,height=4000,res=100)
+png("figures/14_ggpairs_sim.png",width=4000,height=4000,res=100)
 ggpairs(df_sim,cardinality_threshold=16) 
 dev.off()
 

@@ -246,7 +246,7 @@ robust_vect_pam<-rep(NA,length(rownames(dataset_pcoa$vectors)))
 names(robust_vect_pam)<-rownames(dataset_pcoa$vectors)
 
 #loop through ordered table to extract robust groups
-for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>20])){
+for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>18])){
   foo<-rownames(clust.num.k.2.7.df[clust.num.k.2.7.df[, 1] == combos[i, 1] & 
                                      clust.num.k.2.7.df[, 2] == combos[i, 2] &
                                      clust.num.k.2.7.df[, 3] == combos[i, 3] &

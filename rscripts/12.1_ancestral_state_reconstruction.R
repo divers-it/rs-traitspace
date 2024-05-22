@@ -56,42 +56,42 @@ df_rates<-readRDS(file = here::here("outputs/one_hot_transition_rates.rds"))
 # ---- MK 2-state ----
 ####
 
-# #loop through all characters
-# for (i in 2:length(colnames(df2))) {
-#   
-#   #make new dataframe with only trait of interest
-#   df3 <- df2[, c(1, i)]
-#   
-#   #omit missing data
-#   df3 <- na.omit(df3)
-#   
-#   #drop tips not in dataset
-#   phy2 <- drop.tip(phy, setdiff(phy$tip.label, df3$species))
-#   
-#   #sort df to match order of tips in phylo
-#   df3 <- df3[match(phy2$tip.label, df3$species), ]
-#   
-#   #plot phylogeny and example trait
-#   plot(phy2, show.tip.label = FALSE, type = 'fan')
-#   tiplabels(pch = 16,
-#             col = as.factor(df3[, 2]),
-#             cex = 1)
-#   
-#   #fit model with 1 rate category on woodiness trait
-#   MK_2state <- corHMM(
-#     phy = phy2,
-#     data = df3,
-#     rate.cat = 1,
-#     model = "ER"
-#   )
-#   
-#   states[i - 1] <- colnames(df3)[2]
-#   rates[i - 1] <- MK_2state$solution[1, 2]
-#   tree_sizes[i - 1] <- length(phy2$tip.label)
-#   no_states[i - 1] <- length(unique(df3[, 2]))
-# }
-# 
-# df_rates <- data.frame(states, rates, tree_sizes, no_states)
+#loop through all characters
+for (i in 2:length(colnames(df2))) {
+  
+  #make new dataframe with only trait of interest
+  df3 <- df2[, c(1, i)]
+  
+  #omit missing data
+  df3 <- na.omit(df3)
+  
+  #drop tips not in dataset
+  phy2 <- drop.tip(phy, setdiff(phy$tip.label, df3$species))
+  
+  #sort df to match order of tips in phylo
+  df3 <- df3[match(phy2$tip.label, df3$species), ]
+  
+  #plot phylogeny and example trait
+  plot(phy2, show.tip.label = FALSE, type = 'fan')
+  tiplabels(pch = 16,
+            col = as.factor(df3[, 2]),
+            cex = 1)
+  
+  #fit model with 1 rate category on woodiness trait
+  MK_2state <- corHMM(
+    phy = phy2,
+    data = df3,
+    rate.cat = 1,
+    model = "ER"
+  )
+  
+  states[i - 1] <- colnames(df3)[2]
+  rates[i - 1] <- MK_2state$solution[1, 2]
+  tree_sizes[i - 1] <- length(phy2$tip.label)
+  no_states[i - 1] <- length(unique(df3[, 2]))
+}
+
+df_rates <- data.frame(states, rates, tree_sizes, no_states)
  
 
 
@@ -503,16 +503,16 @@ g1 <- ggtree(phy, layout="circular", linetype=NA) %<+% metadata +
   geom_tree(linewidth=0.3) +
   geom_tippoint(mapping=aes(color=as.factor(cluster)), 
                 size=1.5) +
-  xlim(-50,200) +
+  xlim(-40,190) +
   scale_fill_manual(values=c("#ECECEC", "#FCFCFC")) +
-  theme(legend.position = c(0.5, 0.5),
-        legend.text = element_text(size=8),
+  theme(legend.position = c(0.49, 0.50),
+        legend.text = element_text(size=11),
         legend.title = element_blank(),
         legend.background = element_blank(),
         legend.key=element_blank(),
         legend.spacing.y = unit(-0.2, "cm"),
         ) +
-  guides(colour = guide_legend(override.aes = list(size=3),
+  guides(colour = guide_legend(override.aes = list(size=5),
                                byrow = TRUE))
 
 g1
@@ -528,7 +528,7 @@ g2 <- g1 + geom_plot(data=td_filter(!isTip),
                hjust=0.6,
                vjust=0.6
                ) + scale_color_manual(values=colours,
-                                      labels=c('1. Bisexual herbaceous', '2. Unisexual', '3. Bisexual woody'))
+                                      labels=c('G1: Bisexual herbaceous', 'G2: Unisexual', 'G3: Bisexual woody'))
 
 #no. species = 360 for plotting y coord
 g2 +

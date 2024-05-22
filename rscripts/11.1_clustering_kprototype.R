@@ -329,6 +329,77 @@ print(grid.arrange(grobs=plot_list[17:19],ncol=2,nrow=2))
 
 dev.off()
 
+####
+# ---- Figure: Quantitative trait boxplots for robust clusters ----
+####
+
+#palette from scatterplot
+cols<-harrypotter::hp(8,option = "lunalovegood")
+
+b1 <- ggplot(df_labelled, aes(x=robust_group, y=Maximumverticalheight, fill=robust_group)) + 
+  geom_boxplot(alpha=0.7) + 
+  geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
+  scale_fill_manual(values = c(cols,"grey")) +
+  scale_y_continuous(limits = quantile(df_labelled$Maximumverticalheight, c(0.05, 0.95),na.rm = TRUE)) +
+  ylab("Maximum height") +
+  theme(legend.position = "none",
+        # add border 1)
+        #panel.border = element_blank(),
+        # color background 2)
+        panel.background = element_rect(fill = "white"),
+        # modify grid 3)
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.y = element_line(color="grey70"),
+        panel.grid.minor.y = element_blank(),
+        # modify text, axis and colour 4) and 5)
+        axis.line.y = element_line(),
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(size=14),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size=16),
+        axis.ticks.x = element_blank(),
+        #axis.ticks.y = element_blank()
+  )#   + 
+#annotate("text", x = -.5, y = 1.5, label = "(b)", size = 8) +
+#coord_cartesian(ylim = c(-1.5, 1.75), xlim = c(1, 8), clip = "off") +
+#theme(plot.margin = unit(c(1,1,1,3), "lines"))
+
+b1
+
+b2 <- ggplot(df_labelled, aes(x=robust_group, y=flowerSize, fill=robust_group)) + 
+  geom_boxplot(alpha=0.7) + 
+  geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
+  scale_fill_manual(values = c(cols,"grey")) +
+  scale_y_continuous(limits = quantile(df_labelled$flowerSize, c(0.05, 0.95),na.rm = TRUE)) +
+  ylab("Flower size") +
+  theme(legend.position = "none",
+        plot.margin = unit(c(1,1,1,1), "cm"),
+        # add border 1)
+        #panel.border = element_blank(),
+        # color background 2)
+        panel.background = element_rect(fill = "white"),
+        # modify grid 3)
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.y = element_line(color="grey70"),
+        panel.grid.minor.y = element_blank(),
+        # modify text, axis and colour 4) and 5)
+        axis.line.y = element_line(),
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(size=12),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size=16),
+        axis.ticks.x = element_blank(),
+        #axis.ticks.y = element_blank()
+  )  
+
+b2
+
+b1 / b2
+
+ggsave("figures/11.1_robust_boxplots.png",width=15,height=10)
+
 ###
 # ---- Plot qualitative stats of robust groups ----
 ###
@@ -590,13 +661,14 @@ p9 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
 
 p9
 
-(p1 + p2 + p3) / 
-  (p4 + p5 + p6) /
-    (p7 + p8 + p9)
+(p1 + p2 + p3) / (p4 + p5 + p6) / (p7 + p8 + p9)
 
+
+patch <- ( p1 + p2 + p3 ) / (p4 + p5 + p6) / (p7 + p8 + p9) / ( b1 + b2 ) + plot_layout(heights=c(1, 1 , 1, 1))
+patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
 
 #save plot
-ggsave("figures/11.1_stacked_barplots_kpro_traits_by_robust.png",width=17.5,height=20)
+ggsave("figures/11.1_scatterplot_boxplots_and_stacked_barplots.png",width=20,height=25)
 
 #save image as takes long to run
 save.image(file = "outputs/11.1_kpro.RData")

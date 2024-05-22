@@ -108,40 +108,6 @@ hist(traitd$absDim1Dim2)
 
 traitd_labels <- traitd[traitd$absDim1Dim2>0.55,]
 
-
-#add phylo signal data
-rql<-read.csv( file = here::here("outputs/phylo_signal_qualitative.csv"),row.names = 1)
-rqnt<-read.csv( file = here::here("outputs/phylo_signal_quantitative.csv"),row.names = 1)
-
-rqnt<-data.frame(rownames(rqnt),rqnt$Lambda)
-colnames(rqnt)<-c("states","signal")
-rqnt<-rqnt[order(rqnt$states),]
-
-rql<- data.frame(rownames(rql),rql$deltas)
-colnames(rql)<-c("states","signal")
-rql<-rql[order(rql$states),]
-
-
-ts<-rbind(rqnt,rql)
-ts<-ts[match(rownames(traitd),ts$states),]
-rownames(traitd)==ts$states
-#because of outlier
-traitd$signal <- log(ts$signal)
-
-
-##add transition rate
-tr<-read.csv("outputs/one_hot_transition_rates.csv")
-tr<-data.frame(tr$states,tr$rates)
-colnames(tr)<-c('states','rates')
-foo<-cbind(rqnt$species,rep(NA,length(rqnt$species)))
-colnames(foo)<-c('states','rates')
-
-tr<-rbind(tr,foo)
-tr<-tr[match(rownames(traitd),tr$states),]
-rownames(traitd)==tr$states
-traitd$transition_rates <- as.numeric(tr$rates)
-
-
 ggplot() + 
   geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2),shape=21,fill="grey",alpha=0.4,size=6) + 
   geom_segment(data=traitd[sqrt(traitd$Dim1^2+traitd$Dim2^2)>minarrow,],
@@ -181,7 +147,7 @@ ggsave("figures/one_hot_13_scatterplot_pcoa_loadings.pdf",width=12.5,height=12.5
 
 
 ####
-# ---- Figure 2: Loadings scatterplot without cluster Axes 1 and 2 ----
+# ---- Figure 2: Loadings scatterplot without cluster Axes 3 and 4 ----
 ####
 
 #rename traits
@@ -228,11 +194,6 @@ ggplot() +
   ylab(paste("PCoA Axis 4: relative eigenvalue =",round(rel_ev_pcoa_g0[4],2)))
 
 ggsave("figures/one_hot_13_scatterplot_pcoa_loadings_axes_3_4.png",width=12.5,height=12.5)
-
-
-
-
-
 
 #plot points on first two axes, coloured by cluster
 p1=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd[sqrt(traitd$Dim1^2+traitd$Dim2^2)>minarrow,],aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd[sqrt(traitd$Dim1^2+traitd$Dim2^2)>minarrow,],aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25)+theme_bw() + theme(legend.position="top",legend.title=element_blank()) +

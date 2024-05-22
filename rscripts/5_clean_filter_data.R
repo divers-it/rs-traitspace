@@ -60,16 +60,46 @@ str(df)
 # Note: Removal thresholds are subjective
 
 #remove outlier in no. structural carpels
-df$Numberofstructuralcarpels[df$Numberofstructuralcarpels>998]<-NA
+hist(df$Numberofstructuralcarpels)
+head(sort(df$Numberofstructuralcarpels,decreasing = T))
+sort(df$Numberofstructuralcarpels)
+#No longer needed
+#df$Numberofstructuralcarpels[df$Numberofstructuralcarpels>998]<-NA
+#df$Numberofstructuralcarpels[df$Numberofstructuralcarpels==0]<-0.0001
 
 #remove outlier in no. ovules per carpel
+hist(log(df$Numberofovulesperfunctionalcarpel))
+head(sort(df$Numberofovulesperfunctionalcarpel,decreasing = T))
 df$Numberofovulesperfunctionalcarpel[df$Numberofovulesperfunctionalcarpel>998]<-NA
 
-#remove outlier in no. ovules per carpel
-df$Numberoffertilestamens[df$Numberoffertilestamens==0]<-0.0001
+#remove outlier in no. fertile stamens
+hist(df$Numberoffertilestamens)
+head(sort(df$Numberoffertilestamens,decreasing = T))
+sort(df$Numberoffertilestamens)
+#No longer needed
+#df$Numberoffertilestamens[df$Numberoffertilestamens==0]<-0.0001
 
-#remove outlier in no. ovules per carpel
-df$Numberofstructuralcarpels[df$Numberofstructuralcarpels==0]<-0.0001
+#remove outlier in fusion of ovaries
+hist(df$Fusionofovaries)
+hist(asin(sqrt(df$Fusionofovaries))) #doesn't do much
+head(sort(df$Fusionofovaries,decreasing = T))
+sort(df$Fusionofovaries)
+
+#remove outlier in flower size
+hist(df$flowerSize)
+head(sort(df$flowerSize,decreasing = T))
+head(sort(df$flowerSize))
+
+#remove outlier in seed mass
+hist(df$seedMass)
+head(sort(df$seedMass,decreasing = T))
+head(sort(df$seedMass))
+
+#remove outlier in height
+hist(df$Maximumverticalheight)
+head(sort(df$Maximumverticalheight,decreasing = T))
+head(sort(df$Maximumverticalheight))
+
 
 #visualise missing data after cleaning
 vis_miss(df)
@@ -80,7 +110,7 @@ ggsave("figures/5_missing_data_post_clean.png",
        units = 'cm')
 
 ####
-# ---- Correct species names
+# ---- Correct species names ----
 ####
 
 #get species list

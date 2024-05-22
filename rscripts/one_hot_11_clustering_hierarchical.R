@@ -177,6 +177,11 @@ dataset_dist <- stats::as.dist(gower_df)
 #run PCOA
 dataset_pcoa <- ape::pcoa(dataset_dist)
 
+#Recalculate relative eigenvalues by removing negative eigenvalues as in Mouillot et al.  
+ev_pcoa <- dataset_pcoa$values$Eigenvalues
+ev_pcoa_g0 <- ev_pcoa[ev_pcoa>0]
+rel_ev_pcoa_g0 <- ev_pcoa_g0/sum(ev_pcoa_g0)
+
 #select number of clusters to plot (5)
 clust.num <- cutree(aggl.clust.w, k = 5)
 
@@ -204,11 +209,11 @@ ggplot(data.frame(dataset_pcoa$vectors),
                                                    alpha = 0.25) +
   xlab(paste(
     "Axis 1: relative eigenvalue =",
-    round(dataset_pcoa$values$Relative_eig[1], 2)
+    round(rel_ev_pcoa_g0[1],2)
   )) +
   ylab(paste(
     "Axis 2: relative eigenvalue =",
-    round(dataset_pcoa$values$Relative_eig[2], 2)
+    round(rel_ev_pcoa_g0[2],2)
   ))
 
 #save image
@@ -238,11 +243,11 @@ ggplot(data.frame(dataset_pcoa$vectors),
                alpha = 0.25) +
   xlab(paste(
     "Axis 1: relative eigenvalue =",
-    round(dataset_pcoa$values$Relative_eig[1], 2)
+    round(rel_ev_pcoa_g0[1],2)
   )) +
   ylab(paste(
     "Axis 2: relative eigenvalue =",
-    round(dataset_pcoa$values$Relative_eig[2], 2)
+    round(rel_ev_pcoa_g0[2],2)
   ))
 
 ggsave("figures/one_hot_11_scatterplot_pcoa_wardD2_k3_coloured_by_cluster.png",

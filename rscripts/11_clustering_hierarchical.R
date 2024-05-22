@@ -193,8 +193,8 @@ rel_ev_pcoa_g0 <- ev_pcoa_g0/sum(ev_pcoa_g0)
 #plot points on first two axes, coloured by cluster with species names
 ggplot(data.frame(dataset_pcoa$vectors),
        aes(
-         x = Axis.1,
-         y = Axis.2,
+         x = Axis.3,
+         y = Axis.4,
          fill = as.factor(clust.num)
        )) +
   geom_point(
@@ -572,3 +572,10 @@ p1 + p2 + p3
 #save plot 
 ggsave("figures/11_stacked_barplots_wardD2_traits_by_cluster.png",width=20,height=10)
 
+#combined plot
+patch <- ( p1 + p2 + p3 ) / ( b1 + b2 ) + plot_layout(heights=c(2, 1))
+
+patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
+#patch
+
+ggsave("figures/11_scatterplot_boxplots_and_stacked_barplots.png",width=20,height=15)

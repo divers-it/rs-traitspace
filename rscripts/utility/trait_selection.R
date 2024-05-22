@@ -249,12 +249,23 @@ dataset_dist <- stats::as.dist(gower_df)
 
 #get all possible combinations for X different traits
 combos<-combn(colnames(df), 
-              m = 6 #number of traits
+              m = 4 #number of traits
               )
 str(combos)
 
+#empty matrix to store data
 cors<-matrix(nrow = length(combos[1,]),ncol=2)
 
+# Initialize the progress bar
+pb <- txtProgressBar(min = 0,      # Minimum value of the progress bar
+                     max = length(combos[1,]), # Maximum value of the progress bar
+                     style = 3,    # Progress bar style (also available style = 1 and style = 2)
+                     width = 50,   # Progress bar width. Defaults to getOption("width")
+                     char = "=")   # Character used to create the bar
+
+#loop through all combos and get correlation coefficients 
+#of reduced vs complete distance matrices
+#NOTE: when number of traits is low many coefficients will be NA due to missing data
 for (i in 1:(length(combos[1,]))){
   
   df3 <- df[, colnames(df)%in%combos[,i]]
@@ -263,14 +274,13 @@ for (i in 1:(length(combos[1,]))){
   
   cors[i,1]<-paste(combos[,i],collapse="_")
   cors[i,2]<-cor(dataset_dist,dataset_dist3)[1]
-
-  if(i %% 1000 == 0){
-    
-    print(paste("Combo number:",i))
-    
-  }
+  
+  # Sets the progress bar to the current state
+  setTxtProgressBar(pb, i)
   
 }
+
+close(pb) # Close the connection
 
 #reorder based on max correlation and look at best correlates
 cors<-cors[order(cors[,2],decreasing = TRUE),]

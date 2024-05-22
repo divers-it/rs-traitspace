@@ -18,25 +18,25 @@ ss<-vector()
 clust_memb<-vector()
 kproto_list<-list()
 
-#run clustering with different values of K up to 10
-for(i in 2:10){
-
-kproto_out<-kproto(df, k=i, lambda = NULL, iter.max = 1000, nstart = 10, na.rm = F)
-
-kproto_list[[i]]<-kproto_out
-
-ss[i]<-kproto_out$tot.withinss
-
-if(i == 2){
-  clust_memb<-kproto_out$cluster
-} else {
-  clust_memb<-cbind(clust_memb,kproto_out$cluster)
-}
-
-}
+# #run clustering with different values of K up to 10
+# for(i in 2:10){
+# 
+# kproto_out<-kproto(df, k=i, lambda = NULL, iter.max = 1000, nstart = 10, na.rm = F)
+# 
+# kproto_list[[i]]<-kproto_out
+# 
+# ss[i]<-kproto_out$tot.withinss
+# 
+# if(i == 2){
+#   clust_memb<-kproto_out$cluster
+# } else {
+#   clust_memb<-cbind(clust_memb,kproto_out$cluster)
+# }
+# 
+# }
 
 #load previous Kproto run
-#load("outputs/one_hot_11.1_kpro.RData")
+load("outputs/one_hot_11.1_kpro.RData")
 
 #look at clustering output
 head(clust_memb)
@@ -83,7 +83,7 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.f
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
 
 #save plot
-ggsave("figures/one_hot_11.1_scatterplot_pcoa_kpro_k4_coloured_by_cluster.png",width = 12,height=10)
+ggsave("figures/one_hot_11.1_scatterplot_pcoa_kpro_k5_coloured_by_cluster.png",width = 12,height=10)
 
 ###
 # ---- Sankey plot ----
@@ -181,7 +181,7 @@ names(robust_vect_kpro)<-rownames(dataset_pcoa$vectors)
 
 #loop through ordered table to extract robust groups
 #change value in loop for threshold
-for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>10])){
+for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>18])){
   foo<-rownames(clust.num.k.2.7.df[clust.num.k.2.7.df[, 1] == combos[i, 1] & 
                                      clust.num.k.2.7.df[, 2] == combos[i, 2] &
                                      clust.num.k.2.7.df[, 3] == combos[i, 3] &
@@ -379,5 +379,5 @@ ggplot(df_temp_melt_counts, aes(variable, count, fill = value)) +
 ggsave("figures/one_hot_11.1_stacked_barplots_kpro_traits_by_robust.png",width=15,height=10)
 
 #save image as takes long to run
-save.image(file = "outputs/one_hot_11.1_kpro.RData")
+#save.image(file = "outputs/one_hot_11.1_kpro.RData")
 

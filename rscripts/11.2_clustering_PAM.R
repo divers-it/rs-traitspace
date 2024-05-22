@@ -250,7 +250,7 @@ robust_vect_pam<-rep(NA,length(rownames(dataset_pcoa$vectors)))
 names(robust_vect_pam)<-rownames(dataset_pcoa$vectors)
 
 #loop through ordered table to extract robust groups
-for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>20])){
+for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>18])){
   foo<-rownames(clust.num.k.2.7.df[clust.num.k.2.7.df[, 1] == combos[i, 1] & 
                                      clust.num.k.2.7.df[, 2] == combos[i, 2] &
                                      clust.num.k.2.7.df[, 3] == combos[i, 3] &
@@ -340,7 +340,6 @@ size_pollin[grep("abiotic",df$Pollination)]
 # ---- Figure SX: Scatterplot PAM with robust groups showing unisexual, abiotic outliers ----
 ####
 
-
 #plot points on first two PCoA axes, coloured by robust group and shaped by cluster
 ggplot(
   data.frame(pcoa_robust),
@@ -404,15 +403,20 @@ ggsave("figures/11.2_scatterplot_tsne_pam_coloured_by_robust.png",width=12,heigh
 
 library(ochRe)
 library(umap)
-custom_config <- umap.defaults
-custom_config$n_components <-  2# number of dimensions targeted
-custom_config$n_neighbors <- 25 # number of dimensions targeted
-custom_config$input <- "dist" # The input matrix is a distance matrix
-umap_final <- umap(d = as.matrix(gower_df),config = custom_config)
-df_umap_final <- data.frame(umap_final$layout)
-rownames(df_umap_final) <- rownames(df) #CHECK
 
-df_umap_final
+# custom_config <- umap.defaults
+# custom_config$n_components <-  2# number of dimensions targeted
+# custom_config$n_neighbors <- 10 # number of dimensions targeted
+# custom_config$input <- "dist" # The input matrix is a distance matrix
+# umap_final <- umap(d = as.matrix(gower_df),config = custom_config)
+# df_umap_final <- data.frame(umap_final$layout)
+# rownames(df_umap_final) <- rownames(df) #CHECK
+#
+# df_umap_final
+#
+# saveRDS(df_umap_final,file="outputs/umap_nc2_nn10.RDS")
+
+df_umap_final <- readRDS("outputs/umap_nc2_nn10.RDS")
 
 #PCoA scatterplot with density polygons
 s1 <- ggplot(
@@ -433,8 +437,6 @@ s1 <- ggplot(
   scale_shape_manual(values=c(21,22,23), labels=c('1', '2', '3')) +
   xlab("UMAP Axis 1") +
   ylab("UMAP Axis 2") +
-  #xlim(-0.55,0.5) + 
-  #ylim(-0.4,0.5) + 
   theme_bw() + theme(
     panel.border = element_blank(),
     #panel.grid.major = element_line(colour = "darkgrey"),
@@ -463,7 +465,7 @@ s1 <- ggplot(
          shape = guide_legend(override.aes = list(size = 8))
   ) + 
   #annotate("text", x = -4.5, y = 5.75, label = "(a)", size = 8) +
-  coord_cartesian(xlim = c(-3.5, 3.5), ylim = c(-3.5, 5), clip = "off") +
+  coord_cartesian(xlim = c(-5, 5), ylim = c(-4, 6), clip = "off") +
   theme(plot.margin = unit(c(3,1,1,3), "lines"))
 
 
@@ -531,7 +533,7 @@ b1 <- ggplot(df_labelled, aes(x=robust_group, y=Maximumverticalheight, fill=robu
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols,"grey")) +
   scale_y_continuous(limits = quantile(df_labelled$Maximumverticalheight, c(0.05, 0.95),na.rm = TRUE)) +
-  ylab("Maximum vertical height") +
+  ylab("Maximum height") +
   theme(legend.position = "none",
         # add border 1)
         #panel.border = element_blank(),
@@ -547,7 +549,7 @@ b1 <- ggplot(df_labelled, aes(x=robust_group, y=Maximumverticalheight, fill=robu
         axis.text.x = element_blank(),
         axis.text.y = element_text(size=14),
         axis.title.x = element_blank(),
-        axis.title.y = element_text(size=20),
+        axis.title.y = element_text(size=16),
         axis.ticks.x = element_blank(),
         #axis.ticks.y = element_blank()
   )#   + 
@@ -577,9 +579,9 @@ b2 <- ggplot(df_labelled, aes(x=robust_group, y=flowerSize, fill=robust_group)) 
         # modify text, axis and colour 4) and 5)
         axis.line.y = element_line(),
         axis.text.x = element_blank(),
-        axis.text.y = element_text(size=14),
+        axis.text.y = element_text(size=12),
         axis.title.x = element_blank(),
-        axis.title.y = element_text(size=20),
+        axis.title.y = element_text(size=16),
         axis.ticks.x = element_blank(),
         #axis.ticks.y = element_blank()
   )  
@@ -897,6 +899,9 @@ ggsave("figures/11.2_robust_stacked_barplots.png",width=20,height=15)
 
 #combined plot
 
-(s1 / b1 / b2 ) + plot_layout(heights=c(4, 1, 1)) | (p1 + p2) / (p3 + p4) / (p5 + p6) / (p7 + p8)
+patch <- (s1 / b1 / b2 ) + plot_layout(heights=c(4, 1, 1)) | (p1 + p2) / (p3 + p4) / (p5 + p6) / (p7 + p8) 
+
+patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
+#patch
 
 ggsave("figures/11.2_scatterplot_boxplots_and_stacked_barplots.png",width=25,height=20)
