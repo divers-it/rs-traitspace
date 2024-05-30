@@ -27,14 +27,14 @@ summary(gower_df)
 labels(gower_df)==gsub("_"," ",labels(gower_df_no_miss))
 
 #linear model
-mod<-summary(lm(gower_df~gower_df_no_miss))
-mod$r.squared
+#mod<-summary(lm(gower_df~gower_df_no_miss))
+#mod$r.squared
 
 #compare pairwaise distances of matrices with missing data and with imputed
 png("figures/8_scatterplot_dist_missing_vs_imputed.png",width = 500,height = 500)
 plot(gower_df,gower_df_no_miss,xlim=c(0,1),ylim=c(0,1),xlab="Original",ylab="Imputed")
 abline(0,1,lty=2,col="red",lwd=2)
-text(x=0.15, y=0.9, labels=paste("R-squared =",round(mod$r.squared,3)))
+#text(x=0.15, y=0.9, labels=paste("R-squared =",round(mod$r.squared,3)))
 dev.off()
 
 #make into distance object
@@ -189,8 +189,7 @@ uuid <- get_uuid(name = "Oryza sativa", n = 1)
 oryza_pp <- get_phylopic(uuid = uuid)
 
 uuid <- get_uuid(name = "Zea mays", n = 5)
-
-zea_pp <- get_phylopic(uuid = uuid[3])
+zea_pp <- get_phylopic(uuid = uuid[4])
 
 uuid <- get_uuid(name = "Phoenix dactylifera", n = 1)
 phoenix_pp <- get_phylopic(uuid = uuid)

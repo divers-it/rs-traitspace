@@ -354,7 +354,7 @@ geom_point(
   ggrepel::geom_text_repel(
     data = points,
     aes(x, y, label = id),
-    size = 3,
+    size = 5,
     segment.size = 0.0,
     segment.color = "white"
   ) + 
@@ -367,11 +367,15 @@ geom_point(
   theme(legend.key = element_blank(),
         legend.background = element_blank(),
         legend.box = "horizontal",
+        legend.box.background = element_rect(color = "black"),
+        legend.box.margin = margin(5,5,5,5),
+        legend.title = element_text(size=14),
+        legend.text = element_text(size=12),
         legend.position = c(0.85,0.1),
         panel.background = element_rect(fill='white'))
 
 
-ggsave("figures/7_correlation_network.png",width=12.5,height=12.5)
+ggsave("figures/7_correlation_network.png",width=14,height=14)
 
 # ###
 # # ---- Original corrr function ----

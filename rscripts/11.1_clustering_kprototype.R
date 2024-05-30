@@ -8,6 +8,8 @@ library(ggplot2)
 library(cluster)
 library(networkD3)
 library(data.table)
+library(gridExtra)
+library(patchwork)
 
 # #load formatted data
 # df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))

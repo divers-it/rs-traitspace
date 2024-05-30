@@ -232,8 +232,8 @@ s1 <- ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2)) +
   scale_shape_manual("Data set",values=c(21,21)) +
   scale_size_manual("Data set",values=c(2,4)) +
   scale_alpha_manual("Data set",values=c(0.6,0.8)) +
-  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) + 
+  xlab(paste("PCoA Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
+  ylab(paste("PCoA Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) + 
   theme_bw() +
   theme(
     panel.border = element_blank(),

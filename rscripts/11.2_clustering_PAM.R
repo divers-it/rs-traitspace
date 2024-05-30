@@ -352,14 +352,14 @@ ggplot(
 ) +
   geom_point(
     aes(shape = as.factor(df$Pollination),
-        size = as.factor(df$SexualSystem)),
+        size = as.factor(df$FlowerSex)),
     alpha = 0.5,
     stroke = 0.5
   ) +
   scale_shape_manual(values=c(23,22,8,24,4,21)) +
   labs(
     colour = "Robust group",
-    size = "Sexual System",
+    size = "Flower sex",
     shape = "Pollination"
   ) + 
   theme_bw() +

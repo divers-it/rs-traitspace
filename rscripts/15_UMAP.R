@@ -28,7 +28,7 @@ df_final$DispersalMode <- factor(
              "abiotic_autonomous_biotic",
              "abiotic_biotic",
              "biotic")
-  )
+)
 df_final$Pollination <- factor(
   df_final$Pollination,
   levels = c("autonomous",
@@ -145,8 +145,8 @@ plot_figure_pcoa <- function(df,tr,suffix,label_list) {
   names(df) <- c("dim1","dim2","dim3","dim4")
   label <- label_list[,tr]
   if(is.numeric(label)) {
-      # color <- scale_colour_gradientn(colours=terrain.colors(10),name=NULL)
-      color <- scale_colour_viridis_c()
+    # color <- scale_colour_gradientn(colours=terrain.colors(10),name=NULL)
+    color <- scale_colour_viridis_c()
   } else
     color <- scale_color_discrete()
   g12 <- ggplot(data=df,aes(x=dim1,y=dim2,col=label)) + geom_point() + color
@@ -267,4 +267,4 @@ library(patchwork)
 ( p100 + p50 ) /
   ( p25 + p10 )
 
-ggsave("figures/scatterplots_umap_knn10-100.png",width = 15, height=15)
+ggsave("figures/15_scatterplots_umap_knn10-100.png",width = 15, height=15)

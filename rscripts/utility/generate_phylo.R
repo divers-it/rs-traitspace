@@ -28,7 +28,7 @@ db<-rbind(db1,db2,db3)
 #get standardized list of taxon names
 wcvp_list <- nameMatch(spec_list,spSource=db)
 
-#NOTE: There are some species with issues
+#NOTE: There could be some species with issues
 wcvp_list[wcvp_list$Fuzzy==1,]
 wcvp_list[wcvp_list$name.dist>1,]
 

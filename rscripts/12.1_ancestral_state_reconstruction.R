@@ -503,7 +503,7 @@ g1 <- ggtree(phy, layout="circular", linetype=NA) %<+% metadata +
   geom_tree(linewidth=0.3) +
   geom_tippoint(mapping=aes(color=as.factor(cluster)), 
                 size=1.5) +
-  xlim(-40,190) +
+  xlim(-50,200) +
   scale_fill_manual(values=c("#ECECEC", "#FCFCFC")) +
   theme(legend.position = c(0.49, 0.50),
         legend.text = element_text(size=11),
@@ -528,7 +528,7 @@ g2 <- g1 + geom_plot(data=td_filter(!isTip),
                hjust=0.6,
                vjust=0.6
                ) + scale_color_manual(values=colours,
-                                      labels=c('G1: Bisexual herbaceous', 'G2: Unisexual', 'G3: Bisexual woody'))
+                                      labels=c('(1) Bisexual herbaceous', '(2) Unisexual', '(3) Bisexual woody'))
 
 #no. species = 360 for plotting y coord
 g2 +
@@ -548,4 +548,4 @@ g2 +
   add_phylopic(img=solanales_pp, x=195, y=330, ysize = 10,col = "grey30") +
   add_phylopic(img=lamiales_pp, x=195, y=348, ysize = 12,col = "grey30")
 
-ggsave("figures/figure3_tree2.png", width = 15, height=15)
+ggsave("figures/12.1_figure3_tree2.png", width = 15, height=15)

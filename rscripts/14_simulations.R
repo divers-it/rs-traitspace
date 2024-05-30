@@ -185,11 +185,12 @@ ggplot(data = df_ev,aes(x=c(1:21))) +
   geom_errorbar(aes(ymin=sim_min,ymax=sim_max)) +
   xlab("Rank of eigenvalues") + ylab("Relative eigenvalues") +
   theme_bw()+
-  theme(axis.title = element_text(size=16),
-        axis.text = element_text(size=14),
-        legend.text = element_text(size=12))+
+  theme(axis.title = element_text(size=18),
+        axis.text = element_text(size=16),
+        legend.title = element_text(size=18),
+        legend.text = element_text(size=16))+
   labs(col = "Trait matrix")
-ggsave("figures/observed_vs_simulated_eigenvalues.png",width=15,height=10)
+ggsave("figures/14_observed_vs_simulated_eigenvalues.png",width=15,height=10)
 
 
 # Looking at the traits in the simulated datasets

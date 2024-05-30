@@ -59,15 +59,15 @@ source(here::here("rscripts", "8.4_pcoa_diaz_data_shared.R"))
 source(here::here("rscripts", "11_clustering_hierarchical.R"))
 source(here::here("rscripts", "11.1_clustering_kprototype.R"))
 source(here::here("rscripts", "11.2_clustering_PAM.R"))
-source(here::here("rscripts", "11.3_clustering_LCM.R"))
-source(here::here("rscripts", "11.4_clustering_densityClust.R"))
+#source(here::here("rscripts", "11.3_clustering_LCM.R"))
+#source(here::here("rscripts", "11.4_clustering_densityClust.R"))
 
 #One-hot clustering
 source(here::here("rscripts", "one_hot_11_clustering_hierarchical.R"))
 source(here::here("rscripts", "one_hot_11.1_clustering_kprototype.R"))
 source(here::here("rscripts", "one_hot_11.2_clustering_PAM.R"))
-source(here::here("rscripts", "one_hot_11.3_clustering_LCM.R"))
-source(here::here("rscripts", "one_hot_11.4_clustering_densityClust.R"))
+#source(here::here("rscripts", "one_hot_11.3_clustering_LCM.R"))
+#source(here::here("rscripts", "one_hot_11.4_clustering_densityClust.R"))
 
 #Bring clustering together results
 source(here::here("rscripts/utility", "collate_clustering_results.R"))
