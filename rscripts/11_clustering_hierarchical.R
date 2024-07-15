@@ -242,7 +242,10 @@ ggplot(data.frame(dataset_pcoa$vectors),
   scale_colour_manual(values=cols) +
   xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) + 
-  theme(legend.position = "none")
+  theme(legend.position = "none",
+        axis.text = element_text(size=14),
+        axis.title = element_text(size=16)
+        )
 
 
 ggsave("figures/11_scatterplot_pcoa_wardD2_k3_coloured_by_cluster.png",

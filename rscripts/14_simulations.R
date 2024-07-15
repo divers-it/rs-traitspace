@@ -190,7 +190,7 @@ ggplot(data = df_ev,aes(x=c(1:21))) +
         legend.title = element_text(size=18),
         legend.text = element_text(size=16))+
   labs(col = "Trait matrix")
-ggsave("figures/14_observed_vs_simulated_eigenvalues.png",width=15,height=10)
+ggsave("figures/14_observed_vs_simulated_eigenvalues.png",width=10,height=10)
 
 
 # Looking at the traits in the simulated datasets

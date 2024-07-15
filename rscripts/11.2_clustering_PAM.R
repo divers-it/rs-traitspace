@@ -268,14 +268,21 @@ for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>0])){
 robust
 
 #keep 80% of the species in robust clusters ; others are NA
-sum=0
-for(i in 1:max(robust_vect_pam){
-	sum=sum+length(robust[[i]])
-	if(sum>0.8*length(robust_vect_pam){
-#		robust_vect_pam[robust_vect_pam==i,1]=NA
-	}
+sum = 0
+
+for (i in 1:max(robust_vect_pam)) {
+  
+  if (sum > 0.8 * length(robust_vect_pam)) {
+    robust_vect_pam[robust_vect_pam == i] <- NA
+    
+  }
+  
+  sum = sum + length(robust[[i]])
+  
+
 }
 
+table(robust_vect_pam)
 
 #complete vector of robust groups and non-robust 
 robust_vect_pam_full<-robust_vect_pam

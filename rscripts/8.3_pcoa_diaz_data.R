@@ -39,7 +39,8 @@ diaz_c<-diaz[,c("Species_name_standardized_against_TPL",
         "LDMC_g_g",
         "SSD_imputed_mg_mm3",
         "SSD_combined_mg_mm3",
-        "Number_of_traits_with_values"
+        "Number_of_traits_with_values",
+        "Phylogenetic_Group_General"
         )
         ]
 

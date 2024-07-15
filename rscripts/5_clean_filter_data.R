@@ -27,8 +27,10 @@ df[sapply(df, is.integer)] <- lapply(df[sapply(df, is.integer)],
 #check structure
 str(df)
 
+par(mar=c(5,5,5,5))
+
 #visualise missing data
-vis_miss(df)
+vis_miss(df) + ggplot2::theme(plot.margin = ggplot2::margin(5,40,5,5))
 ggsave("figures/5_missing_data_pre_clean.png",
        height = 20,
        width = 40,
@@ -102,7 +104,7 @@ head(sort(df$Maximumverticalheight))
 
 
 #visualise missing data after cleaning
-vis_miss(df)
+vis_miss(df) + ggplot2::theme(plot.margin = ggplot2::margin(5,40,5,5))
 ggsave("figures/5_missing_data_post_clean.png",
        height = 20,
        width = 40,

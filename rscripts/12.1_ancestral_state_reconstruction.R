@@ -222,7 +222,7 @@ phy$tip.label == clust_df$species
 
 #NOTE: change column to choose different classification
 #make associated data frame by choosing clusters/robust column
-dat <- clust_df[, c("species", "ward")]
+dat <- clust_df[, c("species", "ward_cluster")]
 
 #make model
 HMM_ARD <-
@@ -532,20 +532,20 @@ g2 <- g1 + geom_plot(data=td_filter(!isTip),
 
 #no. species = 360 for plotting y coord
 g2 +
-  add_phylopic(img=magnoliales_pp, x=195, y=14, ysize = 9,col = "grey30") +
-  add_phylopic(img=alismatales_pp, x=195, y=29, ysize = 10,col = "grey30") +
-  add_phylopic(img=asparagales_pp, x=195, y=55, ysize = 10,col = "grey30") +
-  add_phylopic(img=poales_pp, x=195, y=78, ysize = 10,col = "grey30") +
-  add_phylopic(img=saxifragales_pp, x=195, y=106, ysize = 10,col = "grey30") +
-  add_phylopic(img=sapindales_pp, x=195, y=128, ysize = 10,col = "grey30") +
-  add_phylopic(img=brassicales_pp, x=195, y=151, ysize = 10,col = "grey30") +
-  add_phylopic(img=rosales_pp, x=195, y=170, ysize = 7,col = "grey30") +
-  add_phylopic(img=fagales_pp, x=195, y=185, ysize = 10,col = "grey30") +
-  add_phylopic(img=malpighiales_pp, x=195, y=208, ysize = 13,col = "grey30") +
-  add_phylopic(img=caryophyllales_pp, x=195, y=244, ysize = 10,col = "grey30") +
-  add_phylopic(img=ericales_pp, x=195, y=272, ysize = 10,col = "grey30") + 
-  add_phylopic(img=asterales_pp, x=195, y=307, ysize = 10,col = "grey30") +
-  add_phylopic(img=solanales_pp, x=195, y=330, ysize = 10,col = "grey30") +
-  add_phylopic(img=lamiales_pp, x=195, y=348, ysize = 12,col = "grey30")
+  add_phylopic(img=magnoliales_pp, x=195, y=14, ysize = 9,col = "black") +
+  add_phylopic(img=alismatales_pp, x=195, y=29, ysize = 10,col = "black") +
+  add_phylopic(img=asparagales_pp, x=195, y=55, ysize = 10,col = "black") +
+  add_phylopic(img=poales_pp, x=195, y=78, ysize = 10,col = "black") +
+  add_phylopic(img=saxifragales_pp, x=195, y=106, ysize = 10,col = "black") +
+  add_phylopic(img=sapindales_pp, x=195, y=128, ysize = 10,col = "black") +
+  add_phylopic(img=brassicales_pp, x=195, y=151, ysize = 10,col = "black") +
+  add_phylopic(img=rosales_pp, x=195, y=170, ysize = 7,col = "black") +
+  add_phylopic(img=fagales_pp, x=195, y=185, ysize = 10,col = "black") +
+  add_phylopic(img=malpighiales_pp, x=195, y=208, ysize = 13,col = "black") +
+  add_phylopic(img=caryophyllales_pp, x=195, y=244, ysize = 10,col = "black") +
+  add_phylopic(img=ericales_pp, x=195, y=272, ysize = 10,col = "black") + 
+  add_phylopic(img=asterales_pp, x=195, y=307, ysize = 10,col = "black") +
+  add_phylopic(img=solanales_pp, x=195, y=330, ysize = 10,col = "black") +
+  add_phylopic(img=lamiales_pp, x=195, y=348, ysize = 12,col = "black")
 
 ggsave("figures/12.1_figure3_tree2.png", width = 15, height=15)
