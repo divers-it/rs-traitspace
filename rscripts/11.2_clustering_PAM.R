@@ -250,7 +250,7 @@ robust_vect_pam<-rep(NA,length(rownames(dataset_pcoa$vectors)))
 names(robust_vect_pam)<-rownames(dataset_pcoa$vectors)
 
 #loop through ordered table to extract robust groups
-for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>18])){
+for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>0])){
   foo<-rownames(clust.num.k.2.7.df[clust.num.k.2.7.df[, 1] == combos[i, 1] & 
                                      clust.num.k.2.7.df[, 2] == combos[i, 2] &
                                      clust.num.k.2.7.df[, 3] == combos[i, 3] &
@@ -267,8 +267,19 @@ for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>18])){
 #robust groups
 robust
 
+#keep 80% of the species in robust clusters ; others are NA
+sum=0
+for(i in 1:max(robust_vect_pam){
+	sum=sum+length(robust[[i]])
+	if(sum>0.8*length(robust_vect_pam){
+#		robust_vect_pam[robust_vect_pam==i,1]=NA
+	}
+}
+
+
 #complete vector of robust groups and non-robust 
 robust_vect_pam_full<-robust_vect_pam
+
 saveRDS(robust_vect_pam_full, file = here::here("outputs/11.2_robust_vect_pam_full.rds"))
 
 #remove species not in robust groups
