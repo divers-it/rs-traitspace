@@ -235,14 +235,14 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
   scale_fill_distiller(palette = "Greys", direction = 1, guide = "none") +
   geom_point(
     aes(
-      color = as.factor(df$FlowerSex),
+      color = as.factor(df$SexualSystem),
       shape = as.factor(df$Woodiness)),
     # shape=21,
     alpha = 0.7,
     size = 2.5,
     stroke = 0.5) + 
-  scale_color_manual(values=wes_palette("FantasticFox1", 3),
-                     labels=c('Bisexual', 'Bisexual & Unisexual', 'Unisexual','No Data')) +
+#  scale_color_manual(values=wes_palette("FantasticFox1", 6),
+#                     labels=c('Bisexual', 'Bisexual & Unisexual', 'Unisexual','No Data')) +
   scale_shape_discrete(labels=c('Herbaceous', 'Herbaceous & Woody', 'Woody','No Data')) +
   xlab(paste("PCoA Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("PCoA Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) +

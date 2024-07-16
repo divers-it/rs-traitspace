@@ -130,7 +130,8 @@ ggsave("figures/7_heatmap_distance.png",
 
 #One-liner to look at frequency of trait combinations
 combo_df <-
-  dataset %>% group_by(SexualSystem, FlowerSex, .drop = FALSE) %>%
+#  dataset %>% group_by(SexualSystem, FlowerSex, .drop = FALSE) %>%
+  dataset %>% group_by(SexualSystem, .drop = FALSE) %>%
   summarize(count = n())
 combo_df
 

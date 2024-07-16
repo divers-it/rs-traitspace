@@ -50,8 +50,8 @@ clusters_kpro_one_hot=readRDS(file = here::here("outputs/one_hot_11.1_clust_num_
 clusters_kpro=readRDS(file = here::here("outputs/11.1_clust_num_k_2_7_kpro.rds"))
 clusters_pam_one_hot=readRDS(file = here::here("outputs/one_hot_11.2_clust_num_k_2_7_pam.rds"))
 clusters_pam=readRDS(file = here::here("outputs/11.2_clust_num_k_2_7_pam.rds"))
-clusters_density_one_hot=readRDS(file = here::here("outputs/one_hot_11.4_clust_num_k_2_7_density.rds"))
-clusters_density=readRDS(file = here::here("outputs/11.4_clust_num_k_2_7_density.rds"))
+#clusters_density_one_hot=readRDS(file = here::here("outputs/one_hot_11.4_clust_num_k_2_7_density.rds"))
+#clusters_density=readRDS(file = here::here("outputs/11.4_clust_num_k_2_7_density.rds"))
 
 #select number of clusters
 # divisive.clust = 3
@@ -106,10 +106,10 @@ traitd$trait<-gsub("\\."," ",traitd$trait)
 traitd$absDim1Dim2<-abs(traitd$Dim1)+abs(traitd$Dim2)
 hist(traitd$absDim1Dim2)
 
-traitd_labels <- traitd[traitd$absDim1Dim2>0.55,]
+traitd_labels <- traitd[traitd$absDim1Dim2>0.1,]
 
 ggplot() + 
-  geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2),shape=21,fill="grey",alpha=0.4,size=6) + 
+  geom_point(data=df_ord,aes(x=Dim1,y=Dim2),shape=21,fill="grey",alpha=0.4,size=6) + 
   geom_segment(data=traitd[sqrt(traitd$Dim1^2+traitd$Dim2^2)>minarrow,],
                aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2), col="grey30",
                #aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2,col=signal),

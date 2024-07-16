@@ -17,15 +17,15 @@ trait_number,old_trait,old_state,old_state_freq,new_trait,new_state
 1,Habit (D1),(3) herb,141,Aquatic,non-aquatic
 1,Habit (D1),(4) vine,11,Aquatic,non-aquatic
 1,Habit (D1),(5) aquatic herb,26,Aquatic,aquatic
-4,Plant sexual system (D1),(0) bisexual,225,SexualSystem,monomorphic
-4,Plant sexual system (D1),(1) monoecious,43,SexualSystem,monomorphic
-4,Plant sexual system (D1),(2) dioecious,68,SexualSystem,dimorphic
-4,Plant sexual system (D1),(3) gynomonoecious,2,SexualSystem,monomorphic
-4,Plant sexual system (D1),(4) gynodioecious,7,SexualSystem,dimorphic
-4,Plant sexual system (D1),(5) andromonoecious,12,SexualSystem,monomorphic
-4,Plant sexual system (D1),(6) androdioecious,2,SexualSystem,dimorphic
-4,Plant sexual system (D1),(7) trimonoecious,2,SexualSystem,monomorphic
-4,Plant sexual system (D1),(8) polygamous,2,SexualSystem,dimorphic
+4,Plant sexual system (D1),(0) bisexual,225,SexualSystem,bisexual
+4,Plant sexual system (D1),(1) monoecious,43,SexualSystem,monoecious
+4,Plant sexual system (D1),(2) dioecious,68,SexualSystem,dioecious
+4,Plant sexual system (D1),(3) gynomonoecious,2,SexualSystem,bisexual
+4,Plant sexual system (D1),(4) gynodioecious,7,SexualSystem,bisexual
+4,Plant sexual system (D1),(5) andromonoecious,12,SexualSystem,bisexual
+4,Plant sexual system (D1),(6) androdioecious,2,SexualSystem,bisexual
+4,Plant sexual system (D1),(7) trimonoecious,2,SexualSystem,bisexual
+4,Plant sexual system (D1),(8) polygamous,2,SexualSystem,bisexual
 5,Life history (D1),(0) annual,55,Lifespan,short
 5,Life history (D1),(1) biennial,10,Lifespan,short
 5,Life history (D1),(2) perennial (undetermined),163,Lifespan,long
@@ -72,9 +72,6 @@ trait_number,old_trait,old_state,old_state_freq,new_trait,new_state
 95,Dispersal syndrome (D1),(6) hydrochory,32,DispersalDist,long
 95,Dispersal syndrome (D1),(7) ballistochory,10,DispersalDist,short
 15562,Fruit fleshiness (D1),(0) fleshy,,DispersalDist,long
-100,Floral structural sex (D1),(0) bisexual,248,FlowerSex,bisexual
-100,Floral structural sex (D1),(1) incompletely unisexual,47,FlowerSex,unisexual
-100,Floral structural sex (D1),(2) unisexual,92,FlowerSex,unisexual
 102,Ovary position (D1),(0) superior,220,OvaryPosition,superior
 102,Ovary position (D1),(1) inferior,67,OvaryPosition,inferior
 102,Ovary position (D1),(2) half-inferior,12,OvaryPosition,intermediate
