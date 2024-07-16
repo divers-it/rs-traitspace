@@ -272,7 +272,7 @@ sum=0
 for(i in 1:max(robust_vect_pam){
 	sum=sum+length(robust[[i]])
 	if(sum>0.8*length(robust_vect_pam){
-#		robust_vect_pam[robust_vect_pam==i,1]=NA
+		robust_vect_pam[robust_vect_pam==i,1]=NA
 	}
 }
 
