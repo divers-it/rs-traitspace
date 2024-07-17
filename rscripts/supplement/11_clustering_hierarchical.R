@@ -234,18 +234,16 @@ ggplot(data.frame(dataset_pcoa$vectors),
     alpha = 0.5,
     size = 3,
     stroke = 0.5
-  ) +  geom_text_repel(aes(label = sp_names, colour = as.factor(clust.num)),
-                       size = 3.5) +  stat_ellipse(geom = "polygon",
-                                                   aes(fill = as.factor(clust.num)),
-                                                   alpha = 0.25) +
-  scale_fill_manual(values=cols) +
-  scale_colour_manual(values=cols) +
-  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) + 
-  theme(legend.position = "none",
-        axis.text = element_text(size=14),
-        axis.title = element_text(size=16)
-        )
+  ) +  stat_ellipse(geom = "polygon", aes(fill = as.factor(clust.num)), alpha = 0.25) +
+  scale_fill_manual(values = cols) +
+  scale_colour_manual(values = cols) +
+  xlab(paste("Axis 1: relative eigenvalue =", round(rel_ev_pcoa_g0[1], 2))) +
+  ylab(paste("Axis 2: relative eigenvalue =", round(rel_ev_pcoa_g0[2], 2))) +
+  theme(
+    legend.position = "none",
+    axis.text = element_text(size = 14),
+    axis.title = element_text(size = 16)
+  )
 
 
 ggsave("figures/11_scatterplot_pcoa_wardD2_k3_coloured_by_cluster.png",

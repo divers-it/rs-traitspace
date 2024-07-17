@@ -228,6 +228,8 @@ df$Woodiness[is.na(df$Woodiness)] = "None"
 tmp<-readRDS("outputs/phylopic_uuids.rds")
 dataset_pcoa$vectors[rownames(dataset_pcoa$vectors)%in%names(tmp),][,c(1:2)]
 
+#y-axis scaling
+yax <- 11/19
 
 #PCoA scatterplot with density polygons
 ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
@@ -351,8 +353,8 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
   
 
 ggsave("figures/8_scatterplot_pcoa_density_polygon.png",
-       width = 25,
-       height = 25,
+       width = 35,
+       height = 35*yax,
        units = 'cm')
 
 #Plot density raster with PCoA scatterplot points overlain

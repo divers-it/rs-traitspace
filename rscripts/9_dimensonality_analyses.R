@@ -15,13 +15,13 @@ for (nm in list.files("R", pattern = "[.]R$")) {
 percent_list <- seq(0.1, 0.8, by = 0.1)
 
 ###
-# Original DiveRS dataset
+# Original DiveRS dataset ----
 ###
 
 # Read Dataset ----
 dataset <- readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
-# Run dimensionality nalyses ----
+# Run dimensionality analyses
 run_analysis(dataset, name = "DiveRS_2023")
 rm(list = "dataset")
 
@@ -272,48 +272,39 @@ res_for_graph_dim <- res_for_graph_dim[order(res_for_graph_dim$taxa, decreasing 
 
 ## Plot ----
 
-p <- ggplot(res_for_graph_dim, aes(x = dim, y = AUC, colour = taxa)) + 
-  stat_summary(fun = "mean", geom = "line", size = 1, alpha = 0.4) +
+
+p <- ggplot(res_for_graph_dim, aes(x = dim, y = AUC, colour = taxa)) +
+  stat_summary(
+    fun = "mean",
+    geom = "line",
+    size = 1,
+    alpha = 0.4
+  ) +
   stat_summary(fun = "mean", size = 0.88) +
-  
-  labs(x = "Number of dimensions(PCoA axes)") + 
+  labs(x = "Number of dimensions(PCoA axes)") +
   labs(y = "Quality of species trait space (AUC)") +
-  facet_wrap(~ taxa,ncol = 6) + theme_bw() +
-  theme(strip.background = element_blank(),
-        strip.text.x = element_blank(),
-        axis.title.x = element_text(size = 14, face = "bold"),
-        axis.title.y = element_text(size = 14, face = "bold"),
-        panel.background = element_blank(),
-        legend.position = "none") +
+  facet_wrap( ~ taxa, ncol = 6) + theme_bw() +
+  theme(
+    strip.background = element_blank(),
+    strip.text.x = element_blank(),
+    axis.title.x = element_text(size = 14, face = "bold"),
+    axis.title.y = element_text(size = 14, face = "bold"),
+    panel.background = element_blank(),
+    legend.position = "none"
+  ) +
   harrypotter::scale_colour_hp_d(option = "LunaLovegood") +
-  
-  geom_segment(data = plyr::ddply(res_for_graph_dim, "taxa", dplyr::summarize, wavg = AUC), 
-               aes(x = res_for_graph_dim$selec_elbow_graph, 
-                   xend = res_for_graph_dim$selec_elbow_graph,
-                   y = 0 , yend = res_for_graph_dim$AUCwhenelbow),
-               color = "black", linetype = "dotted", size = 1) +
-  
-  geom_segment(data = plyr::ddply(res_for_graph_dim, "taxa", dplyr::summarize, wavg = AUC), 
-               aes(y = res_for_graph_dim$AUCwhenelbow,
-                   yend = res_for_graph_dim$AUCwhenelbow ,
-                   x = 0 , xend = res_for_graph_dim$selec_elbow_graph),
-               color = "black", linetype = "dotted", size = 1) +
-  
-  geom_point(data = plyr::ddply(res_for_graph_dim, "taxa", dplyr::summarize, wavg = AUC), 
-             aes(y = res_for_graph_dim$AUCwhenelbow,
-                 x = res_for_graph_dim$selec_elbow_graph),
-             color = "black", size = 4, shape = 19) +
-  
-  geom_label(data = res_for_graph_dim, 
-             aes(label = paste0("Elbow-AUC = ", elbow, "\n", 
-                                "#S = ", SP , "\n",
-                                "#T = ", trait),
-                 y = 0.5, x = 10), size = 2.1, hjust = 0) +
-  
-  geom_label(data = res_for_graph_dim, 
-             aes(label = paste0("data set = ", taxa),
-                 y = 0.95, x = 0), size = 2.1, hjust = 0) +
-  
+    geom_label(
+    data = res_for_graph_dim,
+    aes(
+      label = paste0("data set = ", taxa, "\n",
+                     "# species = ", SP , "\n",
+                     "# traits = ", trait),
+      y = 0.95,
+      x = 0
+    ),
+    size = 2.1,
+    hjust = 0
+  ) +
   scale_y_continuous(breaks = seq(0.1, 1, 0.2))
 
 

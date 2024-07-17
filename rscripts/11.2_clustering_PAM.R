@@ -279,7 +279,6 @@ for (i in 1:max(robust_vect_pam)) {
   
   sum = sum + length(robust[[i]])
   
-
 }
 
 table(robust_vect_pam)

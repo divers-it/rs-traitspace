@@ -287,29 +287,11 @@ l1 <- ggplot(df_shared, aes(x = dim, y = AUC, colour = taxa)) +
         legend.position = "none") +
   scale_color_manual(values=mypal)
 
-l2 <- l1 + geom_segment(data = plyr::ddply(df_shared, "taxa", dplyr::summarize, wavg = AUC), 
-               aes(x = df_shared$selec_elbow_graph, 
-                   xend = df_shared$selec_elbow_graph,
-                   y = 0 , yend = df_shared$AUCwhenelbow),
-               color = "black", linetype = "dashed", size = 1) +
-  
-  geom_segment(data = plyr::ddply(df_shared, "taxa", dplyr::summarize, wavg = AUC), 
-               aes(y = df_shared$AUCwhenelbow,
-                   yend = df_shared$AUCwhenelbow ,
-                   x = 0 , xend = df_shared$selec_elbow_graph),
-               color = "black", linetype = "dashed", size = 1) +
-  
-  geom_point(data = plyr::ddply(df_shared, "taxa", dplyr::summarize, wavg = AUC), 
-             aes(y = df_shared$AUCwhenelbow,
-                 x = df_shared$selec_elbow_graph),
-             color = "black", size = 4, shape = 19) +
-  
-  geom_label(data = df_shared, 
+l2 <- l1 + geom_label(data = df_shared, 
              aes(label = paste0(taxa, "\n",
-                                "Elbow-AUC = ", elbow, "\n", 
                                 "No. species = ", SP , "\n",
                                 "No. traits = ", trait),
-                 y = 0.15, x = 11), size = 4, hjust = 0) +
+                 y = 0.3, x = 11), size = 4, hjust = 0) +
   
   scale_y_continuous(breaks = seq(0.1, 1, 0.2))
 

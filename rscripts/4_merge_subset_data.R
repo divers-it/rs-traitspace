@@ -124,3 +124,17 @@ colnames(proteus_combined)[ncol(proteus_combined)]<-"seedMass"
 
 #write dataset
 write.csv(proteus_combined,"outputs/4_proteus_combined.csv")
+
+### Supplementary data ----
+
+cleaned_data <- proteus_combined
+
+# get family matches
+tnrs_out <- TNRS::TNRS(rownames(proteus_combined), matches = "best")
+
+# add to output
+cleaned_data <- cbind(tnrs_out$Accepted_family, cleaned_data)
+colnames(cleaned_data)[1] <- "family"
+
+# write to supplementary folder
+write.csv(cleaned_data, "supplementary_data/cleaned_data.csv")
