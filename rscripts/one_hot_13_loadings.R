@@ -97,9 +97,11 @@ traitd$trait<-gsub("_"," ",traitd$trait)
 traitd$trait<-gsub("\\."," ",traitd$trait)
 
 # remove unimportant traits
-traitd$absDim1Dim2<-abs(traitd$Dim1)+abs(traitd$Dim2)
-hist(traitd$absDim1Dim2)
-traitd_labels <- traitd[traitd$absDim1Dim2>0.55,]
+
+# hypotenuse 
+traitd$hypo <- abs(traitd$Dim1)^2+abs(traitd$Dim2)^2
+hist(traitd$hypo)
+traitd_labels <- traitd[traitd$hypo > 0.15,]
 
 # plot
 ggplot() + 
