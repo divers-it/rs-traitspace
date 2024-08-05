@@ -1,7 +1,10 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# divers-tree
+# Rcompendium for: Pollination and mating traits underlie diverse reproductive strategies in flowering plants
+
+*A preprint can be found
+[here](https://doi.org/10.1101/2024.02.26.582019)*
 
 ### Content
 
