@@ -13,6 +13,7 @@ library(tidyverse)
 library(rcompanion)
 library(harrypotter)
 library(vegan)
+library(patchwork)
 
 # load data
 df <- readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
@@ -144,6 +145,9 @@ df <- readRDS(file = here::here("outputs/one_hot_6_df_filt_trans.rds"))
 
 # load original data set
 # df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
+
+df %>%
+  mixed_assoc()
 
 # correlation matrix
 cor_mat<- df %>%

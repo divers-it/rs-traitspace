@@ -1,12 +1,11 @@
 #' Calculate correlations between different types of variables
+#' Pairs of traits, their association, the method used to calculate and
+#' the number of pairs/ratio with complete observations
 #'
 #' @param df a two-columns data frame (x and y respectively).
 #' @param cor_method method to use for correlation between two quantitative variables
 #' @param adjust_cramersv_bias do bias adjustment?
-#' @return This function returns a 2-elements list with:
-#'   - a numeric giving the value on x-Axis corresponding to the optimal
-#'   - a data frame with the original values and two additional columns used in
-#'     the graphic.
+#' @return a data frame 
 #' 
 #' @export
 
