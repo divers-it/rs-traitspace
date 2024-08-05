@@ -25,6 +25,6 @@ of combinaison.
 }
 \section{Functions}{
 \itemize{
-\item \code{chose_n_combn}: Batch execution of \code{get_combn()}
-}}
+\item \code{chose_n_combn()}: Batch execution of \code{get_combn()}
 
+}}

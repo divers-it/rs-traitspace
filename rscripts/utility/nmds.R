@@ -1,6 +1,6 @@
 rm(list=ls())
 
-#load libraries
+# load libraries
 library(dplyr)
 library(ggplot2)
 library(cluster)
@@ -8,21 +8,21 @@ library(patchwork)
 library(wesanderson)
 library(vegan)
 
-#load data set
+# load data set
 df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
-#dissimilarity matrix calculation
+# dissimilarity matrix calculation
 gower_df <- daisy(df,
                   metric = "gower" )
 summary(gower_df)
 
-#make into distance object
+# make into distance object
 dataset_dist <- stats::as.dist(gower_df)
 
-#run PCoA on distance matrix
+# run PCoA on distance matrix
 dataset_pcoa <- ape::pcoa(dataset_dist)
 
-#Recalculate relative eigenvalues by removing negative eigenvalues as in Mouillot et al.  
+# Recalculate relative eigenvalues by removing negative eigenvalues as in Mouillot et al.  
 ev_pcoa <- dataset_pcoa$values$Eigenvalues
 ev_pcoa_g0 <- ev_pcoa[ev_pcoa>0]
 rel_ev_pcoa_g0 <- ev_pcoa_g0/sum(ev_pcoa_g0)
@@ -36,12 +36,11 @@ nmds2 <-
           trymax = 500,
           wascores = TRUE)
 
-
 # Shepards test/goodness of fit
 goodness(nmds2) # Produces a results of test statistics for goodness of fit for each point
 stressplot(nmds2) # Produces a Shepards diagram
 
-#PCoA scatterplot with density polygons
+# PCoA scatterplot with density polygons
 n2 <-ggplot(data.frame(nmds2$points), aes(x = MDS1, y = MDS2)) +
   stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", col=NA , n=100, bins=20) +
   scale_fill_distiller(palette = "Greys", direction = 1, guide = "none") +
@@ -62,8 +61,8 @@ n2 <-ggplot(data.frame(nmds2$points), aes(x = MDS1, y = MDS2)) +
   ylim(-0.44,0.6) + 
   theme_bw() + theme(
     panel.border = element_blank(),
-    #panel.grid.major = element_line(colour = "darkgrey"),
-    #panel.grid.minor = element_line(colour = "grey"),
+    # panel.grid.major = element_line(colour = "darkgrey"),
+    # panel.grid.minor = element_line(colour = "grey"),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     legend.position = "none",
@@ -92,7 +91,7 @@ nmds3 <-
 goodness(nmds3) # Produces a results of test statistics for goodness of fit for each point
 stressplot(nmds3) # Produces a Shepards diagram
 
-#PCoA scatterplot with density polygons
+# PCoA scatterplot with density polygons
 n3 <-ggplot(data.frame(nmds3$points), aes(x = MDS1, y = MDS2)) +
   stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", col=NA , n=100, bins=20) +
   scale_fill_distiller(palette = "Greys", direction = 1, guide = "none") +
@@ -113,8 +112,8 @@ n3 <-ggplot(data.frame(nmds3$points), aes(x = MDS1, y = MDS2)) +
   ylim(-0.44,0.6) + 
   theme_bw() + theme(
     panel.border = element_blank(),
-    #panel.grid.major = element_line(colour = "darkgrey"),
-    #panel.grid.minor = element_line(colour = "grey"),
+    # panel.grid.major = element_line(colour = "darkgrey"),
+    # panel.grid.minor = element_line(colour = "grey"),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     legend.position = "none",
@@ -143,7 +142,7 @@ nmds4 <-
 goodness(nmds4) # Produces a results of test statistics for goodness of fit for each point
 stressplot(nmds4) # Produces a Shepards diagram
 
-#PCoA scatterplot with density polygons
+# PCoA scatterplot with density polygons
 n4 <-ggplot(data.frame(nmds4$points), aes(x = MDS1, y = MDS2)) +
   stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", col=NA , n=100, bins=20) +
   scale_fill_distiller(palette = "Greys", direction = 1, guide = "none") +
@@ -164,8 +163,8 @@ n4 <-ggplot(data.frame(nmds4$points), aes(x = MDS1, y = MDS2)) +
   ylim(-0.44,0.6) + 
   theme_bw() + theme(
     panel.border = element_blank(),
-    #panel.grid.major = element_line(colour = "darkgrey"),
-    #panel.grid.minor = element_line(colour = "grey"),
+    # panel.grid.major = element_line(colour = "darkgrey"),
+    # panel.grid.minor = element_line(colour = "grey"),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     legend.position = "none",
@@ -195,7 +194,7 @@ nmds5 <-
 goodness(nmds5) # Produces a results of test statistics for goodness of fit for each point
 stressplot(nmds5) # Produces a Shepards diagram
 
-#PCoA scatterplot with density polygons
+# PCoA scatterplot with density polygons
 n5 <-ggplot(data.frame(nmds5$points), aes(x = MDS1, y = MDS2)) +
   stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", col=NA , n=100, bins=20) +
   scale_fill_distiller(palette = "Greys", direction = 1, guide = "none") +
@@ -216,8 +215,8 @@ n5 <-ggplot(data.frame(nmds5$points), aes(x = MDS1, y = MDS2)) +
   ylim(-0.44,0.6) + 
   theme_bw() + theme(
     panel.border = element_blank(),
-    #panel.grid.major = element_line(colour = "darkgrey"),
-    #panel.grid.minor = element_line(colour = "grey"),
+    # panel.grid.major = element_line(colour = "darkgrey"),
+    # panel.grid.minor = element_line(colour = "grey"),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     legend.position = "none",
@@ -246,7 +245,7 @@ nmds10 <-
 goodness(nmds10) # Produces a results of test statistics for goodness of fit for each point
 stressplot(nmds10) # Produces a Shepards diagram
 
-#PCoA scatterplot with density polygons
+# PCoA scatterplot with density polygons
 n10 <-ggplot(data.frame(nmds10$points), aes(x = MDS1, y = MDS2)) +
   stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", col=NA , n=100, bins=20) +
   scale_fill_distiller(palette = "Greys", direction = 1, guide = "none") +
@@ -267,8 +266,8 @@ n10 <-ggplot(data.frame(nmds10$points), aes(x = MDS1, y = MDS2)) +
   ylim(-0.44,0.6) + 
   theme_bw() + theme(
     panel.border = element_blank(),
-    #panel.grid.major = element_line(colour = "darkgrey"),
-    #panel.grid.minor = element_line(colour = "grey"),
+    # panel.grid.major = element_line(colour = "darkgrey"),
+    # panel.grid.minor = element_line(colour = "grey"),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     legend.position = "none",
@@ -283,7 +282,7 @@ n10 <-ggplot(data.frame(nmds10$points), aes(x = MDS1, y = MDS2)) +
   ) +  ggtitle("nMDS k = 10") 
 
 
-#PCoA scatterplot with density polygons
+# PCoA scatterplot with density polygons
 p1 <- ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
   stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", col=NA , n=100, bins=20) +
   scale_fill_distiller(palette = "Greys", direction = 1, guide = "none") +
@@ -304,8 +303,8 @@ p1 <- ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
   ylim(-0.44,0.6) + 
   theme_bw() + theme(
     panel.border = element_blank(),
-    #panel.grid.major = element_line(colour = "darkgrey"),
-    #panel.grid.minor = element_line(colour = "grey"),
+    # panel.grid.major = element_line(colour = "darkgrey"),
+    # panel.grid.minor = element_line(colour = "grey"),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     legend.position = c(0.85, 0.8),

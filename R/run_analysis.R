@@ -1,4 +1,4 @@
-run_analysis <- function(dataset, folder = "outputs", name, plot = FALSE) {
+run_analysis <- function(dataset, folder = "outputs/9_dimensionality", name, plot = FALSE) {
 
   #for bug fixing
   #dataset = dataset

@@ -1,10 +1,10 @@
 rm(list=ls())
 
-#load libraries
+# load libraries
 library(visdat)
-library(U.Taxonstand)
+library(TNRS)
 
-# Read Dataset ----
+# read data
 
 df <- read.csv(
   file      = here::here("outputs/", "4_proteus_combined.csv"),
@@ -12,38 +12,39 @@ df <- read.csv(
   row.names = 1
 )
 
-# Traits Preparation and Categorization ----
+# Trait preparation and categorization ----
 
-#dataset structure
+# dataset structure
 str(df)
 
-#character to factor
+# character to factor
 df[sapply(df, is.character)] <- lapply(df[sapply(df, is.character)],
                                        as.factor)
 
-#integer to numeric
+# integer to numeric
 df[sapply(df, is.integer)] <- lapply(df[sapply(df, is.integer)],
                                      as.numeric)
-#check structure
+# check structure
 str(df)
 
 par(mar=c(5,5,5,5))
 
-#visualise missing data
+# visualise missing data
 vis_miss(df) + ggplot2::theme(plot.margin = ggplot2::margin(5,40,5,5))
-ggsave("figures/5_missing_data_pre_clean.png",
-       height = 20,
-       width = 40,
-       bg="white",
-       units = 'cm')
+
+# ggsave("figures/5_missing_data_pre_clean.png",
+#        height = 20,
+#        width = 40,
+#        bg="white",
+#        units = 'cm')
 
 # Remove traits with too much missing data ----
 # limit currently at 50%
 
-#names of columns to be removed
+# names of columns to be removed
 colnames(df[ , (colSums(is.na(df)) > length(df[,1])*0.5)])
 
-#remove columns
+# remove columns
 df <- df[ , (colSums(is.na(df)) <= length(df[,1])*0.5)]
 str(df)
 
@@ -57,103 +58,88 @@ rownames(df[(rowSums(is.na(df)) > length(df[1,])*0.5), ])
 df <- df[(rowSums(is.na(df)) <= length(df[1,])*0.5), ]
 str(df)
 
-## ----- Outlier removal -----
-
-# Note: Removal thresholds are subjective
+####
+## Outlier removal -----
+####
+# NOTE: Removal thresholds are subjective based on distribution of values for each trait
 
 #remove outlier in no. structural carpels
 hist(df$Numberofstructuralcarpels)
 head(sort(df$Numberofstructuralcarpels,decreasing = T))
 sort(df$Numberofstructuralcarpels)
-#No longer needed
-#df$Numberofstructuralcarpels[df$Numberofstructuralcarpels>998]<-NA
-#df$Numberofstructuralcarpels[df$Numberofstructuralcarpels==0]<-0.0001
+# No longer needed
+# df$Numberofstructuralcarpels[df$Numberofstructuralcarpels>998]<-NA
+# df$Numberofstructuralcarpels[df$Numberofstructuralcarpels==0]<-0.0001
 
-#remove outlier in no. ovules per carpel
+# remove outlier in no. ovules per carpel
 hist(log(df$Numberofovulesperfunctionalcarpel))
 head(sort(df$Numberofovulesperfunctionalcarpel,decreasing = T))
 df$Numberofovulesperfunctionalcarpel[df$Numberofovulesperfunctionalcarpel>998]<-NA
 
-#remove outlier in no. fertile stamens
+# remove outlier in no. fertile stamens
 hist(df$Numberoffertilestamens)
 head(sort(df$Numberoffertilestamens,decreasing = T))
 sort(df$Numberoffertilestamens)
-#No longer needed
-#df$Numberoffertilestamens[df$Numberoffertilestamens==0]<-0.0001
+# No longer needed
+# df$Numberoffertilestamens[df$Numberoffertilestamens==0]<-0.0001
 
-#remove outlier in fusion of ovaries
+# remove outlier in fusion of ovaries
 hist(df$Fusionofovaries)
 hist(asin(sqrt(df$Fusionofovaries))) #doesn't do much
 head(sort(df$Fusionofovaries,decreasing = T))
 sort(df$Fusionofovaries)
 
-#remove outlier in flower size
+# remove outlier in flower size
 hist(df$flowerSize)
 head(sort(df$flowerSize,decreasing = T))
 head(sort(df$flowerSize))
 
-#remove outlier in seed mass
+# remove outlier in seed mass
 hist(df$seedMass)
 head(sort(df$seedMass,decreasing = T))
 head(sort(df$seedMass))
 
-#remove outlier in height
+# remove outlier in height
 hist(df$Maximumverticalheight)
 head(sort(df$Maximumverticalheight,decreasing = T))
 head(sort(df$Maximumverticalheight))
 
-
-#visualise missing data after cleaning
+# visualise missing data after cleaning
 vis_miss(df) + ggplot2::theme(plot.margin = ggplot2::margin(5,40,5,5))
-ggsave("figures/5_missing_data_post_clean.png",
+ggsave("figures/figure_S1_missing_data_post_clean.png",
        height = 20,
        width = 40,
        bg="white",
        units = 'cm')
 
 ####
-# ---- Correct species names ----
+## Correct species names ----
 ####
 
-#get species list
+# get species list
 spec_list <- rownames(df)
 
-#read in database
-#The Plant List (TPL) taken from:
-#https://github.com/nameMatch/Database/
-# db1<-read.csv("data/Plants_TPL_database_part1.csv")
-# db2<-read.csv("data/Plants_TPL_database_part2.csv")
-# db3<-read.csv("data/Plants_TPL_database_part3.csv")
-# db<-rbind(db1,db2,db3)
+Sys.sleep(1)
+# run TNRS to check species (best result only)
+check_species <- TNRS(spec_list, matches="best", sources="wcvp")
+Sys.sleep(1)
 
-db1<-read.csv("data/Plants_WCVP_database_part1.csv")
-db2<-read.csv("data/Plants_WCVP_database_part2.csv")
-db3<-read.csv("data/Plants_WCVP_database_part3.csv")
-db<-rbind(db1,db2,db3)
+# how many name issues?
+table(check_species$Name_submitted == check_species$Accepted_species)
 
+# species with issues
+issue_species <- check_species[check_species$Name_submitted != check_species$Accepted_species,]
 
-#get standardized list of taxon names
-corr_list <- nameMatch(spec_list,spSource=db)
+# examine species
+issue_species[,c("Name_submitted",
+                 "Accepted_name")]
+# NOTE: verified on POWO: https://powo.science.kew.org/
 
-#NOTE: There are some species with issues
-corr_list[corr_list$Fuzzy==1,]
-corr_list[corr_list$name.dist>1,]
+# set correct row names
+table(rownames(df) == check_species$Name_submitted)
+rownames(df) <- check_species$Accepted_species
 
-#reformat standardized list of names
-spec_df <- corr_list[,c("Accepted_SPNAME","Genus_in_database","Family")]
-
-#check differences
-diffs<-cbind(setdiff(rownames(df),spec_df$Accepted_SPNAME),
-      setdiff(spec_df$Accepted_SPNAME,rownames(df)))
-
-colnames(diffs)<-c("old","new")
-
-diffs
-
-#set correct row names
-rownames(df)<-spec_df$Accepted_SPNAME
-
-#order rows based on new names
+# order rows based on new names
 df<-df[order(rownames(df)),]
 
 # Save filtered dataset

@@ -1,8 +1,7 @@
 rm(list=ls())
 
-#load libraries
+# load libraries
 library(visdat)
-library(U.Taxonstand)
 
 # Read Dataset ----
 
@@ -19,34 +18,34 @@ df2 <- read.csv(
   row.names = 1
 )
 
-#check order of data sets match
+# check order of data sets match
 rownames(df)==rownames(df2)
 
-#dataset structure
+# dataset structure
 str(df)
 
-#integer to factor
+# integer to factor
 df[sapply(df, is.integer)] <- lapply(df[sapply(df, is.integer)],
                                      as.factor)
-#check structure
+# check structure
 str(df)
 
 # Remove traits with too much missing data ----
 
-#names of columns to be removed
+# names of columns to be removed
 colnames(df[ , (colSums(is.na(df)) > length(df[,1])*0.5)])
 
-#remove columns
+# remove columns
 df <- df[ , (colSums(is.na(df)) <= length(df[,1])*0.5)]
 str(df)
 
 # Remove line with too much missing data IN NORMAL (NON-ONE-HOT DATA) ----
 # This is done so comparisons can be made across data sets (requires same set of species)
 
-#names of rows to be removed
+# names of rows to be removed
 rownames(df2[ , (colSums(is.na(df2)) <= length(df2[,1])*0.5)])
 
-#remove rows
+# remove rows
 df2 <- df2[ , (colSums(is.na(df2)) <= length(df2[,1])*0.5)]
 df <- df[(rowSums(is.na(df2)) <= length(df2[1,])*0.5), ]
 str(df)
@@ -54,68 +53,51 @@ str(df)
 #NOT RUN:
 # But this might inlude some species that have more missing data than 50% after transformation
 # check for species removed in one-hot but not in original 
-#df_temp<-df[(rowSums(is.na(df)) <= length(df[1,])*0.5), ]
-#setdiff(rownames(df),rownames(df_temp))
+# df_temp<-df[(rowSums(is.na(df)) <= length(df[1,])*0.5), ]
+# setdiff(rownames(df),rownames(df_temp))
 
-## ----- Outlier removal -----
+## Outlier removal ----
 
 # Note: Removal thresholds are subjective
 
-#remove outlier in no. structural carpels
+# remove outlier in no. structural carpels
 df$Number.of.carpels[df$Number.of.carpels>998]<-NA
 
-#remove outlier in no. ovules per carpel
+# remove outlier in no. ovules per carpel
 df$Number.of.ovules.per.carpel[df$Number.of.ovules.per.carpel>998]<-NA
 
-#remove outlier in no. ovules per carpel
+# remove outlier in no. ovules per carpel
 df$Number.of.fertile.stamens[df$Number.of.fertile.stamens==0]<-0.0001
 
-#remove outlier in no. ovules per carpel
+# remove outlier in no. ovules per carpel
 df$Number.of.carpels[df$Number.of.carpels==0]<-0.0001
 
 ####
-# ---- Correct species names
+## Correct species names ----
 ####
 
-#get species list
+# get species list
 spec_list <- rownames(df)
 
-#read in database
-#The Plant List (TPL) taken from:
-#https://github.com/nameMatch/Database/
-# db1<-read.csv("data/Plants_TPL_database_part1.csv")
-# db2<-read.csv("data/Plants_TPL_database_part2.csv")
-# db3<-read.csv("data/Plants_TPL_database_part3.csv")
-# db<-rbind(db1,db2,db3)
+# run TNRS to check species (best result only)
+check_species <- TNRS(spec_list, matches="best", sources="wcvp")
 
-db1<-read.csv("data/Plants_WCVP_database_part1.csv")
-db2<-read.csv("data/Plants_WCVP_database_part2.csv")
-db3<-read.csv("data/Plants_WCVP_database_part3.csv")
-db<-rbind(db1,db2,db3)
+# how many name issues?
+table(check_species$Name_submitted == check_species$Accepted_species)
 
+# species with issues
+issue_species <- check_species[check_species$Name_submitted != check_species$Accepted_species,]
 
-#get standardized list of taxon names
-corr_list <- nameMatch(spec_list,spSource=db)
+# examine species
+issue_species[,c("Name_submitted",
+                 "Accepted_name")]
+# NOTE: verified on POWO: https://powo.science.kew.org/
 
-#NOTE: There are some species with issues
-corr_list[corr_list$Fuzzy==1,]
-corr_list[corr_list$name.dist>1,]
+# set correct row names
+table(rownames(df) == check_species$Name_submitted)
+rownames(df) <- check_species$Accepted_species
 
-#reformat standardized list of names
-spec_df <- corr_list[,c("Accepted_SPNAME","Genus_in_database","Family")]
-
-#check differences
-diffs<-cbind(setdiff(rownames(df),spec_df$Accepted_SPNAME),
-             setdiff(spec_df$Accepted_SPNAME,rownames(df)))
-
-colnames(diffs)<-c("old","new")
-
-diffs
-
-#set correct row names
-rownames(df)<-spec_df$Accepted_SPNAME
-
-#order rows based on new names
+# order rows based on new names
 df<-df[order(rownames(df)),]
 
 # Save filtered dataset

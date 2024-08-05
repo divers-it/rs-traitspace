@@ -1,31 +1,31 @@
-#' @title sseReview: A Research Compendium
-#' 
-#' @description 
-#' A paragraph providing a full description of the project and describing each 
-#' step of the workflow.
-#' 
-#' @author Andrew Helmstetter \email{andrew.j.helmstetter@gmail.com}
-#' 
-#' @date 2021/04/15
+# ' @title rs-traitspace: A Research Compendium
+# ' 
+# ' @description 
+# ' A paragraph providing a full description of the project and describing each 
+# ' step of the workflow.
+# ' 
+# ' @author Andrew Helmstetter \email{andrew.j.helmstetter@gmail.com}
+# ' 
+# ' @date 2024/07/25
 
-## Install Dependencies (listed in DESCRIPTION) ----
+# #  Install Dependencies (listed in DESCRIPTION) ----
 
 devtools::install_deps(upgrade = "never")
 
-## Load Project Addins (R Functions and Packages) ----
+# #  Load Project Addins (R Functions and Packages) ----
 
 devtools::load_all()
 
-## Global Variables ----
+# #  Global Variables ----
 
-# You can list global variables here (or in a separate R script)
+#  You can list global variables here (or in a separate R script)
 
-## Run Project ----
+# #  Run Project ----
 
-# List all R scripts in a sequential order and using the following form:
-# source(here::here("rscripts", "script_X.R"))
+#  List all R scripts in a sequential order and using the following form:
+#  source(here::here("rscripts", "script_X.R"))
 
-#Standard data set preparation
+# Standard data set preparation
 source(here::here("rscripts", "1_proteus_data_preparation_discrete.R"))
 source(here::here("rscripts", "2_proteus_data_preparation_quant.R"))
 source(here::here("rscripts", "3_recode_quantitative_discrete.R"))
@@ -33,58 +33,62 @@ source(here::here("rscripts", "4_merge_subset_data.R"))
 source(here::here("rscripts", "5_clean_filter_data.R"))
 source(here::here("rscripts", "6_scale_transform.R"))
 
-#One-hot data set preparation
+# One-hot data set preparation
 source(here::here("rscripts", "one_hot_1_proteus_data_preparation_discrete.R"))
 source(here::here("rscripts", "one_hot_3_recode_quantitative_discrete.R"))
 source(here::here("rscripts", "one_hot_4_merge_subset_data.R"))
 source(here::here("rscripts", "one_hot_5_clean_filter_data.R"))
 source(here::here("rscripts", "one_hot_6_scale_transform.R"))
 
-#utility scripts
+# utility scripts to build a tree and use this to impute missing data
+# NOTE: This can have issues, rerun if errors occur
 source(here::here("rscripts/utility", "generate_phylo.R"))
 source(here::here("rscripts/utility", "impute_missing_data.R"))
 
-#NOTE: Contains temporary fixes for errors because of synonyms
+# NOTE: This can have issues, rerun if errors occur
+# NOTE: Contains temporary fixes for errors because of synonyms
 source(here::here("rscripts/utility", "get_taxonomy.R"))
 
-#look at correlations between traits in data sets
+# look at correlations between traits in data sets
 source(here::here("rscripts", "7_correlation.R"))
 
-#Principal Coordinates Analyses
-source(here::here("rscripts", "8_pcoa.R"))
-source(here::here("rscripts", "8.3_pcoa_diaz_data.R"))
-source(here::here("rscripts", "8.4_pcoa_diaz_data_shared.R"))
+# Principal Coordinates Analyses
+source(here::here("rscripts", "8.0_pcoa.R"))
 
-#Clustering
-source(here::here("rscripts", "11_clustering_hierarchical.R"))
-source(here::here("rscripts", "11.1_clustering_kprototype.R"))
-source(here::here("rscripts", "11.2_clustering_PAM.R"))
-#source(here::here("rscripts", "11.3_clustering_LCM.R"))
-#source(here::here("rscripts", "11.4_clustering_densityClust.R"))
+# Trait space quality
+# NOTE: long to run
+source(here::here("rscripts", "9_dimensionality_analyses.R"))
 
-#One-hot clustering
-source(here::here("rscripts", "one_hot_11_clustering_hierarchical.R"))
-source(here::here("rscripts", "one_hot_11.1_clustering_kprototype.R"))
-source(here::here("rscripts", "one_hot_11.2_clustering_PAM.R"))
-#source(here::here("rscripts", "one_hot_11.3_clustering_LCM.R"))
-#source(here::here("rscripts", "one_hot_11.4_clustering_densityClust.R"))
+# Comparison with Diaz et al. 2022 data set
+# NOTE: long to run
+source(here::here("rscripts", "8.1_pcoa_diaz_data.R"))
 
-#Bring clustering together results
+# Clustering
+source(here::here("rscripts", "10_clustering_PAM.R"))
+
+# Supplementary clustering methods
+source(here::here("rscripts", "supplement/10.1_clustering_kprototype.R"))
+source(here::here("rscripts", "supplement/10.2_clustering_hierarchical.R"))
+
+# One-hot clustering
+source(here::here("rscripts", "one_hot_10_clustering_PAM.R"))
+source(here::here("rscripts", "supplement/one_hot_10.1_clustering_kprototype.R"))
+source(here::here("rscripts", "supplement/one_hot_10.2_clustering_hierarchical.R"))
+ 
+# Bring clustering together results
 source(here::here("rscripts/utility", "collate_clustering_results.R"))
 
-#Trait space quality
-source(here::here("rscripts", "9_dimensonality_analyses.R"))
-source(here::here("rscripts", "10_functional_space_mfd.R"))
+# Calculate functional indices
+source(here::here("rscripts", "11_functional_space_mfd.R"))
 
-#Phylogenetic analyses
-source(here::here("rscripts", "12_phylogenetic_signal.R"))
-source(here::here("rscripts", "12.1_ancestral_state_reconstruction.R"))
+# Make phylogenetic tree plot
+source(here::here("rscripts", "12_phylo_plot.R"))
 
-#Currently unable to source due to memory error
+# Currently unable to source due to memory error
 source(here::here("rscripts", "one_hot_13_loadings.R"))
 
-#Simulating neutral data
-source(here::here("rscripts", "14_simulations.R"))
+# UMAP analyses and PCoAs with all traits
+source(here::here("rscripts", "14_UMAP.R"))
 
-#UMAP analyses and PCoAs with all traits
-source(here::here("rscripts", "15_UMAP.R"))
+# Simulating neutral data
+source(here::here("rscripts", "15_simulations.R"))

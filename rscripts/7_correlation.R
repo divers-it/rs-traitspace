@@ -1,6 +1,6 @@
 rm(list=ls())
 
-#load libraries
+# load libraries
 library(dplyr)
 library(ggmosaic)
 library(tibble)
@@ -14,187 +14,138 @@ library(rcompanion)
 library(harrypotter)
 library(vegan)
 
-#load formatted data
-dataset<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
+# load data
+df <- readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
-# Correlation between Traits ----
+## Trait combinations ----
 
-#make empty matrix for correlation results
-dataset_cor <- matrix(0, ncol(dataset), ncol(dataset))
-
-#do kendall rank correlation between all traits
-for (i in 1:ncol(dataset)) {
-
-  for (j in i:ncol(dataset)) {
-
-    dataset_cor[i, j] <- stats::cor(
-      x      = rank(dataset[ , i]),
-      y      = rank(dataset[ , j]),
-      method = "kendall"
-    )
-  }
-}
-
-#transpose matrix to lower triangle
-dataset_cor[lower.tri(dataset_cor)] <- t(dataset_cor)[lower.tri(dataset_cor)]
-
-#make diagonal NA
-diag(dataset_cor) <- NA
-
-#make df for labelling
-dataset_cor_df<-as.data.frame(dataset_cor)
-rownames(dataset_cor_df)<-colnames(dataset)
-colnames(dataset_cor_df)<-colnames(dataset)
-
-#network plot
-corrr:::network_plot(dataset_cor_df,colours = c("indianred2", "white", "skyblue1"),min_cor=0.2)
-
-#NOT RUN: examine correlations
-#view(dataset_cor_df)
-
-#correlation stats
-dataset_cor_summ <- data.frame(
-  mean_cor = mean(abs(dataset_cor), na.rm = TRUE),
-  sd_cor   = sd(abs(dataset_cor),   na.rm = TRUE),
-  max_cor  = max(abs(dataset_cor),  na.rm = TRUE),
-  min_cor  = min(abs(dataset_cor),  na.rm = TRUE)
-)
-
-dataset_cor_summ
-
-#Alternative correlation on numeric traits
-
-#make vectors to split numeric and factor columns
-nums <- unlist(lapply(dataset, is.numeric))
-
-#examine data distribution
-dataset_num<-(dataset[ , nums])
-
-#make empty matrix for correlation results
-dataset_cor_num <- matrix(0, ncol(dataset), ncol(dataset))
-
-#do correlation between all traits
-for (i in 1:ncol(dataset_num)) {
-  
-  for (j in i:ncol(dataset_num)) {
-    
-    dataset_cor_num[i, j] <- stats::cor(
-      x      = rank(dataset_num[ , i]),
-      y      = rank(dataset_num[ , j]),
-      method = "pearson"
-    )
-  }
-}
-
-#transpose matrix to lower triangle
-dataset_cor_num[lower.tri(dataset_cor_num)] <- t(dataset_cor_num)[lower.tri(dataset_cor_num)]
-
-#make diagonal NA
-diag(dataset_cor_num) <- NA
-
-#correlation stats for numeric traits
-dataset_cor_num_summ <- data.frame(
-  mean_cor = mean(abs(dataset_cor_num), na.rm = TRUE),
-  sd_cor   = sd(abs(dataset_cor_num),   na.rm = TRUE),
-  max_cor  = max(abs(dataset_cor_num),  na.rm = TRUE),
-  min_cor  = min(abs(dataset_cor_num),  na.rm = TRUE)
-)
-dataset_cor_num_summ
-
-###
-# Uncomment to run (takes quite a long time)
-###
-
-##plot pairs of variables (removing some with high cat count)
-#png("figures/ggpairs.png",width=4000,height=4000,res=100)
-#ggpairs(df,cardinality_threshold=16) 
-#dev.off()
-
-#dissimilarity matrix calc
-par(mfrow=c(1,1))
-
-gower_df <- daisy(dataset,
-                  metric = "gower" )
-
-summary(gower_df)
-
-#visualize the distances between species
-fviz_dist(dist.obj = gower_df,
-          order = TRUE, show_labels = F)
-
-#save plot
-ggsave("figures/7_heatmap_distance.png",
-       width = 20,
-       height = 15,
-       units = 'cm')
-
-#One-liner to look at frequency of trait combinations
+# One-liner to look at frequency of trait combinations
 combo_df <-
-  dataset %>% group_by(SexualSystem, FlowerSex, .drop = FALSE) %>%
+  df %>% group_by(SexualSystem, FlowerSex, .drop = FALSE) %>%
   summarize(count = n())
 combo_df
 
-#mosaic plot to reperesent combinations visually
-ggplot(data = dataset) +
-  geom_mosaic(aes(x = product(Mating,Pollination,Lifespan), fill=Mating), na.rm=TRUE) + 
-  labs(x = "Measurement_1", y = "Measurement_2")
+# mosaic plot to reperesent combinations visually
+ggplot(data = df) +
+  geom_mosaic(aes(x = product(Pollination,Mating), fill=Mating), na.rm=TRUE) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-###
-# ---- Correlation Network ----
-###
+#### 
+## Hierarchical clustering for variables ----
+#### 
 
-#load one-hot data set
-df<-readRDS(file = here::here("outputs/one_hot_6_df_filt_trans.rds"))
+# https://rpubs.com/pjmurphy/269609
 
-#load original data set
-#df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
+# split data set into quant and qualitative columns
+df_num <- df[sapply(df,is.numeric)]
+df_cat <- df[sapply(df,is.factor)]
 
-# Calculate a pairwise association between all variables in a data-frame. In particular nominal vs nominal with Chi-square, numeric vs numeric with Pearson correlation, and nominal vs numeric with ANOVA.
+# do clustering and plot tree
+tree <- ClustOfVar::hclustvar(df_num, df_cat)
+plot(tree)
 
-# Adopted from https://stackoverflow.com/a/52557631/590437
-mixed_assoc = function(df, cor_method="pearson", adjust_cramersv_bias=TRUE){
-  df_comb = expand.grid(names(df), names(df),  stringsAsFactors = F) %>% set_names("X1", "X2")
-  
-  is_nominal = function(x) class(x) %in% c("factor", "character")
-  # https://community.rstudio.com/t/why-is-purr-is-numeric-deprecated/3559
-  # https://github.com/r-lib/rlang/issues/781
-  is_numeric <- function(x) { is.integer(x) || is_double(x)}
-  
-  f = function(xName,yName) {
-    x =  pull(df, xName)
-    y =  pull(df, yName)
-    
-    result = if(is_nominal(x) && is_nominal(y)){
-      # use bias corrected cramersV as described in https://rdrr.io/cran/rcompanion/man/cramerV.html
-      cv = cramerV(as.character(x), as.character(y), bias.correct = adjust_cramersv_bias)
-      data.frame(xName, yName, assoc=cv, type="cramersV")
-      
-    }else if(is_numeric(x) && is_numeric(y)){
-      correlation = cor(x, y, method=cor_method, use="complete.obs")
-      data.frame(xName, yName, assoc=correlation, type="correlation")
-      
-    }else if(is_numeric(x) && is_nominal(y)){
-      # from https://stats.stackexchange.com/questions/119835/correlation-between-a-nominal-iv-and-a-continuous-dv-variable/124618#124618
-      r_squared = summary(lm(x ~ y))$r.squared
-      data.frame(xName, yName, assoc=sqrt(r_squared), type="anova")
-      
-    }else if(is_nominal(x) && is_numeric(y)){
-      r_squared = summary(lm(y ~x))$r.squared
-      data.frame(xName, yName, assoc=sqrt(r_squared), type="anova")
-      
-    }else {
-      warning(paste("unmatched column type combination: ", class(x), class(y)))
-    }
-    
-    # finally add complete obs number and ratio to table
-    result %>% mutate(complete_obs_pairs=sum(!is.na(x) & !is.na(y)), complete_obs_ratio=complete_obs_pairs/length(x)) %>% rename(x=xName, y=yName)
-  }
-  
-  # apply function to each variable combination
-  map2_df(df_comb$X1, df_comb$X2, f)
-}
+# get clustering for k = 4
+order_df <- data.frame(tree$label,tree$clusmat[,4])
+colnames(order_df)<-c("trait","cluster")
+order_df <- order_df[order(order_df$cluster),]
+order_df
 
-#correlation matrix
+# estimate number of clusters using stability of partitions
+stab <- ClustOfVar::stability(tree,
+                              B=50, # number of bootstraps
+                              graph = FALSE
+)
+
+# plot stability results
+plot(stab)
+boxplot(stab$matCR[,1:7])
+
+#### 
+## Heatmap ----
+#### 
+
+# load original data set
+df <- readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
+
+# Calculate a pairwise association between all variables in a data-frame. 
+# In particular nominal vs nominal with Chi-square,
+# numeric vs numeric with Pearson correlation,
+# and nominal vs numeric with ANOVA.
+source("R/mixed_assoc.R")
+
+# correlation matrix
+cor_mat_ori <- df %>%
+  mixed_assoc() %>%
+  select(x, y, assoc) %>%
+  spread(y, assoc) %>%
+  column_to_rownames("x") %>%
+  as.matrix %>%
+  as_cordf
+
+# melt correlated matrix into long table
+melted_cor_mat_ori <- reshape2::melt(cor_mat_ori)
+head(melted_cor_mat_ori)
+
+# get absolute values
+melted_cor_mat_ori$value <- abs(melted_cor_mat_ori$value)
+
+# cluster variables and get order of clustering
+# NOTE: could replace with ClustOfVar dendrogram
+ord <- hclust(dist(cor_mat_ori, method = "euclidean"), method = "centroid" )$order
+
+# reorder melted table based on clustering
+melted_cor_mat_ori$term <- factor(melted_cor_mat_ori$term, levels=tree$labels[tree$order])
+melted_cor_mat_ori$variable <- factor(melted_cor_mat_ori$variable, levels=tree$labels[tree$order])
+
+# replace NA with 1
+melted_cor_mat_ori$value[is.na(melted_cor_mat_ori$value)] <- 1
+
+### Plot joined heatmap and dendrogram ----
+
+# plot correlation matrix
+c1 <- ggplot(data = melted_cor_mat_ori, aes(x=term, y=variable, fill=value)) + 
+  geom_tile() +
+  scale_fill_gradient2(low = "indianred", mid = "white", high = "dodgerblue", midpoint = 0, name = "Correlation") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position="left",) +
+  xlab("") +
+  ylab('')
+
+c1
+
+# add dendrogram
+d1 <- ggdendro::ggdendrogram(as.dendrogram(tree), rotate=TRUE)
+d1 + theme_classic()
+d2 <- d1 + ggdendro::theme_dendro() + theme(plot.margin = unit(c(0,0,0,0), "cm"))
+# + scale_y_reverse(expand = c(0.2, 0))
+d2
+
+# combined plot
+# NOTE: dendrogram not exactly aligned.
+c1 + d2
+
+# NOTE: could try an alternative method with
+# install.packages("plotly")
+# install.packages("heatmaply")
+# https://talgalili.github.io/heatmaply/
+
+# save
+# ggsave("figures/one_hot_7_heatmap_abs.png",
+#        width = 20,
+#        height = 15,
+#        units = 'cm')
+
+#### 
+## Correlation matrix ----
+#### 
+
+# load one-hot data set
+df <- readRDS(file = here::here("outputs/one_hot_6_df_filt_trans.rds"))
+
+# load original data set
+# df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
+
+# correlation matrix
 cor_mat<- df %>%
   mixed_assoc() %>%
   select(x, y, assoc) %>%
@@ -203,33 +154,33 @@ cor_mat<- df %>%
   as.matrix %>%
   as_cordf
 
-#look at correlations
+# look at correlations
 cor_mat
 
-###
-# ---- Network plot adapted from code of corrr::network_plot ----
-###
+#### 
+## Network plot adapted from code of corrr::network_plot ----
+#### 
 
-#minimum correlation allowed
-min_cor<-0.3
-curved=FALSE
+# minimum correlation allowed
+min_cor <- 0.3
+curved <- FALSE
 
-#reformat matrix
+# reformat matrix
 rdf <- as_matrix(cor_mat, diagonal = 1)
 distance <- 1 - abs(rdf)
 
-#CHOOSE MDS APPROACH
+### Choose MDS approach ----
 
-# #do pcoa
+## PCOA
 # points<-stats::cmdscale(distance, k = 2)
 # points <- data.frame(points)
 # colnames(points) <- c("x", "y")
 # points$id <- rownames(points)
 
-#do nmds
+## NMDS
 nmds <-
   metaMDS(distance,
-          #distance = "gower",
+          # distance = "gower",
           k = 2,
           maxit = 999, 
           trymax = 500,
@@ -237,8 +188,6 @@ nmds <-
 points <- data.frame(nmds$points)
 colnames(points) <- c("x", "y")
 points$id <- rownames(points)
-
-
 
 # Create a proximity matrix of the paths to be plotted.
 proximity <- abs(rdf)
@@ -266,10 +215,10 @@ for (row in 1:nrow(proximity)) {
   }
 }
 
-#look at output
+# look at output
 paths
 
-#add point size columns
+# add point size columns
 points$freq<-rep(NA,length(points$id))
 
 for(i in 1:length(rownames(points))){
@@ -279,22 +228,20 @@ for(i in 1:length(rownames(points))){
 }
 
 
-#trait type column
+# trait type column
 points$type<-rep("reproductive",length(points$id))
-
 points$type[grep("Aqua",points$id)] <- "vegetative"
 points$type[grep("Climb",points$id)] <- "vegetative"
 points$type[grep("Dispersal",points$id)] <- "vegetative"
 points$type[grep("Lifespan",points$id)] <- "vegetative"
 points$type[grep("height",points$id)] <- "vegetative"
 points$type[grep("Wood",points$id)] <- "vegetative"
-
 head(points)
 
-#get colours
+# get colours
 cols<-c(rev(harrypotter::hp(2,option="Ravenclaw")),harrypotter::hp(2,option="LunaLovegood"))
 
-#make plot
+# make plot
 ggplot() +
   geom_point(
     data = points,
@@ -347,7 +294,7 @@ geom_point(
   ) +
   scale_fill_manual(values = c(cols[4],cols[3]), name="Trait type") +
   scale_colour_gradientn(colours = c(cols[1],"white",cols[2]), name = "Correlation", values = c(0,
-                                                                                                abs(min(paths$proximity * paths$sign))/(max(paths$proximity * paths$sign)+abs(min(paths$proximity * paths$sign))), #to calculate where 0 point is in scale
+                                                                                                abs(min(paths$proximity * paths$sign))/(max(paths$proximity * paths$sign)+abs(min(paths$proximity * paths$sign))), # to calculate where 0 point is in scale
                                                                                                 1)) +
   scale_size(range=c(1,15), name = "Frequency",breaks = c(25,50,100,200,300)) + 
   scale_alpha(range=c(0,1)) + 
@@ -361,8 +308,8 @@ geom_point(
   theme_void() +
   guides(alpha = "none",
          size = guide_legend(override.aes = list(shape = 21, alpha=0.5, fill = "#EDEDED", colour = "#CDCDCD")),
-         #shape = guide_legend(override.aes = list(shape = 21, fill = "#EDEDED", colour = "#CDCDCD")),
-         #fill = guide_legend(override.aes = list(shape = 21, fill = "#EDEDED", colour = "#CDCDCD"))
+         # shape = guide_legend(override.aes = list(shape = 21, fill = "#EDEDED", colour = "#CDCDCD")),
+         # fill = guide_legend(override.aes = list(shape = 21, fill = "#EDEDED", colour = "#CDCDCD"))
   ) +
   theme(legend.key = element_blank(),
         legend.background = element_blank(),
@@ -375,183 +322,47 @@ geom_point(
         panel.background = element_rect(fill='white'))
 
 
-ggsave("figures/7_correlation_network.png",width=14,height=14)
+ggsave("figures/figure_S4_correlation_network.png",width=14,height=14)
 
-# ###
-# # ---- Original corrr function ----
-# ###
-# 
-# network_plot(cor_mat,colours = c("indianred2", "white", "skyblue1"),min_cor=0.3)
+#### 
+## Original corrr function for comparison ----
+#### 
 
-# ###
-# # ---- igraph network plot -----
-# ###
-# 
-# library(GGally)
-# library(network)
-# library(sna)
-# library(ggplot2)
-# library(intergraph)
-# library(tidyverse)
-# library(corrr)
-# library(igraph)
-# library(ggraph)
-# 
-# net = rgraph(10, mode = "graph", tprob = 0.5)
-# 
-# #as matrix
-# cor_mat <- as.matrix(cor_mat,rownames.force=TRUE)
-# rownames(cor_mat)<-cor_mat[,1]
-# cor_mat <- cor_mat[,-1]
-# as.numeric(cor_mat)
-# 
-# # Keep only high correlations
-# cor_mat[cor_mat<0.25] <- 0
-# 
-# # Make an Igraph object from this matrix:
-# network <- graph_from_adjacency_matrix( cor_mat, weighted=T, mode="undirected", diag=F)
-# 
-# ggraph(network) +
-#   geom_edge_link(aes(edge_alpha = abs(weight), edge_width = 3, color = weight)) +
-#   guides(edge_alpha = "none", edge_width = "none") +
-#   scale_edge_colour_gradientn(limits = c(min(cor_mat), max(cor_mat)), colors = c("white", "dodgerblue2")) +
-#   geom_node_point(color = "grey", size = 5) +
-#   geom_node_text(aes(label = name), repel = TRUE) +
-#   theme_graph() +
-#   labs(title = "Correlations between DiveRS traits")
-# 
-# ###
-# # ---- Marion Chartier's association plot (with correlation) ----
-# ###
-# 
-# #load data set
-# df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
-# 
-# #correlation matrix
-# cor_mat<- df %>%
-#   mixed_assoc() %>%
-#   select(x, y, assoc) %>%
-#   spread(y, assoc) %>%
-#   column_to_rownames("x") %>%
-#   as.matrix %>%
-#   as_cordf
-# 
-# #as matrix
-# cor_mat <- as.matrix(cor_mat,rownames.force=TRUE)
-# rownames(cor_mat)<-cor_mat[,1]
-# cor_mat <- cor_mat[,-1]
-# as.numeric(cor_mat)
-# 
-# #NMDS
-# cor_dist <- as.dist(cor_mat)
-# 
-# abs(cor_dist)
-# 
-# library(vegan)
-# 
-# myMDS <- metaMDS(cor_dist,k=5,trymax=500, wascores=F)
-# 
-# #####> myMDS$stress
-# #####[1] 0.09147451
-# x=myMDS$points[,1]
-# y=myMDS$points[,2]
-# 
-# ##     State Occurence Cex ordre    colo
-# ## 1     Tre       209 6.0     1 #9fff9f
-# ## 2     Shr       150 4.0     2 #9fff9f
-# ## 3    Herb        72 3.0     4 #9fff9f
-# ## 4    Trop       195 4.0     5 #ffe991
-# ## 5     Ari        36 2.0     6 #ffe991
-# ## 6     Tem       210 4.0     7 #ffe991
-# ## 7  ColPol        56 3.0     8 #ffe991
-# ## 8     NAm        69 3.0     9 #e3b699
-# ## 9     Eur        71 3.0    10 #e3b699
-# ## 10    SAm       106 4.0    11 #e3b699
-# ## 11    Afr        61 3.0    12 #e3b699
-# ## 12    Ind       106 4.0    13 #e3b699
-# ## 13    Aus        12 1.3    14 #e3b699
-# ## 14    Ope       101 3.0    15 #c7c7ff
-# ## 15    For       247 4.0    16 #c7c7ff
-# ## 16    Wet        27 1.3    17 #c7c7ff
-# ## 17   Lian        16 1.3    18 #9fff9f
-# 
-# 
-# taille<-matrix(nrow=length(colnames(df)),ncol=3)
-# 
-# for(i in 1:length(colnames(df))){
-#   
-#   taille[i,1] <- colnames(df)[i]
-#   
-#   tmp <- df[,i]
-#   
-#   taille[i,2] <- sum(na.omit(tmp) != 0)
-#   
-# }
-# 
-# taille <- data.frame(taille)
-# colnames(taille)<-c("State","Occurence","Cex")
-# 
-# taille$Occurence<-as.numeric(taille$Occurence)
-# 
-# taille$Cex <- log(taille$Occurence)-2
-# 
-# taille$ordre<-seq(1:length(rownames(taille)))
-# 
-# taille$colo<-rep("#CDCDCD",length(rownames(taille)))
-# 
-# 
-# par(mar=c(4,4,1,1))
-# plot(x,y, pch=16, col=as.character(taille$colo), cex=0, xlim=c(-0.5,0.4), ylim=c(-0.4,0.45))
-# 
-# for(a in 1:(length(x)-1)){
-#   for(b in (a+1):length(x)){
-#     if(cor_mat[a,b]>(-0.4) & cor_mat[a,b]<=(-0.2)){
-#       lines(c(x[a],x[b]),c(y[a],y[b]),col="lightskyblue", lwd=1.5)
-#     }
-#     if(cor_mat[a,b]>(-0.6) & cor_mat[a,b]<=(-0.4)){
-#       lines(c(x[a],x[b]),c(y[a],y[b]),col="royalblue", lwd=1.5)
-#     }
-#     if(cor_mat[a,b]<=(-0.6)){
-#       #lines(c(x[a],x[b]),c(y[a],y[b]),col="blue4", lwd=1.5)
-#     }
-#     
-#   }
-# }
-# 
-# points(x,y, pch=16, col=as.character(taille$colo), cex=(taille$Cex+1.5))
-# 
-# for(a in 1:(length(x)-1)){
-#   for(b in (a+1):length(x)){
-#     if(cor_mat[a,b]>=0.6){
-#       lines(c(x[a],x[b]),c(y[a],y[b]),col="darkred", lwd=1.5)
-#     }
-#     if(cor_mat[a,b]>=0.4 & cor_mat[a,b]<0.6){
-#       lines(c(x[a],x[b]),c(y[a],y[b]),col="firebrick1", lwd=1.5)
-#     }
-#     if(cor_mat[a,b]>=0.2 & cor_mat[a,b]<0.4){
-#       #lines(c(x[a],x[b]),c(y[a],y[b]),col="#ff8f8f", lwd=1.5)
-#     }
-#   }
-# }
-# 
-# points(x,y, pch=16)
-# text(x,y,label=taille$State, cex=0.7, pos=1, col="darkgreen", offset=0.2)
-# 
-# 
-# i=-0.45
-# j=0.46
-# text(i,j+0.005,label="No species:",cex=0.7)
-# points(i,j-0.02,pch=16, cex=2.2, col="gray90")
-# text(i,j-0.02,label="<20",cex=0.7)
-# points(i,j-0.05,pch=16, cex=3, col="gray90")
-# text(i,j-0.05,label="20-50",cex=0.7)
-# points(i,j-0.09,pch=16, cex=4, col="gray90")
-# text(i,j-0.09,label="50-100",cex=0.7)
-# points(i,j-0.14,pch=16, cex=5, col="gray90")
-# text(i,j-0.14,label="100-200",cex=0.7)
-# points(i,j-0.21,pch=16, cex=7, col="gray90")
-# text(i,j-0.21,label="<200",cex=0.7)
-# rm(i,j)
-# 
-# 
-# text(0.32,-0.35,label=paste("Stress = ",round(myMDS$stress, digit=3), sep=""), cex=0.7)
+network_plot(cor_mat,colours = c("indianred2", "white", "skyblue1"),min_cor=0.3,repel=TRUE)
+
+#### 
+## ---- igraph network plot -----
+#### 
+
+library(GGally)
+library(network)
+library(sna)
+library(ggplot2)
+library(tidyverse)
+library(corrr)
+library(igraph)
+library(ggraph)
+
+net = rgraph(10, mode = "graph", tprob = 0.5)
+
+# as matrix
+cor_mat <- as.matrix(cor_mat,rownames.force=TRUE)
+rownames(cor_mat)<-cor_mat[,1]
+cor_mat <- cor_mat[,-1]
+as.numeric(cor_mat)
+
+# Keep only high correlations
+cor_mat[cor_mat<0.25] <- 0
+
+# Make an Igraph object from this matrix:
+network <- graph_from_adjacency_matrix( cor_mat, weighted=T, mode="undirected", diag=F)
+
+ggraph(network) +
+ geom_edge_link(aes(edge_alpha = abs(weight), edge_width = 1, color = weight)) +
+ guides(edge_alpha = "none", edge_width = "none") +
+ scale_edge_colour_gradientn(limits = c(min(cor_mat), max(cor_mat)), colors = c("white", "dodgerblue2")) +
+ geom_node_point(color = "grey", size = 2) +
+ geom_node_text(aes(label = name), repel = TRUE) +
+ theme_graph() +
+ labs(title = "Correlations between DiveRS traits")
+
