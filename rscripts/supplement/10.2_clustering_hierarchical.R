@@ -47,6 +47,31 @@ plot(aggl.clust.w, main = "Agglomerative, Ward", cex = 0.25)
 source("R/cstats.table.R")
 
 # produce stats table, capping the maximum number of clusters at 10
+# 
+# To understand the appropriate number of clusters for the data and method, 
+# a helper script is used to provide some statistics about the qualities of different clusters, up to seven. 
+# 
+# 'within.cluster.ss' or within-cluster sum of squares is a measure of closeness of observations:
+# the lower it is the closer the observations within the clusters are — changes for the different number of clusters.
+# 
+# 'average.within' is an average distance among observations within clusters
+# 'average.between' is an average distance among observations between clusters
+# 'wb.ratio' is the ratio between these two averages.
+# 
+# 'dunn2' is the dunn index, which can be interpreted as follows: 
+# If the data set contains compact and well-separated clusters, the diameter of the clusters 
+# is expected to be small and the distance between the clusters is expected to be large. 
+# Thus, Dunn index should be maximized.
+#                                                         
+# 'avg.silwidth' can be defined as follows: Observations with a large values (almost 1) 
+# are very well clustered, small (around 0) means that the observation lies between two clusters. 
+# Observations with a negative Si are probably placed in the wrong cluster. 
+# The average is taken across all observations (species) in each cluster.
+#                                                                                           
+# The remaining rows indicate the number of species in each cluster, this shouldn't be too skewed ideally. 
+# The Ward method (table presented above) provides the best *within.cluster.ss* 
+# and a relatively even distribution of cluster sizes compared to other methods so we proceed with this approach.
+# 
 
 # divisive
 stats.df.d <- cstats.table(gower_df, divisive.clust, 10)
@@ -69,7 +94,9 @@ cluster.stats(d = gower_df, clustering = cutree(aggl.clust.w, 4))
 
 ### Choosing k - Elbow withinness ----
 
-# It shows how the within sum of squares — as a measure of closeness of observations : the lower it is the closer the observations within the clusters are — changes for the different number of clusters. Ideally, we should see a distinctive “bend” in the elbow where splitting clusters further gives only minor decrease in the SS.
+# It shows how the within sum of squares — as a measure of closeness of observations : 
+# the lower it is the closer the observations within the clusters are — changes for the different number of clusters. 
+# Ideally, we should see a distinctive “bend” in the elbow where splitting clusters further gives only minor decrease in the SS.
 
 # Agglomerative ward
 ggplot(data = data.frame(t(cstats.table(

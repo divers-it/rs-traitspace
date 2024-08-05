@@ -13,24 +13,17 @@ This repository is structured as follow:
 - [`rscripts/`](https://github.com/divers-it/rs-traitspace/tree/main/rscripts/):
   contains R scripts to run each step of the workflow
 
-- [`pythonscripts/`](https://github.com/divers-it/rs-traitspace/tree/main/pythonscripts/):
-  contains python scripts relevant to the workflow
-
 - [`outputs/`](https://github.com/divers-it/rs-traitspace/tree/main/outputs):
   contains all the results created during the workflow
-
-- [`pres_files/`](https://github.com/divers-it/rs-traitspace/tree/main/pres_files):
-  contains files associated wth the pres.qmd
 
 - [`figures/`](https://github.com/divers-it/rs-traitspace/tree/main/figures):
   contains all the figures created during the workflow
 
 - [`paper/`](https://github.com/divers-it/rs-traitspace/tree/main/paper):
-  contains all the manuscript and related content (biblio, templates,
-  etc.)
+  contains manuscript related content (biblio, templates, etc.)
 
 - [`R/`](https://github.com/divers-it/rs-traitspace/tree/main/R):
-  contains R functions developed especially for this project
+  contains R functions used in this project
 
 - [`man/`](https://github.com/divers-it/rs-traitspace/tree/main/man):
   contains help files of R functions
@@ -44,7 +37,14 @@ This repository is structured as follow:
 
 ## Workflow
 
-### 1_proteus_data_preparation_discrete.R
+Note that there are two encodings that are used for these data. The
+original encoding with as many values as there are states per trait
+(woody, herbaceous, woody_herbaceous), and a one-hot encoding, where
+each state is recoded to a binary trait (woody, non-wood & herbaceous
+non-herbaceous). A number of scripts have corresponding one-hot encoding
+versions with the suffix “one_hot”.
+
+#### 1_proteus_data_preparation_discrete.R
 
 Reads in raw PROTEUS data for all traits, then outputs a
 [table](https://github.com/divers-it/rs-traitspace/tree/main/outputs/all_states_per_trait.csv)
@@ -67,7 +67,7 @@ together with an underscore (‘woody_herbaceous’).
 |            1 | Habit (D1) | \(4\) vine         |             11 | Woodiness | herbaceous |
 |            1 | Habit (D1) | \(5\) aquatic herb |             26 | Woodiness | herbaceous |
 
-### 2_proteus_data_preparation_quant.R
+#### 2_proteus_data_preparation_quant.R
 
 Reads in the same PROTEUS data as script 1 but this time prepares
 quantitative data for analysis. Values for quantitative traits found in
@@ -78,7 +78,7 @@ types. If ValDat is present, this is used preferentially. If it is not
 present then the average of the averages of MaxDat and MinDat is used. A
 table with a single value per species is then exported.
 
-### 3_recode_quantitative_discrete.R
+#### 3_recode_quantitative_discrete.R
 
 Converts quantitative variables to discrete ones. Values for outcrossing
 rates were converted from quantitative to discrete. If all rate values
@@ -89,7 +89,7 @@ as ‘mixed’. Min and Max values were preferrentially used for assignment
 if available, if not the ValDat was used. This produces a table of
 discrete states.
 
-### 4_merge_subset_data.R
+#### 4_merge_subset_data.R
 
 Combines discrete, quantitative and discretized data into one data
 frame. Two sources of outcrossing information are present (‘Mating’ for
@@ -101,25 +101,22 @@ available. If Mating was polymorphic for a species
 flowerDiameter, which are then removed. A final table is output for
 downstream analysis.
 
-### 5_clean_filter_df.R
-
-The amount of missing data in the dataset is visualized with a
-missingness plot.
-
-<figure>
-<img src="figures/5_missing_data_pre_clean.png" width="800"
-alt="Fig. Missingness plot showing the missing data per trait in black." />
-<figcaption aria-hidden="true">Fig. Missingness plot showing the missing
-data per trait in black.</figcaption>
-</figure>
+#### 5_clean_filter_df.R
 
 The dataset is then filtered, removing traits with more than 60% missing
 data and species with more than 50% missing data. Outliers for each of
 the traits are also removed and the data is saved as an RDS.
 
-### 6_scale_transform.R
+<figure>
+<img src="figures/figure_S1_missing_data_post_clean.png" width="800"
+alt="Figure S1 Missingness plot showing the missing data per trait in black." />
+<figcaption aria-hidden="true"><strong>Figure S1</strong> Missingness
+plot showing the missing data per trait in black.</figcaption>
+</figure>
 
-The dataset is read in and scaled, histograms of the variables for each
+#### 6_scale_transform.R
+
+The data set is read in and scaled, histograms of the variables for each
 trait are plotted and log-transformed if appropriate. The data is saved
 as an RDS.
 
@@ -132,19 +129,24 @@ as an RDS.
 | Aerva javanica       |            -0.3678511 |             -0.3663008 |                        -0.7844397 |                -0.2367604 |       0.4104134 | -1.6097322 | -0.8665225 | herbaceous_woody | non-climbing | non-aquatic | dimorphic    | long     | outcrossing | biotic         | abiotic       | long          | unisexual | superior      | NA           | actinomorphic  | bright      |
 | Aextoxicon punctatum |             0.8342645 |             -0.2751062 |                        -0.3701292 |                -1.6106848 |              NA | -0.4147073 |  1.1859153 | woody            | non-climbing | non-aquatic | dimorphic    | long     | outcrossing | biotic         | biotic        | long          | unisexual | superior      | NA           | actinomorphic  | bright      |
 
-### 7_correlation.R
+#### 7_correlation.R
 
-Examines the correlation between traits in the dataset. First Kendall’s
-[distance](https://en.wikipedia.org/wiki/Kendall_tau_distance) (a ranked
-metric) is calculated pairwise among each trait. Traits are plotted
-pairwise to examine their relationships visually.
+Examines the correlation between traits in the dataset.
+
+<figure>
+<img src="./figures/figure_S4_correlation_network.png" width="800"
+alt="Figure S4. A correlation network where one-hot encoded traits plotted in an NDMS space and lines between them indicate level of correlation." />
+<figcaption aria-hidden="true"><strong>Figure S4.</strong> A correlation
+network where one-hot encoded traits plotted in an NDMS space and lines
+between them indicate level of correlation.</figcaption>
+</figure>
+
+#### 8.0_pcoa.R
 
 Gower’s
 [distance](https://medium.com/analytics-vidhya/gowers-distance-899f9c4bd553)
 is calculated among species as it can deal with quantitative,
 qualitative and missing trait data.
-
-### 8_pcoa.R
 
 Principal coordinate analysis
 ([PCOA](https://en.wikipedia.org/wiki/Multidimensional_scaling#Types))
@@ -152,28 +154,18 @@ based on Gower’s distances previously calculated. Here are all species
 displayed on the first two PCOA axes.
 
 <figure>
-<img src="./figures/8_scatterplot_pcoa_density_polygon.png" width="800"
-alt="Fig. Scatterplot of PCOA where each point indicates a species." />
-<figcaption aria-hidden="true">Fig. Scatterplot of PCOA where each point
-indicates a species.</figcaption>
+<img src="./figures/figure_2_pcoa.png" width="800"
+alt="Figure 2. Scatterplot of PCOA where each point indicates a species." />
+<figcaption aria-hidden="true"><strong>Figure 2.</strong> Scatterplot of
+PCOA where each point indicates a species.</figcaption>
 </figure>
 
-The relative eigenvalues indicate the proportion of variation each axis
-explains.
-
-<figure>
-<img src="./figures/8_barplot_relative_eigenvalues_pcoa.png" width="400"
-alt="Fig. Relative eigenvalues of each PCOA axis." />
-<figcaption aria-hidden="true">Fig. Relative eigenvalues of each PCOA
-axis.</figcaption>
-</figure>
-
-### 9_dimensionality_analyses.R
+#### 9_dimensionality_analyses.R
 
 To get an idea of the quality of the trait space, analyses from
 [Mouillot & Loiseau et
-al.](https://onlinelibrary.wiley.com/doi/abs/10.1111/ele.13778) were
-run: *To assess the dimensionality and robustness of species trait
+al. 2021](https://onlinelibrary.wiley.com/doi/abs/10.1111/ele.13778)
+were run: *To assess the dimensionality and robustness of species trait
 spaces, we needed a metric measuring the degree of distortion between
 the initial trait distance matrix between species pairs (Gower distance
 on all traits) and the distance matrix after dimensionality reduction
@@ -193,44 +185,140 @@ within 20 axes indicating that when a larger number of axes are
 considered the reduced trait space is a good representation.
 
 <figure>
-<img src="./figures/9_dimensionality_no_axes.png" width="600"
-alt="Fig. Influence of number of dimensions on the quality of trait space." />
-<figcaption aria-hidden="true">Fig. Influence of number of dimensions on
-the quality of trait space.</figcaption>
+<img src="figures/figure_S6_dimensionality.png" width="600"
+alt="Figure S6. Influence of number of dimensions on the quality of trait space." />
+<figcaption aria-hidden="true"><strong>Figure S6</strong>. Influence of
+number of dimensions on the quality of trait space.</figcaption>
 </figure>
 
-### 10_functional_space_mfd.R
+#### 8.1_pcoa_diaz_data.R
 
-The dimensionality approach was adapted from a paper that aimed to
-compare different datasets. To better make comparisons within a single
-dataset we can again examine the functional space, but this time with
-the package
-[mfd](https://onlinelibrary.wiley.com/doi/pdf/10.1111/ecog.05904). This
-approach is a little more black box but also more intuitive. We start by
-assessing the appropriate number of PCoA axes to retain, as above. The
-table below shows the number of axes and the quality (MAD), indcating
-that six dimensions may be the most appropriate (as opposed to four
-above).
+We examined to locations of our species in the trait space derived from
+classical plant functional traits [Diaz et
+al. 2022](https://doi.org/10.1038/s41597-022-01774-9), and compared the
+quality of these trait spaces.
 
-To get an idea of the variation within different groups we can calculate
-different alpha functional diversity indices. We first looked at this
-comparing different angiosperm groups.
+<figure>
+<img src="figures/figure_4_Diaz_comparison.png" width="600"
+alt="Figure 4. Diaz et al. 2022 comparison." />
+<figcaption aria-hidden="true"><strong>Figure 4</strong>. Diaz et
+al. 2022 comparison.</figcaption>
+</figure>
+
+#### 10_clustering_PAM.R
+
+The [Partitioning Around
+Medoids](https://dpmartin42.github.io/posts/r/cluster-mixed-types) (PAM)
+approach is used. All species must be assigned to a cluster and some
+species may be spuriously assigned to clusters. To avoid interpreting
+species than are not well-clustering we look at ‘robust groups’ - those
+species that consistently stick together as the value of k is changed. A
+[`Sankey plot`](https://github.com/divers-it/rs-traitspace/tree/main/figures/10_sankey_pam.html)
+demonstrates how species move between clusters as k is increased.
+
+We can then visualize how these robust groups relate to clusters, and
+also how traits differ among robust groups.
+
+<figure>
+<img src="figures/figure_5_robust_groups.png" width="600"
+alt="Figure 5. Robust groups from PAM clustering and corresponding state frequences / trait values." />
+<figcaption aria-hidden="true"><strong>Figure 5</strong>. Robust groups
+from PAM clustering and corresponding state frequences / trait
+values.</figcaption>
+</figure>
+
+#### 11_functional_space_mfd.R
+
+To compare groups within a data set we use the package
+[mfd](https://onlinelibrary.wiley.com/doi/pdf/10.1111/ecog.05904). To
+get an idea of the variation within different groups we can calculate
+different alpha functional diversity indices. For example, we can
+compare various functional diversity indices among PAM clusters (k = 3).
 
 | X         | Species.richness |  FDis |  FMPD |  FNND |  FEve |  FRic |  FDiv |  FOri |  FSpe |
 |:----------|-----------------:|------:|------:|------:|------:|------:|------:|------:|------:|
-| Cluster 1 |              172 | 0.417 | 0.424 | 0.229 | 0.785 | 0.284 | 0.781 | 0.220 | 0.401 |
-| Cluster 2 |               87 | 0.470 | 0.476 | 0.288 | 0.771 | 0.283 | 0.742 | 0.273 | 0.564 |
-| Cluster 3 |              101 | 0.304 | 0.320 | 0.197 | 0.782 | 0.086 | 0.694 | 0.183 | 0.336 |
+| Cluster 1 |              146 | 0.385 | 0.391 | 0.224 | 0.796 | 0.194 | 0.770 | 0.208 | 0.386 |
+| Cluster 2 |               71 | 0.369 | 0.380 | 0.280 | 0.769 | 0.129 | 0.761 | 0.260 | 0.548 |
+| Cluster 3 |               76 | 0.288 | 0.298 | 0.176 | 0.765 | 0.032 | 0.731 | 0.159 | 0.326 |
 
-### 11_clustering_hierarchical.R
+#### 12_phylo_plot
+
+Plots a phylogenetic tree of all 360 species in our data set.
+
+<figure>
+<img src="figures/figure_1_phylo.png" width="600"
+alt="Figure 1. Phylogenetic tree." />
+<figcaption aria-hidden="true"><strong>Figure 1</strong>. Phylogenetic
+tree.</figcaption>
+</figure>
+
+#### one_hot_13_loadings.R
+
+Builds a traitspace using one-hot encoded data. Eigenvectors are plotted
+on the first two axes, similar to ‘loadings’ from a PCA biplot.
+
+<figure>
+<img src="figures/figure_3_loadings.png" width="600"
+alt="Figure 3. One-hot traitspace with eigenvectors." />
+<figcaption aria-hidden="true"><strong>Figure 3</strong>. One-hot
+traitspace with eigenvectors.</figcaption>
+</figure>
+
+We can also examine other axes to see which traits vary along them.
+
+<figure>
+<img src="figures/figure_S3_loadings_axes_3_4.png" width="600"
+alt="Figure S3. One-hot traitspace with eigenvectors for axes 3 and 4." />
+<figcaption aria-hidden="true"><strong>Figure S3</strong>. One-hot
+traitspace with eigenvectors for axes 3 and 4.</figcaption>
+</figure>
+
+#### 14_UMAP.R
+
+Performs Uniform Manifold Approximation and Projection (UMAP), a
+non-linear dimensionality reduction approach.
+
+<figure>
+<img src="figures/figure_S7_scatterplots_umap_knn10-100.png" width="600"
+alt="Figure S7. UMAP trait spaces with different values of neighbourhood size." />
+<figcaption aria-hidden="true"><strong>Figure S7</strong>. UMAP trait
+spaces with different values of neighbourhood size.</figcaption>
+</figure>
+
+Also systematically plots all traits on
+[`umap`](https://github.com/divers-it/rs-traitspace/tree/main/figures/umap)
+and
+[`pcoa`](https://github.com/divers-it/rs-traitspace/tree/main/figures/pcoa)
+trait spaces.
+
+#### 15_simulations.R
+
+Fits models of trait evolution to each trait, and then uses these along
+phylogenetic trees to simulate 1000 data sets. PCoA is run on these
+simulated data sets and results are compared to empirical ones.
+
+<figure>
+<img src="figures/figure_S13_eigenvalues_simulations.png" width="600"
+alt="Figure S13. Comparison of simulated (black error bars) versus empirical (coloured lines) eigenvalues." />
+<figcaption aria-hidden="true"><strong>Figure S13</strong>. Comparison
+of simulated (black error bars) versus empirical (coloured lines)
+eigenvalues.</figcaption>
+</figure>
+
+## Supplementary scripts
+
+#### 10.1_clustering_kprototype.R
+
+[k-prototypes](https://journal.r-project.org/archive/2018/RJ-2018-048/RJ-2018-048.pdf)
+clustering, another method than can deal with missing and mixed-type
+data.
+
+#### 10.2_clustering_hierarchical.R
 
 This script is based on an online
 [tutorial](https://towardsdatascience.com/hierarchical-clustering-on-categorical-data-in-r-a27e578f2995)
 that uses the hierarchical clustering approach to create clusters based
-on Gower’s distances. First dendrograms are built using several
-different methods including divisive and agglomerative clustering.
-Within agglomerative clustering five different methods are used to
-create dendrograms.
+on Gower’s distances.
 
 From **hclust** help: *Ward’s minimum variance method aims at finding
 compact, spherical clusters. The complete linkage method finds similar
@@ -240,115 +328,58 @@ strategy. The other methods can be regarded as aiming for clusters with
 characteristics somewhere between the single and complete link methods.*
 
 <figure>
-<img src="./figures/11_dendrograms_ward2_coloured_by_cluster.png"
-width="400"
-alt="Fig. Dendogram made from the Ward.d2 method of clustering" />
-<figcaption aria-hidden="true">Fig. Dendogram made from the Ward.d2
-method of clustering</figcaption>
+<img src="./figures/figure_S11_pcoa_hclust.png" width="400"
+alt="Figure S11. PCOA scatterplot with species coloured by Ward.d2 cluster membership." />
+<figcaption aria-hidden="true"><strong>Figure S11</strong>. PCOA
+scatterplot with species coloured by Ward.d2 cluster
+membership.</figcaption>
 </figure>
 
-To understand the appropriate number of clusters for the data and
-method, a [helper
-script](https://github.com/divers-it/rs-traitspace/tree/main/R/cstats.table.R)
-is used to provide some statistics about the qualities of different
-clusters, up to seven.
+## Utility scripts
 
-‘within.cluster.ss’ or within-cluster sum of squares is a measure of
-closeness of observations : the lower it is the closer the observations
-within the clusters are — changes for the different number of clusters.
+#### collate_clustering_results.R
 
-‘average.within’ is an average distance among observations within
-clusters ‘average.between’ is an average distance among observations
-between clusters ‘wb.ratio’ is the ratio between these two averages.
+Brings together the clustering results from different approaches
+(including one-hot encoding).
 
-‘dunn2’ is the dunn index, which can be
-[interpreted](https://www.datanovia.com/en/lessons/cluster-validation-statistics-must-know-methods/#silhouette-coefficient)
-as follows: If the data set contains compact and well-separated
-clusters, the diameter of the clusters is expected to be small and the
-distance between the clusters is expected to be large. Thus, Dunn index
-should be maximized.
+#### gawdis.R
 
-‘avg.silwidth’ can be
-[defined](https://www.datanovia.com/en/lessons/cluster-validation-statistics-must-know-methods/#silhouette-coefficient)
-as follows: Observations with a large values (almost 1) are very well
-clustered, small (around 0) means that the observation lies between two
-clusters. Observations with a negative Si are probably placed in the
-wrong cluster. The average is taken across all observations (species) in
-each cluster.
+Examines the effect of different weighting when calculating distances
+matrices.
 
-The remaining rows indicate the number of species in each cluster, this
-shouldn’t be too skewed ideally. The Ward method (table presented above)
-provides the best *within.cluster.ss* and a relatively even distribution
-of cluster sizes compared to other methods so we proceed with this
-approach.
+#### generate_phylo.R
 
-We can then examine the trait states and values that make up each
-cluster.
+Builds phylogenetic tree using our species list.
 
-<figure>
-<img src="./figures/11_stacked_barplots_wardD2_traits_by_cluster.png"
-width="600"
-alt="Fig. The relative proportion for qualitative traits across clusters (k = 3)" />
-<figcaption aria-hidden="true">Fig. The relative proportion for
-qualitative traits across clusters (k = 3)</figcaption>
-</figure>
+#### get_taxonomy.R
 
-<figure>
-<img src="./figures/11_boxplots_wardD2_traits_by_cluster.png"
-width="600" alt="Fig. Quantitative traits across clusters (k = 3)" />
-<figcaption aria-hidden="true">Fig. Quantitative traits across clusters
-(k = 3)</figcaption>
-</figure>
+Searches species names against the world checklist of vascular plants,
+and corrections are made where necessary.
 
-We can then represent the identified clusters on the PCOA trait space.
+#### impute_missing_data.R
 
-<div class="figure">
+Uses random forests and the phylogenetic tree to infer missing data.
 
-<img src="./figures/11_scatterplot_pcoa_wardD2_k3_coloured_by_cluster.png" alt="Fig. PCOA plot coloured by clusters (k = 3)" width="100%" />
-<p class="caption">
-Fig. PCOA plot coloured by clusters (k = 3)
-</p>
+#### nmds.R
 
-</div>
+Non-metric multidimensional scaling is an alternative approach to
+visualizing trait spaces.
 
-### 11.1_clustering_kprototype.R
+#### remove_dioecious_species_test.R
 
-Other methods that can deal with mixed and missing data include
-[kprototypes](https://journal.r-project.org/archive/2018/RJ-2018-048/RJ-2018-048.pdf),
-which yields results similar to hierarchical clustering.
+Examining the effect of randomly removing dioecious species, which are
+overrepresented in the data set.
 
-<div class="figure">
+#### sankey_between_methods.R
 
-<img src="./figures/11.1_scatterplot_pcoa_kpro_k5_coloured_by_cluster.png" alt="Fig. PCOA plot coloured by clusters from the kprototypes approach (k = 4)" width="100%" />
-<p class="caption">
-Fig. PCOA plot coloured by clusters from the kprototypes approach (k =
-4)
-</p>
+Examines how clusters compare across different clustering approaches.
 
-</div>
+#### test_robust_groups.R
 
-### 11.2_clustering_PAM.R
+Assessing how changing the minimum / maximum k values affects robust
+group classification.
 
-Likewise the [Partitioning Around
-Medoids](https://dpmartin42.github.io/posts/r/cluster-mixed-types) (PAM)
-approach also found similar clustering.
+#### trait_selection.R
 
-<div class="figure">
-
-<img src="./figures/11.2_scatterplot_pcoa_pam_k3_coloured_by_cluster.png" alt="Fig. PCOA plot coloured by clusters from the PAM approach (k = 3)" width="100%" />
-<p class="caption">
-Fig. PCOA plot coloured by clusters from the PAM approach (k = 3)
-</p>
-
-</div>
-
-\[TBC\]
-
-## Other scripts
-
-### discrete_state_freqs.R
-
-The number of species with each discrete state (original) from the
-PROTEUS dataset.
-
-\[TBC\]
+Several approaches to determine which traits capture the most variation
+in the data set.
