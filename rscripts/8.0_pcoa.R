@@ -59,7 +59,7 @@ rel_ev_pcoa_g0 <- ev_pcoa_g0/sum(ev_pcoa_g0)
 table(rownames(dataset_pcoa$vectors)==rownames(df))
 
 # missing data per row (species) for plot
-missDat<-rowSums(apply(is.na(df),2,as.numeric))/ncol(df)
+missDat <- rowSums(apply(is.na(df),2,as.numeric))/ncol(df)
 
 # plot PCOA points on first two axes coloured by missing data
 ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
@@ -92,15 +92,22 @@ ggplot(eig_df, aes(x=pcoa_axis, y=relative_eigenvalue)) +
   geom_bar(stat = "identity")
 # ggsave("figures/8.0_barplot_relative_eigenvalues_pcoa.png")
 
-#plot original reproductive systems (back-engineer them first)
-df$RS=NA
-df[df$SexualSystem %in% "dimorphic" & df$FlowerSex %in% "unisexual",]$RS="dioecy"
-df[df$SexualSystem %in% "monomorphic" & df$FlowerSex %in% "unisexual",]$RS="monoecy"
-df[df$SexualSystem %in% "monomorphic" & df$FlowerSex %in% "bisexual" & df$Mating %in% "selfing",]$RS="selfing"
-df[df$SexualSystem %in% "monomorphic" & df$FlowerSex %in% "bisexual" & df$Mating %in% "mixed",]$RS="mixed"
-df[df$SexualSystem %in% "monomorphic" & df$FlowerSex %in% "bisexual" & df$Mating %in% "outcrossing",]$RS="outcrossing"
+####
+## Plot original reproductive systems (back-engineer them first) ----
+####
 
-ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.factor(df$RS))) +
+# make copy of df
+df_ors <- df
+
+# recode flower sex, sexual system and mating system
+df_ors$RS=NA
+df_ors[df_ors$SexualSystem %in% "dimorphic" & df_ors$FlowerSex %in% "unisexual",]$RS="dioecy"
+df_ors[df_ors$SexualSystem %in% "monomorphic" & df_ors$FlowerSex %in% "unisexual",]$RS="monoecy"
+df_ors[df_ors$SexualSystem %in% "monomorphic" & df_ors$FlowerSex %in% "bisexual" & df_ors$Mating %in% "selfing",]$RS="selfing"
+df_ors[df_ors$SexualSystem %in% "monomorphic" & df_ors$FlowerSex %in% "bisexual" & df_ors$Mating %in% "mixed",]$RS="mixed"
+df_ors[df_ors$SexualSystem %in% "monomorphic" & df_ors$FlowerSex %in% "bisexual" & df_ors$Mating %in% "outcrossing",]$RS="outcrossing"
+
+ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.factor(df_ors$RS))) +
   geom_point(
     color="black",
     shape=21,
@@ -117,10 +124,10 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.f
         legend.box="vertical", 
         legend.margin=margin())
 
-ggsave("figures/8_scatterplot_pcoa_coloured_original_RS.png",
-       width = 15,
-       height = 15,
-       units = 'cm')
+# ggsave("figures/8_scatterplot_pcoa_coloured_original_RS.png",
+#        width = 15,
+#        height = 15,
+#        units = 'cm')
 
 
 ####
