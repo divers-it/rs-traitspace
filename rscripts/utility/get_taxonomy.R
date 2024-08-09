@@ -9,6 +9,9 @@ df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 # get list of species in dataset
 specieslist <- rownames(df)
 
+# Alternate function that does the same as loop below 
+# taxize::classification(specieslist, db = 'ncbi')
+
 # loop through species and get family and order
 # try() in case there are errors
 for(i in 1:length(specieslist)){

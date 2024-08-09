@@ -476,27 +476,38 @@ fd_ind_values_ms
 write.csv(fd_ind_values_ms,"outputs/11_mfd_indices_mating_system.csv")
 
 ####
-## Functional originality at regional scale ----
+## Functional distinctiveness ----
 ####
 
+# calculate distinctiveness
 sp_di <- distinctiveness_global(sp_dist, di_name = "distinctiveness")
 
 # We get one value of distinctiveness per species. 
 # It only considers the functional dissimilarity of all species in the dissimilarity matrix without
-# considering their spatial distributions. We get one value of distinctiveness per species.
+# considering their spatial distributions.
 summary(sp_di)
 sp_di 
 
 # check matching
-sp_di$species == clust_df$species
-
-# add clustering
-sp_di$cluster <- clust_df$cluster 
+table(sp_di$species == clust_df$species)
 
 quantile(sp_di$distinctiveness, probs = seq(0, 1, by = 0.1))
 subset(sp_di, distinctiveness >= 0.439)
 
-## Plot distinctiveness per cluster
+# add clustering
+sp_di$cluster <- clust_df$cluster 
+
+# read in robust groups
+pam <- readRDS("outputs/10_robust_vect_pam_full.rds")
+
+# check matching
+table(sp_di$species == names(pam))
+
+# add robust groups
+sp_di$robust <- paste("robust",pam,sep="_")
+
+### Plot distinctiveness per cluster ----
+
 sp_di %>%
   ggplot(aes(x=cluster, y=distinctiveness, fill=cluster)) +
   geom_boxplot() +
@@ -514,7 +525,39 @@ sp_di %>%
 ggplot(sp_di, aes(x=cluster, y=distinctiveness, fill=cluster)) + # fill=name allow to automatically dedicate a color for each group
   geom_violin()
 
+### Plot distinctiveness per robust group ----
 
+# robust groups separate
+
+sp_di %>%
+  ggplot(aes(x=robust, y=distinctiveness, fill=cluster)) +
+  geom_boxplot() +
+  viridis::scale_fill_viridis(discrete = TRUE, alpha=0.6) +
+  geom_jitter(aes(fill = cluster), shape = 21,size=1, alpha=0.6, width=0.1) +
+  hrbrthemes::theme_ipsum() +
+  theme(
+    #legend.position="none",
+    plot.title = element_text(size=11)
+  ) +
+  xlab("")
+
+# robust groups grouped by
+
+sp_di %>%
+  ggplot(aes(x=cluster, y=distinctiveness, fill=robust)) +
+  geom_boxplot() +
+  viridis::scale_fill_viridis(discrete = TRUE, alpha=0.6) +
+  hrbrthemes::theme_ipsum() +
+  theme(
+    #legend.position="none",
+    plot.title = element_text(size=11)
+  ) +
+  xlab("")
+
+
+# Most basic violin chart
+ggplot(sp_di, aes(x=robust, y=distinctiveness, fill=robust)) + # fill=name allow to automatically dedicate a color for each group
+  geom_violin()
 
 # For the choice or dissimilarity matrix we can use the raw dissimilarity matrix computed directly on raw 
 # traits values among species, as we did here. Another option would be to compute a new functional 
@@ -523,16 +566,13 @@ ggplot(sp_di, aes(x=cluster, y=distinctiveness, fill=cluster)) + # fill=name all
 
 # Let’s recompute regional functional distinctiveness based on the four selected functional axes. 
 # Because the space comes from a PCA, we can directly use euclidean distance.
-
 new_dissim <- dist(sp_faxes_coord[, c("PC1", "PC2", "PC3", "PC4")])
-
 sp_di_alt <- distinctiveness_global(new_dissim, di_name = "alt_di")
 
 # We can now compare both distinctiveness values.
 sp_all_di <- merge(sp_di, sp_di_alt, by = "species")
 
 plot(sp_all_di$distinctiveness, sp_all_di$alt_di)
-
 cor.test(sp_all_di$distinctiveness, sp_all_di$alt_di)
 
 # Both seems very correlated, so in our case using either one should be fine. However, it can be better 
@@ -541,20 +581,41 @@ cor.test(sp_all_di$distinctiveness, sp_all_di$alt_di)
 # (3) they explicitly take into account potentially strong correlations between provided traits. 
 # We’ll stick here with raw dissimilarity for the sake of simplicity.
 
+####
+## Regional scale distinctiveness / uniqueness ----
+####
+
+### Clusters ----
+
 # make empty data frame
 df_w<-data.frame(matrix(nrow=3, ncol=length(df$Maximumverticalheight)))
 colnames(df_w)<-rownames(df)
 
-# put 0/1 rows denoting group membership
+# put 0/1 rows denoting cluster membership
 df_w[1,]<-as.numeric(colnames(df_w)%in%rownames(clust[clust$`3clusters`=="k_3_cluster_1",]))
 df_w[2,]<-as.numeric(colnames(df_w)%in%rownames(clust[clust$`3clusters`=="k_3_cluster_2",]))
 df_w[3,]<-as.numeric(colnames(df_w)%in%rownames(clust[clust$`3clusters`=="k_3_cluster_3",]))
+
+### Robust groups ----
+
+# make empty data frame
+df_w<-data.frame(matrix(nrow=6, ncol=length(df$Maximumverticalheight)))
+colnames(df_w)<-rownames(df)
+
+# put 0/1 rows denoting robust group membership
+df_w[1,]<-as.numeric(colnames(df_w)%in%names(pam[pam==1]))
+df_w[2,]<-as.numeric(colnames(df_w)%in%names(pam[pam==2]))
+df_w[3,]<-as.numeric(colnames(df_w)%in%names(pam[pam==3]))
+df_w[4,]<-as.numeric(colnames(df_w)%in%names(pam[pam==4]))
+df_w[5,]<-as.numeric(colnames(df_w)%in%names(pam[pam==1]))
+df_w[6,]<-as.numeric(colnames(df_w)%in%names(pam[pam==1]))
 
 # To compute uniqueness at regional scale we also need the regional level functional dissimilarity matrix 
 # with the uniqueness() function, and the site-species matrix:
 sp_ui <- uniqueness(
   pres_matrix = as.matrix(df_w),
-  as.matrix(sp_dist)
+  as.matrix(sp_dist) # Uncomment for: Gower's distances
+  # as.matrix(new_dissim) # Uncomment for: PCoA distances
 )
 
 head(sp_ui)

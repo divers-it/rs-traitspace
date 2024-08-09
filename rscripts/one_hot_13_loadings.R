@@ -82,7 +82,7 @@ rownames(clust.num)=rownames(clusters_ward)
 df_ord_clust=as.data.frame(c(df_ord,clust.num))
 
 #### 
-# Figure 3: Loadings scatterplot without cluster Axes 1 and 2 ----
+## Figure 3: Loadings scatterplot without cluster Axes 1 and 2 ----
 #### 
 
 # Images found in AJH_DiveRS/trait_circles.svg
@@ -137,8 +137,14 @@ ggplot() +
   annotation_raster(woody_img, ymin = -0.5,ymax= -0.35,xmin = -0.475,xmax = -0.325) +
   annotation_raster(showy_img, ymin = -0.4,ymax= -0.25,xmin = 0.26,xmax = 0.41)
 
-ggsave("figures/figure_3_loadings.png",width=12.5,height=12.5)
-ggsave("figures/figure_3_loadings.pdf",width=12.5,height=12.5)
+# y-axis scaling
+# yax <- 12/21
+
+ggsave("figures/figure_3_loadings.png",
+       # height=12.5*yax,
+       height=12.5,
+       width=12.5
+       )
 
 #### 
 ## Figure S3: Loadings scatterplot without cluster Axes 3 and 4 ----
@@ -177,7 +183,13 @@ ggplot() +
   xlab(paste("PCoA Axis 3: relative eigenvalue =",round(rel_ev_pcoa_g0[3],2))) +
   ylab(paste("PCoA Axis 4: relative eigenvalue =",round(rel_ev_pcoa_g0[4],2)))
 
-ggsave("figures/figure_S3_loadings_axes_3_4.png",width=12.5,height=12.5)
+# y-axis scaling
+# yax <- 7/9
+
+ggsave("figures/figure_S3_loadings_axes_3_4.png",
+       #height=12.5*yax,
+       height=12.5,
+       width=12.5)
 
 ####
 ## Plot loadings with clustering on first 4 PCOA axes ----

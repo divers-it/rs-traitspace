@@ -289,7 +289,7 @@ l2
 ## Construct Figure 4 ----
 ####
 
-patch <- ( s1 / l2 ) + plot_layout(heights=c(2, 1))
+patch <- ( s1 / l2 ) + plot_layout(heights=c(1, 1))
 
 patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & 
   theme(plot.tag = element_text(size = 14))

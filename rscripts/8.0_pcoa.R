@@ -213,7 +213,7 @@ df$Woodiness[is.na(df$Woodiness)] = "None"
 #df$SexualSystem = factor(df$SexualSystem, levels=c(levels(df$SexualSystem), "None"))
 
 # y-axis scaling
-yax <- 11/19
+# yax <- 11/19
 
 # PCoA scatterplot with density polygons
 ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
@@ -337,7 +337,8 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
   
 ggsave("figures/figure_2_pcoa.png",
        width = 35,
-       height = 35*yax,
+       #height = 35*yax,
+       height = 35,
        units = 'cm')
 
 ####
