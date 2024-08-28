@@ -53,8 +53,8 @@ order_df
 
 # estimate number of clusters using stability of partitions
 stab <- ClustOfVar::stability(tree,
-                              B=50, # number of bootstraps
-                              graph = FALSE
+                              B=100, # number of bootstraps
+                              graph = T
 )
 
 # plot stability results
@@ -101,12 +101,15 @@ melted_cor_mat_ori$variable <- factor(melted_cor_mat_ori$variable, levels=tree$l
 # replace NA with 1
 melted_cor_mat_ori$value[is.na(melted_cor_mat_ori$value)] <- 1
 
-### Plot joined heatmap and dendrogram ----
+####
+## Figure SX: joined correlation heatmap and dendrogram ----
+####
 
 # plot correlation matrix
 c1 <- ggplot(data = melted_cor_mat_ori, aes(x=term, y=variable, fill=value)) + 
   geom_tile() +
   scale_fill_gradient2(low = "indianred", mid = "white", high = "dodgerblue", midpoint = 0, name = "Correlation") +
+  theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         legend.position="left",) +
   xlab("") +
@@ -123,7 +126,11 @@ d2
 
 # combined plot
 # NOTE: dendrogram not exactly aligned.
-c1 + d2
+patch <- c1 + d2 + plot_layout(widths=c(4, 1))
+patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
+
+# save pdf to be modified
+ggsave("figures/figure_SX_correlation_heatmap_tree.pdf",width=14,height=10)
 
 # NOTE: could try an alternative method with
 # install.packages("plotly")

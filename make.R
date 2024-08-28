@@ -60,7 +60,7 @@ source(here::here("rscripts", "8.0_pcoa.R"))
 source(here::here("rscripts", "9_dimensionality_analyses.R"))
 
 # Comparison with Diaz et al. 2022 data set
-# NOTE: long to run
+# NOTE: long to run and needs ~6GB RAM
 source(here::here("rscripts", "8.1_pcoa_diaz_data.R"))
 
 # Clustering
@@ -91,4 +91,5 @@ source(here::here("rscripts", "one_hot_13_loadings.R"))
 source(here::here("rscripts", "14_UMAP.R"))
 
 # Simulating neutral data
+# NOTE: long to run
 source(here::here("rscripts", "15_simulations.R"))

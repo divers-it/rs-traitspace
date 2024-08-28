@@ -17,9 +17,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Rcompendium for: Pollination and mating traits underlie diverse reproductive strategies in flowering plants
+# Rcompendium for: *Pollination and mating traits underlie diverse reproductive strategies in flowering plants*
 
-*A preprint of this study can be found [here](https://doi.org/10.1101/2024.02.26.582019)*
+A preprint of this study can be found [here](https://doi.org/10.1101/2024.02.26.582019)
 
 ### Content
 

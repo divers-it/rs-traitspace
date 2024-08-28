@@ -1,10 +1,10 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Rcompendium for: Pollination and mating traits underlie diverse reproductive strategies in flowering plants
+# Rcompendium for: *Pollination and mating traits underlie diverse reproductive strategies in flowering plants*
 
-*A preprint can be found
-[here](https://doi.org/10.1101/2024.02.26.582019)*
+A preprint of this study can be found
+[here](https://doi.org/10.1101/2024.02.26.582019)
 
 ### Content
 
@@ -41,11 +41,11 @@ This repository is structured as follow:
 ## Workflow
 
 Note that there are two encodings that are used for these data. The
-original encoding with as many values as there are states per trait
-(woody, herbaceous, woody_herbaceous), and a one-hot encoding, where
-each state is recoded to a binary trait (woody, non-wood & herbaceous
-non-herbaceous). A number of scripts have corresponding one-hot encoding
-versions with the suffix “one_hot”.
+original encoding has traits with as many values as there are states
+(e.g. woody, herbaceous, woody_herbaceous). For the one-hot encoding,
+each state is recoded to a binary trait (e.g. trait 1: woody, non-woody
+\| trait 2: herbaceous, non-herbaceous). A number of scripts have
+corresponding one-hot encoding versions with the suffix “one_hot”.
 
 #### 1_proteus_data_preparation_discrete.R
 

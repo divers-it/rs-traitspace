@@ -133,7 +133,7 @@ simdata <- replicate(n_sim,simul_dataset(ou_list,mk_list,angio_tree),simplify = 
 saveRDS(simdata,"outputs/15_phylo_simulated_datasets.rds")
 
 ####
-## Analyzing simulations ----
+## Figure S11: Simulation eigenvalues ----
 ####
 
 # read in previously simulated data sets
@@ -200,7 +200,7 @@ ggplot(data = df_ev,aes(x=c(1:21))) +
         legend.title = element_text(size=18),
         legend.text = element_text(size=16))+
   labs(col = "Trait matrix")
-ggsave("figures/figure_S13_eigenvalues_simulations.png",width=10,height=10)
+ggsave("figures/figure_S11_eigenvalues_simulations.png",width=10,height=10)
 
 # Looking at the traits in the simulated datasets
 # As traits are independent, each axis should +/- to one trait
@@ -250,7 +250,7 @@ ggarrange(plotlist = list(g1,g2),ncol = 1,nrow = 2)
 #     xlab("Traits") + ylab("Evolutionary rates")
 
 ###
-# Figure S2: Compare simulated and real data sets ----
+# Figure S2: Empirical vs simulation distances ----
 ###
 
 library(cluster)

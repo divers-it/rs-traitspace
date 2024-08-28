@@ -23,6 +23,10 @@ gower_df <- daisy(df,
                   metric = "gower")
 summary(gower_df)
 
+####
+# Clustering ----
+####
+
 ### Divisive clustering ----
 divisive.clust <- diana(as.matrix(gower_df),
                         diss = TRUE, keep.diss = TRUE)
@@ -108,7 +112,7 @@ aes(x = cluster.number, y = within.cluster.ss)) +
   ggtitle("Agglomerative clustering, Ward") +
   labs(x = "Num.of clusters", y = "Within clusters sum of squares (SS)") +
   theme(plot.title = element_text(hjust = 0.5))
-# k = 3
+# k = 3 / 6
 
 ### Choosing k - Silhouette ----
 
@@ -125,7 +129,7 @@ aes(x = cluster.number, y = avg.silwidth)) +
   ggtitle("Agglomerative clustering, Ward") +
   labs(x = "Num.of clusters", y = "Average silhouette width") +
   theme(plot.title = element_text(hjust = 0.5))
-# k = 2
+# k = 2 / 6
 
 ### Plotting clusters on dendrogram ----
 
@@ -167,7 +171,9 @@ wk3 + wk6
 #        width = 10,
 #        height = 10)
 
-### PCOA scatterplot with cluster annotation ----
+####
+## Figure S12: PCOA scatterplot with cluster annotation ----
+####
 
 #convert gower df to distance matrix
 dataset_dist <- stats::as.dist(gower_df)
@@ -210,7 +216,7 @@ ggplot(data.frame(dataset_pcoa$vectors),
     axis.title = element_text(size = 16)
   )
 
-ggsave("figures/figure_S11_pcoa_hclust.png",
+ggsave("figures/figure_S12_pcoa_hclust.png",
        width = 10,
        height = 10)
 
@@ -235,6 +241,10 @@ rownames(clust.num.k.2.7.df)<-names(cutree(aggl.clust.w, k = 2))
 
 # save output for downstream use
 saveRDS(clust.num.k.2.7.df, file = here::here("outputs/10.2_clust_num_k_2_7_ward.rds"))
+
+####
+# Figure S13: Qualitative and quantitative values for hierarchical clusters ----
+####
 
 #### 
 ## Quantitative trait boxplots per cluster ----
@@ -441,10 +451,10 @@ p3
 
 p1 + p2 + p3
 
-## combined plot ----
+
 
 patch <- ( p1 + p2 + p3 ) / ( b1 + b2 ) + plot_layout(heights=c(2, 1))
 
 patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
 
-ggsave("figures/figure_S12_hclust.png",width=20,height=15)
+ggsave("figures/figure_S13_hclust.png",width=20,height=15)

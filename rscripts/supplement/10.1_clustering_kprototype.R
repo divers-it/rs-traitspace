@@ -274,8 +274,12 @@ mean(is.na(df_not_robust))
 df_robust<-df[!is.na(robust_vect_kpro_full),]
 mean(is.na(df_robust))
 
+###
+## Figure S15: Robust kpro ----
+###
+
 ####
-## Quantitative traits boxplots for robust clusters ----
+### Quantitative traits boxplots for robust clusters ----
 ####
 
 # make label
@@ -352,7 +356,7 @@ b1 / b2
 # ggsave("figures/10.1_robust_boxplots.png",width=15,height=10)
 
 ####
-## Qualitative traits stacked barplots ----
+### Qualitative traits stacked barplots ----
 ####
 
 # reset margins
@@ -603,12 +607,12 @@ p8
 
 (p1 + p2 + p3) / (p4 + p5 + p6) / (p7 + p8 + plot_spacer() )
 
-## Combined plot ----
+### Combined plot ----
 
 patch <- ( p1 + p2 + p3 ) / (p4 + p5 + p6) / (p7 + p8 + plot_spacer()) / ( b1 + b2 ) + plot_layout(heights=c(1, 1 , 1, 1))
 patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
 
 # save plot
-ggsave("figures/figure_S10_robust_kpro.png",width=20,height=25)
+ggsave("figures/figure_S15_robust_kpro.png",width=20,height=25)
 
 

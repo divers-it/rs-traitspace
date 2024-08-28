@@ -79,10 +79,9 @@ res2_out["Quintinia hyehenensis",][2]<-"Paracryphiales"
 # NOTE: temporary fix for Pandanus
 
 # family
-tax[grep("Pandanus",rownames(tax)),]$family <- "Pandanaceae"
-
+res2_out[grep("Pandanus",rownames(res2_out)),]$family <- "Pandanaceae"
 # order
-tax[grep("Pandanus",rownames(tax)),]$order <- "Pandanales"
+res2_out[grep("Pandanus",rownames(res2_out)),]$order <- "Pandanales"
 
 # check to see if results make sense
 res2_out[res2_out$order=="Poales",]

@@ -212,7 +212,7 @@ for(knn in c(5,10,50,100)) {
 }
 
 ####
-# Figure S7: UMAP knn10-100 ----
+# Figure S9: UMAP knn10-100 ----
 ####
 
 #UMAP config
@@ -264,4 +264,4 @@ p10<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=FlowerSex,shape=Woodiness))
 ( p100 + p50 ) /
   ( p25 + p10 )
 
-ggsave("figures/figure_S7_scatterplots_umap_knn10-100.png",width = 15, height=15)
+ggsave("figures/figure_S9_scatterplots_umap_knn10-100.png",width = 15, height=15)
