@@ -37,7 +37,7 @@ for(i in 2:10){
   pam_clusters <- pam(as.matrix(gower_df),
                       diss = TRUE,
                       k = i)
-  silhouette <- c(silhouette ,pam_clusters$silinfo$avg.width)
+  silhouette <- c(silhouette, pam_clusters$silinfo$avg.width)
 }
 
 ### Plot silhouette width ----
@@ -203,7 +203,9 @@ saveRDS(robust_vect_pam_full, file = here::here("outputs/10_robust_vect_pam_full
 # remove species not in robust groups
 robust_vect_pam<-na.omit(robust_vect_pam)
 
-## PCOA ----
+####
+## PCOA k = 2-7 PC1 + PC2 ----
+####
 
 # run PCOA
 dataset_dist <- stats::as.dist(gower_df)
@@ -222,7 +224,7 @@ colnames(clusters_pcoa) <- paste("n",colnames(clusters_pcoa),sep="")
 rownames(clusters_pcoa) == names(robust_vect_pam_full)
 
 # make non-robust NA
-clusters_pcoa[is.na(robust_vect_pam_full),]<-NA
+# clusters_pcoa[is.na(robust_vect_pam_full),]<-NA
 
 # empty list to store plots
 pcoa_plots <- list()
@@ -238,7 +240,7 @@ for(i in 1:length(clusters_pcoa[1,])){
         color="black",
         shape=21,
         alpha=0.5,
-        size=3,
+        size=2,
         stroke = 0.5
       ) + 
       ggtitle(paste(colnames(clusters_pcoa)[i])) +
@@ -273,7 +275,7 @@ ev_pcoa_g0 <- ev_pcoa[ev_pcoa>0]
 rel_ev_pcoa_g0 <- ev_pcoa_g0/sum(ev_pcoa_g0)
 
 # colors
-cols<-harrypotter::hp(3,option="ronweasley2")
+cols<-wesanderson::wes_palette("BottleRocket2")[1:3]
 
 # plot points on first two axes, coloured by cluster with species names
 ggplot(data.frame(dataset_pcoa$vectors),
@@ -868,8 +870,8 @@ df_labelled<-cbind(df,clust.num.k.2.7.df$`3clusters`)
 #change colname for label
 colnames(df_labelled)[length(colnames(df_labelled))]<-"cluster"
 
-# palette from scatterplot
-cols <- harrypotter::hp(3,option="ronweasley2")
+# colors
+cols<-wesanderson::wes_palette("BottleRocket2")[1:3]
 
 b1 <- ggplot(df_labelled, aes(x=cluster, y=Maximumverticalheight, fill=cluster)) + 
   geom_boxplot(alpha=0.7) + 
@@ -1066,4 +1068,4 @@ patch <- ( p1 + p2 + p3 ) / ( b1 + b2 ) + plot_layout(heights=c(2, 1))
 
 patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
 
-ggsave("figures/figure_S8_pam_clusters.png",width=20,height=15)
+ggsave("figures/figure_S8_pam_states.png",width=20,height=15)

@@ -350,7 +350,24 @@ alpha_fd_indices <- mFD::alpha.fd.multidim(
 fd_ind_values_ss <- alpha_fd_indices$"functional_diversity_indices"
 fd_ind_values_ss
 
-write.csv(fd_ind_table,"outputs/11_mfd_indices_sexual_system.csv")
+# make table
+fd_ind_table_ss<-round(fd_ind_values_ss[,c(1:9)],3)
+rownames(fd_ind_table_ss)<-c("monocliny",
+                          "monoecy",
+                          "dioecy")
+
+colnames(fd_ind_table_ss) <- c("Species richness",
+                            "FDis",
+                            "FMPD",
+                            "FNND",
+                            "FEve",
+                            "FRic",
+                            "FDiv",
+                            "FOri",
+                            "FSpe")
+
+
+write.csv(fd_ind_table_ss,"outputs/11_mfd_indices_sexual_system.csv")
 
 ### Plot functional indices ----
 
@@ -473,7 +490,109 @@ alpha_fd_indices <- mFD::alpha.fd.multidim(
 fd_ind_values_ms <- alpha_fd_indices$"functional_diversity_indices"
 fd_ind_values_ms
 
-write.csv(fd_ind_values_ms,"outputs/11_mfd_indices_mating_system.csv")
+# make table
+fd_ind_table_ms<-round(fd_ind_values_ms[,c(1:9)],3)
+rownames(fd_ind_table_ms)<-c("mixed",
+                             "outcrossing",
+                             "selfing")
+
+colnames(fd_ind_table_ms) <- c("Species richness",
+                               "FDis",
+                               "FMPD",
+                               "FNND",
+                               "FEve",
+                               "FRic",
+                               "FDiv",
+                               "FOri",
+                               "FSpe")
+
+
+
+write.csv(fd_ind_table_ms,"outputs/11_mfd_indices_mating_system.csv")
+
+### Plot functional indices ----
+
+# colours
+pcols <- c(pool = "grey70", 
+           asb1 = "darkblue",
+           asb2 = "red")
+
+# plot functional indices of monoecy and dioecy
+plots_alpha_md <- mFD::alpha.multidim.plot(
+  output_alpha_fd_multidim = alpha_fd_indices,
+  plot_asb_nm              = c("selfing", "outcrossing"),
+  ind_nm                   = c("fdis", "fric", "fdiv", 
+                               "fspe", "fide"),
+  faxes                    = c("PC1","PC2","PC3"),
+  faxes_nm                 = NULL,
+  range_faxes              = c(NA, NA),
+  color_sp                 = pcols,
+  color_vert               = pcols,
+  fill_sp = pcols,
+  fill_vert = pcols,
+  color_ch = pcols,
+  fill_ch = pcols,
+  alpha_ch                = c(pool = 0.1, asb1 = 0.2, 
+                              asb2 = 0.2),
+  plot_sp_nm               = NULL,
+  save_file                = FALSE,
+  check_input              = TRUE)
+
+# colors 
+pcols <- c(pool = "grey70", 
+           asb1 = "purple",
+           asb2 = "red")
+
+# plot functional indices of monoecy and bisexual
+plots_alpha_mb <- mFD::alpha.multidim.plot(
+  output_alpha_fd_multidim = alpha_fd_indices,
+  plot_asb_nm              = c("mixed", "outcrossing"),
+  ind_nm                   = c("fdis", "fric", "fdiv", 
+                               "fspe", "fide"),
+  faxes                    = c("PC1","PC2","PC3"),
+  faxes_nm                 = NULL,
+  range_faxes              = c(NA, NA),
+  color_sp                 = pcols,
+  color_vert               = pcols,
+  fill_sp = pcols,
+  fill_vert = pcols,
+  color_ch = pcols,
+  fill_ch = pcols,
+  alpha_ch                = c(pool = 0.1, asb1 = 0.2, 
+                              asb2 = 0.2),
+  plot_sp_nm               = NULL,
+  save_file                = FALSE,
+  check_input              = TRUE) 
+
+# FDis Functional Dispersion: the biomass weighted deviation of species traits values from the center of the functional space filled by the # assemblage i.e. the biomass-weighted mean distance to the biomass-weighted mean trait values of the assemblage.
+plots_alpha_md$"fdis"$"patchwork"
+plots_alpha_mb$"fdis"$"patchwork"
+
+# FRic representation: the colored shapes reflect the convex-hull of the studied assemblages
+# and the white shape reflects the convex-hull of the global pool of species:
+plots_alpha_md$"fric"$"patchwork"
+plots_alpha_mb$"fric"$"patchwork"
+
+# FDiv representation: the gravity centers of vertices (i.e. species with the most extreme functional traits) of each 
+# assemblages are plotted as a square and a triangle. The two colored circles represent the mean
+# distance of species to the gravity center for each assemblage. Species of each assemblage 
+# have different size given their relative weight into the assemblage.
+plots_alpha_md$"fdiv"$"patchwork"
+plots_alpha_mb$"fdiv"$"patchwork"
+
+# FSpe representation: colored traits represent distances of each species from a given assemblage 
+# to the center of gravity of the global pool (i.e center of the functional space). the center of
+# gravity is plotted with a purple diamond. Species of each assemblage have different size given
+# their relative weight into the assemblage.
+plots_alpha_md$"fspe"$"patchwork"
+plots_alpha_mb$"fspe"$"patchwork"
+
+# FIde representation:colored lines refer to the weighted average position of species of each assemblage
+# along each axis. Species of each assemblage have different size given their relative weight
+# into the assemblage.
+plots_alpha_md$"fide"$"patchwork"
+plots_alpha_mb$"fide"$"patchwork"
+
 
 ####
 ## Functional distinctiveness ----
@@ -656,3 +775,44 @@ plot_reg_uniqueness <- ggplot(sp_coord_di_ui, aes(PC1, PC2)) +
 
 plot_reg_uniqueness
 # ggsave("figures/11_scatterplot_mfd_uniqueness.png", width= 8, height = 8)
+
+####
+## FD indices table
+####
+
+# combine tables
+fd_table <- rbind(fd_ind_table, fd_ind_table_ss, fd_ind_table_ms)
+
+# scale variables
+for(i in 1:length(colnames(fd_table))){
+  
+  fd_table[,i] <- scale(fd_table[,i])
+  
+}
+
+# melt table
+fd_table$group <- rownames(fd_table)
+fd_table <- reshape2::melt(fd_table, id='group')
+
+# reorder is close to order, but is made to change the order of the factor levels.
+fd_table$group <- factor(fd_table$group, levels = c("Cluster 1",
+                                          "Cluster 2",
+                                          "Cluster 3",
+                                          "monocliny",
+                                          "monoecy",
+                                          "dioecy",
+                                          "outcrossing",
+                                          "mixed",
+                                          "selfing"))
+
+
+# plot heatmap
+ggplot(fd_table, aes(group, variable, fill= value)) + 
+  scale_fill_gradient2(low = "#075AFF",
+                       mid = "#FFFFCC",
+                       high = "#FF0000") +
+  theme_minimal() +
+  geom_tile()
+
+
+

@@ -88,7 +88,7 @@ melted_cor_mat_ori <- reshape2::melt(cor_mat_ori)
 head(melted_cor_mat_ori)
 
 # get absolute values
-melted_cor_mat_ori$value <- abs(melted_cor_mat_ori$value)
+# melted_cor_mat_ori$value <- abs(melted_cor_mat_ori$value)
 
 # cluster variables and get order of clustering
 # NOTE: could replace with ClustOfVar dendrogram
@@ -105,10 +105,16 @@ melted_cor_mat_ori$value[is.na(melted_cor_mat_ori$value)] <- 1
 ## Figure SX: joined correlation heatmap and dendrogram ----
 ####
 
+# get colours
+cols<-c(rev(harrypotter::hp(2,option="Ravenclaw")),harrypotter::hp(2,option="LunaLovegood"))
+
 # plot correlation matrix
 c1 <- ggplot(data = melted_cor_mat_ori, aes(x=term, y=variable, fill=value)) + 
   geom_tile() +
-  scale_fill_gradient2(low = "indianred", mid = "white", high = "dodgerblue", midpoint = 0, name = "Correlation") +
+  scale_fill_gradient2(low = cols[1], mid = "white", high = cols[2], midpoint = 0, name = "Correlation",
+                       limits = c(-0.5, 1), 
+                       breaks = c(-0.5, 0, 0.5, 1),
+                       labels = c(-0.5, 0, 0.5, 1)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         legend.position="left",) +
@@ -169,7 +175,7 @@ cor_mat<- df %>%
 cor_mat
 
 #### 
-## Network plot adapted from code of corrr::network_plot ----
+## Figure S4: Network plot adapted from code of corrr::network_plot ----
 #### 
 
 # minimum correlation allowed

@@ -93,44 +93,6 @@ ggplot(eig_df, aes(x=pcoa_axis, y=relative_eigenvalue)) +
 # ggsave("figures/8.0_barplot_relative_eigenvalues_pcoa.png")
 
 ####
-## Plot original reproductive systems (back-engineer them first) ----
-####
-
-# make copy of df
-df_ors <- df
-
-# recode flower sex, sexual system and mating system
-df_ors$RS=NA
-df_ors[df_ors$SexualSystem %in% "dimorphic" & df_ors$FlowerSex %in% "unisexual",]$RS="dioecy"
-df_ors[df_ors$SexualSystem %in% "monomorphic" & df_ors$FlowerSex %in% "unisexual",]$RS="monoecy"
-df_ors[df_ors$SexualSystem %in% "monomorphic" & df_ors$FlowerSex %in% "bisexual" & df_ors$Mating %in% "selfing",]$RS="selfing"
-df_ors[df_ors$SexualSystem %in% "monomorphic" & df_ors$FlowerSex %in% "bisexual" & df_ors$Mating %in% "mixed",]$RS="mixed"
-df_ors[df_ors$SexualSystem %in% "monomorphic" & df_ors$FlowerSex %in% "bisexual" & df_ors$Mating %in% "outcrossing",]$RS="outcrossing"
-
-ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2, fill = as.factor(df_ors$RS))) +
-  geom_point(
-    color="black",
-    shape=21,
-    alpha=0.5,
-    size=4,
-    stroke = 0.5
-  ) + 
-#  scale_shape_manual(values=c(21,22,23)) +
-#  guides(fill = guide_legend(override.aes = list(shape = 24) ) ) +
-  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) +
-  theme(legend.position="bottom",
-        legend.title = element_blank(),
-        legend.box="vertical", 
-        legend.margin=margin())
-
-# ggsave("figures/8_scatterplot_pcoa_coloured_original_RS.png",
-#        width = 15,
-#        height = 15,
-#        units = 'cm')
-
-
-####
 ##  Phylogenetic distance vs. trait distance ----
 ####
 
@@ -200,7 +162,7 @@ uuid <- get_uuid(name = "Cornus florida", n = 1)
 cornus_pp <- get_phylopic(uuid = uuid)
 
 ####
-## Figure 1: PCoA with traits and density ----
+## Figure 2: PCoA with traits and density ----
 ####
 
 # Edit factors for plotting to control colors
@@ -340,6 +302,157 @@ ggsave("figures/figure_2_pcoa.png",
        #height = 35*yax,
        height = 35,
        units = 'cm')
+
+
+####
+## Alternate Figure 2: Plot reproductive systems (back-engineer them first) ----
+####
+
+# load package
+library(ggnewscale)
+
+# make copy of df
+df_ors <- df
+
+# recode flower sex, sexual system and mating system
+df_ors$RS=rep("unknown",length(df_ors[,1]))
+df_ors[df_ors$SexualSystem %in% "dimorphic" & df_ors$FlowerSex %in% "unisexual",]$RS="dioecy"
+df_ors[df_ors$SexualSystem %in% "monomorphic" & df_ors$FlowerSex %in% "unisexual",]$RS="monoecy"
+df_ors[df_ors$SexualSystem %in% "monomorphic" & df_ors$FlowerSex %in% "bisexual" & df_ors$Mating %in% "selfing",]$RS="monocliny: selfing"
+df_ors[df_ors$SexualSystem %in% "monomorphic" & df_ors$FlowerSex %in% "bisexual" & df_ors$Mating %in% "mixed",]$RS="monocliny: mixed"
+df_ors[df_ors$SexualSystem %in% "monomorphic" & df_ors$FlowerSex %in% "bisexual" & df_ors$Mating %in% "outcrossing",]$RS="monocliny: outcrossing"
+
+# reorder is close to order, but is made to change the order of the factor levels.
+df_ors$RS <- factor(df_ors$RS, levels = c("dioecy", "monoecy", "monocliny: selfing", "monocliny: mixed", "monocliny: outcrossing", "unknown"))
+
+# color palette
+# one colour for dioecy, one for monoecy, then three on a gradient for bisexual selfing->outcrossing, and one for NA
+
+mypal <- c("darkred","darkorange",
+           colorRampPalette(c( "lightblue","navyblue"))(3),
+           "grey")
+
+# PCoA scatterplot with density polygons
+ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
+  stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", col=NA , n=100, bins=20) +
+  scale_fill_distiller(palette = "Greys", direction = 1, guide = "none") +
+  new_scale_fill() +
+  geom_point(
+    aes(
+      fill = as.factor(df_ors$RS)),
+    shape = 21,
+    alpha = 0.6,
+    size = 2,
+    stroke = 0.5) + 
+  scale_fill_manual(values=mypal) +
+  scale_shape_manual(values = c(21), guide = "none") +
+  xlab(paste("PCoA Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
+  ylab(paste("PCoA Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) +
+  xlim(-0.6,0.6) + 
+  ylim(-0.44,0.6) + 
+  theme_bw() + theme(
+    panel.border = element_blank(),
+    #panel.grid.major = element_line(colour = "darkgrey"),
+    #panel.grid.minor = element_line(colour = "grey"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = c(0.85, 0.8),
+    legend.text = element_text(size=12),
+    legend.title = element_text(size=14),
+    axis.line = element_line(colour = "black"),
+    axis.text = element_text(size=12),
+    axis.title = element_text(size=14)) + 
+  labs(
+    fill = "Reproductive system",
+  ) + add_phylopic(img=solanum_pp,x = 0.28, y=-0.225, ysize = 0.15,col = "grey30") +
+  add_phylopic(img=commelina_pp,x = 0.44, y=0, ysize = 0.15,col = "grey30") +
+  add_phylopic(img=phoenix_pp,x = -0.52, y=0, ysize = 0.15,col = "grey30") +
+  add_phylopic(img=coffea_pp,x = -0.07, y=-0.35, ysize = 0.125,col = "grey30") +
+  add_phylopic(img=trithuria_pp,x = 0.07, y=0.55, ysize = 0.125,col = "grey30") +
+  add_phylopic(img=cornus_pp,x = -0.35, y=-0.26, ysize = 0.125,col = "grey30") +
+  add_phylopic(img=zea_pp,x = -0.39, y=0.38, ysize = 0.125,col = "grey30") +
+  annotate("text", x=-0.07, y=-0.43, label= "paste(italic(Coffea), ' ',italic(arabica))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=-0.52, y=-0.09, label= "paste(italic(Phoenix), ' ',italic(dactylifera))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=0.28, y=-0.32, label= "paste(italic(Solanum), ' ',italic(dulcamara))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=0.44, y=-0.1, label= "paste(italic(Commelina), ' ',italic(communis))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=0.07, y=0.47, label= "paste(italic(Trithuria), ' ',italic(submersa))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=-0.35, y=-0.34, label= "paste(italic(Cornus), ' ',italic(florida))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=-0.39, y=0.3, label= "paste(italic(Zea), ' ',italic(mays))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("segment", #phoenix
+           #linetype=2,
+           linewidth=0.75,
+           x=-0.46,
+           xend=-0.3305978702, 
+           y=0.03,
+           yend=4.934202e-02, 
+           color = "black",
+           alpha=0.5) + 
+  annotate("segment", #solanum
+           #linetype=2,
+           linewidth=0.75,
+           x=0.25,
+           xend=0.0966219059, 
+           y=-0.2,
+           yend=-3.542270e-02, 
+           color = "black",
+           alpha=0.5) +
+  annotate("segment", #coffea
+           #linetype=2,
+           linewidth=0.75,
+           x=-0.045,
+           xend=-0.0139421126, 
+           y=-0.28,
+           yend=-0.1305380241, 
+           color = "black",
+           alpha=0.5) + 
+  annotate("segment", #trithuria
+           #linetype=2,
+           linewidth=0.75,
+           x=0.07,
+           xend=0.1230980263,
+           y=0.45,
+           yend=3.744929e-01, 
+           color = "black",
+           alpha=0.5) + 
+  annotate("segment", #cornus
+           #linetype=2,
+           linewidth=0.75,
+           x=-0.3,
+           xend=-0.1152021084,
+           y=-0.21,
+           yend=-0.1413927222, 
+           color = "black",
+           alpha=0.5) +
+  annotate("segment", #zea
+           #linetype=2,
+           linewidth=0.75,
+           x=-0.35,
+           xend=-0.1219254049,
+           y=0.35,
+           yend=2.600799e-01, 
+           color = "black",
+           alpha=0.5) +
+  annotate("segment", #Commelina
+           #linetype=2,
+           linewidth=0.75,
+           x=0.38,
+           xend=0.2257547576, 
+           y=0,
+           yend=0.0947481926, 
+           color = "black",
+           alpha=0.5)
+
+# ggsave("figures/8_scatterplot_pcoa_coloured_original_RS.png",
+#        width = 15,
+#        height = 15,
+#        units = 'cm')
 
 ####
 ## Plot taxonomy on PCOA ----
