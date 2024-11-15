@@ -222,13 +222,14 @@ clades.df$highlight <- rep(c(0,1),
                            length.out=length(clades.df$clade))
 head(clades.df)
 
+# set colours
 colours<-harrypotter::hp(3,option="ronweasley2")
+colours <- c(colorRampPalette(c("lightblue","navyblue"))(3)[2],"darkred","#E7D889")
 
 # Add clade labels
 g1 <- ggtree(phy, layout="circular", linetype=NA) %<+% metadata +
   geom_highlight(data=clades.df, 
-                 aes(node=node, fill=as.factor(highlight)),
-                 alpha=1,
+                  alpha=1,
                  align="right",
                  extend=0.04,
                  show.legend=FALSE) +

@@ -406,6 +406,14 @@ devtools::install_github("ropenscilabs/ochRe")
 library(ochRe)
 library(umap)
 
+# set colours
+my_pal <- c(ochre_pal("healthy_reef")(7)[1:4],"thistle",ochre_pal("healthy_reef")(7)[7])
+my_pal <- c("darkred",
+            colorRampPalette(c("lightblue","navyblue"))(3)[2:1],
+            colorRampPalette(c("#E7D889","darkorange"))(2)[1],
+            colorRampPalette(c("lightblue","navyblue"))(3)[3],
+            colorRampPalette(c("#E7D889","darkorange"))(2)[2])
+
 # NOTE: Can comment out if already run
 custom_config <- umap.defaults
 custom_config$n_components <-  2 # number of dimensions targeted
@@ -440,7 +448,7 @@ s1 <- ggplot(
     alpha = 0.7,
     size = 7,
     stroke = 0.5) + 
-  scale_fill_manual(values=c(ochre_pal("healthy_reef")(7)[1:4],"thistle",ochre_pal("healthy_reef")(7)[7])) +
+  scale_fill_manual(values=my_pal) +
   #scale_color_ochre(palette = "healthy_reef") +
   scale_shape_manual(values=c(21,22,23), labels=c('1', '2', '3')) +
   xlab("UMAP Axis 1") +
@@ -466,9 +474,7 @@ s1 <- ggplot(
   ) + 
   guides(fill = guide_legend(override.aes = list(size = 8,
                                                  shape=21,
-                                                 fill=c(ochre_pal("healthy_reef")(7)[1:4],
-                                                        "thistle",
-                                                        ochre_pal("healthy_reef")(7)[7],
+                                                 fill=c(my_pal,
                                                         "darkgrey")), title = "Robust group"),
          shape = guide_legend(override.aes = list(size = 8))
   ) + 
@@ -504,14 +510,11 @@ df_labelled<-cbind(df,robust_group)
 # empty list for plots
 plot_list <- list()
 
-# palette from scatterplot
-cols <- c(ochre_pal("healthy_reef")(7)[1:4],"thistle",ochre_pal("healthy_reef")(7)[7])
-
 # make plots
 b1 <- ggplot(df_labelled, aes(x=robust_group, y=Maximumverticalheight, fill=robust_group)) + 
   geom_boxplot(alpha=0.7) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
-  scale_fill_manual(values = c(cols,"grey")) +
+  scale_fill_manual(values = c(my_pal,"grey")) +
   scale_y_continuous(limits = quantile(df_labelled$Maximumverticalheight, c(0.05, 0.95),na.rm = TRUE)) +
   ylab("Maximum height") +
   theme(legend.position = "none",
@@ -542,7 +545,7 @@ b1
 b2 <- ggplot(df_labelled, aes(x=robust_group, y=flowerSize, fill=robust_group)) + 
   geom_boxplot(alpha=0.7) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
-  scale_fill_manual(values = c(cols,"grey")) +
+  scale_fill_manual(values = c(my_pal,"grey")) +
   scale_y_continuous(limits = quantile(df_labelled$flowerSize, c(0.05, 0.95),na.rm = TRUE)) +
   ylab("Flower size") +
   theme(legend.position = "none",
@@ -610,9 +613,6 @@ df_temp_melt_counts$label[df_temp_melt_counts$count<10]<-NA
 #NOT RUN: make new column for text size
 #df_temp_melt_counts$text_size<-df_temp_melt_counts$count^(1/2)
 
-# palette from scatterplot
-cols <- c(ochre_pal("healthy_reef")(7)[1:4],"thistle",ochre_pal("healthy_reef")(7)[7])
-
 # theme
 my_theme <- function() {
   theme(
@@ -670,7 +670,7 @@ df_temp_melt_counts$variable <- factor(df_temp_melt_counts$variable,
 rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group=="pam_robust_1 (n = 71)",]
 
 #get palette based on max counts
-pal1<-colorRampPalette(c("white",cols[1]))(max(rob_df$count))
+pal1<-colorRampPalette(c("white",my_pal[1]))(max(rob_df$count))
 
 #make new column for colours based on count
 rob_df$pal <- pal1[rob_df$count]
@@ -694,7 +694,7 @@ p1
 rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group=="pam_robust_2 (n = 56)",]
 
 #get palette based on max counts
-pal<-colorRampPalette(c("white",cols[2]))(max(rob_df$count))
+pal<-colorRampPalette(c("white",my_pal[2]))(max(rob_df$count))
 
 #make new column for colours based on count
 rob_df$pal <- pal[rob_df$count]
@@ -718,7 +718,7 @@ p2
 rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group=="pam_robust_3 (n = 53)",]
 
 #get palette based on max counts
-pal<-colorRampPalette(c("white",cols[3]))(max(rob_df$count))
+pal<-colorRampPalette(c("white",my_pal[3]))(max(rob_df$count))
 
 #make new column for colours based on count
 rob_df$pal <- pal[rob_df$count]
@@ -742,7 +742,7 @@ p3
 rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group=="pam_robust_4 (n = 48)",]
 
 #get palette based on max counts
-pal<-colorRampPalette(c("white",cols[4]))(max(rob_df$count))
+pal<-colorRampPalette(c("white",my_pal[4]))(max(rob_df$count))
 
 #make new column for colours based on count
 rob_df$pal <- pal[rob_df$count]
@@ -767,7 +767,7 @@ p4
 rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group=="pam_robust_5 (n = 37)",]
 
 #get palette based on max counts
-pal<-colorRampPalette(c("white",cols[5]))(max(rob_df$count))
+pal<-colorRampPalette(c("white",my_pal[5]))(max(rob_df$count))
 
 #make new column for colours based on count
 rob_df$pal <- pal[rob_df$count]
@@ -792,7 +792,7 @@ p5
 rob_df <- df_temp_melt_counts[df_temp_melt_counts$robust_group=="pam_robust_6 (n = 28)",]
 
 #get palette based on max counts
-pal<-colorRampPalette(c("white",cols[6]))(max(rob_df$count))
+pal<-colorRampPalette(c("white",my_pal[6]))(max(rob_df$count))
 
 #make new column for colours based on count
 rob_df$pal <- pal[rob_df$count]
