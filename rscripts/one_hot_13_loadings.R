@@ -132,10 +132,10 @@ ggplot() +
       axis.title = element_text(size=18)) +
   xlab(paste("PCoA Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("PCoA Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) +
-  annotation_raster(dull_img, ymin = 0.34,ymax= 0.49,xmin = -0.4,xmax = -0.25) +
-  annotation_raster(herb_img, ymin = 0.375,ymax= 0.525,xmin = 0.225,xmax = 0.375) +
-  annotation_raster(woody_img, ymin = -0.5,ymax= -0.35,xmin = -0.475,xmax = -0.325) +
-  annotation_raster(showy_img, ymin = -0.4,ymax= -0.25,xmin = 0.26,xmax = 0.41)
+  annotation_raster(dull_img, ymin = -0.5,ymax= -0.35,xmin = -0.475,xmax = -0.325)  +
+  annotation_raster(herb_img, ymin = -0.53,ymax= -0.38,xmin = 0.31,xmax = 0.46) +
+  annotation_raster(woody_img, ymin = 0.37,ymax= 0.52,xmin = -0.43,xmax = -0.28) +
+  annotation_raster(showy_img, ymin = 0.375,ymax= 0.525,xmin = 0.225,xmax = 0.375)
 
 # y-axis scaling
 # yax <- 12/21

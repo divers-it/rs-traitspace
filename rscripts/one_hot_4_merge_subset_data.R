@@ -145,9 +145,14 @@ rownames(seedMass)[grep("Cleistes bifaria",rownames(seedMass))]<-"Cleistesiopsis
 rownames(seedMass)[grep("Pitcairnia albifilos",rownames(seedMass))]<-"Pitcairnia albiflos"
 rownames(seedMass)[grep("Ruellia nudiflora",rownames(seedMass))]<-"Ruellia ciliatiflora"
 rownames(seedMass)[grep("Veronica anagallisaquatica",rownames(seedMass))]<-"Veronica anagallis-aquatica"
+rownames(seedMass)[grep("Peritoma arborea",rownames(seedMass))]<-"Cleomella arborea"
+rownames(seedMass)[grep("Hydnocarpus heterophylla",rownames(seedMass))]<-"Hydnocarpus heterophyllus"
 
 # check structure
 str(seedMass[rownames(proteus_combined)%in%rownames(seedMass),])
+
+# reorder seedMass data frame
+seedMass <- seedMass[order(rownames(seedMass)),]
 
 # percentage missing data
 table(is.na(seedMass$Seed_weight))[2]/length(seedMass$Seed_weight)

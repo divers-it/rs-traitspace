@@ -83,6 +83,15 @@ res2_out[grep("Pandanus",rownames(res2_out)),]$family <- "Pandanaceae"
 # order
 res2_out[grep("Pandanus",rownames(res2_out)),]$order <- "Pandanales"
 
+# NOTE: temporary fix for Ternstroemia
+# from POWO
+
+# family
+res2_out[grep("Ternstroemia",rownames(res2_out)),]$family <- "Pentaphylacaceae"
+# order
+res2_out[grep("Ternstroemia",rownames(res2_out)),]$order <- "Ericales"
+
+
 # check to see if results make sense
 res2_out[res2_out$order=="Poales",]
 

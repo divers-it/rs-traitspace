@@ -53,6 +53,7 @@ source(here::here("rscripts/utility", "get_taxonomy.R"))
 source(here::here("rscripts", "7_correlation.R"))
 
 # Principal Coordinates Analyses
+# NOTE: There seems to be an error downloading phylopics
 source(here::here("rscripts", "8.0_pcoa.R"))
 
 # Trait space quality
@@ -93,3 +94,6 @@ source(here::here("rscripts", "14_UMAP.R"))
 # Simulating neutral data
 # NOTE: long to run
 source(here::here("rscripts", "15_simulations.R"))
+
+# Predicting flower sex and mating system using random forest
+source(here::here("rscripts", "16_prediction.R"))

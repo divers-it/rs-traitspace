@@ -5,7 +5,7 @@ library(tidyverse)
 library(gtools)
 
 # import data
-df<-read.csv("data/qryDiveRS_Data_2023-05-21.csv")
+df<-read.csv("data/qryDiveRS_Data_2024-11-21.csv")
 str(df)
 
 # extract quant data only

@@ -86,6 +86,7 @@ proteus_combined<-subset(proteus_combined, select=-c(Flowerlength))
 #### 
 ## Add seed mass data ----
 #### 
+# manually added Symplocos rhamnifolia row to data set (no data available) as was not present
 
 # Removed one duplicate row Corokia
 seedMass<-read.csv("data/seedWeight.csv")
@@ -104,8 +105,13 @@ rownames(seedMass)[grep("Cleistes bifaria",rownames(seedMass))]<-"Cleistesiopsis
 rownames(seedMass)[grep("Pitcairnia albifilos",rownames(seedMass))]<-"Pitcairnia albiflos"
 rownames(seedMass)[grep("Ruellia nudiflora",rownames(seedMass))]<-"Ruellia ciliatiflora"
 rownames(seedMass)[grep("Veronica anagallisaquatica",rownames(seedMass))]<-"Veronica anagallis-aquatica"
+rownames(seedMass)[grep("Peritoma arborea",rownames(seedMass))]<-"Cleomella arborea"
+rownames(seedMass)[grep("Hydnocarpus heterophylla",rownames(seedMass))]<-"Hydnocarpus heterophyllus"
 
 str(seedMass[rownames(proteus_combined)%in%rownames(seedMass),])
+
+# reorder seedMass data frame
+seedMass <- seedMass[order(rownames(seedMass)),]
 
 # percentage missing data
 table(is.na(seedMass$Seed_weight))[2]/length(seedMass$Seed_weight)
@@ -115,6 +121,13 @@ seedMass_merge<-seedMass[rownames(proteus_combined)%in%rownames(seedMass),]
 
 # check row names after fixing synonyms
 rownames(proteus_combined)==rownames(seedMass_merge)
+cbind(rownames(proteus_combined),rownames(seedMass_merge))
+
+
+# check differences between data sets
+setdiff(rownames(proteus_combined),rownames(seedMass))
+setdiff(rownames(seedMass),rownames(proteus_combined))
+
 
 # merge
 proteus_combined<-cbind(proteus_combined,seedMass_merge$Seed_weight)

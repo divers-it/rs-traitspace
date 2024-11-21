@@ -387,7 +387,7 @@ my_theme <- function() {
 # Cluster 1
 
 # subset df
-rob_df <- df_temp_melt_counts[df_temp_melt_counts$cluster=="k_3_cluster_1 (n = 172)",]
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$cluster=="k_3_cluster_1 (n = 173)",]
 
 # get palette based on max counts
 pal1<-colorRampPalette(c("white",cols[1]))(max(rob_df$count))
@@ -409,7 +409,7 @@ p1
 # Cluster 2
 
 # subset df
-rob_df <- df_temp_melt_counts[df_temp_melt_counts$cluster=="k_3_cluster_2 (n = 87)",]
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$cluster=="k_3_cluster_2 (n = 101)",]
 
 # get palette based on max counts
 pal2<-colorRampPalette(c("white",cols[2]))(max(rob_df$count))
@@ -431,7 +431,7 @@ p2
 # Cluster 3
 
 # subset df
-rob_df <- df_temp_melt_counts[df_temp_melt_counts$cluster=="k_3_cluster_3 (n = 101)",]
+rob_df <- df_temp_melt_counts[df_temp_melt_counts$cluster=="k_3_cluster_3 (n = 87)",]
 
 # get palette based on max counts
 pal3<-colorRampPalette(c("white",cols[3]))(max(rob_df$count))

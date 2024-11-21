@@ -237,63 +237,63 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
            #linetype=2,
            linewidth=0.75,
            x=-0.46,
-           xend=-0.3305978702, 
+           xend=dataset_pcoa$vectors["Phoenix dactylifera",][1], 
            y=0.03,
-           yend=4.934202e-02, 
+           yend=dataset_pcoa$vectors["Phoenix dactylifera",][2], 
            color = "black",
            alpha=0.5) + 
   annotate("segment", #solanum
            #linetype=2,
            linewidth=0.75,
            x=0.25,
-           xend=0.0966219059, 
+           xend=dataset_pcoa$vectors["Solanum dulcamara",][1], 
            y=-0.2,
-           yend=-3.542270e-02, 
+           yend=dataset_pcoa$vectors["Solanum dulcamara",][2], 
            color = "black",
            alpha=0.5) +
   annotate("segment", #coffea
            #linetype=2,
            linewidth=0.75,
            x=-0.045,
-           xend=-0.0139421126, 
+           xend=dataset_pcoa$vectors["Coffea arabica",][1], 
            y=-0.28,
-           yend=-0.1305380241, 
+           yend=dataset_pcoa$vectors["Coffea arabica",][2], 
            color = "black",
            alpha=0.5) + 
   annotate("segment", #trithuria
            #linetype=2,
            linewidth=0.75,
            x=0.07,
-           xend=0.1230980263,
+           xend=dataset_pcoa$vectors["Trithuria submersa",][1], 
            y=0.45,
-           yend=3.744929e-01, 
+           yend=dataset_pcoa$vectors["Trithuria submersa",][2], 
            color = "black",
            alpha=0.5) + 
   annotate("segment", #cornus
            #linetype=2,
            linewidth=0.75,
            x=-0.3,
-           xend=-0.1152021084,
+           xend=dataset_pcoa$vectors["Cornus florida",][1],
            y=-0.21,
-           yend=-0.1413927222, 
+           yend=dataset_pcoa$vectors["Cornus florida",][2], 
            color = "black",
            alpha=0.5) +
   annotate("segment", #zea
            #linetype=2,
            linewidth=0.75,
            x=-0.35,
-           xend=-0.1219254049,
+           xend=dataset_pcoa$vectors["Zea mays",][1],
            y=0.35,
-           yend=2.600799e-01, 
+           yend=dataset_pcoa$vectors["Zea mays",][2], 
            color = "black",
            alpha=0.5) +
   annotate("segment", #Commelina
            #linetype=2,
            linewidth=0.75,
            x=0.38,
-           xend=0.2257547576, 
+           xend=dataset_pcoa$vectors["Commelina communis",][1],
            y=0,
-           yend=0.0947481926, 
+           yend=dataset_pcoa$vectors["Commelina communis",][2], 
            color = "black",
            alpha=0.5)
   
@@ -314,6 +314,67 @@ library(ggnewscale)
 # make copy of df
 df_ors <- df
 
+# read in sexual system classification
+ss <- read.csv("data/sexual_systems_to_verify.csv")
+
+# simplify df and remove duplicates
+ss <- data.frame(ss$NTaxDat,ss$Simple)
+ss <- unique(ss)
+
+# loop through table and recode based on sexual system and df_ors$Mating
+for(i in 1:length(ss[,1])){
+  
+  if(is.na(ss$ss.Simple[i])){
+    
+    ss$ss.Simple[i] <- "unknown"
+    
+  }
+  
+  if(ss$ss.Simple[i] == "dioecious"){
+    
+    ss$ss.Simple[i] <- "dioecy"
+    
+  }
+  
+  if(ss$ss.Simple[i] == "monoecious"){
+    
+    ss$ss.Simple[i] <- "monoecy"
+    
+  }
+  
+  if(ss$ss.Simple[i] == "bisexual"){
+    
+    if(is.na(df_ors$Mating[grep(ss$ss.NTaxDat[i],rownames(df_ors))])){
+      
+      ss$ss.Simple[i] <- "unknown"
+      
+    }
+    
+    else if(df_ors$Mating[grep(ss$ss.NTaxDat[i],rownames(df_ors))] == "selfing"){
+      
+      ss$ss.Simple[i] <- "monocliny: selfing"
+      
+    }
+    
+    else if(df_ors$Mating[grep(ss$ss.NTaxDat[i],rownames(df_ors))] == "mixed"){
+      
+      ss$ss.Simple[i] <- "monocliny: mixed"
+      
+    }
+    
+    else if(df_ors$Mating[grep(ss$ss.NTaxDat[i],rownames(df_ors))] == "outcrossing"){
+      
+      ss$ss.Simple[i] <- "monocliny: outcrossing"
+      
+    }
+    
+  }
+  
+}
+
+#check recoding
+ss
+
 # recode flower sex, sexual system and mating system
 df_ors$RS=rep("unknown",length(df_ors[,1]))
 df_ors[df_ors$SexualSystem %in% "dimorphic" & df_ors$FlowerSex %in% "unisexual",]$RS="dioecy"
@@ -324,6 +385,21 @@ df_ors[df_ors$SexualSystem %in% "monomorphic" & df_ors$FlowerSex %in% "bisexual"
 
 # reorder is close to order, but is made to change the order of the factor levels.
 df_ors$RS <- factor(df_ors$RS, levels = c("dioecy", "monoecy", "monocliny: selfing", "monocliny: mixed", "monocliny: outcrossing", "unknown"))
+
+# combine with checked species
+for(j in 1:length(ss[,1])){
+  
+  df_ors$RS[grep(ss$ss.NTaxDat[j],rownames(df_ors))] <- ss$ss.Simple[j]
+  
+}
+
+# check RS
+data.frame(rownames(df_ors),df_ors$RS)
+
+# write original reproductive systems
+ors_for_csv <- data.frame(rownames(df_ors),df_ors$RS)
+colnames(ors_for_csv) <- c("species", "RS")
+write.csv(ors_for_csv, "outputs/original_reproductive_systems.csv")
 
 # color palette
 # one colour for dioecy, one for monoecy, then three on a gradient for bisexual selfing->outcrossing, and one for NA
@@ -389,63 +465,63 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
            #linetype=2,
            linewidth=0.75,
            x=-0.46,
-           xend=-0.3305978702, 
+           xend=dataset_pcoa$vectors["Phoenix dactylifera",][1], 
            y=0.03,
-           yend=4.934202e-02, 
+           yend=dataset_pcoa$vectors["Phoenix dactylifera",][2], 
            color = "black",
            alpha=0.5) + 
   annotate("segment", #solanum
            #linetype=2,
            linewidth=0.75,
            x=0.25,
-           xend=0.0966219059, 
+           xend=dataset_pcoa$vectors["Solanum dulcamara",][1], 
            y=-0.2,
-           yend=-3.542270e-02, 
+           yend=dataset_pcoa$vectors["Solanum dulcamara",][2], 
            color = "black",
            alpha=0.5) +
   annotate("segment", #coffea
            #linetype=2,
            linewidth=0.75,
            x=-0.045,
-           xend=-0.0139421126, 
+           xend=dataset_pcoa$vectors["Coffea arabica",][1], 
            y=-0.28,
-           yend=-0.1305380241, 
+           yend=dataset_pcoa$vectors["Coffea arabica",][2], 
            color = "black",
            alpha=0.5) + 
   annotate("segment", #trithuria
            #linetype=2,
            linewidth=0.75,
            x=0.07,
-           xend=0.1230980263,
+           xend=dataset_pcoa$vectors["Trithuria submersa",][1], 
            y=0.45,
-           yend=3.744929e-01, 
+           yend=dataset_pcoa$vectors["Trithuria submersa",][2], 
            color = "black",
            alpha=0.5) + 
   annotate("segment", #cornus
            #linetype=2,
            linewidth=0.75,
            x=-0.3,
-           xend=-0.1152021084,
+           xend=dataset_pcoa$vectors["Cornus florida",][1],
            y=-0.21,
-           yend=-0.1413927222, 
+           yend=dataset_pcoa$vectors["Cornus florida",][2], 
            color = "black",
            alpha=0.5) +
   annotate("segment", #zea
            #linetype=2,
            linewidth=0.75,
            x=-0.35,
-           xend=-0.1219254049,
+           xend=dataset_pcoa$vectors["Zea mays",][1],
            y=0.35,
-           yend=2.600799e-01, 
+           yend=dataset_pcoa$vectors["Zea mays",][2], 
            color = "black",
            alpha=0.5) +
   annotate("segment", #Commelina
            #linetype=2,
            linewidth=0.75,
            x=0.38,
-           xend=0.2257547576, 
+           xend=dataset_pcoa$vectors["Commelina communis",][1],
            y=0,
-           yend=0.0947481926, 
+           yend=dataset_pcoa$vectors["Commelina communis",][2], 
            color = "black",
            alpha=0.5)
 
@@ -464,13 +540,13 @@ mypal <- c("darkred","darkorange",
            "black")
 
 ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2))+
-  #ggforce::geom_mark_hull(concavity = 5,expand=0,radius=0, aes(colour=as.factor(df_ors$RS), fill=as.factor(df_ors$RS),filter = df_ors$RS != 'unknown')) +
+  ggforce::geom_mark_hull(concavity = 5,expand=0,radius=0, aes(colour=as.factor(df_ors$RS), fill=as.factor(df_ors$RS),filter = df_ors$RS != 'unknown')) +
   ggforce::geom_mark_hull(concavity = 5,expand=0,radius=0, colour = "darkgrey") +
-  geom_point()+
-  #scale_fill_manual(values=mypal) +
-  #scale_colour_manual(values=mypal, name = "Reproductive system") +
-  #scale_shape_manual(values=c(16,16,16,16,16,21)) +
-  #guides(fill ="none", shape = "none", color = guide_legend(override.aes = list(shape = c(16,16,16,16,16,21) ) ) ) +
+  scale_fill_manual(values=mypal) +
+  scale_colour_manual(values=mypal, name = "Reproductive system") +
+  geom_point(aes(colour=as.factor(df_ors$RS), shape=as.factor(df_ors$RS))) +
+  scale_shape_manual(values=c(16,16,16,16,16,21)) +
+  guides(fill ="none", shape = "none", color = guide_legend(override.aes = list(shape = c(16,16,16,16,16,21) ) ) ) +
   xlab(paste("PCoA Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
   ylab(paste("PCoA Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) +
   xlim(-0.6,0.6) + 
@@ -571,12 +647,12 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2))+
            color = "black",
            alpha=0.5)
 
-ggsave("figures/8_scatterplot_pcoa_hulls_original_RS_black_and_white.png",
+ggsave("figures/8_scatterplot_pcoa_hulls_original_RS.png",
       width = 30,
       height = 30,
       units = 'cm')
 
-z####
+####
 ## Plot taxonomy on PCOA ----
 ####
 

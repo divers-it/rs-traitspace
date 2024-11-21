@@ -1,4 +1,4 @@
-"","Woodiness_herbaceous","Woodiness_woody","Climbing_climbing","Climbing_non.climbing","Aquatic_aquatic","Aquatic_non.aquatic","SexualSystem_dimorphic","SexualSystem_monomorphic","Lifespan_long","Lifespan_short","Mating_mixed","Mating_outcrossing","Mating_selfing","Pollination_abiotic","Pollination_autonomous","Pollination_biotic","DispersalMode_abiotic","DispersalMode_autonomous","DispersalMode_biotic","DispersalDist_long","DispersalDist_short","FlowerSex_bisexual","FlowerSex_unisexual","OvaryPosition_inferior","OvaryPosition_intermediate","OvaryPosition_superior","FloralReward_nectar","FloralReward_none","FloralReward_other","FloralReward_pollen","FlowerSymmetry_actinomorphic","FlowerSymmetry_other","FlowerSymmetry_zygomorphic","Showiness_bright","Showiness_dull","Maximum.vertical.height","Fruit.width","Number.of.fertile.stamens","Number.of.ovules.per.carpel","Pollen.size","Pollen.ovule.ratio","Fruit.length","Number.of.carpels","Fusion.of.ovaries","Length.of.gynoecium","Outcrossing.rate","Flower.size","seedMass"
+"","Woodiness_herbaceous","Woodiness_woody","Climbing_climbing","Climbing_non.climbing","Aquatic_aquatic","Aquatic_non.aquatic","SexualSystem_dimorphic","SexualSystem_monomorphic","Lifespan_long","Lifespan_short","Mating_mixed","Mating_outcrossing","Mating_selfing","Pollination_abiotic","Pollination_autonomous","Pollination_biotic","DispersalMode_abiotic","DispersalMode_autonomous","DispersalMode_biotic","DispersalDist_long","DispersalDist_short","FlowerSex_bisexual","FlowerSex_unisexual","OvaryPosition_inferior","OvaryPosition_intermediate","OvaryPosition_superior","FloralReward_nectar","FloralReward_none","FloralReward_other","FloralReward_pollen","FlowerSymmetry_actinomorphic","FlowerSymmetry_other","FlowerSymmetry_zygomorphic","Showiness_bright","Showiness_dull","Maximum.vertical.height","Monocarp.width","Number.of.fertile.stamens","Number.of.ovules.per.carpel","Pollen.size","Pollen.ovule.ratio","Monocarp.length","Number.of.carpels","Fusion.of.ovaries","Length.of.gynoecium","Outcrossing.rate","Flower.size","seedMass"
 "Abolboda pulchella",1,0,0,1,0,1,0,1,1,0,NA,NA,NA,0,0,1,NA,NA,NA,NA,NA,1,0,0,0,1,1,0,0,0,0,0,1,1,0,0.3,0.4,3,10.6,90,47,NA,NA,NA,NA,NA,0.6,NA
 "Achatocarpus praecox",0,1,0,1,0,1,1,0,1,0,0,1,0,0,0,1,0,0,1,1,0,0,1,0,0,1,NA,NA,NA,NA,1,0,0,1,1,6,0.45,16,1,NA,NA,0.55,2,1,0.3,NA,0.65,NA
 "Acorus calamus",1,0,0,1,0,1,0,1,1,0,0,1,0,0,0,1,1,0,0,1,0,1,0,0,0,1,0,0,1,0,0,0,1,1,1,1.75,0.25,6,4.5,21,NA,0.425,3,1,0.14,NA,0.35,3.72
@@ -18,7 +18,7 @@
 "Allocasuarina verticillata",0,1,0,1,0,1,1,0,1,0,0,1,0,1,0,0,1,0,0,1,0,0,1,NA,NA,NA,0,1,0,0,NA,NA,NA,1,0,7,NA,1,1,30,4364,NA,1.5,1,NA,NA,0.9,4
 "Alluaudia procera",0,1,0,1,0,1,1,0,1,0,0,1,0,0,0,1,1,0,0,1,0,0,1,0,0,1,NA,NA,NA,NA,0,1,0,1,1,15,NA,8,1,NA,NA,0.25,3,1,NA,NA,0.2,2.22
 "Alnus alnobetula",0,1,0,1,0,1,0,1,1,0,0,1,0,1,0,0,1,0,0,1,0,0,1,1,0,0,0,1,0,0,1,0,0,0,1,10,NA,4,1.5,23,NA,NA,2.5,1,NA,0.95,NA,0.51
-"Aloe thraskii",0,1,0,1,0,1,0,1,1,0,1,0,0,0,0,1,NA,NA,NA,NA,NA,0,1,NA,NA,NA,1,0,0,0,0,0,1,1,0,2.75,NA,6,NA,NA,NA,NA,NA,NA,NA,0.78,2.35,NA
+"Aloe thraskii",0,1,0,1,0,1,0,1,1,0,1,0,0,0,0,1,NA,NA,NA,NA,NA,1,0,NA,NA,NA,1,0,0,0,0,0,1,1,0,2.75,NA,6,NA,NA,NA,NA,NA,NA,NA,0.78,2.35,NA
 "Alphitonia excelsa",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,0,1,1,0,1,0,1,0,0,1,0,0,0,1,0,0,1,1,21,0.9,5,1,22,5550,0.85,3,NA,NA,NA,1,22.06
 "Alseuosmia macrophylla",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,0,1,1,0,1,0,1,0,0,1,0,0,0,1,0,0,1,0,2.375,NA,5,51.5,47.5,NA,NA,2,NA,NA,NA,3.75,4.1
 "Alstroemeria aurea",1,0,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,1,0,0,1,1,0,1,0,0,1,0,0,0,0,0,1,1,0,0.75,NA,6,21.5,NA,4500,2.25,3,NA,NA,0.31,5,18.91
@@ -27,7 +27,7 @@
 "Amsonia tabernaemontana",1,0,0,1,0,1,0,1,1,0,NA,NA,NA,0,0,1,NA,NA,NA,NA,NA,1,0,0,0,1,NA,NA,NA,NA,1,0,0,1,0,0.65,NA,5,NA,NA,NA,NA,2,0,NA,NA,1.9,84.21
 "Anarthria polyphylla",1,0,0,1,0,1,1,0,1,0,0,1,0,1,0,0,NA,NA,NA,NA,NA,0,1,0,0,1,0,1,0,0,1,0,0,0,1,0.1,NA,3,1,NA,NA,0.2,3,1,NA,NA,0.5,NA
 "Angelonia pubescens",1,0,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,0,1,1,0,1,0,0,0,1,0,0,1,0,0,0,1,1,0,0.7,NA,4,NA,NA,NA,NA,2,1,NA,NA,1.4,NA
-"Anigozanthos humilis",1,0,0,1,0,1,0,1,1,0,0,1,0,0,0,1,NA,NA,NA,NA,NA,0,1,NA,NA,NA,1,0,0,0,0,0,1,1,0,0.55,NA,6,51,NA,NA,NA,3,NA,NA,NA,3.75,0.52
+"Anigozanthos humilis",1,0,0,1,0,1,0,1,1,0,0,1,0,0,0,1,NA,NA,NA,NA,NA,1,0,NA,NA,NA,1,0,0,0,0,0,1,1,0,0.55,NA,6,51,NA,NA,NA,3,NA,NA,NA,3.75,0.52
 "Annona crassiflora",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,0,1,1,0,1,0,0,0,1,0,0,1,0,1,0,0,1,1,7,15,NA,NA,NA,NA,15,NA,NA,NA,0.974,3.25,5936.27
 "Antirrhinum majus",1,0,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,1,0,0,1,1,0,0,0,1,0,0,0,1,0,0,1,1,0,0.5,1.1,4,9999,17.5,NA,1.35,2,1,NA,NA,3.6,0.12
 "Apium graveolens",1,0,0,1,0,1,0,1,0,1,1,0,0,0,0,1,1,0,0,1,0,1,0,1,0,0,1,0,0,0,1,0,0,1,0,1,NA,5,1,23,NA,0.15,2,1,NA,0.5475,0.15,0.34
@@ -37,7 +37,7 @@
 "Arctostaphylos uva-ursi",0,1,0,1,0,1,0,1,1,0,NA,NA,NA,0,1,1,0,0,1,1,0,1,0,0,0,1,1,0,0,0,1,0,0,1,0,0.105,NA,10,1,54,NA,NA,5,1,NA,NA,0.2,18.49
 "Arum maculatum",1,0,0,1,0,1,0,1,1,0,1,0,0,0,0,1,0,0,1,1,0,0,1,0,0,1,0,1,0,0,NA,NA,NA,0,1,0.33,NA,3.5,2,38,4596,NA,1,NA,NA,1,0.15,101.73
 "Asparagus officinalis",1,0,0,1,0,1,1,0,1,0,0,1,0,0,0,1,0,0,1,1,0,0,1,0,0,1,1,0,0,1,1,0,0,1,1,1.75,NA,6,NA,38,NA,0.8,3,1,NA,NA,0.5,22.1
-"Astelia alpina",1,0,0,1,0,1,1,0,1,0,0,1,0,NA,NA,NA,0,0,1,1,0,1,1,0,0,1,1,0,0,0,1,0,0,0,1,0.3,NA,6,12,18.25,NA,1.2,3,1,NA,NA,0.4,1.15
+"Astelia alpina",1,0,0,1,0,1,1,0,1,0,0,1,0,NA,NA,NA,0,0,1,1,0,0,1,0,0,1,1,0,0,0,1,0,0,0,1,0.3,NA,6,12,18.25,NA,1.2,3,1,NA,NA,0.4,1.15
 "Audouinia capitata",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,1,0,0,1,0,1,0,0,1,0,1,0,0,0,1,0,0,1,0,0.4,NA,5,2,NA,NA,NA,3,NA,NA,NA,1,NA
 "Avicennia marina",0,1,0,1,0,1,0,1,1,0,1,0,0,0,0,1,1,0,0,1,0,1,0,0,0,1,1,0,0,0,1,0,0,1,0,4.1,1.2,4,2,NA,4000,2.5,2,1,0.3,0.650083333333333,0.595,3400
 "Azima tetracantha",0,1,0,1,0,1,1,0,1,0,0,1,0,NA,NA,NA,0,0,1,1,0,0,1,0,0,1,NA,NA,NA,NA,NA,NA,NA,1,1,0.9,NA,4,1,NA,NA,0.75,2,1,NA,NA,3.5,34.8
@@ -49,7 +49,7 @@
 "Bergeranthus multiceps",1,0,0,1,0,1,0,1,1,0,0,1,0,0,0,1,NA,NA,NA,NA,NA,1,0,NA,NA,NA,1,0,0,1,1,0,0,1,0,0.08,0.5,182.5,NA,NA,NA,0.8,NA,NA,NA,NA,2,NA
 "Berteroa incana",1,0,0,1,0,1,0,1,1,1,0,1,0,0,0,1,1,0,0,1,0,1,0,0,0,1,1,0,0,0,1,0,0,1,0,0.7,0.16,6,NA,17.5,NA,0.6,2,1,NA,NA,0.3,0.49
 "Bertholletia excelsa",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,0,1,1,0,1,0,1,0,0,1,0,0,1,0,0,1,1,0,50,NA,114,9,NA,26755,NA,4,1,NA,NA,2.5,6500
-"Beta vulgaris",1,0,0,1,0,1,1,1,1,1,0,1,0,1,0,0,1,1,0,1,1,1,0,0,1,0,0,1,0,0,1,0,0,0,1,2,NA,5,1,18,29545.8333333333,NA,2.5,1,NA,0.679,0.5,16.5
+"Beta vulgaris",1,0,0,1,0,1,1,1,1,1,0,1,0,1,0,0,1,1,0,1,1,1,1,0,1,0,0,1,0,0,1,0,0,0,1,2,NA,5,1,18,29545.8333333333,NA,2.5,1,NA,0.679,0.5,16.5
 "Bixa orellana",0,1,0,1,0,1,0,1,1,0,1,1,0,0,0,1,0,0,1,0,1,1,0,0,0,1,0,0,0,1,1,0,0,1,0,10,4.275,425,46.6666666666667,NA,138636,6.265,2,1,NA,0.678,4.5,25.08
 "Borago officinalis",1,0,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,0,1,0,1,1,0,0,0,1,1,0,0,0,1,0,0,1,0,0.5,NA,5,2,38,15875,NA,2,1,NA,0.04,2.5,16.1
 "Brasenia schreberi",1,0,0,1,1,1,0,1,1,0,1,0,0,1,0,0,1,0,0,1,0,1,0,0,0,1,0,1,0,0,1,0,0,1,1,1.5,NA,26.5,1.5,47.6,9619,NA,11.6,0,NA,0.628636363636364,2,6.78
@@ -86,6 +86,7 @@
 "Clarkia xantiana",1,0,0,1,0,1,0,1,0,1,1,0,0,0,0,1,0,1,0,0,1,1,0,1,0,0,NA,NA,NA,NA,0,0,1,1,0,0.45,NA,8,500,NA,84.5,2.25,4,1,NA,0.7885,3.5,0.21
 "Claytonia virginica",1,0,0,1,0,1,0,1,1,0,NA,NA,NA,0,0,1,0,1,1,0,1,1,0,0,0,1,1,0,0,0,1,0,0,1,0,0.225,NA,5,2,NA,NA,NA,3,1,NA,NA,0.85,1.22
 "Cleistesiopsis bifaria",1,0,0,1,0,1,0,1,1,0,0,1,0,0,0,1,NA,NA,NA,NA,NA,1,0,1,0,0,0,0,0,1,0,0,1,1,1,0.315,NA,2,1853.5,NA,4,NA,3,NA,NA,NA,7.5,NA
+"Cleomella arborea",0,1,0,1,0,1,0,1,1,1,0,1,0,0,0,1,NA,NA,NA,NA,NA,1,0,0,0,1,NA,NA,NA,NA,0,0,1,1,0,1.25,0.9,6,9.5,NA,NA,2.5,1,NA,NA,0.865,1.52,NA
 "Clethra alnifolia",0,1,0,1,0,1,0,1,1,0,NA,NA,NA,0,0,1,1,0,0,1,0,1,0,0,0,1,NA,NA,NA,NA,1,0,0,1,0,2,NA,10,40,NA,NA,NA,3,1,NA,NA,0.55,0.15
 "Clutia pulchella",0,1,0,1,0,1,1,0,1,0,0,1,0,NA,NA,NA,0,1,1,0,1,0,1,NA,NA,NA,NA,NA,NA,NA,1,0,0,1,0,0.84,NA,5,1,NA,3959,NA,3,1,NA,NA,4,3.08
 "Cobaea scandens",0,1,1,0,0,1,0,1,1,0,0,1,0,0,0,1,1,0,0,1,0,1,0,0,0,1,1,0,0,0,1,0,0,1,0,25,NA,5,26,100,415.5,NA,3,1,NA,NA,5.75,72.3
@@ -106,7 +107,7 @@
 "Cuscuta cuspidata",1,0,1,0,0,1,0,1,0,1,1,0,0,1,0,0,NA,NA,NA,NA,NA,1,0,0,0,1,0,1,0,0,1,0,0,1,0,0.5,0.33,5,2,NA,1164,0.22,2,1,NA,NA,0.175,NA
 "Cuttsia viburnea",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,1,1,0,1,1,1,0,0,0,1,NA,NA,NA,NA,1,0,0,1,0,15,NA,5,500.5,20.25,NA,0.35,5,NA,NA,NA,1,0.03
 "Cyclanthus bipartitus",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,0,1,1,0,0,1,NA,NA,NA,0,0,0,1,NA,NA,NA,1,0,2,NA,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-"Cymodocea nodosa",1,0,0,1,1,0,1,1,1,0,0,1,0,1,0,0,0,1,1,1,1,0,1,NA,NA,NA,0,1,0,0,NA,NA,NA,NA,NA,0.6,0.9,2,1,NA,NA,1.3,2,0,NA,NA,NA,NA
+"Cymodocea nodosa",1,0,0,1,1,0,1,0,1,0,0,1,0,1,0,0,0,1,1,1,1,0,1,NA,NA,NA,0,1,0,0,NA,NA,NA,NA,NA,0.6,0.9,2,1,NA,NA,1.3,2,0,NA,NA,NA,NA
 "Cypripedium calceolus",1,0,0,1,0,1,0,1,1,0,0,1,0,0,0,1,1,0,0,1,0,1,0,1,0,0,0,0,0,1,0,0,1,1,1,0.45,NA,2,1500,17.5,NA,NA,3,1,NA,0.88,7.75,0.003
 "Cyrilla racemiflora",0,1,0,1,0,1,0,1,1,0,NA,NA,NA,0,0,1,1,0,0,1,0,1,0,0,0,1,1,0,0,0,1,0,0,1,0,10,0.3,5,2,NA,NA,NA,2,1,NA,NA,0.5,NA
 "Dalechampia spathulata",0,1,0,1,0,1,0,1,1,0,NA,NA,NA,0,0,1,0,1,0,0,1,0,1,NA,NA,NA,0,0,1,0,0,0,1,1,0,2.5,NA,20,NA,45.5,NA,NA,3,NA,NA,NA,NA,NA
@@ -159,7 +160,7 @@
 "Hevea brasiliensis",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,0,1,1,0,0,1,0,1,0,NA,NA,NA,NA,1,0,0,NA,NA,20,NA,10,1,NA,NA,NA,3,1,NA,0.64,0.5025,3809.45
 "Hirtella physophora",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,NA,NA,NA,NA,NA,1,0,NA,NA,NA,1,0,0,1,0,0,1,1,0,NA,1,6,NA,NA,5895,NA,NA,NA,NA,NA,2,NA
 "Hordeum bulbosum",1,0,0,1,0,1,0,1,1,0,0,1,0,1,0,0,0,0,1,1,0,1,0,0,0,1,0,1,0,0,0,0,1,0,1,0.95,NA,3,1,38,NA,NA,2,NA,NA,NA,1.75,11.36
-"Hydnocarpus heterophylla",0,1,0,1,0,1,1,0,1,0,0,1,0,0,0,1,0,0,1,1,0,0,1,0,0,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,20,NA,26,999,29.05,NA,NA,4,1,NA,NA,1.6,NA
+"Hydnocarpus heterophyllus",0,1,0,1,0,1,1,0,1,0,0,1,0,0,0,1,0,0,1,1,0,0,1,0,0,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,20,NA,26,999,29.05,NA,NA,4,1,NA,NA,1.6,NA
 "Hydrastis canadensis",1,0,0,1,0,1,0,1,1,0,1,0,0,0,0,1,0,0,1,1,0,1,0,0,0,1,NA,NA,NA,NA,1,0,0,1,0,0.325,0.325,53.75,2,23.25,NA,0.65,10.75,0,NA,NA,1.3,NA
 "Hydrocotyle vulgaris",1,0,0,1,0,1,0,1,1,0,NA,NA,NA,0,1,1,1,0,0,1,0,1,0,1,0,0,NA,NA,NA,NA,1,0,0,1,0,0.125,NA,5,NA,NA,NA,NA,2,1,NA,NA,0.15,0.5
 "Hydrophyllum capitatum",1,0,0,1,0,1,0,1,1,0,0,1,0,0,0,1,NA,NA,NA,NA,NA,1,0,0,0,1,1,0,0,1,1,0,0,1,0,0.275,NA,5,NA,NA,NA,0.4,NA,NA,NA,NA,0.7,6.55
@@ -184,12 +185,12 @@
 "Larrea tridentata",0,1,0,1,0,1,0,1,1,0,1,0,0,0,0,1,0,0,1,1,0,1,0,NA,NA,NA,1,0,0,1,1,0,0,1,0,1.6,NA,10,NA,NA,NA,NA,5,NA,NA,0.72,2.5,6.44
 "Lemna minor",1,0,0,1,1,0,0,1,0,1,NA,NA,NA,0,0,1,1,0,0,1,0,1,0,0,0,1,NA,NA,NA,NA,NA,NA,NA,0,1,0.06,NA,2,1,NA,NA,NA,1,NA,NA,NA,0.08,NA
 "Lepidobotrys staudtii",0,1,0,1,0,1,1,0,1,0,0,1,0,NA,NA,NA,0,1,0,0,1,0,1,0,0,1,NA,NA,NA,NA,1,0,0,NA,NA,8,1.65,10,2,NA,NA,2.3,3,NA,NA,NA,0.63,NA
-"Limnanthes douglasii",1,0,0,1,0,1,1,0,0,1,0,1,0,0,0,1,NA,NA,NA,NA,NA,1,0,0,0,1,NA,NA,NA,NA,1,0,0,1,0,0.515,NA,10,NA,38,NA,NA,5,NA,NA,0.85,2.8,7.12
+"Limnanthes douglasii",1,0,0,1,0,1,1,0,0,1,0,1,0,0,0,1,NA,NA,NA,NA,NA,1,1,0,0,1,NA,NA,NA,NA,1,0,0,1,0,0.515,NA,10,NA,38,NA,NA,5,NA,NA,0.85,2.8,7.12
 "Linum perenne",1,0,0,1,0,1,0,1,1,0,0,1,0,0,0,1,NA,NA,NA,NA,NA,1,0,0,0,1,NA,NA,NA,NA,1,0,0,1,0,0.6,NA,5,2,NA,NA,NA,5,1,NA,NA,3.5,1.4
 "Liparis loeselii",1,0,0,1,0,1,0,1,1,0,0,0,1,1,1,0,1,0,0,1,0,1,0,1,0,0,0,1,0,0,0,0,1,0,1,0.13,NA,1,2225,NA,NA,NA,3,NA,NA,NA,1.05,0.001
 "Liriodendron chinense",0,1,0,1,0,1,0,1,1,0,1,0,0,0,0,1,1,1,0,1,1,1,0,0,0,1,1,0,0,0,1,0,0,0,1,40,NA,60,2,NA,NA,8,115,0,NA,0.630833333333333,3.5,NA
 "Loasa heterophylla",1,0,0,1,0,1,0,1,1,0,0,1,0,NA,NA,NA,NA,NA,NA,NA,NA,1,0,1,0,0,1,0,0,0,1,0,0,1,0,NA,NA,6.5,NA,NA,NA,NA,NA,NA,NA,NA,2.3,NA
-"Lobelia angulata",1,0,0,1,0,1,1,0,1,0,0,1,0,0,0,1,NA,NA,NA,NA,NA,1,1,1,0,0,1,0,0,0,0,0,1,1,0,0.21,NA,5,NA,NA,NA,NA,2,NA,NA,NA,1.35,0.08
+"Lobelia angulata",1,0,0,1,0,1,1,0,1,0,NA,NA,NA,0,0,1,NA,NA,NA,NA,NA,1,1,1,0,0,1,0,0,0,0,0,1,1,0,0.21,NA,5,NA,NA,NA,NA,2,NA,NA,NA,1.35,0.08
 "Ludwigia adscendens",1,0,0,1,1,0,0,1,1,0,NA,NA,NA,0,0,1,1,0,0,1,0,1,0,1,0,0,NA,NA,NA,NA,1,0,0,1,0,0.15,0.18,10,7.5,NA,NA,1.6,5,NA,1.13,NA,3,NA
 "Lythrum salicaria",1,0,0,1,0,1,0,1,1,0,0,1,0,0,0,1,1,0,0,1,0,1,0,0,0,1,1,0,0,1,1,0,0,1,0,1.6,0.2,12,NA,29.6666666666667,NA,0.3,2,1,0.2,NA,1.8,0.07
 "Malesherbia linearifolia",1,0,0,1,0,1,0,1,1,0,NA,NA,NA,0,0,1,NA,NA,NA,NA,NA,1,0,0,0,1,NA,NA,NA,NA,1,0,0,1,0,1,NA,5,21.5,NA,NA,1.275,3,1,NA,NA,2.5,1.29
@@ -214,7 +215,7 @@
 "Myristica fragrans",0,1,0,1,0,1,1,1,1,0,0,1,0,0,0,1,0,0,1,1,0,0,1,0,0,1,0,0,0,1,1,0,0,1,0,8,NA,9.5,1,NA,797664,NA,1,NA,NA,0.9025,1,7792.8
 "Myrothamnus moschata",0,1,0,1,0,1,1,0,NA,NA,0,1,0,NA,NA,NA,NA,NA,NA,NA,NA,0,1,0,0,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,4,NA,NA,NA,NA,3.5,0.9,NA,NA,NA,NA
 "Myrtus communis",0,1,0,1,0,1,0,1,1,0,1,0,0,0,0,1,0,0,1,1,0,1,0,NA,NA,NA,NA,NA,NA,NA,1,0,0,1,0,4,NA,145,NA,17.5,NA,NA,NA,1,NA,0.576071428571429,2.5,7.92
-"Narthecium ossifragum",1,0,0,1,0,1,0,1,1,0,NA,NA,NA,0,0,1,0,1,0,0,1,1,1,0,0,1,NA,NA,NA,NA,1,0,0,1,0,0.275,NA,6,NA,NA,NA,NA,NA,NA,NA,NA,2.8,0.1
+"Narthecium ossifragum",1,0,0,1,0,1,0,1,1,0,NA,NA,NA,0,0,1,0,1,0,0,1,1,0,0,0,1,NA,NA,NA,NA,1,0,0,1,0,0.275,NA,6,NA,NA,NA,NA,NA,NA,NA,NA,2.8,0.1
 "Nelumbo lutea",1,0,0,1,1,0,0,1,1,0,1,0,0,0,0,1,1,0,0,1,0,1,0,0,0,1,0,0,1,1,1,0,0,1,0,2,NA,400,1,NA,NA,1.3,24.75,0,NA,0.507894736842105,10,NA
 "Nelumbo nucifera",1,0,0,1,1,0,0,1,1,0,0,1,0,0,0,1,1,0,0,1,0,1,0,0,0,1,0,0,1,1,1,0,0,1,0,2,NA,300,1,38,NA,NA,30,0,NA,0.982,18.25,1132.7
 "Nemesia strumosa",1,0,0,1,0,1,0,1,0,1,0,1,0,NA,NA,NA,1,0,0,1,0,1,0,0,0,1,NA,NA,NA,NA,1,0,0,1,0,0.3,NA,4,NA,NA,NA,NA,2.5,NA,NA,NA,2.5,0.24
@@ -238,7 +239,6 @@
 "Panax quinquefolius",1,0,0,1,0,1,0,1,1,0,1,0,0,0,0,1,0,0,1,1,0,1,1,1,0,0,NA,NA,NA,NA,1,0,0,0,1,0.35,NA,5,1.5,NA,NA,NA,2,1,NA,0.40952380952381,0.3,27.75
 "Pandanus tectorius",0,1,0,1,0,1,1,0,1,0,0,1,0,1,0,1,1,0,1,1,0,0,1,0,0,1,0,1,0,0,NA,NA,NA,1,1,5,NA,15,1,NA,NA,NA,11.75,NA,NA,0.98,NA,NA
 "Pennantia corymbosa",0,1,0,1,0,1,1,0,1,0,0,1,0,0,0,1,0,0,1,1,0,0,1,0,0,1,NA,NA,NA,NA,1,0,0,1,1,10,0.5,5,0.666666666666667,NA,NA,0.9,3,1,NA,NA,0.75,16.95
-"Peritoma arborea",0,1,0,1,0,1,0,1,1,1,0,1,0,0,0,1,NA,NA,NA,NA,NA,1,0,0,0,1,NA,NA,NA,NA,0,0,1,1,0,1.25,0.9,6,9.5,NA,NA,2.5,1,NA,NA,0.865,1.52,NA
 "Perrottetia ovata",0,1,0,1,0,1,1,0,1,0,0,1,0,NA,NA,NA,NA,NA,NA,NA,NA,0,1,0,0,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,9.6,NA,5,4,NA,NA,NA,2,1,NA,NA,NA,NA
 "Petrosavia sakuraii",1,0,0,1,0,1,0,1,1,0,0,0,1,0,0,1,NA,NA,NA,NA,NA,1,0,0,1,0,1,0,0,0,1,0,0,1,0,0.2,NA,6,999,NA,55,NA,3,NA,NA,NA,0.5,NA
 "Petunia axillaris",1,0,0,1,0,1,0,1,0,1,0,1,0,0,0,1,0,1,0,0,1,1,0,0,0,1,NA,NA,NA,NA,1,0,0,1,0,0.6,0.7,4,NA,NA,NA,1.35,2,NA,NA,0.62,7.75,NA
@@ -255,7 +255,7 @@
 "Piper amalago",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,0,1,1,0,1,0,NA,NA,NA,NA,NA,NA,NA,1,0,0,1,0,3,NA,5,NA,NA,NA,NA,NA,NA,NA,NA,NA,1.36
 "Piper arboreum",0,1,0,1,0,1,0,1,1,0,0,1,0,1,0,1,0,0,1,1,0,0,1,NA,NA,NA,0,1,0,0,1,0,0,1,0,5,0.5,4,NA,NA,NA,8.55,NA,NA,NA,NA,0.1,1.01
 "Pitcairnia albiflos",1,0,0,1,0,1,0,1,1,0,0,1,1,0,0,1,NA,NA,NA,NA,NA,1,0,0,1,0,1,0,0,0,1,0,0,1,0,0.7,NA,6,NA,NA,NA,NA,3,NA,NA,0.81,5,NA
-"Pittosporum dasycaulon",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,1,0,0,1,1,1,0,0,1,0,0,0,1,0,0,1,1,0,8,12.5,5,5.5,45,2600,NA,NA,NA,NA,NA,1.14,NA
+"Pittosporum dasycaulon",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,1,0,0,1,1,0,0,0,1,0,0,0,1,0,0,1,1,0,8,12.5,5,5.5,45,2600,NA,NA,NA,NA,NA,1.14,NA
 "Plantago lanceolata",1,0,0,1,0,1,1,0,1,0,0,1,0,1,0,1,0,1,0,0,1,1,1,0,0,1,0,1,0,1,1,0,0,1,1,0.13,NA,4,NA,17.5,25119,NA,2,1,NA,0.99,0.4,1.35
 "Platea latifolia",0,1,0,1,0,1,1,0,1,0,0,1,0,NA,NA,NA,0,0,1,1,0,0,1,0,0,1,NA,NA,NA,NA,1,0,0,0,1,15.5,1.75,5,1,NA,NA,3.5,2,1,NA,NA,0.2,NA
 "Plocosperma buxifolium",0,1,0,1,0,1,1,0,1,0,0,1,0,NA,NA,NA,0,0,1,1,0,0,1,0,0,1,NA,NA,NA,NA,0,0,1,1,0,3.5,NA,5,1.5,NA,NA,7,2,1,NA,NA,0.8,20.72
@@ -280,7 +280,7 @@
 "Rafflesia keithii",NA,NA,NA,NA,NA,NA,1,0,1,0,0,1,0,0,0,1,0,0,1,1,1,0,1,1,0,0,NA,NA,NA,NA,1,0,0,1,1,NA,NA,40,NA,NA,NA,NA,NA,NA,NA,NA,80,NA
 "Ranunculus acris",1,0,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,0,1,1,0,1,0,0,0,1,1,0,0,1,1,0,0,1,0,0.575,NA,60,1,17.5,NA,0.3,20,0,NA,NA,2.15,1.72
 "Ravenala madagascariensis",0,1,0,1,0,1,0,1,1,0,1,0,0,0,0,1,0,0,1,1,0,1,0,1,0,0,1,0,0,1,0,0,1,1,0,13.5,NA,6,12.5,NA,NA,NA,3,1,NA,NA,19,243.52
-"Reseda lutea",1,0,0,1,0,1,1,0,1,1,0,1,0,0,0,1,0,0,1,1,0,1,0,0,0,1,NA,NA,NA,NA,0,0,1,1,1,40,NA,20,NA,NA,NA,NA,3,NA,NA,NA,0.6,0.76
+"Reseda lutea",1,0,0,1,0,1,0,1,1,1,0,1,0,0,0,1,0,0,1,1,0,1,0,0,0,1,NA,NA,NA,NA,0,0,1,1,1,40,NA,20,NA,NA,NA,NA,3,NA,NA,NA,0.6,0.76
 "Rhexia virginica",1,0,0,1,0,1,0,1,1,0,NA,NA,NA,0,0,1,NA,NA,NA,NA,NA,1,0,NA,NA,NA,NA,NA,NA,NA,1,0,0,1,0,0.75,NA,8,999,NA,668,0.6,4,NA,NA,NA,3.5,0.02
 "Rhizophora stylosa",0,1,0,1,0,1,0,1,1,0,1,0,0,1,0,0,1,0,0,1,0,1,0,1,0,0,0,1,0,0,1,0,0,1,1,13.5,NA,8,2,NA,NA,4,2,1,NA,0.25,NA,32835
 "Ribes aureum",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,NA,NA,NA,NA,NA,1,0,1,0,0,1,0,0,0,1,0,0,1,0,2,1,5,NA,38,NA,NA,2,NA,NA,NA,1.6,1.67
@@ -296,12 +296,12 @@
 "Santalum spicatum",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,0,1,1,0,1,0,1,0,0,1,0,1,0,1,0,0,1,1,6,NA,4,1,NA,NA,NA,3,NA,NA,0.88,0.6,1556.12
 "Sarracenia purpurea",1,0,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,1,0,0,1,1,0,0,0,1,1,0,0,0,1,0,0,1,1,0.25,1.5,65,282,NA,NA,NA,5,1,NA,1,6,1.76
 "Sauvagesia rhodoleuca",0,1,0,1,0,1,0,1,1,0,NA,NA,NA,NA,NA,NA,1,0,0,1,0,1,0,0,0,1,NA,NA,NA,NA,NA,NA,NA,1,0,1.15,NA,5,NA,NA,NA,NA,3,NA,NA,0.2,0.525,NA
-"Saxifraga cernua",1,0,0,1,0,1,1,1,1,0,0,1,0,0,0,1,1,0,1,1,0,1,0,0,1,0,1,0,0,0,1,0,0,1,0,0.155,NA,10,232,NA,218,NA,2,0.7,NA,NA,15,NA
+"Saxifraga cernua",1,0,0,1,0,1,1,1,1,0,0,1,0,0,0,1,1,0,1,1,0,1,1,0,1,0,1,0,0,0,1,0,0,1,0,0.155,NA,10,232,NA,218,NA,2,0.7,NA,NA,15,NA
 "Scaevola montana",0,1,0,1,0,1,0,1,NA,NA,0,1,0,0,0,1,0,0,1,1,0,1,0,NA,NA,NA,1,0,0,0,NA,NA,NA,1,0,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 "Schinus molle",0,1,0,1,0,1,1,0,1,0,0,1,0,0,0,1,1,0,1,1,0,0,1,0,0,1,NA,NA,NA,NA,1,0,0,1,1,8.5,0.55,10,1,30.75,NA,0.55,3,1,NA,NA,NA,30.75
 "Schisandra chinensis",1,0,1,0,0,1,0,1,1,0,1,0,0,0,0,1,NA,NA,NA,NA,NA,0,1,0,0,1,NA,NA,NA,NA,1,0,0,1,0,9,30.5,5.5,2.5,38,NA,0.625,27,0,NA,0.745714285714286,NA,6.88
 "Schizanthus grahamii",1,0,0,1,0,1,0,1,0,1,1,0,0,0,0,1,NA,NA,NA,NA,NA,1,0,0,0,1,NA,NA,NA,NA,0,0,1,1,0,0.5,NA,2,NA,NA,NA,1,2,1,NA,0.538,2.9,1.23
-"Scleranthus annuus",1,0,0,1,0,1,1,1,0,1,0,1,1,0,1,1,0,1,0,0,1,1,0,0,0,1,1,1,0,0,1,0,0,1,1,0.135,0.1,3.5,1,NA,300,0.41,2,1,NA,NA,0.15,1.21
+"Scleranthus annuus",1,0,0,1,0,1,0,1,0,1,0,0,1,0,1,1,0,1,0,0,1,1,0,0,0,1,1,1,0,0,1,0,0,1,1,0.135,0.1,3.5,1,NA,300,0.41,2,1,NA,NA,0.15,1.21
 "Senecio vulgaris",1,0,0,1,0,1,0,1,0,1,NA,NA,NA,0,0,1,1,0,0,1,0,1,0,1,0,0,NA,NA,NA,NA,1,0,0,1,0,NA,NA,5,0.5,NA,NA,NA,2,NA,NA,NA,0.55,0.21
 "Sesamum indicum",1,0,0,1,0,1,0,1,0,1,1,0,0,0,0,1,0,1,0,0,1,1,0,0,0,1,1,0,0,0,0,0,1,1,0,1.2,0.225,4,32.5,75.5,NA,0.65,2,1,NA,NA,2.4,2.21
 "Sextonia rubra",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,1,1,1,1,1,0,0,0,1,0,0,1,0,1,0,0,1,0,40,NA,9,1,NA,NA,NA,1,NA,NA,0.97,NA,NA
@@ -316,15 +316,16 @@
 "Spondias tuberosa",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,0,1,1,0,1,0,NA,NA,NA,NA,NA,NA,NA,1,0,0,1,0,6,4,10,1,NA,NA,NA,4.5,NA,NA,0.87,NA,1400
 "Staphylea trifolia",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,1,0,0,1,0,1,0,0,0,1,1,0,0,1,1,0,0,1,1,3.1225,NA,5,9,NA,NA,NA,2.5,1,NA,NA,0.83,50.64
 "Stellaria media",1,0,0,1,0,1,0,1,1,1,0,0,1,0,1,1,0,1,0,0,1,1,0,0,0,1,1,0,0,0,1,0,0,1,1,0.2,0.4,5.5,NA,38,50,0.4,NA,NA,NA,NA,0.525,0.38
-"Sterculia apetala",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,0,1,1,0,1,1,0,0,1,NA,NA,NA,NA,1,0,0,1,1,35,4,15,11,NA,NA,6,5,0.2,NA,NA,2,1898.5
+"Sterculia apetala",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,0,1,1,0,0,1,0,0,1,NA,NA,NA,NA,1,0,0,1,1,35,4,15,11,NA,NA,6,5,0.2,NA,NA,2,1898.5
 "Stylidium graminifolium",1,0,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,1,0,0,1,1,0,1,0,0,NA,NA,NA,NA,0,0,1,1,0,2.025,0.85,2,90,NA,NA,0.85,2,1,NA,NA,1,0.18
 "Swietenia macrophylla",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,1,0,0,1,0,0,1,0,0,1,NA,NA,NA,NA,1,0,0,1,1,30,9,10,14,NA,NA,15,5,1,NA,0.9525,1,555.13
+"Symplocos rhamnifolia",0,1,0,1,0,1,1,0,NA,NA,0,1,0,NA,NA,NA,NA,NA,NA,NA,NA,1,0,NA,NA,NA,NA,NA,NA,NA,1,0,0,NA,NA,NA,NA,16,NA,NA,NA,NA,NA,NA,NA,NA,0.5,NA
 "Syringa vulgaris",0,1,0,1,0,1,0,1,1,0,NA,NA,NA,0,0,1,0,0,1,1,0,1,0,0,0,1,1,0,0,1,1,0,0,1,0,6,0.5,2,2,38,NA,1.25,2,1,NA,NA,1,5.57
 "Tacca chantrieri",1,0,0,1,0,1,0,1,1,0,0,0,1,0,1,1,0,0,1,1,0,1,0,1,0,0,NA,NA,NA,NA,1,0,0,1,1,0.75,NA,6,285,NA,49.5,NA,3,NA,NA,0.135,1.75,5.69
 "Tacca leontopetaloides",1,0,0,1,0,1,0,1,1,0,NA,NA,NA,0,0,1,NA,NA,NA,NA,NA,1,0,1,0,0,NA,NA,NA,NA,1,0,0,1,1,1,NA,6,23,NA,137,NA,3,NA,NA,NA,NA,22.93
 "Talinum paniculatum",1,0,0,1,0,1,0,1,1,0,NA,NA,NA,0,0,1,0,1,0,0,1,1,0,0,0,1,NA,NA,NA,NA,1,0,0,1,0,0.65,0.4,15.75,19,38,136,0.4,3,NA,NA,NA,0.84,0.58
 "Tectona grandis",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,1,0,0,1,0,1,0,0,0,1,1,0,0,0,1,0,0,1,0,40,1.5,6,NA,NA,3207.5,1.5,NA,NA,NA,0.975,0.55,696.37
-"Ternstroemia crassifolia",0,1,0,1,0,1,NA,NA,1,0,0,1,0,0,0,1,0,0,1,1,0,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,2,NA,NA,NA,1.25,NA
+"Ternstroemia crassifolia",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,0,1,1,0,1,1,NA,NA,NA,1,0,0,1,1,0,0,1,0,NA,NA,40,NA,NA,NA,NA,2,NA,NA,NA,1.25,NA
 "Tetracentron sinense",0,1,0,1,0,1,0,1,1,0,1,0,0,1,0,1,1,0,0,1,0,1,0,0,1,0,1,1,0,1,1,0,0,1,1,40,0.325,4,6,NA,720,0.375,4,0.8,NA,NA,0.15,0.15
 "Tetratheca aphylla",0,1,0,1,0,1,0,1,1,0,0,1,0,0,0,1,0,1,1,0,1,1,0,0,0,1,0,0,0,1,NA,NA,NA,1,0,1.9,NA,10,1,NA,NA,0.34,3,NA,NA,1,0.9,NA
 "Tetroncium magellanicum",1,0,0,1,1,0,1,0,1,0,0,1,0,1,0,0,0,0,1,1,0,0,1,0,0,1,0,1,0,0,0,1,0,1,0,0.2,1,4,1,NA,NA,0.7,4,0.3,NA,NA,0.9,NA

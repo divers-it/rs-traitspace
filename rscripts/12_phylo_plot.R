@@ -226,10 +226,13 @@ head(clades.df)
 colours<-harrypotter::hp(3,option="ronweasley2")
 colours <- c(colorRampPalette(c("lightblue","navyblue"))(3)[2],"darkred","#E7D889")
 
+clades.df$highlight <- as.factor(clades.df$highlight)
+
 # Add clade labels
 g1 <- ggtree(phy, layout="circular", linetype=NA) %<+% metadata +
-  geom_highlight(data=clades.df, 
-                  alpha=1,
+  geom_highlight(data=clades.df,
+                 mapping=aes(node=node, fill=highlight),
+                  alpha=0.75,
                  align="right",
                  extend=0.04,
                  show.legend=FALSE) +
@@ -259,7 +262,7 @@ g1 <- ggtree(phy, layout="circular", linetype=NA) %<+% metadata +
 
 g1
 
-#  no. species = 360 for plotting y coord
+#  no. species = 361 for plotting y coord
 g1 +
   add_phylopic(img=magnoliales_pp, x=195, y=14, ysize = 9,col = "black") +
   add_phylopic(img=alismatales_pp, x=195, y=29, ysize = 10,col = "black") +
