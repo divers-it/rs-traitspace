@@ -97,7 +97,7 @@ sp_faxes_coord <- fspaces_quality$"details_fspaces"$"sp_pc_coord"
 # correlation of continuous traits
 df_faxes <- mFD::traits.faxes.cor(
   sp_tr          = df[,c(1:7)], 
-  sp_faxes_coord = sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")],
+  sp_faxes_coord = sp_faxes_coord[ , c("PC1", "PC2", "PC3")],
   stop_if_NA = F,
   plot = TRUE)
 
@@ -111,7 +111,7 @@ df_faxes$"tr_faxes_plot"
 # correlation of discrete traits 8-14
 df_faxes <- mFD::traits.faxes.cor(
   sp_tr          = df[,c(8:14)], 
-  sp_faxes_coord = sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")],
+  sp_faxes_coord = sp_faxes_coord[ , c("PC1", "PC2", "PC3")],
   stop_if_NA = F,
   plot = TRUE)
 
@@ -125,7 +125,7 @@ df_faxes$"tr_faxes_plot"
 # correlation of qualitative traits 15-21
 df_faxes <- mFD::traits.faxes.cor(
   sp_tr          = df[,c(15:21)], 
-  sp_faxes_coord = sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")],
+  sp_faxes_coord = sp_faxes_coord[ , c("PC1", "PC2", "PC3")],
   stop_if_NA = F,
   plot = TRUE)
 
@@ -143,8 +143,8 @@ sp_faxes_coord <- fspaces_quality$"details_fspaces"$"sp_pc_coord"
 
 # plot
 big_plot <- mFD::funct.space.plot(
-  sp_faxes_coord  = sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")],
-  faxes           = c("PC1", "PC2", "PC3", "PC4"),
+  sp_faxes_coord  = sp_faxes_coord[ , c("PC1", "PC2", "PC3")],
+  faxes           = c("PC1", "PC2", "PC3"),
   name_file       = NULL,
   faxes_nm        = NULL,
   range_faxes     = c(NA, NA),
@@ -210,11 +210,11 @@ cw<-clust_recode[,c(2:length(colnames(clust_recode)))]
 rownames(cw)<-clust_recode$cluster
 
 # check names
-table(colnames(cw)==rownames(sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")]))
+table(colnames(cw)==rownames(sp_faxes_coord[ , c("PC1", "PC2", "PC3")]))
 
 # compute functional indices
 alpha_fd_indices <- mFD::alpha.fd.multidim(
-  sp_faxes_coord   = as.matrix(sp_faxes_coord[ , c("PC1", "PC2", "PC3", "PC4")]),
+  sp_faxes_coord   = as.matrix(sp_faxes_coord[ , c("PC1", "PC2", "PC3")]),
   asb_sp_w         = as.matrix(cw),
   scaling          = TRUE,
   check_input      = TRUE,
@@ -252,94 +252,24 @@ details_list
 ## FD indices sexual system ----
 #### 
 
-# get flower sex and sexual system columns
-ss_df <- data.frame(rownames(df),df[,c("SexualSystem","FlowerSex")])
-colnames(ss_df)<-c("species","SexualSystem","FlowerSex")
-
-# convert these to bisexual, monoecy, dioecy
-ss_df$new_ss <- rep(NA, length(ss_df[,1]))
-
-### Recode sexual system ----
-for (i in 1:length(ss_df[, 1])) {
-  
-  # bisexual species
-  if (grepl("monomorphic", ss_df$SexualSystem[i]) &&
-      grepl("bisexual", ss_df$FlowerSex[i], )) {
-    
-    if(is.na(ss_df$new_ss[i])){
-      
-      ss_df$new_ss[i] <- "bisexual"
-      
-    } else {
-      
-      ss_df$new_ss[i] <- paste(ss_df$new_ss[i],"bisexual",sep="_")
-      
-    }
-    
-  }
-  
-  if (grepl("monomorphic", ss_df$SexualSystem[i]) &&
-      grepl("unisexual", ss_df$FlowerSex[i])) {
-    
-    if(is.na(ss_df$new_ss[i])){
-      
-      ss_df$new_ss[i] <- "monoecy"
-      
-    } else {
-      
-      ss_df$new_ss[i] <- paste(ss_df$new_ss[i],"monoecy",sep="_")
-      
-    }
-    
-  }
-  
-  if (grepl("dimorphic", ss_df$SexualSystem[i]) &&
-      grepl("unisexual", ss_df$FlowerSex[i])) {
-    
-    if(is.na(ss_df$new_ss[i])){
-      
-      ss_df$new_ss[i] <- "dioecy"
-      
-    } else {
-      
-      ss_df$new_ss[i] <- paste(ss_df$new_ss[i],"dioecy",sep="_")
-      
-    }
-    
-  }
-  
-}
-
-ss_df$new_ss
-
-# get rid of other columns
-ss_df <- ss_df[,c("species","new_ss")]
-ss_df$new_ss <- as.factor(ss_df$new_ss)
-
-# remove missing species
-sfc_ss<-sp_faxes_coord[!is.na(ss_df$new_ss),]
-ss_df<-ss_df[!is.na(ss_df$new_ss),]
-ss_df$new_ss<-droplevels(ss_df$new_ss)
+ors <- read.csv("outputs/original_reproductive_systems.csv",row.names = 1)
 
 # recode df into one-hot with species as columns
-ss_recode <- ss_df %>% mutate(value = 1)  %>% spread(species, value,  fill = 0 ) 
-
-# remove NA column
-ss_recode <- ss_recode[1:length(levels(ss_df$new_ss)),]
+ss_recode <- ors %>% mutate(value = 1)  %>% spread(species, value,  fill = 0 ) 
 
 # remove cluster label column and add as name
 ss<-ss_recode[,c(2:length(colnames(ss_recode)))]
-rownames(ss)<-as.character(ss_recode$new_ss[1:6])
+rownames(ss)<-as.character(ss_recode$RS[1:6])
 
 # check names
-table(colnames(ss)==rownames(sfc_ss[ , c("PC1", "PC2", "PC3", "PC4")]))
+table(colnames(ss)==rownames(sp_faxes_coord[ , c("PC1", "PC2", "PC3")]))
 
 # remove unwanted sexual systems
-ss <- ss[c("bisexual","monoecy","dioecy"),]
+ss <- ss[c("Monocliny: selfing","Monocliny: mixed","Monocliny: outcrossing","Monoecy","Dioecy"),]
 
 # compute 5 functional indices
 alpha_fd_indices <- mFD::alpha.fd.multidim(
-  sp_faxes_coord   = as.matrix(sfc_ss[ , c("PC1", "PC2", "PC3", "PC4")]),
+  sp_faxes_coord   = as.matrix(sp_faxes_coord[ , c("PC1", "PC2", "PC3")]),
   asb_sp_w         = as.matrix(ss),
   # ind_vect         = c("fdis", "fric", "fdiv","fspe", "fide"), # output all
   scaling          = TRUE,
@@ -352,9 +282,11 @@ fd_ind_values_ss
 
 # make table
 fd_ind_table_ss<-round(fd_ind_values_ss[,c(1:9)],3)
-rownames(fd_ind_table_ss)<-c("monocliny",
-                          "monoecy",
-                          "dioecy")
+rownames(fd_ind_table_ss)<-c("Monocliny: selfing",
+                             "Monocliny: mixed",
+                             "Monocliny: outcrossing",
+                             "Monoecy",
+                             "Dioecy")
 
 colnames(fd_ind_table_ss) <- c("Species richness",
                             "FDis",
@@ -379,7 +311,7 @@ pcols <- c(pool = "grey70",
 # plot functional indices of monoecy and dioecy
 plots_alpha_md <- mFD::alpha.multidim.plot(
   output_alpha_fd_multidim = alpha_fd_indices,
-  plot_asb_nm              = c("monoecy", "dioecy"),
+  plot_asb_nm              = c("Monoecy", "Dioecy"),
   ind_nm                   = c("fdis", "fric", "fdiv", 
                                "fspe", "fide"),
   faxes                    = c("PC1","PC2","PC3"),
@@ -405,7 +337,7 @@ pcols <- c(pool = "grey70",
 # plot functional indices of monoecy and bisexual
 plots_alpha_mb <- mFD::alpha.multidim.plot(
   output_alpha_fd_multidim = alpha_fd_indices,
-  plot_asb_nm              = c("monoecy", "bisexual"),
+  plot_asb_nm              = c("Monoecy", "Monocliny: outcrossing"),
   ind_nm                   = c("fdis", "fric", "fdiv", 
                                "fspe", "fide"),
   faxes                    = c("PC1","PC2","PC3"),
@@ -475,11 +407,11 @@ ms<-ms_recode[,c(2:length(colnames(ms_recode)))]
 rownames(ms)<-as.character(ms_recode$Mating[1:3])
 
 # check names
-table(colnames(ms)==rownames(sfc_ms[ , c("PC1", "PC2", "PC3", "PC4")]))
+table(colnames(ms)==rownames(sfc_ms[ , c("PC1", "PC2", "PC3")]))
 
 # compute 5 functional indices
 alpha_fd_indices <- mFD::alpha.fd.multidim(
-  sp_faxes_coord   = as.matrix(sfc_ms[ , c("PC1", "PC2", "PC3", "PC4")]),
+  sp_faxes_coord   = as.matrix(sfc_ms[ , c("PC1", "PC2", "PC3")]),
   asb_sp_w         = as.matrix(ms),
   # ind_vect         = c("fdis", "fric", "fdiv","fspe", "fide"), # output all
   scaling          = TRUE,
@@ -685,7 +617,7 @@ ggplot(sp_di, aes(x=robust, y=distinctiveness, fill=robust)) + # fill=name allow
 
 # Let’s recompute regional functional distinctiveness based on the four selected functional axes. 
 # Because the space comes from a PCA, we can directly use euclidean distance.
-new_dissim <- dist(sp_faxes_coord[, c("PC1", "PC2", "PC3", "PC4")])
+new_dissim <- dist(sp_faxes_coord[, c("PC1", "PC2", "PC3")])
 sp_di_alt <- distinctiveness_global(new_dissim, di_name = "alt_di")
 
 # We can now compare both distinctiveness values.

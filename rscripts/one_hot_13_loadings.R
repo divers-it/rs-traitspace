@@ -104,7 +104,7 @@ hist(traitd$hypo)
 traitd_labels <- traitd[traitd$hypo > 0.15,]
 
 # plot
-ggplot() + 
+p1 <- ggplot() + 
   geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2),shape=21,fill="grey",alpha=0.4,size=6) + 
   geom_segment(data=traitd[sqrt(traitd$Dim1^2+traitd$Dim2^2)>minarrow,],
                aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2), col="grey30",
@@ -140,11 +140,31 @@ ggplot() +
 # y-axis scaling
 # yax <- 12/21
 
+p1
+
+# source correlation script for heatmap figure
+c1 <- readRDS("outputs/7_correlation_heatmap.rds")
+d2 <- readRDS("outputs/7_correlation_dendrogram.rds")
+
+# aspect ratio of loadings plot must be fixed because of images
+p1_fix <- p1 + coord_fixed()
+c1d2_fix <- c1 + d2 + plot_layout(widths=c(4, 1))
+
+# combined plot
+patch <- ( p1_fix ) + ( c1d2_fix / plot_spacer() ) + plot_layout(widths = c(2,1))
+patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
+
+ggsave("figures/figure_3_loadings.pdf",
+       # height=12.5*yax,
+       height=10,
+       width=20
+       )
+
 ggsave("figures/figure_3_loadings.png",
        # height=12.5*yax,
-       height=12.5,
-       width=12.5
-       )
+       height=10,
+       width=20
+)
 
 #### 
 ## Figure S3: Loadings scatterplot without cluster Axes 3 and 4 ----

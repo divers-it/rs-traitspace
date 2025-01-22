@@ -13,7 +13,6 @@ library(patchwork)
 # load formatted data
 df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
-
 ####
 ## K-prototypes clustering ----
 ####
@@ -24,12 +23,16 @@ ss <- vector()
 clust_memb <- vector()
 kproto_list <- list()
 
+# set seed for reproducibility
+set.seed(1)
+
 # run clustering with different values of K up to 10
 for (i in 2:10) {
   kproto_out <-
     kproto(
-      df,
+      x = df,
       k = i,
+      # type = "gower",
       lambda = NULL,
       iter.max = 1000,
       nstart = 10,
@@ -191,7 +194,6 @@ combos <- combos[order(combos$Freq, decreasing = T), ]
 
 # change to strings
 combos <-data.frame(lapply(combos, as.character), stringsAsFactors = FALSE)
-plot(combos$Freq)
 
 # empty list
 robust<-list()
@@ -215,6 +217,18 @@ for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>0])){
   
 }
 
+# lineplot showing how robust group size decreases
+# limited to first 20 groups
+par(mar=c(5,5,5,5))
+plot(table(robust_vect_kpro),
+     type = "b",
+     xlab = "Robust group number",
+     ylab = "No. species in robust group",
+     xlim = c(1,20))
+
+# reset margins
+par(mar=c(3,3,3,3))
+
 # robust groups
 robust
 
@@ -223,7 +237,7 @@ sum = 0
 
 for (i in 1:max(robust_vect_kpro)) {
   
-  if (sum > 0.62 * length(robust_vect_kpro)) {
+  if (sum > 0.65 * length(robust_vect_kpro)) {
     robust_vect_kpro[robust_vect_kpro == i] <- NA
     
   }
@@ -292,10 +306,10 @@ df_labelled<-cbind(df,robust_group)
 cols<-harrypotter::hp(8,option = "lunalovegood")
 
 b1 <- ggplot(df_labelled, aes(x=robust_group, y=Maximumverticalheight, fill=robust_group)) + 
-  geom_boxplot(alpha=0.7) + 
+  geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols,"grey")) +
-  scale_y_continuous(limits = quantile(df_labelled$Maximumverticalheight, c(0.05, 0.95),na.rm = TRUE)) +
+  scale_y_continuous(limits = quantile(df_labelled$Maximumverticalheight, c(0.025, 0.975),na.rm = TRUE)) +
   ylab("Maximum height") +
   theme(legend.position = "none",
         # add border 1)
@@ -323,10 +337,10 @@ b1 <- ggplot(df_labelled, aes(x=robust_group, y=Maximumverticalheight, fill=robu
 b1
 
 b2 <- ggplot(df_labelled, aes(x=robust_group, y=flowerSize, fill=robust_group)) + 
-  geom_boxplot(alpha=0.7) + 
+  geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols,"grey")) +
-  scale_y_continuous(limits = quantile(df_labelled$flowerSize, c(0.05, 0.95),na.rm = TRUE)) +
+  scale_y_continuous(limits = quantile(df_labelled$flowerSize, c(0.025, 0.975),na.rm = TRUE)) +
   ylab("Flower size") +
   theme(legend.position = "none",
         plot.margin = unit(c(1,1,1,1), "cm"),

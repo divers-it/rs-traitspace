@@ -1,6 +1,6 @@
 library(ggtern)
 
-pointname <- c("Dioecious", "Monoecious","Selfer", "Mixed mating", "Bisexual\noutcrosser")
+pointname <- c("Dioecy", "Monoecy","Monocliny:\nselfing", "Monocliny:\nmixed mating", "Monocliny:\noutcrossing")
 ss <- c(90, 60, 10, 15, 15)
 fi <- c(10, 20, 10, 80, 80)
 sr <- c(10, 30, 90, 65, 15)
@@ -16,13 +16,15 @@ base + geom_point()
 
 # empty
 empty_p <- base + 
-  labs(x = "Floral investment per flower", y = "Sexual separation", z = "Selfing rate") + 
+  labs(x = "\nFloral investment per flower", y = "Sexual separation\n", z = "\nSelfing rate") + 
   theme_bw() + 
   theme_hidetitles() + 
+  theme_hidelabels() + 
   theme_showarrows() + 
   theme_rotate() +
-  theme(tern.axis.arrow = element_line(linewidth = 3)) +
-  theme(axis.text=element_text(size=12))
+  theme(tern.axis.arrow = element_line(linewidth = 3),
+        tern.axis.arrow.sep = 0.05 ) +
+  theme(axis.text=element_text(size=22))
 
 # add points
 empty_p + 
@@ -34,16 +36,28 @@ empty_p +
 
 # palette
 mypal <- c(
-           colorRampPalette(c( "navyblue","lightblue"))(3)[1],
-           "darkred",
-           colorRampPalette(c( "navyblue","lightblue"))(3)[2],
-           "darkorange",
-           colorRampPalette(c( "navyblue","lightblue"))(3)[3])
+  "darkred",
+  colorRampPalette(c("navyblue", "lightblue"))(3)[2],
+  colorRampPalette(c("navyblue", "lightblue"))(3)[1],
+  colorRampPalette(c("navyblue", "lightblue"))(3)[3],
+  "darkorange"
+)
 
 # coloured labels
 empty_p + 
   theme(legend.position = 'none') + 
   geom_mask() + 
-  geom_label_viewport(data=df, aes(x=c(0.2,0.4,0.75,0.65,0.5),y=c(0.8,0.75,0.8,0.6,0.3),label=pointname,color=pointname, size = 3),inherit.aes = FALSE) +
+  geom_label_viewport(data=df,
+                      hjust = "middle",
+                      vjust = "center",
+                      size = 6,
+                      aes(x=c(0.275,0.48,0.7,0.575,0.5),
+                          y=c(0.775,0.675,0.775,0.575,0.4),
+                          label=pointname,
+                          color=pointname),
+                      inherit.aes = FALSE) +
   scale_color_manual(values=mypal)
   
+ggsave("figures/figure_5_ternary.png",
+       width=9,
+       height=9)

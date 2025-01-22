@@ -263,10 +263,10 @@ colnames(df_labelled)[length(colnames(df_labelled))]<-"cluster"
 cols <- harrypotter::hp(3,option="ronweasley2")
 
 b1 <- ggplot(df_labelled, aes(x=cluster, y=Maximumverticalheight, fill=cluster)) + 
-  geom_boxplot(alpha=0.7) + 
+  geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols)) +
-  scale_y_continuous(limits = quantile(df_labelled$Maximumverticalheight, c(0.05, 0.95),na.rm = TRUE)) +
+  scale_y_continuous(limits = quantile(df_labelled$Maximumverticalheight, c(0.025, 0.975),na.rm = TRUE)) +
   ylab("Maximum vertical height") +
   theme(legend.position = "none",
         # add border 1)
@@ -294,10 +294,10 @@ b1 <- ggplot(df_labelled, aes(x=cluster, y=Maximumverticalheight, fill=cluster))
 b1
 
 b2 <- ggplot(df_labelled, aes(x=cluster, y=flowerSize, fill=cluster)) + 
-  geom_boxplot(alpha=0.7) + 
+  geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols,"grey")) +
-  scale_y_continuous(limits = quantile(df_labelled$flowerSize, c(0.05, 0.95),na.rm = TRUE)) +
+  scale_y_continuous(limits = quantile(df_labelled$flowerSize, c(0.025, 0.975),na.rm = TRUE)) +
   ylab("Flower size") +
   theme(legend.position = "none",
         plot.margin = unit(c(1,1,1,1), "cm"),

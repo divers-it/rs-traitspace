@@ -109,12 +109,12 @@ melted_cor_mat_ori$value[is.na(melted_cor_mat_ori$value)] <- 1
 cols<-c(rev(harrypotter::hp(2,option="Ravenclaw")),harrypotter::hp(2,option="LunaLovegood"))
 
 # plot correlation matrix
-c1 <- ggplot(data = melted_cor_mat_ori, aes(x=term, y=variable, fill=value)) + 
+c1 <- ggplot(data = melted_cor_mat_ori, aes(x=term, y=variable, fill=abs(value))) + 
   geom_tile() +
-  scale_fill_gradient2(low = cols[1], mid = "white", high = cols[2], midpoint = 0, name = "Correlation",
-                       limits = c(-0.5, 1), 
-                       breaks = c(-0.5, 0, 0.5, 1),
-                       labels = c(-0.5, 0, 0.5, 1)) +
+  scale_fill_gradient2(low = "white", high = cols[2], midpoint = 0, name = "Correlation",
+                       limits = c(0, 1), 
+                       breaks = c(0, 0.5, 1),
+                       labels = c(0, 0.5, 1)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         legend.position="left",) +
@@ -135,8 +135,12 @@ d2
 patch <- c1 + d2 + plot_layout(widths=c(4, 1))
 patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
 
+# save plots for combined figure with loadings plot
+saveRDS(c1, file = "outputs/7_correlation_heatmap.rds")
+saveRDS(d2, file = "outputs/7_correlation_dendrogram.rds")
+
 # save pdf to be modified
-ggsave("figures/figure_SX_correlation_heatmap_tree.pdf",width=14,height=10)
+# ggsave("figures/figure_SX_correlation_heatmap_tree.pdf",width=14,height=10)
 
 # NOTE: could try an alternative method with
 # install.packages("plotly")
@@ -175,7 +179,7 @@ cor_mat<- df %>%
 cor_mat
 
 #### 
-## Figure S4: Network plot adapted from code of corrr::network_plot ----
+## Figure SX: Network plot adapted from code of corrr::network_plot ----
 #### 
 
 # minimum correlation allowed

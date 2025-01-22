@@ -23,6 +23,9 @@ ss <- vector()
 clust_memb <- vector()
 kproto_list <- list()
 
+# set seed for reproducibility
+set.seed(1)
+
 # run clustering with different values of K up to 10
 for (i in 2:10) {
   kproto_out <-

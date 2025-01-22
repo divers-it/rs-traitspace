@@ -9,6 +9,22 @@ df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 # get list of species in dataset
 specieslist <- rownames(df)
 
+# 
+
+####
+## Get number of families with TNRS ----
+####
+
+# check names with TNRS
+tnrs_check<-TNRS::TNRS(specieslist, source = "wcvp")
+
+# number of families         
+length(table(tnrs_check$Name_matched_accepted_family))
+
+####
+## Get number of orders (and families) with taxize ----
+####
+
 # Alternate function that does the same as loop below 
 # taxize::classification(specieslist, db = 'ncbi')
 
@@ -114,12 +130,4 @@ write.csv(ord_df,
           row.names = FALSE,
           file = here::here("outputs/orders.csv"))
 
-
-# check names with TNRS
-Sys.sleep(1)
-tnrs_check<-TNRS::TNRS(specieslist, source = "wcvp")
-Sys.sleep(1)
-
-# number of families with TNRS           
-length(table(tnrs_check$Name_matched_accepted_family))
              

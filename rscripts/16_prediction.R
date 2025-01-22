@@ -17,6 +17,10 @@ full_df <- readRDS(file = here::here("outputs/5_df_filt.rds"))
 # Predicting flower sex ----
 ####
 
+# NOTE: biotically pollinated species only ----
+# NOTE: no polymorphic biotic + x
+# full_df <- full_df[grep("^biotic$",full_df$Pollination),]
+
 ####
 ## Decision trees ----
 #### 
@@ -102,6 +106,7 @@ if(sum(is.na(df))<1){
 # load packages
 library(dplyr)
 library(h2o)
+library(ggplot2)
 
 # number of features
 n_features <- length(setdiff(names(df), "FlowerSex"))
@@ -158,7 +163,7 @@ for(i in seq_len(nrow(hyper_grid))) {
 }
 
 # assess top 10 models
-hyper_grid %>%
+top10 <- hyper_grid %>%
   arrange(acc) %>%
   mutate(perc_gain = (default_acc - acc) / default_acc * 100) %>%
   head(10)
@@ -171,14 +176,14 @@ hyper_grid %>%
 # re-run model with impurity-based variable importance
 #
 # NOTE: unsure what this is, but many sources say it is biased compared to permutation-based
-rf_impurity <- ranger::ranger(
+rf_impurity_flowersex <- ranger::ranger(
   formula = FlowerSex ~ ., 
   data = df_train, 
-  num.trees = 2000,
-  mtry = 7,
-  min.node.size = 1,
-  sample.fraction = .63,
-  replace = FALSE,
+  num.trees = 10000,
+  mtry = top10$mtry[1],
+  min.node.size = top10$min.node.size[1],
+  replace = top10$replace[1],
+  sample.fraction = top10$sample.fraction[1],
   importance = "impurity",
   respect.unordered.factors = "order",
   verbose = FALSE,
@@ -193,14 +198,14 @@ rf_impurity <- ranger::ranger(
 # The decrease in accuracy as a result of this randomly shuffling of feature 
 # values is averaged over all the trees for each predictor. The variables with
 # the largest average decrease in accuracy are considered most important.
-rf_permutation <- ranger::ranger(
+rf_permutation_flowersex <- ranger::ranger(
   formula = FlowerSex ~ ., 
   data = df_train, 
-  num.trees = 2000,
-  mtry = 7,
-  min.node.size = 1,
-  sample.fraction = .63,
-  replace = FALSE,
+  num.trees = 10000,
+  mtry = top10$mtry[1],
+  min.node.size = top10$min.node.size[1],
+  replace = top10$replace[1],
+  sample.fraction = top10$sample.fraction[1],
   importance = "permutation",
   respect.unordered.factors = "order",
   verbose = FALSE,
@@ -208,12 +213,12 @@ rf_permutation <- ranger::ranger(
 )
 
 # make individual plots
-p1 <- vip::vip(rf_impurity, num_features = 15, bar = FALSE)
-p2 <- vip::vip(rf_permutation, num_features = 15, bar = FALSE)
+p1_flowersex <- vip::vip(rf_impurity_flowersex, num_features = 15, bar = FALSE)
+p2_flowersex <- vip::vip(rf_permutation_flowersex, num_features = 15, bar = FALSE)
 
 # Typically, you will not see the same variable importance order between the two options;
 # however, you will often see similar variables at the top of the plots (and also the bottom).
-gridExtra::grid.arrange(p1, p2, nrow = 1)
+gridExtra::grid.arrange(p1_flowersex, p2_flowersex, nrow = 1)
 
 ####
 ### Using h2o to fit rf model and tune hyperparameters ----
@@ -421,8 +426,9 @@ for(i in seq_len(nrow(hyper_grid))) {
   hyper_grid$acc[i] <- fit$prediction.error
 }
 
+
 # assess top 10 models
-hyper_grid %>%
+top10 <- hyper_grid %>%
   arrange(acc) %>%
   mutate(perc_gain = (default_acc - acc) / default_acc * 100) %>%
   head(10)
@@ -435,14 +441,14 @@ hyper_grid %>%
 # re-run model with impurity-based variable importance
 #
 # NOTE: unsure what this is, but many sources say it is biased compared to permutation-based
-rf_impurity <- ranger::ranger(
+rf_impurity_mating <- ranger::ranger(
   formula = Mating ~ ., 
   data = df_train, 
-  num.trees = 2000,
-  mtry = 7,
-  min.node.size = 1,
-  sample.fraction = .63,
-  replace = FALSE,
+  num.trees = 10000,
+  mtry = top10$mtry[1],
+  min.node.size = top10$min.node.size[1],
+  replace = top10$replace[1],
+  sample.fraction = top10$sample.fraction[1],
   importance = "impurity",
   respect.unordered.factors = "order",
   verbose = FALSE,
@@ -457,14 +463,14 @@ rf_impurity <- ranger::ranger(
 # The decrease in accuracy as a result of this randomly shuffling of feature 
 # values is averaged over all the trees for each predictor. The variables with
 # the largest average decrease in accuracy are considered most important.
-rf_permutation <- ranger::ranger(
+rf_permutation_mating <- ranger::ranger(
   formula = Mating ~ ., 
   data = df_train, 
-  num.trees = 2000,
-  mtry = 7,
-  min.node.size = 1,
-  sample.fraction = .63,
-  replace = FALSE,
+  num.trees = 10000,
+  mtry = top10$mtry[1],
+  min.node.size = top10$min.node.size[1],
+  replace = top10$replace[1],
+  sample.fraction = top10$sample.fraction[1],
   importance = "permutation",
   respect.unordered.factors = "order",
   verbose = FALSE,
@@ -472,12 +478,12 @@ rf_permutation <- ranger::ranger(
 )
 
 # make individual plots
-p1 <- vip::vip(rf_impurity, num_features = 15, bar = FALSE)
-p2 <- vip::vip(rf_permutation, num_features = 15, bar = FALSE)
+p1_mating <- vip::vip(rf_impurity_mating, num_features = 15, bar = FALSE)
+p2_mating <- vip::vip(rf_permutation_mating, num_features = 15, bar = FALSE)
 
 # Typically, you will not see the same variable importance order between the two options;
 # however, you will often see similar variables at the top of the plots (and also the bottom).
-gridExtra::grid.arrange(p1, p2, nrow = 1)
+gridExtra::grid.arrange(p1_mating, p2_mating, nrow = 1)
 
 ####
 ### Using h2o to fit rf model and tune hyperparameters ----
@@ -555,6 +561,69 @@ h2o.shutdown(prompt=FALSE)
 
 
 ####
+# Figure SX predictive importance of variables ----
+####
+
+# what is permutation importance?
+# https://www.kaggle.com/code/dansbecker/permutation-importance
+# how much model performance (accuracy) decreased with a random shuffling of
+# a particular variable
+
+# colour palette
+cols <- wesanderson::wes_palette("GrandBudapest1")[1:2]
+
+# generate data frame for plotting
+imp_fs <- data.frame(names(rf_permutation_flowersex$variable.importance),rf_permutation_flowersex$variable.importance)
+colnames(imp_fs) <- c("trait","value")
+
+# plot lollipop of importance
+i1 <- imp_fs %>%
+  arrange(value) %>%    # First sort by val. This sort the dataframe but NOT the factor levels
+  mutate(trait = factor(trait, levels = trait)) %>%   # This trick update the factor levels
+  ggplot(aes(x = trait, y = value)) +
+  geom_segment(color = cols[1],aes(xend = trait, yend = 0)) +
+  geom_point(size = 2, color = cols[1]) +
+  coord_flip() +
+  ylim(0, 0.1) +
+  xlab("") +
+  ylab("\nImportance (permutation)") +
+  ggtitle(paste("Flower sex (accuracy = ", (1 - round(rf_permutation_flowersex$prediction.error,3)) ,")",sep="")) +
+  theme_bw() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank())
+i1
+
+# generate data frame for plotting
+imp_m <- data.frame(names(rf_permutation_mating$variable.importance),rf_permutation_mating$variable.importance)
+colnames(imp_m) <- c("trait","value")
+
+# plot lollipop of importance
+i2 <- imp_m %>%
+  arrange(value) %>%    # First sort by val. This sort the dataframe but NOT the factor levels
+  mutate(trait=factor(trait, levels=trait)) %>%   # This trick update the factor levels
+  ggplot( aes(x=trait, y=value)) +
+  geom_segment(color=cols[2], aes(xend=trait, yend=0)) +
+  geom_point( size=2, color=cols[2]) +
+  coord_flip() +
+  ylim(0, 0.1) +
+  xlab("") +
+  ylab("\nImportance (permutation)") +
+  ggtitle(paste("Mating system (accuracy = ", (1 - round(rf_permutation_mating$prediction.error,3)) ,")",sep="")) +
+  theme_bw() +
+  theme(panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank())
+  
+# make combined plot
+library(patchwork)
+i1 + i2 + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 12))
+
+ggsave("figures/figure_SX_rf_importance.png",
+       width=35,
+       height=20,
+       units = "cm"
+       )
+
+####
 # Predicting reproductive system ----
 ####
 
@@ -562,7 +631,7 @@ h2o.shutdown(prompt=FALSE)
 ors <- read.csv("outputs/original_reproductive_systems.csv")
 
 #check order
-ors$species == rownames(full_df)
+ors$species == sort(rownames(full_df))
 
 ####
 ## Decision trees ----
@@ -573,10 +642,35 @@ ors$species == rownames(full_df)
 df <- subset(full_df, select=-c(SexualSystem,Mating,FlowerSex))
 
 # add reproductive system
-df$RS <- as.factor(ors$RS)
+df$RS <- ors$RS
+
+# turn monocliny into bisexual
+df$RS[grep("Monocliny",df$RS)] <- "bisexual"
+
+table(df$RS)
+
+# add bisexual for unknown species that have bisexual flowers only
+for(i in 1:length(df$RS)){
+  
+  if(df$RS[i]=="unknown"){
+    
+    if(is.na(full_df$FlowerSex[i])){
+      
+      df$RS[i] <- "unknown"
+      
+    } else if(full_df$FlowerSex[i]=="bisexual")
+    
+      df$RS[i] <- "bisexual"
+    
+  }
+  
+}
 
 # remove unknown reproductive system
 df <- df[df$RS!="unknown",]
+
+# make factor and drop levels
+df$RS <- as.factor(df$RS)
 df$RS <- droplevels(df$RS)
 
 # remove NA
@@ -605,10 +699,8 @@ RS_dt1
 # plot decision tree
 rpart.plot::rpart.plot(RS_dt1)
 
-# save plot with rules
-pdf("figures/16_RS_dt1.pdf",width=10,height=10)
+# plot with rules
 rpart.plot::rpart.plot(RS_dt1, type = 3, clip.right.labs = FALSE, branch = .3, under = TRUE)
-dev.off()
 
 # Cross-validation error
 # lower x-axis is cost complexity value, upper x-axis is number of terminal nodes
@@ -665,7 +757,7 @@ set.seed(123)
 split <- rsample::initial_split(df, prop = 0.7, 
                                 strata = "RS")
 df_train  <- rsample::training(split)
-df_test   <- rsample::testing(split)
+df_test <- rsample::testing(split)
 
 # train a default random forest model
 RS_rf1 <- ranger::ranger(
@@ -711,7 +803,7 @@ for(i in seq_len(nrow(hyper_grid))) {
 }
 
 # assess top 10 models
-hyper_grid %>%
+top10 <- hyper_grid %>%
   arrange(acc) %>%
   mutate(perc_gain = (default_acc - acc) / default_acc * 100) %>%
   head(10)
@@ -727,11 +819,11 @@ hyper_grid %>%
 rf_impurity <- ranger::ranger(
   formula = RS ~ ., 
   data = df_train, 
-  num.trees = 2000,
-  mtry = 7,
-  min.node.size = 1,
-  sample.fraction = .63,
-  replace = FALSE,
+  num.trees = 10000,
+  mtry = top10$mtry[1],
+  min.node.size = top10$min.node.size[1],
+  replace = top10$replace[1],
+  sample.fraction = top10$sample.fraction[1],
   importance = "impurity",
   respect.unordered.factors = "order",
   verbose = FALSE,
@@ -749,11 +841,11 @@ rf_impurity <- ranger::ranger(
 rf_permutation <- ranger::ranger(
   formula = RS ~ ., 
   data = df_train, 
-  num.trees = 2000,
-  mtry = 7,
-  min.node.size = 1,
-  sample.fraction = .63,
-  replace = FALSE,
+  num.trees = 10000,
+  mtry = top10$mtry[1],
+  min.node.size = top10$min.node.size[1],
+  replace = top10$replace[1],
+  sample.fraction = top10$sample.fraction[1],
   importance = "permutation",
   respect.unordered.factors = "order",
   verbose = FALSE,

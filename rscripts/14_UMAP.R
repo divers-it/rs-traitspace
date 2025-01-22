@@ -190,7 +190,7 @@ plot_figure_umap<- function(df,tr,suffix,label_list) {
 # But onehot and recoded matrices can be also run by uncommenting the following code
 
 ### Plot all traits on UMAP in folder ----
-for(knn in c(5,10,50,100)) {
+for(knn in c(10,25,50,100)) {
   custom_config <- umap.defaults
   custom_config$n_components <-  2# number of dimensions targeted
   custom_config$n_neighbors <- knn # number of dimensions targeted

@@ -152,7 +152,6 @@ combos <- combos[order(combos$Freq, decreasing = T), ]
 
 # change to strings
 combos <-data.frame(lapply(combos, as.character), stringsAsFactors = FALSE)
-plot(combos$Freq)
 
 # empty list
 robust<-list()
@@ -175,6 +174,18 @@ for(i in 1:length(combos$Freq[as.numeric(combos$Freq)>0])){
   robust_vect_pam[foo]<-i
   
 }
+
+
+# lineplot showing how robust group size decreases
+par(mar=c(5,5,5,5))
+plot(table(robust_vect_pam),
+     type = "b",
+     xlab = "Robust group number",
+     ylab = "No. species in robust group",
+     xlim = c(1,20))
+
+# reset margins
+par(mar=c(3,3,3,3))
 
 # robust groups
 robust
@@ -204,7 +215,7 @@ saveRDS(robust_vect_pam_full, file = here::here("outputs/10_robust_vect_pam_full
 robust_vect_pam<-na.omit(robust_vect_pam)
 
 ####
-## PCOA k = 2-7 PC1 + PC2 ----
+## Figure S7: PCOA with PAM clusters k = 2-7 ----
 ####
 
 # run PCOA
@@ -218,7 +229,7 @@ rel_ev_pcoa_g0 <- ev_pcoa_g0/sum(ev_pcoa_g0)
 
 # reformat clustering df, assign NA to non-robust species
 clusters_pcoa <- clust.num.k.2.7.df
-colnames(clusters_pcoa) <- paste("n",colnames(clusters_pcoa),sep="")
+colnames(clusters_pcoa) <- paste("k = ",seq(2,7),sep="")
 
 # check alignment
 rownames(clusters_pcoa) == names(robust_vect_pam_full)
@@ -247,20 +258,20 @@ for(i in 1:length(clusters_pcoa[1,])){
       # stat_ellipse(geom = "polygon",
       #              aes(fill =  as.factor(clusters_pcoa[,i])), 
       #              alpha = 0.2) +
-      xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-      ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) + 
+      xlab("Axis 1") +
+      ylab("Axis 2") + 
+      theme_bw() +
       theme(legend.position = "none")})
-  
   
 }
 
 
 ( pcoa_plots[[1]] + pcoa_plots[[2]] ) / ( pcoa_plots[[3]] + pcoa_plots[[4]] ) / ( pcoa_plots[[5]] + pcoa_plots[[6]] )
 
-# ggsave("figures/10_scatterplots_pcoa_pam_coloured_by_cluster.png",width=10,height=15)
+ggsave("figures/figure_S7_scatterplots_pcoa_pam_k2-k7.png",width=10,height=15)
 
 ####
-## Figure S7: Scatterplot PAM with clusters ----
+## Figure Xa: Scatterplot with PAM clusters k = 3 ----
 ####
 
 #convert gower df to distance matrix
@@ -275,135 +286,67 @@ ev_pcoa_g0 <- ev_pcoa[ev_pcoa>0]
 rel_ev_pcoa_g0 <- ev_pcoa_g0/sum(ev_pcoa_g0)
 
 # colors
-cols<-wesanderson::wes_palette("BottleRocket2")[1:3]
+cols<-c("darkgreen","lightgreen")
 
 # plot points on first two axes, coloured by cluster with species names
-ggplot(data.frame(dataset_pcoa$vectors),
+a1 <- ggplot(data.frame(dataset_pcoa$vectors),
        aes(
          x = Axis.1,
          y = Axis.2,
-         fill = as.factor(clust.num.k.2.7.df$`3clusters`)
+         fill = as.factor(clust.num.k.2.7.df$`2clusters`),
+         shape = as.factor(clust.num.k.2.7.df$`3clusters`)
        )) +
   geom_point(
     color = "black",
-    shape = 21,
-    alpha = 0.5,
-    size = 3,
-    stroke = 0.5
-  ) +  stat_ellipse(geom = "polygon", aes(fill = as.factor(clust.num.k.2.7.df$`3clusters`)), alpha = 0.25) +
-  scale_fill_manual(values = cols) +
-  scale_colour_manual(values = cols) +
-  xlab(paste("Axis 1: relative eigenvalue =", round(rel_ev_pcoa_g0[1], 2))) +
-  ylab(paste("Axis 2: relative eigenvalue =", round(rel_ev_pcoa_g0[2], 2))) +
-  theme(
-    legend.position = "none",
-    axis.text = element_text(size = 14),
-    axis.title = element_text(size = 16)
-  )
-
-ggsave("figures/figure_S7_pcoa_pam.png",
-       width = 10,
-       height = 10)
-
-
-####
-### Scatterplot PAM with robust groups showing unisexual, abiotic outliers ----
-####
-
-#empty matrix
-rob_mat<-matrix(nrow = length(unique(robust_vect_pam)), ncol=length(df[1,]))
-
-#empty matrix
-rob_mat_names<-matrix(nrow = length(unique(robust_vect_pam)), ncol=length(df[1,]))
-
-#loop through different robust groups
-for(i in 1:length(unique(robust_vect_pam))){
-  
-  #names of species in robust group
-  grp<-names(robust_vect_pam)[robust_vect_pam==i]
-  
-  #data from group
-  grp_df<-df[rownames(df)%in%grp,]
-  
-  #loop through table
-  for(j in 1:length(colnames(grp_df))){
-    
-    #for quantitative traits
-    if(is.factor(grp_df[,j])){
-      
-      #frequency of most frequent state
-      rob_mat[i,j]<-sort(table(grp_df[,j]),decreasing = T)[1] / length(grp_df[,j])
-      
-      #name of most frequent state
-      names(sort(table(grp_df[,j]),decreasing = T)[1])
-      rob_mat_names[i,j]<-names(sort(table(grp_df[,j]),decreasing = T)[1])
-      
-    } else {
-      
-      #mean of values
-      rob_mat[i,j]<-mean(na.omit(grp_df[,j]))
-      
-    }
-    
-  }
-  
-}
-
-#add row and column names
-rownames(rob_mat)<-paste("robust",c(1:length(unique(robust_vect_pam))),sep="")
-colnames(rob_mat)<-colnames(df)
-rob_mat
-
-rownames(rob_mat_names)<-paste("robust",c(1:length(unique(robust_vect_pam))),sep="")
-colnames(rob_mat_names)<-colnames(df)
-rob_mat_names
-
-#check order
-rownames(dataset_pcoa$vectors)==names(robust_vect_pam_full)
-
-#get dataframe of robust groups
-pcoa_robust<-cbind(dataset_pcoa$vectors,robust_vect_pam_full)
-
-#check order
-rownames(df)==rownames(pcoa_robust)
-
-#plot points on first two PCoA axes, coloured by robust group and shaped by cluster
-ggplot(
-  data.frame(pcoa_robust),
-  aes(
-    x = Axis.1,
-    y = Axis.2,
-    fill = as.factor(robust_vect_pam_full),
-    col = as.factor(robust_vect_pam_full)
-  )
-) +
-  geom_point(
-    aes(shape = as.factor(df$Pollination),
-        size = as.factor(df$FlowerSex)),
-    alpha = 0.5,
+    alpha = 0.7,
+    size = 7,
     stroke = 0.5
   ) +
-  scale_shape_manual(values=c(23,22,8,24,4,21)) +
-  labs(
-    colour = "Robust group",
-    size = "Flower sex",
-    shape = "Pollination"
+  scale_fill_manual(values = cols, labels=c('1', '2')) +
+  scale_shape_manual(values=c(21,22,23), labels=c('1', '2', '3'),guide="none") +
+  xlab(paste("PCoA Axis 1: relative eigenvalue =", round(rel_ev_pcoa_g0[1], 2))) +
+  ylab(paste("PCoA Axis 2: relative eigenvalue =", round(rel_ev_pcoa_g0[2], 2))) +
+  theme_bw() + theme(
+    panel.border = element_blank(),
+    #panel.grid.major = element_line(colour = "darkgrey"),
+    #panel.grid.minor = element_line(colour = "grey"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = c(0.175, 0.1),
+    legend.text = element_text(size=16),
+    legend.title = element_text(size=18),
+    axis.text.y = element_text(size=14),
+    axis.title.y = element_text(size=20),
+    axis.text.x = element_text(size=14),
+    axis.title.x = element_text(size=20),
+    axis.line = element_line(colour = "black")
   ) + 
-  theme_bw() +
-  guides(col = guide_legend(override.aes = list(size = 5)),
-         shape = guide_legend(override.aes = list(size = 5)),
-         fill="none") +
-  xlab("PCoA Axis 1") +
-  ylab("PCoA Axis 2")
+  labs(
+    fill = "PAM cluster (k = 2)"#,
+    #shape = "PAM cluster (k = 3)"
+  ) + 
+  guides(fill = guide_legend(override.aes = list(size = 6,
+                                                 shape = 16,
+                                                 col=c(cols)), 
+                                                 title = "PAM cluster (k = 2)")#,
+         #shape = guide_legend(override.aes = list(size = 6))
+  )
 
-# ggsave("figures/10_pcoa_pam_coloured_by_robust.png",width=12,height=10)
+a1
+
+# save to RDS to make composite figure
+# saveRDS(s1, file = "outputs/10_pcoa_pam.rds")
+
+# ggsave("figures/figure_S7_pcoa_pam.png",
+#        width = 10,
+#        height = 10)
 
 ####
-# Figure 5a: UMAP PAM clustering / robust ----- 
+# Figure Xb: UMAP PAM clustering / robust ----- 
 ####
 
-devtools::install_github("ropenscilabs/ochRe")
-library(ochRe)
+# ochRe not actually used at this stage
+if (!require('ochRe')) devtools::install_github("ropenscilabs/ochRe"); library('ochRe')
 library(umap)
 
 # set colours
@@ -423,6 +366,9 @@ custom_config <- umap.defaults
 custom_config$n_components <-  2 # number of dimensions targeted
 custom_config$n_neighbors <- 10 # number of dimensions targeted
 custom_config$input <- "dist" # The input matrix is a distance matrix
+
+# set seed for reproducibility
+set.seed(42)
 
 # run umap
 umap_final <- umap(d = as.matrix(gower_df),config = custom_config)
@@ -463,7 +409,7 @@ s1 <- ggplot(
     #panel.grid.minor = element_line(colour = "grey"),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
-    legend.position = c(0.125, 0.25),
+    legend.position = c(0.175, 0.25),
     legend.text = element_text(size=16),
     legend.title = element_text(size=18),
     axis.text.y = element_text(size=14),
@@ -474,23 +420,27 @@ s1 <- ggplot(
   ) + 
   labs(
     colour = "Robust group",
-    shape = "PAM cluster"
+    shape = "PAM cluster (k = 3)"
   ) + 
-  guides(fill = guide_legend(override.aes = list(size = 8,
-                                                 shape=21,
-                                                 fill=c(my_pal,
+  guides(fill = guide_legend(override.aes = list(size = 6,
+                                                 shape=16,
+                                                 col=c(my_pal,
                                                         "darkgrey")), title = "Robust group"),
-         shape = guide_legend(override.aes = list(size = 8))
+         shape = guide_legend(override.aes = list(size = 6))
   ) + 
   #annotate("text", x = -4.5, y = 5.75, label = "(a)", size = 8) +
-  coord_cartesian(xlim = c(-5, 5), ylim = c(-6, 4), clip = "off") +
+  coord_cartesian(xlim = c(-5.5, 5.5), ylim = c(-6.5, 4.5), clip = "off") +
   theme(plot.margin = unit(c(3,1,1,3), "lines"))
 
 
 s1
 
+### combined plot ----
+
+a1 + s1
+
 # save plot
-# ggsave("figures/10_scatterplot_umap_pam_coloured_by_robust.png",width=10,height=10)
+ggsave("figures/figure_4_umap.png",width=20,height=10)
 
 #Proportion of missing data 
 #species that dont belong to robust group
@@ -502,7 +452,7 @@ df_robust<-df[!is.na(robust_vect_pam_full),]
 mean(is.na(df_robust))
 
 ####
-## Figure 5b: Quantitative trait boxplots for robust clusters ----
+## Figure SXb: Quantitative trait boxplots for robust clusters ----
 ####
 
 # make label
@@ -511,15 +461,12 @@ robust_group<-paste("pam_robust_",robust_vect_pam_full,sep="")
 # add label to group
 df_labelled<-cbind(df,robust_group)
 
-# empty list for plots
-plot_list <- list()
-
 # make plots
 b1 <- ggplot(df_labelled, aes(x=robust_group, y=Maximumverticalheight, fill=robust_group)) + 
-  geom_boxplot(alpha=0.7) + 
+  geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(my_pal,"grey")) +
-  scale_y_continuous(limits = quantile(df_labelled$Maximumverticalheight, c(0.05, 0.95),na.rm = TRUE)) +
+  scale_y_continuous(limits = quantile(df_labelled$Maximumverticalheight, c(0.025, 0.975),na.rm = TRUE)) +
   ylab("Maximum height") +
   theme(legend.position = "none",
         # add border 1)
@@ -547,10 +494,10 @@ b1 <- ggplot(df_labelled, aes(x=robust_group, y=Maximumverticalheight, fill=robu
 b1
 
 b2 <- ggplot(df_labelled, aes(x=robust_group, y=flowerSize, fill=robust_group)) + 
-  geom_boxplot(alpha=0.7) + 
+  geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(my_pal,"grey")) +
-  scale_y_continuous(limits = quantile(df_labelled$flowerSize, c(0.05, 0.95),na.rm = TRUE)) +
+  scale_y_continuous(limits = quantile(df_labelled$flowerSize, c(0.025, 0.975),na.rm = TRUE)) +
   ylab("Flower size") +
   theme(legend.position = "none",
         plot.margin = unit(c(1,1,1,1), "cm"),
@@ -580,7 +527,7 @@ b1 / b2
 # ggsave("figures/10_robust_boxplots.png",width=15,height=10)
 
 ####
-## Figure 5c: Stacked barplots ----
+## Figure SXc: Stacked barplots ----
 ####
 
 # reset margins
@@ -875,16 +822,19 @@ pNA
 
 # ggsave("figures/10_robust_stacked_barplots.png",width=20,height=15)
 
-### Assemble Figure 5 ----
+### Assemble Figure SX ----
 patch <- (s1 / b1 / b2 ) + plot_layout(heights=c(4, 1, 1)) | (p1 + p2) / (p3 + p4) / (p5 + p6) / (p7 + pNA)
 
 patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
 
-ggsave("figures/figure_5_robust_groups.png",width=25,height=20)
+ggsave("figures/figure_SX_robust_groups.png",width=25,height=20)
 
 ####
 ## Figure S8: Qualitative and quantitative values for PAM clusters ----
 ####
+
+# colors order to match Figure S7 (b)
+cols<-brewer.pal(3,"Set1")[c(1,3,2)]
 
 #### 
 ### Quantitative trait boxplots per cluster ----
@@ -899,14 +849,11 @@ df_labelled<-cbind(df,clust.num.k.2.7.df$`3clusters`)
 #change colname for label
 colnames(df_labelled)[length(colnames(df_labelled))]<-"cluster"
 
-# colors
-cols<-wesanderson::wes_palette("BottleRocket2")[1:3]
-
 b1 <- ggplot(df_labelled, aes(x=cluster, y=Maximumverticalheight, fill=cluster)) + 
-  geom_boxplot(alpha=0.7) + 
+  geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
-  scale_fill_manual(values = c(cols)) +
-  scale_y_continuous(limits = quantile(df_labelled$Maximumverticalheight, c(0.05, 0.95),na.rm = TRUE)) +
+  scale_fill_manual(values=cols) +
+  scale_y_continuous(limits = quantile(df_labelled$Maximumverticalheight, c(0.025, 0.975),na.rm = TRUE)) +
   ylab("Maximum vertical height") +
   theme(legend.position = "none",
         # add border 1)
@@ -934,10 +881,10 @@ b1 <- ggplot(df_labelled, aes(x=cluster, y=Maximumverticalheight, fill=cluster))
 b1
 
 b2 <- ggplot(df_labelled, aes(x=cluster, y=flowerSize, fill=cluster)) + 
-  geom_boxplot(alpha=0.7) + 
+  geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
-  scale_fill_manual(values = c(cols,"grey")) +
-  scale_y_continuous(limits = quantile(df_labelled$flowerSize, c(0.05, 0.95),na.rm = TRUE)) +
+  scale_fill_discrete() +
+  scale_y_continuous(limits = quantile(df_labelled$flowerSize, c(0.025, 0.975),na.rm = TRUE)) +
   ylab("Flower size") +
   theme(legend.position = "none",
         plot.margin = unit(c(1,1,1,1), "cm"),
@@ -1023,7 +970,6 @@ my_theme <- function() {
   )
 }
 
-
 # Cluster 1
 
 # subset df
@@ -1098,3 +1044,97 @@ patch <- ( p1 + p2 + p3 ) / ( b1 + b2 ) + plot_layout(heights=c(2, 1))
 patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
 
 ggsave("figures/figure_S8_pam_states.png",width=20,height=15)
+
+
+####
+## NOT USED: Scatterplot PAM with robust groups showing unisexual, abiotic outliers ----
+####
+
+#empty matrix
+rob_mat<-matrix(nrow = length(unique(robust_vect_pam)), ncol=length(df[1,]))
+
+#empty matrix
+rob_mat_names<-matrix(nrow = length(unique(robust_vect_pam)), ncol=length(df[1,]))
+
+#loop through different robust groups
+for(i in 1:length(unique(robust_vect_pam))){
+  
+  #names of species in robust group
+  grp<-names(robust_vect_pam)[robust_vect_pam==i]
+  
+  #data from group
+  grp_df<-df[rownames(df)%in%grp,]
+  
+  #loop through table
+  for(j in 1:length(colnames(grp_df))){
+    
+    #for quantitative traits
+    if(is.factor(grp_df[,j])){
+      
+      #frequency of most frequent state
+      rob_mat[i,j]<-sort(table(grp_df[,j]),decreasing = T)[1] / length(grp_df[,j])
+      
+      #name of most frequent state
+      names(sort(table(grp_df[,j]),decreasing = T)[1])
+      rob_mat_names[i,j]<-names(sort(table(grp_df[,j]),decreasing = T)[1])
+      
+    } else {
+      
+      #mean of values
+      rob_mat[i,j]<-mean(na.omit(grp_df[,j]))
+      
+    }
+    
+  }
+  
+}
+
+#add row and column names
+rownames(rob_mat)<-paste("robust",c(1:length(unique(robust_vect_pam))),sep="")
+colnames(rob_mat)<-colnames(df)
+rob_mat
+
+rownames(rob_mat_names)<-paste("robust",c(1:length(unique(robust_vect_pam))),sep="")
+colnames(rob_mat_names)<-colnames(df)
+rob_mat_names
+
+#check order
+rownames(dataset_pcoa$vectors)==names(robust_vect_pam_full)
+
+#get dataframe of robust groups
+pcoa_robust<-cbind(dataset_pcoa$vectors,robust_vect_pam_full)
+
+#check order
+rownames(df)==rownames(pcoa_robust)
+
+#plot points on first two PCoA axes, coloured by robust group and shaped by cluster
+ggplot(
+  data.frame(pcoa_robust),
+  aes(
+    x = Axis.1,
+    y = Axis.2,
+    fill = as.factor(robust_vect_pam_full),
+    col = as.factor(robust_vect_pam_full)
+  )
+) +
+  geom_point(
+    aes(shape = as.factor(df$Pollination),
+        size = as.factor(df$FlowerSex)),
+    alpha = 0.5,
+    stroke = 0.5
+  ) +
+  scale_shape_manual(values=c(23,22,8,24,4,21)) +
+  labs(
+    colour = "Robust group",
+    size = "Flower sex",
+    shape = "Pollination"
+  ) + 
+  theme_bw() +
+  guides(col = guide_legend(override.aes = list(size = 5)),
+         shape = guide_legend(override.aes = list(size = 5)),
+         fill="none") +
+  xlab("PCoA Axis 1") +
+  ylab("PCoA Axis 2")
+
+# ggsave("figures/10_pcoa_pam_coloured_by_robust.png",width=12,height=10)
+
