@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Rcompendium for: *Pollination and mating traits underlie diverse reproductive strategies in flowering plants*
+# Rcompendium for: *An angiosperm-wide perspective on reproductive strategies and floral traits*
 
 A preprint of this study can be found
 [here](https://doi.org/10.1101/2024.02.26.582019)
@@ -44,7 +44,7 @@ Note that there are two encodings that are used for these data. The
 original encoding has traits with as many values as there are states
 (e.g. woody, herbaceous, woody_herbaceous). For the one-hot encoding,
 each state is recoded to a binary trait (e.g. trait 1: woody, non-woody
-\| trait 2: herbaceous, non-herbaceous). A number of scripts have
+\| trait 2: herbaceous, non-herbaceous). Scripts 1, 3, 4, 5 and 6 have
 corresponding one-hot encoding versions with the suffix “one_hot”.
 
 #### 1_proteus_data_preparation_discrete.R
@@ -61,14 +61,14 @@ for a species e.g. PROTEUS provides information indicating a species can
 be both woody and herbaceous this is coded by pasting the states
 together with an underscore (‘woody_herbaceous’).
 
-| trait_number | old_trait  | old_state          | old_state_freq | new_trait | new_state  |
-|-------------:|:-----------|:-------------------|---------------:|:----------|:-----------|
-|            1 | Habit (D1) | \(0\) tree         |            109 | Woodiness | woody      |
-|            1 | Habit (D1) | \(1\) shrub        |             89 | Woodiness | woody      |
-|            1 | Habit (D1) | \(2\) liana        |              7 | Woodiness | woody      |
-|            1 | Habit (D1) | \(3\) herb         |            141 | Woodiness | herbaceous |
-|            1 | Habit (D1) | \(4\) vine         |             11 | Woodiness | herbaceous |
-|            1 | Habit (D1) | \(5\) aquatic herb |             26 | Woodiness | herbaceous |
+| trait_number | old_trait | old_state | old_state_freq | new_trait | new_state |
+|---:|:---|:---|---:|:---|:---|
+| 1 | Habit (D1) | \(0\) tree | 109 | Woodiness | woody |
+| 1 | Habit (D1) | \(1\) shrub | 89 | Woodiness | woody |
+| 1 | Habit (D1) | \(2\) liana | 7 | Woodiness | woody |
+| 1 | Habit (D1) | \(3\) herb | 141 | Woodiness | herbaceous |
+| 1 | Habit (D1) | \(4\) vine | 11 | Woodiness | herbaceous |
+| 1 | Habit (D1) | \(5\) aquatic herb | 26 | Woodiness | herbaceous |
 
 #### 2_proteus_data_preparation_quant.R
 
@@ -123,25 +123,26 @@ The data set is read in and scaled, histograms of the variables for each
 trait are plotted and log-transformed if appropriate. The data is saved
 as an RDS.
 
-|                      | Maximumverticalheight | Numberoffertilestamens | Numberofovulesperfunctionalcarpel | Numberofstructuralcarpels | Fusionofovaries | flowerSize |   seedMass | Woodiness        | Climbing     | Aquatic     | SexualSystem | Lifespan | Mating      | Pollination    | DispersalMode | DispersalDist | FlowerSex | OvaryPosition | FloralReward | FlowerSymmetry | Showiness   |
-|:---------------------|----------------------:|-----------------------:|----------------------------------:|--------------------------:|----------------:|-----------:|-----------:|:-----------------|:-------------|:------------|:-------------|:---------|:------------|:---------------|:--------------|:--------------|:----------|:--------------|:-------------|:---------------|:------------|
-| Abolboda pulchella   |            -1.0638623 |             -0.8550686 |                         0.6266987 |                        NA |              NA | -0.6626974 |         NA | herbaceous       | non-climbing | non-aquatic | monomorphic  | long     | NA          | biotic         | NA            | NA            | bisexual  | superior      | nectar       | zygomorphic    | bright      |
-| Achatocarpus praecox |             0.6679568 |              0.7466244 |                        -0.7844397 |                -0.5713511 |       0.4104134 | -0.5936983 |         NA | woody            | non-climbing | non-aquatic | dimorphic    | long     | outcrossing | biotic         | biotic        | long          | unisexual | superior      | NA           | actinomorphic  | bright_dull |
-| Acorus calamus       |            -0.0443398 |             -0.1918520 |                         0.1145830 |                 0.0366201 |       0.4104134 | -1.1273276 | -0.1207739 | herbaceous       | non-climbing | non-aquatic | monomorphic  | long     | outcrossing | biotic         | abiotic       | long          | bisexual  | superior      | other        | zygomorphic    | bright_dull |
-| Actinidia chinensis  |             0.5625575 |              2.9194047 |                         0.8342261 |                 3.4383784 |       0.4104134 |  1.1905103 | -0.3673656 | woody            | climbing     | non-aquatic | dimorphic    | long     | outcrossing | abiotic_biotic | biotic        | long          | unisexual | superior      | none_pollen  | actinomorphic  | bright      |
-| Aerva javanica       |            -0.3678511 |             -0.3663008 |                        -0.7844397 |                -0.2367604 |       0.4104134 | -1.6097322 | -0.8665225 | herbaceous_woody | non-climbing | non-aquatic | dimorphic    | long     | outcrossing | biotic         | abiotic       | long          | unisexual | superior      | NA           | actinomorphic  | bright      |
-| Aextoxicon punctatum |             0.8342645 |             -0.2751062 |                        -0.3701292 |                -1.6106848 |              NA | -0.4147073 |  1.1859153 | woody            | non-climbing | non-aquatic | dimorphic    | long     | outcrossing | biotic         | biotic        | long          | unisexual | superior      | NA           | actinomorphic  | bright      |
+|  | Maximumverticalheight | Numberoffertilestamens | Numberofovulesperfunctionalcarpel | Numberofstructuralcarpels | Fusionofovaries | flowerSize | seedMass | Woodiness | Climbing | Aquatic | SexualSystem | Lifespan | Mating | Pollination | DispersalMode | DispersalDist | FlowerSex | OvaryPosition | FloralReward | FlowerSymmetry | Showiness |
+|:---|---:|---:|---:|---:|---:|---:|---:|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
+| Abolboda pulchella | -1.0638623 | -0.8576644 | 0.6266987 | NA | NA | -0.6636378 | NA | herbaceous | non-climbing | non-aquatic | monomorphic | long | NA | biotic | NA | NA | bisexual | superior | nectar | zygomorphic | bright |
+| Achatocarpus praecox | 0.6679568 | 0.7403689 | -0.7844397 | -0.5701386 | 0.4104134 | -0.5945311 | NA | woody | non-climbing | non-aquatic | dimorphic | long | outcrossing | biotic | biotic | long | unisexual | superior | NA | actinomorphic | bright_dull |
+| Acorus calamus | -0.0443398 | -0.1959632 | 0.1145830 | 0.0384931 | 0.4104134 | -1.1289928 | -0.1207739 | herbaceous | non-climbing | non-aquatic | monomorphic | long | outcrossing | biotic | abiotic | long | bisexual | superior | other | zygomorphic | bright_dull |
+| Actinidia chinensis | 0.5625575 | 2.9081846 | 0.8342261 | 3.4439469 | 0.4104134 | 1.1924606 | -0.3673656 | woody | climbing | non-aquatic | dimorphic | long | outcrossing | abiotic_biotic | biotic | long | unisexual | superior | none_pollen | actinomorphic | bright |
+| Aerva javanica | -0.3678511 | -0.3700134 | -0.7844397 | -0.2351844 | 0.4104134 | -1.6121499 | -0.8665225 | herbaceous_woody | non-climbing | non-aquatic | dimorphic | long | outcrossing | biotic | abiotic | long | unisexual | superior | NA | actinomorphic | bright |
+| Aextoxicon punctatum | 0.8342645 | -0.2790271 | -0.3701292 | -1.6106013 | NA | -0.4152609 | 1.1859153 | woody | non-climbing | non-aquatic | dimorphic | long | outcrossing | biotic | biotic | long | unisexual | superior | NA | actinomorphic | bright |
 
 #### 7_correlation.R
 
-Examines the correlation between traits in the dataset.
+Examines the correlation between traits in the data set and clusters
+traits into groups (Fig. 3b).
 
 <figure>
-<img src="./figures/figure_S4_correlation_network.png" width="800"
-alt="Figure S4. A correlation network where one-hot encoded traits plotted in an NDMS space and lines between them indicate level of correlation." />
-<figcaption aria-hidden="true"><strong>Figure S4.</strong> A correlation
-network where one-hot encoded traits plotted in an NDMS space and lines
-between them indicate level of correlation.</figcaption>
+<img src="figures/figure_3_loadings.png" width="800"
+alt="Figure 3. (a) One-hot traitspace with eigenvectors and (b) trait correlation matrix with dendrogram." />
+<figcaption aria-hidden="true"><strong>Figure 3</strong>. (a) One-hot
+traitspace with eigenvectors and (b) trait correlation matrix with
+dendrogram.</figcaption>
 </figure>
 
 #### 8.0_pcoa.R
@@ -161,6 +162,20 @@ displayed on the first two PCOA axes.
 alt="Figure 2. Scatterplot of PCOA where each point indicates a species." />
 <figcaption aria-hidden="true"><strong>Figure 2.</strong> Scatterplot of
 PCOA where each point indicates a species.</figcaption>
+</figure>
+
+#### 8.1_pcoa_diaz_data.R
+
+We examined to locations of our species in the trait space derived from
+classical plant functional traits [Diaz et
+al. 2022](https://doi.org/10.1038/s41597-022-01774-9), and compared the
+quality of these trait spaces.
+
+<figure>
+<img src="figures/figure_S3_Diaz_comparison.png" width="600"
+alt="Figure S3. Diaz et al. 2022 comparison." />
+<figcaption aria-hidden="true"><strong>Figure S3</strong>. Diaz et
+al. 2022 comparison.</figcaption>
 </figure>
 
 #### 9_dimensionality_analyses.R
@@ -188,24 +203,10 @@ within 20 axes indicating that when a larger number of axes are
 considered the reduced trait space is a good representation.
 
 <figure>
-<img src="figures/figure_S6_dimensionality.png" width="600"
-alt="Figure S6. Influence of number of dimensions on the quality of trait space." />
-<figcaption aria-hidden="true"><strong>Figure S6</strong>. Influence of
+<img src="figures/figure_S5_dimensionality.png" width="800"
+alt="Figure S5. Influence of number of dimensions on the quality of trait space." />
+<figcaption aria-hidden="true"><strong>Figure S5</strong>. Influence of
 number of dimensions on the quality of trait space.</figcaption>
-</figure>
-
-#### 8.1_pcoa_diaz_data.R
-
-We examined to locations of our species in the trait space derived from
-classical plant functional traits [Diaz et
-al. 2022](https://doi.org/10.1038/s41597-022-01774-9), and compared the
-quality of these trait spaces.
-
-<figure>
-<img src="figures/figure_4_Diaz_comparison.png" width="600"
-alt="Figure 4. Diaz et al. 2022 comparison." />
-<figcaption aria-hidden="true"><strong>Figure 4</strong>. Diaz et
-al. 2022 comparison.</figcaption>
 </figure>
 
 #### 10_clustering_PAM.R
@@ -213,78 +214,87 @@ al. 2022 comparison.</figcaption>
 The [Partitioning Around
 Medoids](https://dpmartin42.github.io/posts/r/cluster-mixed-types) (PAM)
 approach is used. All species must be assigned to a cluster and some
-species may be spuriously assigned to clusters. To avoid interpreting
-species than are not well-clustering we look at ‘robust groups’ - those
-species that consistently stick together as the value of k is changed. A
-[`Sankey plot`](https://github.com/divers-it/rs-traitspace/tree/main/figures/10_sankey_pam.html)
-demonstrates how species move between clusters as k is increased.
+species may be spuriously assigned to clusters. Examples of cluster
+membership when number of clusters (k) is 2 and 3 is shown in Figure 4a.
+
+<figure>
+<img src="figures/figure_4_umap.png" width="800"
+alt="Figure 4. Panel (a) shows PCoA with clustering where colours (k = 2) and shapes (k = 3) correspond to PAM clusters. Panel (b) shows UMAP plot see below) where shapes correspond to k = 3 clusters." />
+<figcaption aria-hidden="true"><strong>Figure 4</strong>. Panel (a)
+shows PCoA with clustering where colours (k = 2) and shapes (k = 3)
+correspond to PAM clusters. Panel (b) shows UMAP plot see below) where
+shapes correspond to k = 3 clusters.</figcaption>
+</figure>
+
+To avoid interpreting species than are not well-clustering we look at
+‘robust groups’ - those species that consistently stick together as the
+value of k is changed. A Sankey plot demonstrates how species move
+between clusters as k is increased.
+
+<figure>
+<img src="figures/figure_S11_sankey_PAM.png" width="600"
+alt="Figure S11. A Sankey plot representing how species are shared among clusters when values of k are increased from 2-7." />
+<figcaption aria-hidden="true"><strong>Figure S11</strong>. A Sankey
+plot representing how species are shared among clusters when values of k
+are increased from 2-7.</figcaption>
+</figure>
 
 We can then visualize how these robust groups relate to clusters, and
 also how traits differ among robust groups.
 
 <figure>
-<img src="figures/figure_5_robust_groups.png" width="600"
-alt="Figure 5. Robust groups from PAM clustering and corresponding state frequences / trait values." />
-<figcaption aria-hidden="true"><strong>Figure 5</strong>. Robust groups
-from PAM clustering and corresponding state frequences / trait
+<img src="figures/figure_S12_robust_groups.png" width="800"
+alt="Figure S12. Robust groups from PAM clustering and corresponding state frequences / trait values." />
+<figcaption aria-hidden="true"><strong>Figure S12</strong>. Robust
+groups from PAM clustering and corresponding state frequences / trait
 values.</figcaption>
 </figure>
 
-#### 11_functional_space_mfd.R
+#### 11_phylo_plot
 
-To compare groups within a data set we use the package
-[mfd](https://onlinelibrary.wiley.com/doi/pdf/10.1111/ecog.05904). To
-get an idea of the variation within different groups we can calculate
-different alpha functional diversity indices. For example, we can
-compare various functional diversity indices among PAM clusters (k = 3).
-
-| X         | Species.richness |  FDis |  FMPD |  FNND |  FEve |  FRic |  FDiv |  FOri |  FSpe |
-|:----------|-----------------:|------:|------:|------:|------:|------:|------:|------:|------:|
-| Cluster 1 |              146 | 0.385 | 0.391 | 0.224 | 0.796 | 0.194 | 0.770 | 0.208 | 0.386 |
-| Cluster 2 |               71 | 0.369 | 0.380 | 0.280 | 0.769 | 0.129 | 0.761 | 0.260 | 0.548 |
-| Cluster 3 |               76 | 0.288 | 0.298 | 0.176 | 0.765 | 0.032 | 0.731 | 0.159 | 0.326 |
-
-#### 12_phylo_plot
-
-Plots a phylogenetic tree of all 360 species in our data set.
+Plots a phylogenetic tree of all 360 species in our data set with trait
+data at the tips.
 
 <figure>
-<img src="figures/figure_1_phylo.png" width="600"
+<img src="figures/figure_1_phylo.png" width="800"
 alt="Figure 1. Phylogenetic tree." />
 <figcaption aria-hidden="true"><strong>Figure 1</strong>. Phylogenetic
 tree.</figcaption>
 </figure>
 
-#### one_hot_13_loadings.R
+#### 12_loadings.R
 
 Builds a traitspace using one-hot encoded data. Eigenvectors are plotted
-on the first two axes, similar to ‘loadings’ from a PCA biplot.
+on the first two axes, similar to ‘loadings’ from a PCA biplot, as shown
+in Figure 3a.
 
 <figure>
-<img src="figures/figure_3_loadings.png" width="600"
-alt="Figure 3. One-hot traitspace with eigenvectors." />
-<figcaption aria-hidden="true"><strong>Figure 3</strong>. One-hot
-traitspace with eigenvectors.</figcaption>
+<img src="figures/figure_3_loadings.png" width="800"
+alt="Figure 3. (a) One-hot traitspace with eigenvectors and (b) trait correlation matrix with dendrogram." />
+<figcaption aria-hidden="true"><strong>Figure 3</strong>. (a) One-hot
+traitspace with eigenvectors and (b) trait correlation matrix with
+dendrogram.</figcaption>
 </figure>
 
 We can also examine other axes to see which traits vary along them.
 
 <figure>
-<img src="figures/figure_S3_loadings_axes_3_4.png" width="600"
-alt="Figure S3. One-hot traitspace with eigenvectors for axes 3 and 4." />
-<figcaption aria-hidden="true"><strong>Figure S3</strong>. One-hot
+<img src="figures/figure_S7_loadings_axes_3_4.png" width="600"
+alt="Figure S7. One-hot traitspace with eigenvectors for axes 3 and 4." />
+<figcaption aria-hidden="true"><strong>Figure S7</strong>. One-hot
 traitspace with eigenvectors for axes 3 and 4.</figcaption>
 </figure>
 
-#### 14_UMAP.R
+#### 13_UMAP.R
 
 Performs Uniform Manifold Approximation and Projection (UMAP), a
 non-linear dimensionality reduction approach.
 
 <figure>
-<img src="figures/figure_S7_scatterplots_umap_knn10-100.png" width="600"
-alt="Figure S7. UMAP trait spaces with different values of neighbourhood size." />
-<figcaption aria-hidden="true"><strong>Figure S7</strong>. UMAP trait
+<img src="figures/figure_S10_scatterplots_umap_knn10-100.png"
+width="600"
+alt="Figure S10. UMAP trait spaces with different values of neighbourhood size." />
+<figcaption aria-hidden="true"><strong>Figure S10</strong>. UMAP trait
 spaces with different values of neighbourhood size.</figcaption>
 </figure>
 
@@ -294,61 +304,21 @@ and
 [`pcoa`](https://github.com/divers-it/rs-traitspace/tree/main/figures/pcoa)
 trait spaces.
 
-#### 15_simulations.R
+#### 14_simulations.R
 
 Fits models of trait evolution to each trait, and then uses these along
 phylogenetic trees to simulate 1000 data sets. PCoA is run on these
 simulated data sets and results are compared to empirical ones.
 
 <figure>
-<img src="figures/figure_S13_eigenvalues_simulations.png" width="600"
-alt="Figure S13. Comparison of simulated (black error bars) versus empirical (coloured lines) eigenvalues." />
-<figcaption aria-hidden="true"><strong>Figure S13</strong>. Comparison
-of simulated (black error bars) versus empirical (coloured lines)
+<img src="figures/figure_S6_eigenvalues_simulations.png" width="600"
+alt="Figure S6. Comparison of simulated (black error bars) versus empirical (coloured lines) eigenvalues." />
+<figcaption aria-hidden="true"><strong>Figure S6</strong>. Comparison of
+simulated (black error bars) versus empirical (coloured lines)
 eigenvalues.</figcaption>
 </figure>
 
-## Supplementary scripts
-
-#### 10.1_clustering_kprototype.R
-
-[k-prototypes](https://journal.r-project.org/archive/2018/RJ-2018-048/RJ-2018-048.pdf)
-clustering, another method than can deal with missing and mixed-type
-data.
-
-#### 10.2_clustering_hierarchical.R
-
-This script is based on an online
-[tutorial](https://towardsdatascience.com/hierarchical-clustering-on-categorical-data-in-r-a27e578f2995)
-that uses the hierarchical clustering approach to create clusters based
-on Gower’s distances.
-
-From **hclust** help: *Ward’s minimum variance method aims at finding
-compact, spherical clusters. The complete linkage method finds similar
-clusters. The single linkage method (which is closely related to the
-minimal spanning tree) adopts a ‘friends of friends’ clustering
-strategy. The other methods can be regarded as aiming for clusters with
-characteristics somewhere between the single and complete link methods.*
-
-<figure>
-<img src="./figures/figure_S11_pcoa_hclust.png" width="400"
-alt="Figure S11. PCOA scatterplot with species coloured by Ward.d2 cluster membership." />
-<figcaption aria-hidden="true"><strong>Figure S11</strong>. PCOA
-scatterplot with species coloured by Ward.d2 cluster
-membership.</figcaption>
-</figure>
-
 ## Utility scripts
-
-#### collate_clustering_results.R
-
-Brings together the clustering results from different approaches
-(including one-hot encoding).
-
-#### gawdis.R
-
-Examines the effect of different weighting when calculating distances
-matrices.
 
 #### generate_phylo.R
 
@@ -363,26 +333,7 @@ and corrections are made where necessary.
 
 Uses random forests and the phylogenetic tree to infer missing data.
 
-#### nmds.R
+### NOT_USED
 
-Non-metric multidimensional scaling is an alternative approach to
-visualizing trait spaces.
-
-#### remove_dioecious_species_test.R
-
-Examining the effect of randomly removing dioecious species, which are
-overrepresented in the data set.
-
-#### sankey_between_methods.R
-
-Examines how clusters compare across different clustering approaches.
-
-#### test_robust_groups.R
-
-Assessing how changing the minimum / maximum k values affects robust
-group classification.
-
-#### trait_selection.R
-
-Several approaches to determine which traits capture the most variation
-in the data set.
+Contains scripts that are not used in the current version of the
+manuscript (but could be useful in the future).

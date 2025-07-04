@@ -99,7 +99,7 @@ kable(tr[1:6,])
 
 Examines the correlation between traits in the data set and clusters traits into groups (Fig. 3b).
 
-![**Figure 3**. (a) One-hot traitspace with eigenvectors and (b) trait correlation matrix with dendrogram.](figures/figure_3_loadings.png){width=600px}
+![**Figure 3**. (a) One-hot traitspace with eigenvectors and (b) trait correlation matrix with dendrogram.](figures/figure_3_loadings.png){width=800px}
 
 #### 8.0_pcoa.R
 
@@ -108,6 +108,7 @@ Gower's [distance](https://medium.com/analytics-vidhya/gowers-distance-899f9c4bd
 Principal coordinate analysis ([PCOA](https://en.wikipedia.org/wiki/Multidimensional_scaling#Types)) based on Gower's distances previously calculated. Here are all species displayed on the first two PCOA axes. 
 
 ![**Figure 2.** Scatterplot of PCOA where each point indicates a species.](./figures/figure_2_pcoa.png){width=800px}
+
 #### 8.1_pcoa_diaz_data.R
 
 We examined to locations of our species in the trait space derived from classical plant functional traits [Diaz et al. 2022](https://doi.org/10.1038/s41597-022-01774-9), and compared the quality of these trait spaces.
@@ -120,13 +121,13 @@ To get an idea of the quality of the trait space, analyses from [Mouillot & Lois
 
 The plot below shows how the quality of the trait space increases as dimensions or PCoA axes are added. The elbow technique is used to show where adding more axes starts having less of an effect on trait space quality. This is quite early for our dataset, around 0.4 AUC suggesting that these do not adequately represent the original trait space and more axes are needed to do so. The dataset does pass the AUC threshold of 0.7 within 20 axes indicating that when a larger number of axes are considered the reduced trait space is a good representation.
 
-![**Figure S5**. Influence of number of dimensions on the quality of trait space.](figures/figure_S5_dimensionality.png){width=600px}
+![**Figure S5**. Influence of number of dimensions on the quality of trait space.](figures/figure_S5_dimensionality.png){width=800px}
 
 #### 10_clustering_PAM.R
 
 The [Partitioning Around Medoids](https://dpmartin42.github.io/posts/r/cluster-mixed-types) (PAM) approach is used. All species must be assigned to a cluster and some species may be spuriously assigned to clusters. Examples of cluster membership when number of clusters (k) is 2 and 3 is shown in Figure 4a.
 
-![**Figure 4**. Panel (a) shows PCoA with clustering where colours (k = 2) and shapes (k = 3) correspond to PAM clusters. Panel (b) shows UMAP plot see below) where shapes correspond to k = 3 clusters.](figures/figure_4_umap.png){width=600px}
+![**Figure 4**. Panel (a) shows PCoA with clustering where colours (k = 2) and shapes (k = 3) correspond to PAM clusters. Panel (b) shows UMAP plot see below) where shapes correspond to k = 3 clusters.](figures/figure_4_umap.png){width=800px}
 
 To avoid interpreting species than are not well-clustering we look at 'robust groups' - those species that consistently stick together as the value of k is changed. A Sankey plot demonstrates how species move between clusters as k is increased. 
 
@@ -134,19 +135,19 @@ To avoid interpreting species than are not well-clustering we look at 'robust gr
 
 We can then visualize how these robust groups relate to clusters, and also how traits differ among robust groups.
 
-![**Figure S12**. Robust groups from PAM clustering and corresponding state frequences / trait values.](figures/figure_S12_robust_groups.png){width=600px}
+![**Figure S12**. Robust groups from PAM clustering and corresponding state frequences / trait values.](figures/figure_S12_robust_groups.png){width=800px}
 
 #### 11_phylo_plot
 
 Plots a phylogenetic tree of all 360 species in our data set with trait data at the tips. 
 
-![**Figure 1**. Phylogenetic tree.](figures/figure_1_phylo.png){width=600px}
+![**Figure 1**. Phylogenetic tree.](figures/figure_1_phylo.png){width=800px}
 
 #### 12_loadings.R
 
 Builds a traitspace using one-hot encoded data. Eigenvectors are plotted on the first two axes, similar to 'loadings' from a PCA biplot, as shown in Figure 3a. 
 
-![**Figure 3**. (a) One-hot traitspace with eigenvectors and (b) trait correlation matrix with dendrogram.](figures/figure_3_loadings.png){width=600px}
+![**Figure 3**. (a) One-hot traitspace with eigenvectors and (b) trait correlation matrix with dendrogram.](figures/figure_3_loadings.png){width=800px}
 
 We can also examine other axes to see which traits vary along them.
 
@@ -157,6 +158,7 @@ We can also examine other axes to see which traits vary along them.
 Performs Uniform Manifold Approximation and Projection (UMAP), a non-linear dimensionality reduction approach. 
 
 ![**Figure S10**. UMAP trait spaces with different values of neighbourhood size.](figures/figure_S10_scatterplots_umap_knn10-100.png){width=600px}
+
 Also systematically plots all traits on [`umap`](https://github.com/divers-it/rs-traitspace/tree/main/figures/umap) and [`pcoa`](https://github.com/divers-it/rs-traitspace/tree/main/figures/pcoa) trait spaces. 
 
 #### 14_simulations.R
