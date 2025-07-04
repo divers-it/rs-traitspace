@@ -104,6 +104,8 @@ hist(df$Maximumverticalheight)
 head(sort(df$Maximumverticalheight,decreasing = T))
 head(sort(df$Maximumverticalheight))
 
+# Figure S1 ----
+
 # visualise missing data after cleaning
 vis_miss(df) + ggplot2::theme(plot.margin = ggplot2::margin(5,40,5,5))
 ggsave("figures/figure_S1_missing_data_post_clean.png",

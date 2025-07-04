@@ -203,7 +203,7 @@ res_for_graph_dim$taxa <- factor(res_for_graph_dim$taxa,
 res_for_graph_dim <- res_for_graph_dim[order(res_for_graph_dim$taxa, decreasing = FALSE), ]
 
 ####
-##  Figure SXa PCoA ----
+##  Figure S3a: PCoA ----
 ####
 
 # set colours
@@ -246,7 +246,7 @@ s1 <- ggplot(df_pcoa, aes(x = Axis.1, y = Axis.2)) +
 s1
 
 ####
-# ---- Figure SXb Dimensions ----
+# ---- Figure S3b: Dimensions ----
 ####
 
 # Subset with shared data only
@@ -286,7 +286,7 @@ l2 <- l1 + geom_label(data = df_shared,
 l2
 
 ####
-## Construct Figure SX ----
+## Figure S3: Diaz comparison ----
 ####
 
 patch <- ( s1 / l2 ) + plot_layout(heights=c(2, 1))
@@ -294,4 +294,4 @@ patch <- ( s1 / l2 ) + plot_layout(heights=c(2, 1))
 patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & 
   theme(plot.tag = element_text(size = 14))
 
-ggsave("figures/figure_SX_Diaz_comparison.png",width=10,height=15)
+ggsave("figures/figure_S3_Diaz_comparison.png",width=10,height=15)

@@ -90,10 +90,6 @@ head(melted_cor_mat_ori)
 # get absolute values
 # melted_cor_mat_ori$value <- abs(melted_cor_mat_ori$value)
 
-# cluster variables and get order of clustering
-# NOTE: could replace with ClustOfVar dendrogram
-ord <- hclust(dist(cor_mat_ori, method = "euclidean"), method = "centroid" )$order
-
 # reorder melted table based on clustering
 melted_cor_mat_ori$term <- factor(melted_cor_mat_ori$term, levels=tree$labels[tree$order])
 melted_cor_mat_ori$variable <- factor(melted_cor_mat_ori$variable, levels=tree$labels[tree$order])
@@ -101,9 +97,7 @@ melted_cor_mat_ori$variable <- factor(melted_cor_mat_ori$variable, levels=tree$l
 # replace NA with 1
 melted_cor_mat_ori$value[is.na(melted_cor_mat_ori$value)] <- 1
 
-####
-## Figure SX: joined correlation heatmap and dendrogram ----
-####
+## Joined correlation heatmap and dendrogram ----
 
 # get colours
 cols<-c(rev(harrypotter::hp(2,option="Ravenclaw")),harrypotter::hp(2,option="LunaLovegood"))
@@ -117,22 +111,22 @@ c1 <- ggplot(data = melted_cor_mat_ori, aes(x=term, y=variable, fill=abs(value))
                        labels = c(0, 0.5, 1)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position="left",) +
+        legend.position="none",) +
   xlab("") +
   ylab('')
 
 c1
 
 # add dendrogram
-d1 <- ggdendro::ggdendrogram(as.dendrogram(tree), rotate=TRUE)
-d1 + theme_classic()
+d1 <- ggdendro::ggdendrogram(as.dendrogram(tree), rotate=F)
+d1
 d2 <- d1 + ggdendro::theme_dendro() + theme(plot.margin = unit(c(0,0,0,0), "cm"))
 # + scale_y_reverse(expand = c(0.2, 0))
 d2
 
 # combined plot
 # NOTE: dendrogram not exactly aligned.
-patch <- c1 + d2 + plot_layout(widths=c(4, 1))
+patch <- ( d2 / c1 ) + plot_layout(heights=c(1, 4))
 patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
 
 # save plots for combined figure with loadings plot
@@ -178,9 +172,7 @@ cor_mat<- df %>%
 # look at correlations
 cor_mat
 
-#### 
-## Figure SX: Network plot adapted from code of corrr::network_plot ----
-#### 
+## Not used: Network plot adapted from code of corrr::network_plot ----
 
 # minimum correlation allowed
 min_cor <- 0.3
@@ -343,47 +335,10 @@ geom_point(
         panel.background = element_rect(fill='white'))
 
 
-ggsave("figures/figure_S4_correlation_network.png",width=14,height=14)
+# ggsave("figures/figure_S4_correlation_network.png",width=14,height=14)
 
 #### 
-## Original corrr function for comparison ----
+### Original corrr function for comparison ----
 #### 
 
 network_plot(cor_mat,colours = c("indianred2", "white", "skyblue1"),min_cor=0.3,repel=TRUE)
-
-#### 
-## ---- igraph network plot -----
-#### 
-
-library(GGally)
-library(network)
-library(sna)
-library(ggplot2)
-library(tidyverse)
-library(corrr)
-library(igraph)
-library(ggraph)
-
-net = rgraph(10, mode = "graph", tprob = 0.5)
-
-# as matrix
-cor_mat <- as.matrix(cor_mat,rownames.force=TRUE)
-rownames(cor_mat)<-cor_mat[,1]
-cor_mat <- cor_mat[,-1]
-as.numeric(cor_mat)
-
-# Keep only high correlations
-cor_mat[cor_mat<0.25] <- 0
-
-# Make an Igraph object from this matrix:
-network <- graph_from_adjacency_matrix( cor_mat, weighted=T, mode="undirected", diag=F)
-
-ggraph(network) +
- geom_edge_link(aes(edge_alpha = abs(weight), edge_width = 1, color = weight)) +
- guides(edge_alpha = "none", edge_width = "none") +
- scale_edge_colour_gradientn(limits = c(min(cor_mat), max(cor_mat)), colors = c("white", "dodgerblue2")) +
- geom_node_point(color = "grey", size = 2) +
- geom_node_text(aes(label = name), repel = TRUE) +
- theme_graph() +
- labs(title = "Correlations between DiveRS traits")
-

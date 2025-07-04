@@ -8,8 +8,7 @@ df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
 # get list of species in dataset
 specieslist <- rownames(df)
-
-# 
+ 
 
 ####
 ## Get number of families with TNRS ----
@@ -49,17 +48,23 @@ sp_with_err <- setdiff(rownames(df),res$query)
 # NOTE: this could serve as first loop but probably won't need to run again
 for(i in 1:length(sp_with_err)){
   
-  # keeps j null each iteration
-  j<-NULL 
-  
-  # keeps trying to get info while j is null
-  while(is.null(j)) {
-    try(
-      j <- tax_name(query = sp_with_err[i], get = c("family","order"), db = "ncbi")
-    )
+  if(length(sp_with_err)<1){
+    
+  } else {
+    
+    # keeps j null each iteration
+    j<-NULL 
+    
+    # keeps trying to get info while j is null
+    while(is.null(j)) {
+      try(
+        j <- tax_name(query = sp_with_err[i], get = c("family","order"), db = "ncbi")
+      )
+    }
+    
+    res2<-rbind(res2,j)
+    
   }
-  
-  res2<-rbind(res2,j)
   
 }
 
@@ -116,6 +121,10 @@ saveRDS(res2_out, file = here::here("outputs/taxonomy.rds"))
 
 # load data
 res2_out<-readRDS(file = here::here("outputs/taxonomy.rds"))
+
+####
+# Table S2: Frequencies of orders ----
+####
 
 # get frequencies of families/orders in our data set
 length(sort(table(res2_out$family),decreasing = TRUE))

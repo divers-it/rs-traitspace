@@ -162,149 +162,6 @@ uuid <- get_uuid(name = "Cornus florida", n = 1)
 cornus_pp <- get_phylopic(uuid = uuid)
 
 ####
-## Alternate Figure 2: PCoA with traits and density ----
-####
-
-# Edit factors for plotting to control colors
-# add new factor level "none"
-df$Woodiness = factor(df$Woodiness, levels=c(levels(df$Woodiness), "None"))
-#df$SexualSystem = factor(df$SexualSystem, levels=c(levels(df$SexualSystem), "None"))
-
-# convert all NA's to None
-df$Woodiness[is.na(df$Woodiness)] = "None"
-#df$SexualSystem = factor(df$SexualSystem, levels=c(levels(df$SexualSystem), "None"))
-
-# y-axis scaling
-# yax <- 11/19
-
-# PCoA scatterplot with density polygons
-ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
-  stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", col=NA , n=100, bins=20) +
-  scale_fill_distiller(palette = "Greys", direction = 1, guide = "none") +
-  geom_point(
-    aes(
-      color = as.factor(df$FlowerSex),
-      shape = as.factor(df$Woodiness)),
-    # shape=21,
-    alpha = 0.7,
-    size = 2.5,
-    stroke = 0.5) + 
-  scale_color_manual(values=wes_palette("FantasticFox1", 3),
-                     labels=c('Bisexual', 'Bisexual & Unisexual', 'Unisexual','No Data')) +
-  scale_shape_discrete(labels=c('Herbaceous', 'Herbaceous & Woody', 'Woody','No Data')) +
-  xlab(paste("PCoA Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("PCoA Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) +
-  xlim(-0.6,0.6) + 
-  ylim(-0.44,0.6) + 
-  theme_bw() + theme(
-    panel.border = element_blank(),
-    #panel.grid.major = element_line(colour = "darkgrey"),
-    #panel.grid.minor = element_line(colour = "grey"),
-    panel.grid.major = element_blank(),
-    panel.grid.minor = element_blank(),
-    legend.position = c(0.85, 0.8),
-    legend.text = element_text(size=12),
-    legend.title = element_text(size=14),
-    axis.line = element_line(colour = "black"),
-    axis.text = element_text(size=12),
-    axis.title = element_text(size=14)) + 
-  labs(
-    colour = "Flower sex",
-    shape = "Woodiness"
-  ) +   
-  add_phylopic(img=solanum_pp,x = 0.28, y=-0.225, ysize = 0.15,col = "grey30") +
-  add_phylopic(img=commelina_pp,x = 0.44, y=0, ysize = 0.15,col = "grey30") +
-  add_phylopic(img=phoenix_pp,x = -0.52, y=0, ysize = 0.15,col = "grey30") +
-  add_phylopic(img=coffea_pp,x = -0.07, y=-0.35, ysize = 0.125,col = "grey30") +
-  add_phylopic(img=trithuria_pp,x = 0.07, y=0.55, ysize = 0.125,col = "grey30") +
-  add_phylopic(img=cornus_pp,x = -0.35, y=-0.26, ysize = 0.125,col = "grey30") +
-  add_phylopic(img=zea_pp,x = -0.39, y=0.38, ysize = 0.125,col = "grey30") +
-  annotate("text", x=-0.07, y=-0.43, label= "paste(italic(Coffea), ' ',italic(arabica))",
-               col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
-  annotate("text", x=-0.52, y=-0.09, label= "paste(italic(Phoenix), ' ',italic(dactylifera))",
-             col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
-  annotate("text", x=0.28, y=-0.32, label= "paste(italic(Solanum), ' ',italic(dulcamara))",
-             col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
-  annotate("text", x=0.44, y=-0.1, label= "paste(italic(Commelina), ' ',italic(communis))",
-           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
-  annotate("text", x=0.07, y=0.47, label= "paste(italic(Trithuria), ' ',italic(submersa))",
-           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
-  annotate("text", x=-0.35, y=-0.34, label= "paste(italic(Cornus), ' ',italic(florida))",
-           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
-  annotate("text", x=-0.39, y=0.3, label= "paste(italic(Zea), ' ',italic(mays))",
-           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
-  annotate("segment", #phoenix
-           #linetype=2,
-           linewidth=0.75,
-           x=-0.46,
-           xend=dataset_pcoa$vectors["Phoenix dactylifera",][1], 
-           y=0.03,
-           yend=dataset_pcoa$vectors["Phoenix dactylifera",][2], 
-           color = "black",
-           alpha=0.5) + 
-  annotate("segment", #solanum
-           #linetype=2,
-           linewidth=0.75,
-           x=0.25,
-           xend=dataset_pcoa$vectors["Solanum dulcamara",][1], 
-           y=-0.2,
-           yend=dataset_pcoa$vectors["Solanum dulcamara",][2], 
-           color = "black",
-           alpha=0.5) +
-  annotate("segment", #coffea
-           #linetype=2,
-           linewidth=0.75,
-           x=-0.045,
-           xend=dataset_pcoa$vectors["Coffea arabica",][1], 
-           y=-0.28,
-           yend=dataset_pcoa$vectors["Coffea arabica",][2], 
-           color = "black",
-           alpha=0.5) + 
-  annotate("segment", #trithuria
-           #linetype=2,
-           linewidth=0.75,
-           x=0.07,
-           xend=dataset_pcoa$vectors["Trithuria submersa",][1], 
-           y=0.45,
-           yend=dataset_pcoa$vectors["Trithuria submersa",][2], 
-           color = "black",
-           alpha=0.5) + 
-  annotate("segment", #cornus
-           #linetype=2,
-           linewidth=0.75,
-           x=-0.3,
-           xend=dataset_pcoa$vectors["Cornus florida",][1],
-           y=-0.21,
-           yend=dataset_pcoa$vectors["Cornus florida",][2], 
-           color = "black",
-           alpha=0.5) +
-  annotate("segment", #zea
-           #linetype=2,
-           linewidth=0.75,
-           x=-0.35,
-           xend=dataset_pcoa$vectors["Zea mays",][1],
-           y=0.35,
-           yend=dataset_pcoa$vectors["Zea mays",][2], 
-           color = "black",
-           alpha=0.5) +
-  annotate("segment", #Commelina
-           #linetype=2,
-           linewidth=0.75,
-           x=0.38,
-           xend=dataset_pcoa$vectors["Commelina communis",][1],
-           y=0,
-           yend=dataset_pcoa$vectors["Commelina communis",][2], 
-           color = "black",
-           alpha=0.5)
-  
-# ggsave("figures/figure_2_pcoa.png",
-#        width = 35,
-#        #height = 35*yax,
-#        height = 35,
-#        units = 'cm')
-
-
-####
 ## Figure 2: Plot reproductive systems (back-engineer them first) ----
 ####
 
@@ -313,6 +170,8 @@ library(ggnewscale)
 
 # make copy of df
 df_ors <- df
+
+### Coding classical reproductive system ----
 
 # read in sexual system classification
 ss <- read.csv("data/sexual_systems_to_verify.csv")
@@ -395,6 +254,7 @@ for(j in 1:length(ss[,1])){
 
 # check RS
 data.frame(rownames(df_ors),df_ors$RS)
+table(df_ors$RS)
 
 # write original reproductive systems
 ors_for_csv <- data.frame(rownames(df_ors),df_ors$RS)
@@ -405,11 +265,11 @@ write.csv(ors_for_csv, "outputs/original_reproductive_systems.csv")
 # colour-blind friendly
 # pal 1
 # one colour for dioecy, one for monoecy, then three on a gradient for bisexual selfing->outcrossing, and one for NA
-mypal <- c("#009E73","#CC79A7", colorRampPalette(c( "#E69F00","#D55E00"))(3), "black")
+# mypal <- c("#009E73","#CC79A7", colorRampPalette(c( "#E69F00","#D55E00"))(3), "black")
 
 # pal 2
 # one colour for dioecy, one for monoecy, then three on a gradient for bisexual selfing->outcrossing, and one for NA
-# mypal <- c("#332288","#44AA99", colorRampPalette(c( "#CC6677","#882255"))(3), "black")
+mypal <- c("#882255","#CC6677", colorRampPalette(c( "lightblue","#332288"))(3), "black")
 
 
 a1 <- ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2))+
@@ -523,7 +383,7 @@ a1 <- ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2))+
 a1
 
 ####
-### Quantitative traits boxplots for robust clusters ----
+### Quantitative traits boxplots ----
 ####
 
 # palette from scatterplot
@@ -533,7 +393,7 @@ b1 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Maximumverticalheight, f
   geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols)) +
-  scale_y_continuous(limits = quantile(df_ors$Maximumverticalheight, c(0.025, 0.975),na.rm = TRUE)) +
+  # scale_y_continuous(limits = quantile(df_ors$Maximumverticalheight, c(0.025, 0.975),na.rm = TRUE)) +
   ylab("Maximum height") +
   theme(legend.position = "none",
         # add border 1)
@@ -564,7 +424,7 @@ b2 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=flowerSize, fill=RS)) +
   geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols)) +
-  scale_y_continuous(limits = quantile(df_ors$flowerSize, c(0.025, 0.975),na.rm = TRUE)) +
+  # scale_y_continuous(limits = quantile(df_ors$flowerSize, c(0.025, 0.975),na.rm = TRUE)) +
   ylab("Flower size") +
   theme(legend.position = "none",
         plot.margin = unit(c(1,1,1,1), "cm"),
@@ -767,43 +627,7 @@ ggsave("figures/figure_2_pcoa.png",
        height = 20)
 
 ####
-## Plot taxonomy on PCOA ----
-####
-
-# load taxonomy
-tax<-readRDS(file = here::here("outputs/taxonomy.rds"))
-
-# check row order
-table(rownames(df)==rownames(tax))
-
-# empty column for common orders
-tax$order_common<-NA
-
-# top 10 most common orders in data
-order_common<-names(sort(table(tax$order),decreasing = T)[1:8])
-for(i in 1:length(order_common)){
-  tax$order_common[grep(order_common[i],tax$order)]<-order_common[i]
-}
-
-# plot PCOA points on first two axes coloured by order
-ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
-  geom_point(
-    aes(color=tax$order_common),
-    shape=16,
-    alpha=0.75,
-    size=3,
-    stroke = 0.5
-  ) + 
-  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
-
-# ggsave("figures/8.0_scatterplot_pcoa_taxonomy.png",
-#        width = 20,
-#        height = 15,
-#        units = 'cm')
-
-####
-## Correlations of traits with PCOA axes ----
+## Table S3: Correlations of traits with PCOA axes ----
 ####
 
 # make empty matrix
@@ -843,7 +667,7 @@ corr_mat<-corr_mat[order(rownames(corr_mat)),]
 write.csv(round(corr_mat,3),"outputs/8.0_correlation_pcoa_axes_traits.csv")
 
 ####
-## Figure SX: Boxplots for all quantitative traits vs RS ----
+## Figure S13: Boxplots for all quantitative traits vs RS ----
 ####
 
 # Maximum height
@@ -1021,8 +845,7 @@ b7 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=seedMass, fill=RS)) +
   scale_fill_manual(values = c(cols)) +
   # scale_y_continuous(limits = quantile(df_ors$seedMass, c(0.05, 0.95),na.rm = TRUE)) +
   ylab("Seed mass") +
-  theme(legend.position = "none",
-        plot.margin = unit(c(1,1,1,1), "cm"),
+  theme(plot.margin = unit(c(1,1,1,1), "cm"),
         # add border 1)
         # panel.border = element_blank(),
         # color background 2)
@@ -1039,6 +862,7 @@ b7 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=seedMass, fill=RS)) +
         axis.title.x = element_blank(),
         axis.title.y = element_text(size=14),
         axis.ticks.x = element_blank(),
+        legend.title = element_blank()
         # axis.ticks.y = element_blank()
   )  
 
@@ -1048,6 +872,187 @@ patch <- (b1 +  b2) / ( b3 + b4) / (b5 + b6 ) + ( b7 + plot_spacer())  + plot_la
 patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
 
 # save plot
-ggsave("figures/figure_SX_boxplots_all_quant.png",
+ggsave("figures/figure_S13_boxplots_all_quant.png",
        width = 15,
        height = 15)
+
+
+####
+## Not used: PCoA with traits and density ----
+####
+
+# Edit factors for plotting to control colors
+# add new factor level "none"
+df$Woodiness = factor(df$Woodiness, levels=c(levels(df$Woodiness), "None"))
+#df$SexualSystem = factor(df$SexualSystem, levels=c(levels(df$SexualSystem), "None"))
+
+# convert all NA's to None
+df$Woodiness[is.na(df$Woodiness)] = "None"
+#df$SexualSystem = factor(df$SexualSystem, levels=c(levels(df$SexualSystem), "None"))
+
+# y-axis scaling
+# yax <- 11/19
+
+# PCoA scatterplot with density polygons
+ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
+  stat_density_2d(aes(fill = after_stat(level)), geom = "polygon", col=NA , n=100, bins=20) +
+  scale_fill_distiller(palette = "Greys", direction = 1, guide = "none") +
+  geom_point(
+    aes(
+      color = as.factor(df$FlowerSex),
+      shape = as.factor(df$Woodiness)),
+    # shape=21,
+    alpha = 0.7,
+    size = 2.5,
+    stroke = 0.5) + 
+  scale_color_manual(values=wes_palette("FantasticFox1", 3),
+                     labels=c('Bisexual', 'Bisexual & Unisexual', 'Unisexual','No Data')) +
+  scale_shape_discrete(labels=c('Herbaceous', 'Herbaceous & Woody', 'Woody','No Data')) +
+  xlab(paste("PCoA Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
+  ylab(paste("PCoA Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2))) +
+  xlim(-0.6,0.6) + 
+  ylim(-0.44,0.6) + 
+  theme_bw() + theme(
+    panel.border = element_blank(),
+    #panel.grid.major = element_line(colour = "darkgrey"),
+    #panel.grid.minor = element_line(colour = "grey"),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = c(0.85, 0.8),
+    legend.text = element_text(size=12),
+    legend.title = element_text(size=14),
+    axis.line = element_line(colour = "black"),
+    axis.text = element_text(size=12),
+    axis.title = element_text(size=14)) + 
+  labs(
+    colour = "Flower sex",
+    shape = "Woodiness"
+  ) +   
+  add_phylopic(img=solanum_pp,x = 0.28, y=-0.225, ysize = 0.15,col = "grey30") +
+  add_phylopic(img=commelina_pp,x = 0.44, y=0, ysize = 0.15,col = "grey30") +
+  add_phylopic(img=phoenix_pp,x = -0.52, y=0, ysize = 0.15,col = "grey30") +
+  add_phylopic(img=coffea_pp,x = -0.07, y=-0.35, ysize = 0.125,col = "grey30") +
+  add_phylopic(img=trithuria_pp,x = 0.07, y=0.55, ysize = 0.125,col = "grey30") +
+  add_phylopic(img=cornus_pp,x = -0.35, y=-0.26, ysize = 0.125,col = "grey30") +
+  add_phylopic(img=zea_pp,x = -0.39, y=0.38, ysize = 0.125,col = "grey30") +
+  annotate("text", x=-0.07, y=-0.43, label= "paste(italic(Coffea), ' ',italic(arabica))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=-0.52, y=-0.09, label= "paste(italic(Phoenix), ' ',italic(dactylifera))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=0.28, y=-0.32, label= "paste(italic(Solanum), ' ',italic(dulcamara))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=0.44, y=-0.1, label= "paste(italic(Commelina), ' ',italic(communis))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=0.07, y=0.47, label= "paste(italic(Trithuria), ' ',italic(submersa))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=-0.35, y=-0.34, label= "paste(italic(Cornus), ' ',italic(florida))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("text", x=-0.39, y=0.3, label= "paste(italic(Zea), ' ',italic(mays))",
+           col="black", size=10 / .pt, family = "Helvetica", parse=TRUE) +
+  annotate("segment", #phoenix
+           #linetype=2,
+           linewidth=0.75,
+           x=-0.46,
+           xend=dataset_pcoa$vectors["Phoenix dactylifera",][1], 
+           y=0.03,
+           yend=dataset_pcoa$vectors["Phoenix dactylifera",][2], 
+           color = "black",
+           alpha=0.5) + 
+  annotate("segment", #solanum
+           #linetype=2,
+           linewidth=0.75,
+           x=0.25,
+           xend=dataset_pcoa$vectors["Solanum dulcamara",][1], 
+           y=-0.2,
+           yend=dataset_pcoa$vectors["Solanum dulcamara",][2], 
+           color = "black",
+           alpha=0.5) +
+  annotate("segment", #coffea
+           #linetype=2,
+           linewidth=0.75,
+           x=-0.045,
+           xend=dataset_pcoa$vectors["Coffea arabica",][1], 
+           y=-0.28,
+           yend=dataset_pcoa$vectors["Coffea arabica",][2], 
+           color = "black",
+           alpha=0.5) + 
+  annotate("segment", #trithuria
+           #linetype=2,
+           linewidth=0.75,
+           x=0.07,
+           xend=dataset_pcoa$vectors["Trithuria submersa",][1], 
+           y=0.45,
+           yend=dataset_pcoa$vectors["Trithuria submersa",][2], 
+           color = "black",
+           alpha=0.5) + 
+  annotate("segment", #cornus
+           #linetype=2,
+           linewidth=0.75,
+           x=-0.3,
+           xend=dataset_pcoa$vectors["Cornus florida",][1],
+           y=-0.21,
+           yend=dataset_pcoa$vectors["Cornus florida",][2], 
+           color = "black",
+           alpha=0.5) +
+  annotate("segment", #zea
+           #linetype=2,
+           linewidth=0.75,
+           x=-0.35,
+           xend=dataset_pcoa$vectors["Zea mays",][1],
+           y=0.35,
+           yend=dataset_pcoa$vectors["Zea mays",][2], 
+           color = "black",
+           alpha=0.5) +
+  annotate("segment", #Commelina
+           #linetype=2,
+           linewidth=0.75,
+           x=0.38,
+           xend=dataset_pcoa$vectors["Commelina communis",][1],
+           y=0,
+           yend=dataset_pcoa$vectors["Commelina communis",][2], 
+           color = "black",
+           alpha=0.5)
+
+# ggsave("figures/figure_2_pcoa.png",
+#        width = 35,
+#        #height = 35*yax,
+#        height = 35,
+#        units = 'cm')
+
+
+####
+## Not used: Plot taxonomy on PCOA ----
+####
+
+# load taxonomy
+tax<-readRDS(file = here::here("outputs/taxonomy.rds"))
+
+# check row order
+table(rownames(df)==rownames(tax))
+
+# empty column for common orders
+tax$order_common<-NA
+
+# top 10 most common orders in data
+order_common<-names(sort(table(tax$order),decreasing = T)[1:8])
+for(i in 1:length(order_common)){
+  tax$order_common[grep(order_common[i],tax$order)]<-order_common[i]
+}
+
+# plot PCOA points on first two axes coloured by order
+ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
+  geom_point(
+    aes(color=tax$order_common),
+    shape=16,
+    alpha=0.75,
+    size=3,
+    stroke = 0.5
+  ) + 
+  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
+  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
+
+# ggsave("figures/8.0_scatterplot_pcoa_taxonomy.png",
+#        width = 20,
+#        height = 15,
+#        units = 'cm')
+

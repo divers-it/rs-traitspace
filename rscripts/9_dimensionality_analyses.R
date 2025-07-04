@@ -212,7 +212,7 @@ ggplot(eig_df, aes(x=pcoa_axis, y=relative_eigenvalue)) +
 diaz_dist<-gower_df
 
 ####
-### Compare DiveRS and Diaz et al. 2022 ----
+## Compare DiveRS and Diaz et al. 2022 ----
 ####
 
 # DiveRS data distance matrix
@@ -222,8 +222,12 @@ divers_dist <- daisy(df_filt,
 # check names
 table(labels(diaz_dist)==labels(divers_dist))
 
+###
+# Figure S4: Distances Diaz vs DiveRS ----
+###
+
 # compare pairwaise distances of the DiveRS and Diaz distance matrices
-png(filename = "figures/figure_S5_distances_diaz_vs_divers.png",width = 750,height = 750)
+png(filename = "figures/figure_S4_distances_diaz_vs_divers.png",width = 750,height = 750)
 plot(x=divers_dist,y=diaz_dist,xlim=c(0,1),ylim=c(0,1),xlab="Distance (this study)",ylab="Distance (Diaz et al. 2022)")
 abline(0,1,col='red',lty=2,lwd=2)
 dev.off()
@@ -361,6 +365,9 @@ res_for_graph_dim$taxa <- factor(res_for_graph_dim$taxa,
 
 res_for_graph_dim <- res_for_graph_dim[order(res_for_graph_dim$taxa, decreasing = FALSE), ]
 
+###
+# Figure S5: Dimensionality ----
+###
 
 # Plot
 p <- ggplot(res_for_graph_dim, aes(x = dim, y = AUC, colour = taxa)) +
@@ -399,12 +406,12 @@ p <- ggplot(res_for_graph_dim, aes(x = dim, y = AUC, colour = taxa)) +
 
 
 #save plot
-grDevices::png(file = here::here("figures", "figure_S6_dimensionality.png"),width = 6250,height=2500,res=500)
+grDevices::png(file = here::here("figures", "figure_S5_dimensionality.png"),width = 6250,height=2500,res=500)
 print(p)
 dev.off()
 
 ####
-## Trait omission vs trait space quality ----
+## Not used: Trait omission vs trait space quality ----
 ####
 
 # Prepare Data
@@ -476,7 +483,7 @@ p2 <- ggplot(res_for_graph_miss, aes(x = miss_percent * 100, y = AUC,
 # dev.off()
 
 ####
-## Singleton scatterplot ----
+## Not used: Singleton scatterplot ----
 ####
 
 # prepare data

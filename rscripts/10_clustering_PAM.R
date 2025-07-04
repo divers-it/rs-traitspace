@@ -67,7 +67,7 @@ clust.num.k.2.7.df <-as.data.frame(pam_df)
 rownames(clust.num.k.2.7.df)<-names(pam.gower$clustering)
 
 ####
-## Sankey plot ----
+## Figure S11: Sankey plot ----
 ####
 
 #from: https://r-graph-gallery.com/321-introduction-to-interactive-sankey-diagram-2.html
@@ -135,6 +135,9 @@ p
 
 # save as HTML
 saveNetwork(p, "figures/10_sankey_pam.html")
+
+### Export Sankey to .png with viewer ----
+# File should be exported as: "figures/figure_S11_sankey_PAM.png"
 
 ####
 ## Identify robust groups ----
@@ -215,7 +218,7 @@ saveRDS(robust_vect_pam_full, file = here::here("outputs/10_robust_vect_pam_full
 robust_vect_pam<-na.omit(robust_vect_pam)
 
 ####
-## Figure S7: PCOA with PAM clusters k = 2-7 ----
+## Figure S8: PCOA with PAM clusters k = 2-7 ----
 ####
 
 # run PCOA
@@ -268,10 +271,10 @@ for(i in 1:length(clusters_pcoa[1,])){
 
 ( pcoa_plots[[1]] + pcoa_plots[[2]] ) / ( pcoa_plots[[3]] + pcoa_plots[[4]] ) / ( pcoa_plots[[5]] + pcoa_plots[[6]] )
 
-ggsave("figures/figure_S7_scatterplots_pcoa_pam_k2-k7.png",width=10,height=15)
+ggsave("figures/figure_S8_scatterplots_pcoa_pam_k2-k7.png",width=10,height=15)
 
 ####
-## Figure Xa: Scatterplot with PAM clusters k = 3 ----
+## Figure 4a: Scatterplot with PAM clusters k = 3 ----
 ####
 
 #convert gower df to distance matrix
@@ -334,15 +337,8 @@ a1 <- ggplot(data.frame(dataset_pcoa$vectors),
 
 a1
 
-# save to RDS to make composite figure
-# saveRDS(s1, file = "outputs/10_pcoa_pam.rds")
-
-# ggsave("figures/figure_S7_pcoa_pam.png",
-#        width = 10,
-#        height = 10)
-
 ####
-# Figure Xb: UMAP PAM clustering / robust ----- 
+# Figure 4b: UMAP PAM clustering / robust ----- 
 ####
 
 # ochRe not actually used at this stage
@@ -435,9 +431,11 @@ s1 <- ggplot(
 
 s1
 
-### combined plot ----
+####
+## Figure 4: Combined plot ----
+####
 
-a1 + s1
+a1 + s1 + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
 
 # save plot
 ggsave("figures/figure_4_umap.png",width=20,height=10)
@@ -452,7 +450,7 @@ df_robust<-df[!is.na(robust_vect_pam_full),]
 mean(is.na(df_robust))
 
 ####
-## Figure SXb: Quantitative trait boxplots for robust clusters ----
+## Figure S12b: Quantitative trait boxplots for robust clusters ----
 ####
 
 # make label
@@ -522,12 +520,8 @@ b2 <- ggplot(df_labelled, aes(x=robust_group, y=flowerSize, fill=robust_group)) 
 
 b2
 
-b1 / b2
-
-# ggsave("figures/10_robust_boxplots.png",width=15,height=10)
-
 ####
-## Figure SXc: Stacked barplots ----
+## Figure S12c: Stacked barplots ----
 ####
 
 # reset margins
@@ -822,22 +816,25 @@ pNA
 
 # ggsave("figures/10_robust_stacked_barplots.png",width=20,height=15)
 
-### Assemble Figure SX ----
+####
+## Figure S12: Combined plot ----
+####
+
 patch <- (s1 / b1 / b2 ) + plot_layout(heights=c(4, 1, 1)) | (p1 + p2) / (p3 + p4) / (p5 + p6) / (p7 + pNA)
 
 patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
 
-ggsave("figures/figure_SX_robust_groups.png",width=25,height=20)
+ggsave("figures/figure_S12_robust_groups.png",width=25,height=20)
 
 ####
-## Figure S8: Qualitative and quantitative values for PAM clusters ----
+## Figure S9: Qualitative and quantitative values for PAM clusters ----
 ####
 
 # colors order to match Figure S7 (b)
 cols<-brewer.pal(3,"Set1")[c(1,3,2)]
 
 #### 
-### Quantitative trait boxplots per cluster ----
+### Figure S9b Quantitative trait boxplots per cluster ----
 #### 
 
 #check names
@@ -909,10 +906,8 @@ b2 <- ggplot(df_labelled, aes(x=cluster, y=flowerSize, fill=cluster)) +
 
 b2
 
-b1 / b2
-
 ####
-### Qualitative trait stacked barplots per cluster ----
+### Figure S9a: Qualitative trait stacked barplots per cluster ----
 ####
 
 # add group size to  group label
@@ -1013,7 +1008,6 @@ p2 <- ggplot(rob_df, aes(x = variable, y = count, fill=pal, alpha=0.98)) +
 
 p2
 
-
 # Cluster 3
 
 # subset df
@@ -1043,11 +1037,10 @@ patch <- ( p1 + p2 + p3 ) / ( b1 + b2 ) + plot_layout(heights=c(2, 1))
 
 patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
 
-ggsave("figures/figure_S8_pam_states.png",width=20,height=15)
-
+ggsave("figures/figure_S9_pam_states.png",width=20,height=15)
 
 ####
-## NOT USED: Scatterplot PAM with robust groups showing unisexual, abiotic outliers ----
+## Not used: Scatterplot PAM with robust groups showing unisexual, abiotic outliers ----
 ####
 
 #empty matrix
