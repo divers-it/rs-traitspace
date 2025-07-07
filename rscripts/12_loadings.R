@@ -11,11 +11,21 @@ library(patchwork)
 # load formatted data
 df2<-readRDS(file = here::here("outputs/one_hot_6_df_filt_trans.rds"))
 
+## Make names nice for plots ----
+
+colnames(df2) <- gsub("\\."," ",colnames(df2))
+colnames(df2) <- gsub("non ","non-",colnames(df2))
+colnames(df2) <- gsub("seedMass","Seed_mass",colnames(df2))
+colnames(df2) <- gsub("Dist","Distance",colnames(df2))
+colnames(df2) <- gsub("Mating","MatingSystem",colnames(df2))
+colnames(df2) <- gsub("Number_of","No",colnames(df2))
+colnames(df2) <- gsub("_",":",colnames(df2))
+colnames(df2)
+
 # make factors integers
 df2[sapply(df2, is.factor)] <- lapply(df2[sapply(df2, is.factor)],as.integer)
 
 # calculate dissimilarity matrix
-
 gower_df2 <- daisy(df2, metric = "gower" )
 summary(gower_df2)
 
@@ -53,39 +63,21 @@ if(sum(rownames(df2)==rownames(speciesd))==nrow(df2)){
 }
 
 # read in clustering results
-clusters_pam_one_hot=readRDS(file = here::here("outputs/one_hot_10_clust_num_k_2_7_pam.rds"))
 clusters_pam=readRDS(file = here::here("outputs/10_clust_num_k_2_7_pam.rds"))
-clusters_kpro_one_hot=readRDS(file = here::here("outputs/one_hot_10.1_clust_num_k_2_7_kpro.rds"))
-clusters_kpro=readRDS(file = here::here("outputs/10.1_clust_num_k_2_7_kpro.rds"))
-clusters_ward_one_hot=readRDS(file = here::here("outputs/one_hot_10.2_clust_num_k_2_7_ward.rds"))
-clusters_ward=readRDS(file = here::here("outputs/10.2_clust_num_k_2_7_ward.rds"))
-
-# select number of clusters
-# divisive.clust = 3
-# aggl.clust.c (complete) = 4
-# aggl.clust.a (average) = 2
-# aggl.clust.w (ward) = 5
-
-# clust.num[clust.num==1]="showy perennials"
-# clust.num[clust.num==2]="dioecious trees"
-# clust.num[clust.num==3]="small/short-lived herbs"
-# clust.num[clust.num==4]="showy trees"
-# clust.num[clust.num==5]="showy trees"
-# clust.num[clust.num==6]="wind-pollinated sexually monomorphic"
 
 # minimal value for arrow length
 minarrow=0.2
 
 # number of clusters to use for plotting
 clust.num=data.frame(clust.num=clusters_pam[,"3clusters"])
-rownames(clust.num)=rownames(clusters_ward)
+rownames(clust.num)=rownames(clusters_pam)
 df_ord_clust=as.data.frame(c(df_ord,clust.num))
 
 #### 
-## Figure 3: Loadings and correlation heatmap  ----
+## Figure 2: Loadings and correlation heatmap  ----
 #### 
 
-### Figure 3a: Loadings scatterplot ----
+### Figure 2a: Loadings scatterplot ----
 
 # Images found in AJH_DiveRS/trait_circles.svg
 # trait images
@@ -163,9 +155,9 @@ area(t = 1, l = 110, b = 99, r = 170)
 
 # combined plot
 patch <- ( p1_fix ) + ( c1d2_fix ) + plot_layout(design = layout)
-patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
+patch + plot_annotation(tag_levels = list(c("(a)","(b)",""))) + theme(plot.tag = element_text(size = 14))
 
-ggsave("figures/figure_3_loadings.png",
+ggsave("figures/figure_2_loadings.png",
        # height=12.5*yax,
        height=10,
        width=20
@@ -237,136 +229,44 @@ ggplot() + geom_point(data=df_ord_clust,aes(x=Dim3,y=Dim4,color = as.factor(clus
   ylab(paste("Axis 4: relative eigenvalue =",round(rel_ev_pcoa_g0[4],2)))
 
 ####
-## Compare clustering methods ----
-####
-
-### Original encoding ----
-
-numclust="6clusters"
-
-clust.num=data.frame(clust.num=clusters_ward[,numclust])
-rownames(clust.num)=rownames(clusters_ward)
-df_ord_clust=as.data.frame(c(df_ord,clust.num))
-
-p1=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none") + ggtitle("ward") +
-  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
-
-clust.num=data.frame(clust.num=clusters_kpro[,numclust])
-rownames(clust.num)=rownames(clusters_kpro)
-df_ord_clust=as.data.frame(c(df_ord,clust.num))
-
-p2=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none") + ggtitle("kproto") +
-  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
-
-clust.num=data.frame(clust.num=clusters_pam[,numclust])
-rownames(clust.num)=rownames(clusters_pam)
-df_ord_clust=as.data.frame(c(df_ord,clust.num))
-
-p3=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none") + ggtitle("pam") +
-  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
-
-p1 + p2 + p3
-
-# ggsave("figures/12__scatterplot_pcoa_k6_loadings_by_clustering_method.png",
-#        width = 40,
-#        height = 20,
-#        units = 'cm')
-
-### One-hot based clustering ----
-
-numclust="6clusters"
-
-clust.num=data.frame(clust.num=clusters_ward_one_hot[,numclust])
-rownames(clust.num)=rownames(clusters_ward_one_hot)
-df_ord_clust=as.data.frame(c(df_ord,clust.num))
-
-p1=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none") + ggtitle("ward") +
-  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
-
-clust.num=data.frame(clust.num=clusters_kpro_one_hot[,numclust])
-rownames(clust.num)=rownames(clusters_kpro_one_hot)
-df_ord_clust=as.data.frame(c(df_ord,clust.num))
-
-p2=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none") + ggtitle("kproto") +
-  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
-
-clust.num=data.frame(clust.num=clusters_pam_one_hot[,numclust])
-rownames(clust.num)=rownames(clusters_pam_one_hot)
-df_ord_clust=as.data.frame(c(df_ord,clust.num))
-
-p3=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(clust.num)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust, geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(clust.num)), alpha = 0.25) + theme(legend.position="none") + ggtitle("pam") +
-  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
-
-p1 + p2 + p3
-
-# ggsave("figures/12__scatterplot_pcoa_k6_loadings_by_one_hot_clustering_method.png",
-#        width = 40,
-#        height = 20,
-#        units = 'cm')
-
-####
 ## Compare robust groups with loadings ----
 ####
 
 ### Original encoding ----
 
 # read robust groups 
-groups_kpro_one_hot=readRDS(file = here::here("outputs/one_hot_10.1_robust_vect_kpro_full.rds"))
-groups_kpro=readRDS(file = here::here("outputs/10.1_robust_vect_kpro_full.rds"))
-groups_pam_one_hot=readRDS(file = here::here("outputs/one_hot_10_robust_vect_pam_full.rds"))
 groups_pam=readRDS(file = here::here("outputs/10_robust_vect_pam_full.rds"))
 
-rownames(df_ord)==rownames(groups_kpro)
-
-df_ord_clust=as.data.frame(c(df_ord,as.data.frame(groups_kpro)))
-names(df_ord_clust)[ncol(df_ord_clust)]="group"
-
-p1=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(group)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust[!is.na(df_ord_clust$group),], geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(group)), alpha = 0.25) + theme(legend.position="none") + ggtitle("kproto") +
-  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
+rownames(df_ord)==names(groups_pam)
 
 df_ord_clust=as.data.frame(c(df_ord,as.data.frame(groups_pam)))
 names(df_ord_clust)[ncol(df_ord_clust)]="group"
 
-p2=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(group)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust[!is.na(df_ord_clust$group),], geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(group)), alpha = 0.25) + theme(legend.position="none") + ggtitle("pam") +
-  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
+p1 = ggplot() + geom_point(data = df_ord_clust, aes(
+  x = Dim1,
+  y = Dim2,
+  color = as.factor(group)
+)) + geom_segment(
+  data = traitd,
+  aes(
+    x = 0,
+    y = 0,
+    xend = Dim1 / 2,
+    yend = Dim2 / 2
+  ),
+  arrow = arrow(),
+  col = "blue"
+) + geom_text_repel(data = traitd, aes(x = Dim1 / 2, y = Dim2 / 2, label =
+                                         trait)) +  stat_ellipse(
+                                           data = df_ord_clust[!is.na(df_ord_clust$group), ],
+                                           geom = "polygon",
+                                           aes(x = Dim1, y = Dim2, fill = as.factor(group)),
+                                           alpha = 0.25
+                                         ) + theme(legend.position = "none") + 
+  xlab(paste("Axis 1: relative eigenvalue =", round(rel_ev_pcoa_g0[1], 2))) +
+  ylab(paste("Axis 2: relative eigenvalue =", round(rel_ev_pcoa_g0[2], 2)))
 
-p1 + p2
-
-# ggsave("figures/12__scatterplot_pcoa_robust_loadings_by_clustering_method.png",
-#        width = 40,
-#        height = 20,
-#        units = 'cm')
-
-### One-hot ----
-
-df_ord_clust=as.data.frame(c(df_ord,as.data.frame(groups_kpro_one_hot)))
-names(df_ord_clust)[ncol(df_ord_clust)]="group"
-
-p1=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(group)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust[!is.na(df_ord_clust$group),], geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(group)), alpha = 0.25) + theme(legend.position="none") + ggtitle("kproto") +
-  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
-
-df_ord_clust=as.data.frame(c(df_ord,as.data.frame(groups_pam_one_hot)))
-names(df_ord_clust)[ncol(df_ord_clust)]="group"
-
-p2=ggplot() + geom_point(data=df_ord_clust,aes(x=Dim1,y=Dim2,color = as.factor(group)))+geom_segment(data=traitd,aes(x=0,y=0,xend=Dim1/2,yend=Dim2/2),arrow=arrow(),col="blue")+geom_text_repel(data=traitd,aes(x=Dim1/2,y=Dim2/2,label=trait))+  stat_ellipse(data=df_ord_clust[!is.na(df_ord_clust$group),], geom = "polygon", aes(x=Dim1,y=Dim2,fill = as.factor(group)), alpha = 0.25) + theme(legend.position="none") + ggtitle("pam") +
-  xlab(paste("Axis 1: relative eigenvalue =",round(rel_ev_pcoa_g0[1],2))) +
-  ylab(paste("Axis 2: relative eigenvalue =",round(rel_ev_pcoa_g0[2],2)))
-
-p1 + p2
-
-# ggsave("figures/12__scatterplot_pcoa_robust_loadings_by_one_hot_clustering_method.png",
-#        width = 40,
-#        height = 20,
-#        units = 'cm')
+p1 
 
 ####
 ## Big table for checking characters ----
@@ -385,24 +285,6 @@ if(sum(rownames(df)==rownames(tax))==nrow(df)){
 
 if(sum(rownames(df_tax)==rownames(as.data.frame(groups_pam)))==nrow(df_tax)){
 	df_tax_clust=as.data.frame(c(df_tax,as.data.frame(groups_pam)))
-	rownames(df_tax_clust)=rownames(df_tax)
-} else {
-	stop("Row (species) names are not identical")
-}
-if(sum(rownames(df_tax_clust)==rownames(as.data.frame(groups_pam_one_hot)))==nrow(df_tax_clust)){
-	df_tax_clust=as.data.frame(c(df_tax_clust,as.data.frame(groups_pam_one_hot)))
-	rownames(df_tax_clust)=rownames(df_tax)
-} else {
-	stop("Row (species) names are not identical")
-}
-if(sum(rownames(df_tax_clust)==rownames(as.data.frame(groups_kpro)))==nrow(df_tax_clust)){
-	df_tax_clust=as.data.frame(c(df_tax_clust,as.data.frame(groups_kpro)))
-	rownames(df_tax_clust)=rownames(df_tax)
-} else {
-	stop("Row (species) names are not identical")
-}
-if(sum(rownames(df_tax_clust)==rownames(as.data.frame(groups_kpro_one_hot)))==nrow(df_tax_clust)){
-	df_tax_clust=as.data.frame(c(df_tax_clust,as.data.frame(groups_kpro_one_hot)))
 	rownames(df_tax_clust)=rownames(df_tax)
 } else {
 	stop("Row (species) names are not identical")

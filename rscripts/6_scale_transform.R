@@ -53,6 +53,35 @@ for(i in 1:7){
 # reset plotting parameters
 par(mfrow=c(1,1))
 
+# # (NOT YET ADDED) Make names nice for plots ----
+# new_names <- c("Maximum_height",
+#   "No._fertile_stamens",
+#   "No._ovules_per_functional_carpel",
+#   "No._structural_carpels",
+#   "Fusion_of_ovaries",
+#   "Flower_size",
+#   "Seed_mass",
+#   "Woodiness",
+#   "Climbing",
+#   "Aquatic",
+#   "Sexual_system",
+#   "Lifespan",
+#   "Mating_system",
+#   "Pollination",
+#   "Dispersal_mode",
+#   "Dispersal_distance",
+#   "Flower_sex",
+#   "Ovary_position",
+#   "Floral_reward",
+#   "Flower_symmetry",
+#   "Showiness")
+# 
+# # check correspondence
+# data.frame(colnames(df2), new_names)
+# 
+# # assign new names
+# colnames(df2) <- new_names
+
 # Save scaled and transformed dataset
 saveRDS(df2, file = here::here("outputs/6_df_filt_trans.rds"))
 

@@ -274,7 +274,7 @@ for(i in 1:length(clusters_pcoa[1,])){
 ggsave("figures/figure_S8_scatterplots_pcoa_pam_k2-k7.png",width=10,height=15)
 
 ####
-## Figure 4a: Scatterplot with PAM clusters k = 3 ----
+## Figure 3a: Scatterplot with PAM clusters k = 3 ----
 ####
 
 #convert gower df to distance matrix
@@ -338,7 +338,7 @@ a1 <- ggplot(data.frame(dataset_pcoa$vectors),
 a1
 
 ####
-# Figure 4b: UMAP PAM clustering / robust ----- 
+# Figure 3b: UMAP PAM clustering / robust ----- 
 ####
 
 # ochRe not actually used at this stage
@@ -432,13 +432,13 @@ s1 <- ggplot(
 s1
 
 ####
-## Figure 4: Combined plot ----
+## Figure 3: Combined plot ----
 ####
 
 a1 + s1 + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
 
 # save plot
-ggsave("figures/figure_4_umap.png",width=20,height=10)
+ggsave("figures/figure_3_umap.png",width=20,height=10)
 
 #Proportion of missing data 
 #species that dont belong to robust group
@@ -464,7 +464,7 @@ b1 <- ggplot(df_labelled, aes(x=robust_group, y=Maximumverticalheight, fill=robu
   geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(my_pal,"grey")) +
-  scale_y_continuous(limits = quantile(df_labelled$Maximumverticalheight, c(0.025, 0.975),na.rm = TRUE)) +
+  # scale_y_continuous(limits = quantile(df_labelled$Maximumverticalheight, c(0.025, 0.975),na.rm = TRUE)) +
   ylab("Maximum height") +
   theme(legend.position = "none",
         # add border 1)
@@ -495,7 +495,7 @@ b2 <- ggplot(df_labelled, aes(x=robust_group, y=flowerSize, fill=robust_group)) 
   geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(my_pal,"grey")) +
-  scale_y_continuous(limits = quantile(df_labelled$flowerSize, c(0.025, 0.975),na.rm = TRUE)) +
+  # scale_y_continuous(limits = quantile(df_labelled$flowerSize, c(0.025, 0.975),na.rm = TRUE)) +
   ylab("Flower size") +
   theme(legend.position = "none",
         plot.margin = unit(c(1,1,1,1), "cm"),
@@ -850,7 +850,7 @@ b1 <- ggplot(df_labelled, aes(x=cluster, y=Maximumverticalheight, fill=cluster))
   geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values=cols) +
-  scale_y_continuous(limits = quantile(df_labelled$Maximumverticalheight, c(0.025, 0.975),na.rm = TRUE)) +
+  # scale_y_continuous(limits = quantile(df_labelled$Maximumverticalheight, c(0.025, 0.975),na.rm = TRUE)) +
   ylab("Maximum vertical height") +
   theme(legend.position = "none",
         # add border 1)
@@ -881,7 +881,7 @@ b2 <- ggplot(df_labelled, aes(x=cluster, y=flowerSize, fill=cluster)) +
   geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_discrete() +
-  scale_y_continuous(limits = quantile(df_labelled$flowerSize, c(0.025, 0.975),na.rm = TRUE)) +
+  # scale_y_continuous(limits = quantile(df_labelled$flowerSize, c(0.025, 0.975),na.rm = TRUE)) +
   ylab("Flower size") +
   theme(legend.position = "none",
         plot.margin = unit(c(1,1,1,1), "cm"),

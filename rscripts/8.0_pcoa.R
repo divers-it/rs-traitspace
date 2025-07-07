@@ -162,7 +162,7 @@ uuid <- get_uuid(name = "Cornus florida", n = 1)
 cornus_pp <- get_phylopic(uuid = uuid)
 
 ####
-## Figure 2: Plot reproductive systems (back-engineer them first) ----
+## Figure 4: Plot reproductive systems (back-engineer them first) ----
 ####
 
 # load package
@@ -386,10 +386,74 @@ a1
 ### Quantitative traits boxplots ----
 ####
 
+## Make names nice for plots ----
+new_names <- c("Maximum height",
+               "No. fertile stamens",
+               "No. ovules per carpel",
+               "No. structural carpels",
+               "Fusion of ovaries",
+               "Flower size",
+               "Seed mass",
+               "Woodiness",
+               "Climbing",
+               "Aquatic",
+               "Sexual system",
+               "Lifespan",
+               "Mating system",
+               "Pollination",
+               "Dispersal mode",
+               "Dispersal distance",
+               "Flower sex",
+               "Ovary position",
+               "Floral reward",
+               "Flower symmetry",
+               "Showiness")
+
+# add RS column
+
+## Make names nice for plots ----
+new_names <- c("Maximum height",
+ "No. fertile stamens",
+ "No. ovules per carpel",
+ "No. structural carpels",
+ "Fusion of ovaries",
+ "Flower size",
+ "Seed mass",
+ "Woodiness",
+ "Climbing",
+ "Aquatic",
+ "Sexual system",
+ "Lifespan",
+ "Mating system",
+ "Pollination",
+ "Dispersal mode",
+ "Dispersal distance",
+ "Flower sex",
+ "Ovary position",
+ "Floral reward",
+ "Flower symmetry",
+ "Showiness")
+
+# check correspondence
+data.frame(colnames(df), new_names)
+
+# assign new names
+colnames(df) <- new_names
+new_names <- c(new_names,"RS")
+
+# add underscores
+new_names <- gsub(" ","_",new_names)
+
+# check correspondence
+data.frame(colnames(df_ors), new_names)
+
+# assign new names
+colnames(df_ors) <- new_names
+
 # palette from scatterplot
 cols<-mypal[1:5]
 
-b1 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Maximumverticalheight, fill=RS)) + 
+b1 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Maximum_height,fill=RS)) + 
   geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols)) +
@@ -420,7 +484,7 @@ b1 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Maximumverticalheight, f
 
 b1
 
-b2 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=flowerSize, fill=RS)) + 
+b2 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Flower_size, fill=RS)) + 
   geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols)) +
@@ -622,7 +686,7 @@ patch <- ( (a1_fix / (b1 + b2 )) + plot_layout(heights=c(2, 1)) | (p1 + p2) / (p
 patch + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & theme(plot.tag = element_text(size = 14))
 
 # save plot
-ggsave("figures/figure_2_pcoa.png",
+ggsave("figures/figure_4_pcoa.png",
        width = 25,
        height = 20)
 
@@ -671,7 +735,7 @@ write.csv(round(corr_mat,3),"outputs/8.0_correlation_pcoa_axes_traits.csv")
 ####
 
 # Maximum height
-b1 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Maximumverticalheight, fill=RS)) + 
+b1 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Maximum_height, fill=RS)) + 
   geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols)) +
@@ -698,7 +762,7 @@ b1 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Maximumverticalheight, f
   )
 
 # Flower size
-b2 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=flowerSize, fill=RS)) + 
+b2 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Flower_size, fill=RS)) + 
   geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols)) +
@@ -726,12 +790,12 @@ b2 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=flowerSize, fill=RS)) +
   )  
 
 # Number of fertile stamens
-b3 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Numberoffertilestamens, fill=RS)) + 
+b3 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=No._fertile_stamens, fill=RS)) + 
   geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols)) +
   # scale_y_continuous(limits = quantile(df_ors$Numberoffertilestamens, c(0.05, 0.95),na.rm = TRUE)) +
-  ylab("Number of fertile stamens") +
+  ylab("No. fertile stamens") +
   theme(legend.position = "none",
         plot.margin = unit(c(1,1,1,1), "cm"),
         # add border 1)
@@ -754,12 +818,12 @@ b3 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Numberoffertilestamens, 
   )  
 
 # Number of ovules per functional carpel
-b4 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Numberofovulesperfunctionalcarpel, fill=RS)) + 
+b4 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=No._ovules_per_carpel, fill=RS)) + 
   geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols)) +
   # scale_y_continuous(limits = quantile(df_ors$Numberofovulesperfunctionalcarpel, c(0.05, 0.95),na.rm = TRUE)) +
-  ylab("Number of ovules per functional carpel") +
+  ylab("No. ovules per carpel") +
   theme(legend.position = "none",
         plot.margin = unit(c(1,1,1,1), "cm"),
         # add border 1)
@@ -782,12 +846,12 @@ b4 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Numberofovulesperfunctio
   )  
 
 # Number of structural carpels
-b5 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Numberofstructuralcarpels, fill=RS)) + 
+b5 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=No._structural_carpels, fill=RS)) + 
   geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols)) +
   # scale_y_continuous(limits = quantile(df_ors$Numberofstructuralcarpels, c(0.05, 0.95),na.rm = TRUE)) +
-  ylab("Number of structural carpels") +
+  ylab("No. structural carpels") +
   theme(legend.position = "none",
         plot.margin = unit(c(1,1,1,1), "cm"),
         # add border 1)
@@ -810,7 +874,7 @@ b5 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Numberofstructuralcarpel
   )  
 
 # Fusion of ovaries
-b6 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Fusionofovaries, fill=RS)) + 
+b6 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Fusion_of_ovaries, fill=RS)) + 
   # geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols)) +
@@ -839,7 +903,7 @@ b6 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Fusionofovaries, fill=RS
 
 
 # Seed mass
-b7 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=seedMass, fill=RS)) + 
+b7 <- ggplot(df_ors[df_ors$RS!="unknown",], aes(x=RS, y=Seed_mass, fill=RS)) + 
   geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
   scale_fill_manual(values = c(cols)) +
@@ -899,7 +963,7 @@ ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2)) +
   scale_fill_distiller(palette = "Greys", direction = 1, guide = "none") +
   geom_point(
     aes(
-      color = as.factor(df$FlowerSex),
+      color = as.factor(df$`Flower sex`),
       shape = as.factor(df$Woodiness)),
     # shape=21,
     alpha = 0.7,

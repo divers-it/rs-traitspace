@@ -108,7 +108,8 @@ downstream analysis.
 
 The dataset is then filtered, removing traits with more than 60% missing
 data and species with more than 50% missing data. Outliers for each of
-the traits are also removed and the data is saved as an RDS.
+the traits are also removed and the data is saved as an RDS. Species
+names are also checked and corrected in this script.
 
 <figure>
 <img src="figures/figure_S1_missing_data_post_clean.png" width="800"
@@ -138,9 +139,9 @@ Examines the correlation between traits in the data set and clusters
 traits into groups (Fig. 3b).
 
 <figure>
-<img src="figures/figure_3_loadings.png" width="800"
-alt="Figure 3. (a) One-hot traitspace with eigenvectors and (b) trait correlation matrix with dendrogram." />
-<figcaption aria-hidden="true"><strong>Figure 3</strong>. (a) One-hot
+<img src="figures/figure_2_loadings.png" width="800"
+alt="Figure 2. (a) One-hot traitspace with eigenvectors and (b) trait correlation matrix with dendrogram." />
+<figcaption aria-hidden="true"><strong>Figure 2</strong>. (a) One-hot
 traitspace with eigenvectors and (b) trait correlation matrix with
 dendrogram.</figcaption>
 </figure>
@@ -158,9 +159,9 @@ based on Gower’s distances previously calculated. Here are all species
 displayed on the first two PCOA axes.
 
 <figure>
-<img src="./figures/figure_2_pcoa.png" width="800"
-alt="Figure 2. Scatterplot of PCOA where each point indicates a species." />
-<figcaption aria-hidden="true"><strong>Figure 2.</strong> Scatterplot of
+<img src="./figures/figure_4_pcoa.png" width="800"
+alt="Figure 4. Scatterplot of PCOA where each point indicates a species." />
+<figcaption aria-hidden="true"><strong>Figure 4.</strong> Scatterplot of
 PCOA where each point indicates a species.</figcaption>
 </figure>
 
@@ -218,9 +219,9 @@ species may be spuriously assigned to clusters. Examples of cluster
 membership when number of clusters (k) is 2 and 3 is shown in Figure 4a.
 
 <figure>
-<img src="figures/figure_4_umap.png" width="800"
-alt="Figure 4. Panel (a) shows PCoA with clustering where colours (k = 2) and shapes (k = 3) correspond to PAM clusters. Panel (b) shows UMAP plot see below) where shapes correspond to k = 3 clusters." />
-<figcaption aria-hidden="true"><strong>Figure 4</strong>. Panel (a)
+<img src="figures/figure_3_umap.png" width="800"
+alt="Figure 3. Panel (a) shows PCoA with clustering where colours (k = 2) and shapes (k = 3) correspond to PAM clusters. Panel (b) shows UMAP plot see below) where shapes correspond to k = 3 clusters." />
+<figcaption aria-hidden="true"><strong>Figure 3</strong>. Panel (a)
 shows PCoA with clustering where colours (k = 2) and shapes (k = 3)
 correspond to PAM clusters. Panel (b) shows UMAP plot see below) where
 shapes correspond to k = 3 clusters.</figcaption>
@@ -269,9 +270,9 @@ on the first two axes, similar to ‘loadings’ from a PCA biplot, as shown
 in Figure 3a.
 
 <figure>
-<img src="figures/figure_3_loadings.png" width="800"
-alt="Figure 3. (a) One-hot traitspace with eigenvectors and (b) trait correlation matrix with dendrogram." />
-<figcaption aria-hidden="true"><strong>Figure 3</strong>. (a) One-hot
+<img src="figures/figure_2_loadings.png" width="800"
+alt="Figure 2. (a) One-hot traitspace with eigenvectors and (b) trait correlation matrix with dendrogram." />
+<figcaption aria-hidden="true"><strong>Figure 2</strong>. (a) One-hot
 traitspace with eigenvectors and (b) trait correlation matrix with
 dendrogram.</figcaption>
 </figure>

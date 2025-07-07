@@ -81,7 +81,7 @@ Combines discrete, quantitative and discretized data into one data frame. Two so
 
 #### 5_clean_filter_df.R
 
-The dataset is then filtered, removing traits with more than 60% missing data and species with more than 50% missing data. Outliers for each of the traits are also removed and the data is saved as an RDS.
+The dataset is then filtered, removing traits with more than 60% missing data and species with more than 50% missing data. Outliers for each of the traits are also removed and the data is saved as an RDS. Species names are also checked and corrected in this script.
 
 ![**Figure S1** Missingness plot showing the missing data per trait in black.](figures/figure_S1_missing_data_post_clean.png){width=800px}
 
@@ -99,7 +99,7 @@ kable(tr[1:6,])
 
 Examines the correlation between traits in the data set and clusters traits into groups (Fig. 3b).
 
-![**Figure 3**. (a) One-hot traitspace with eigenvectors and (b) trait correlation matrix with dendrogram.](figures/figure_3_loadings.png){width=800px}
+![**Figure 2**. (a) One-hot traitspace with eigenvectors and (b) trait correlation matrix with dendrogram.](figures/figure_2_loadings.png){width=800px}
 
 #### 8.0_pcoa.R
 
@@ -107,7 +107,7 @@ Gower's [distance](https://medium.com/analytics-vidhya/gowers-distance-899f9c4bd
 
 Principal coordinate analysis ([PCOA](https://en.wikipedia.org/wiki/Multidimensional_scaling#Types)) based on Gower's distances previously calculated. Here are all species displayed on the first two PCOA axes. 
 
-![**Figure 2.** Scatterplot of PCOA where each point indicates a species.](./figures/figure_2_pcoa.png){width=800px}
+![**Figure 4.** Scatterplot of PCOA where each point indicates a species.](./figures/figure_4_pcoa.png){width=800px}
 
 #### 8.1_pcoa_diaz_data.R
 
@@ -127,7 +127,7 @@ The plot below shows how the quality of the trait space increases as dimensions 
 
 The [Partitioning Around Medoids](https://dpmartin42.github.io/posts/r/cluster-mixed-types) (PAM) approach is used. All species must be assigned to a cluster and some species may be spuriously assigned to clusters. Examples of cluster membership when number of clusters (k) is 2 and 3 is shown in Figure 4a.
 
-![**Figure 4**. Panel (a) shows PCoA with clustering where colours (k = 2) and shapes (k = 3) correspond to PAM clusters. Panel (b) shows UMAP plot see below) where shapes correspond to k = 3 clusters.](figures/figure_4_umap.png){width=800px}
+![**Figure 3**. Panel (a) shows PCoA with clustering where colours (k = 2) and shapes (k = 3) correspond to PAM clusters. Panel (b) shows UMAP plot see below) where shapes correspond to k = 3 clusters.](figures/figure_3_umap.png){width=800px}
 
 To avoid interpreting species than are not well-clustering we look at 'robust groups' - those species that consistently stick together as the value of k is changed. A Sankey plot demonstrates how species move between clusters as k is increased. 
 
@@ -147,7 +147,7 @@ Plots a phylogenetic tree of all 360 species in our data set with trait data at 
 
 Builds a traitspace using one-hot encoded data. Eigenvectors are plotted on the first two axes, similar to 'loadings' from a PCA biplot, as shown in Figure 3a. 
 
-![**Figure 3**. (a) One-hot traitspace with eigenvectors and (b) trait correlation matrix with dendrogram.](figures/figure_3_loadings.png){width=800px}
+![**Figure 2**. (a) One-hot traitspace with eigenvectors and (b) trait correlation matrix with dendrogram.](figures/figure_2_loadings.png){width=800px}
 
 We can also examine other axes to see which traits vary along them.
 

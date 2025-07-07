@@ -18,18 +18,48 @@ library(patchwork)
 # load data
 df <- readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
-## Trait combinations ----
+## Make names nice for plots ----
+new_names <- c("Maximum height",
+ "No. fertile stamens",
+ "No. ovules per carpel",
+ "No. structural carpels",
+ "Fusion of ovaries",
+ "Flower size",
+ "Seed mass",
+ "Woodiness",
+ "Climbing",
+ "Aquatic",
+ "Sexual system",
+ "Lifespan",
+ "Mating system",
+ "Pollination",
+ "Dispersal mode",
+ "Dispersal distance",
+ "Flower sex",
+ "Ovary position",
+ "Floral reward",
+ "Flower symmetry",
+ "Showiness")
 
-# One-liner to look at frequency of trait combinations
-combo_df <-
-  df %>% group_by(SexualSystem, FlowerSex, .drop = FALSE) %>%
-  summarize(count = n())
-combo_df
+# check correspondence
+data.frame(colnames(df), new_names)
 
-# mosaic plot to reperesent combinations visually
-ggplot(data = df) +
-  geom_mosaic(aes(x = product(Pollination,Mating), fill=Mating), na.rm=TRUE) + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+# assign new names
+colnames(df) <- new_names
+
+
+## NOT RUN: Trait combinations ----
+
+# # One-liner to look at frequency of trait combinations
+# combo_df <-
+#   df %>% group_by(SexualSystem, FlowerSex, .drop = FALSE) %>%
+#   summarize(count = n())
+# combo_df
+# 
+# # mosaic plot to reperesent combinations visually
+# ggplot(data = df) +
+#   geom_mosaic(aes(x = product(Pollination,Mating), fill=Mating), na.rm=TRUE) + 
+#   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 #### 
 ## Hierarchical clustering for variables ----
@@ -65,9 +95,6 @@ boxplot(stab$matCR[,1:7])
 ## Heatmap ----
 #### 
 
-# load original data set
-df <- readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
-
 # Calculate a pairwise association between all variables in a data-frame. 
 # In particular nominal vs nominal with Chi-square,
 # numeric vs numeric with Pearson correlation,
@@ -83,6 +110,8 @@ cor_mat_ori <- df %>%
   as.matrix %>%
   as_cordf
 
+# make names nice 
+
 # melt correlated matrix into long table
 melted_cor_mat_ori <- reshape2::melt(cor_mat_ori)
 head(melted_cor_mat_ori)
@@ -97,7 +126,9 @@ melted_cor_mat_ori$variable <- factor(melted_cor_mat_ori$variable, levels=tree$l
 # replace NA with 1
 melted_cor_mat_ori$value[is.na(melted_cor_mat_ori$value)] <- 1
 
-## Joined correlation heatmap and dendrogram ----
+####
+## Figure 2b: Joined correlation heatmap and dendrogram ----
+####
 
 # get colours
 cols<-c(rev(harrypotter::hp(2,option="Ravenclaw")),harrypotter::hp(2,option="LunaLovegood"))
@@ -110,7 +141,8 @@ c1 <- ggplot(data = melted_cor_mat_ori, aes(x=term, y=variable, fill=abs(value))
                        breaks = c(0, 0.5, 1),
                        labels = c(0, 0.5, 1)) +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+  theme(axis.text.x = element_text(size = 14, angle = 45, hjust = 1),
+        axis.text.y = element_text(size = 14),
         legend.position="none",) +
   xlab("") +
   ylab('')
