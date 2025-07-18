@@ -15,10 +15,10 @@ df2<-readRDS(file = here::here("outputs/one_hot_6_df_filt_trans.rds"))
 
 colnames(df2) <- gsub("\\."," ",colnames(df2))
 colnames(df2) <- gsub("non ","non-",colnames(df2))
-colnames(df2) <- gsub("seedMass","Seed_mass",colnames(df2))
+colnames(df2) <- gsub("seedMass","Seed mass",colnames(df2))
 colnames(df2) <- gsub("Dist","Distance",colnames(df2))
-colnames(df2) <- gsub("Mating","MatingSystem",colnames(df2))
-colnames(df2) <- gsub("Number_of","No",colnames(df2))
+colnames(df2) <- gsub("Number of","No.",colnames(df2))
+colnames(df2) <- gsub("vertical ","",colnames(df2))
 colnames(df2) <- gsub("_",":",colnames(df2))
 colnames(df2)
 
@@ -53,6 +53,9 @@ speciesd=as.data.frame(speciesv)
 ev_pcoa <- dataset_pcoa2$eig
 ev_pcoa_g0 <- ev_pcoa[ev_pcoa>0]
 rel_ev_pcoa_g0 <- ev_pcoa_g0/sum(ev_pcoa_g0)
+
+# First two eigenvalues total
+sum(rel_ev_pcoa_g0[1:2])
 
 # add original traits (multistate) for visualization
 if(sum(rownames(df2)==rownames(speciesd))==nrow(df2)){

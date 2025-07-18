@@ -83,14 +83,72 @@ proteus_combined$flowerSize <- fs
 proteus_combined<-subset(proteus_combined, select=-c(Flowerdiameter))
 proteus_combined<-subset(proteus_combined, select=-c(Flowerlength))
 
+####
+## Correct species names ----
+####
+
+# get species list
+spec_list <- rownames(proteus_combined)
+
+Sys.sleep(1)
+# run TNRS to check species (best result only)
+check_species <- TNRS(spec_list, matches="best", sources="wcvp")
+Sys.sleep(1)
+
+# how many name issues?
+table(check_species$Name_submitted == check_species$Accepted_species)
+
+# species with issues
+issue_species <- check_species[check_species$Name_submitted != check_species$Accepted_species,]
+
+# examine species
+issue_species[,c("Name_submitted",
+                 "Accepted_name")]
+# NOTE: verified on POWO: https://powo.science.kew.org/
+
+# set correct row names
+table(rownames(proteus_combined) == check_species$Name_submitted)
+rownames(proteus_combined) <- check_species$Accepted_species
+
+# order rows based on new names
+proteus_combined<-proteus_combined[order(rownames(proteus_combined)),]
+
 #### 
 ## Add seed mass data ----
 #### 
+
 # manually added Symplocos rhamnifolia row to data set (no data available) as was not present
 
 # Removed one duplicate row Corokia
 seedMass<-read.csv("data/seedWeight.csv")
-rownames(seedMass)<-paste(seedMass$Genus,seedMass$Species,sep=" ")
+rownames(seedMass) <- paste(seedMass$Genus,seedMass$Species,sep=" ")
+
+####
+### Correct seed mass names ----
+####
+
+# get species list
+spec_list <- rownames(seedMass)
+
+Sys.sleep(1)
+# run TNRS to check species (best result only)
+check_species <- TNRS(spec_list, matches="best", sources="wcvp")
+Sys.sleep(1)
+
+# how many name issues?
+table(check_species$Name_submitted == check_species$Accepted_species)
+
+# species with issues
+issue_species <- check_species[check_species$Name_submitted != check_species$Accepted_species,]
+
+# examine species
+issue_species[,c("Name_submitted",
+                 "Accepted_name")]
+# NOTE: verified on POWO: https://powo.science.kew.org/
+
+# set correct row names
+table(rownames(seedMass) == check_species$Name_submitted)
+rownames(seedMass) <- check_species$Accepted_species
 
 # check rownames match
 rownames(seedMass)==rownames(proteus_combined)
@@ -102,11 +160,11 @@ setdiff(rownames(seedMass),rownames(proteus_combined))
 # Fix synonymy issues
 rownames(seedMass)[grep("Arctostaphylos uvaursi",rownames(seedMass))]<-"Arctostaphylos uva-ursi"
 rownames(seedMass)[grep("Cleistes bifaria",rownames(seedMass))]<-"Cleistesiopsis bifaria"
-rownames(seedMass)[grep("Pitcairnia albifilos",rownames(seedMass))]<-"Pitcairnia albiflos"
-rownames(seedMass)[grep("Ruellia nudiflora",rownames(seedMass))]<-"Ruellia ciliatiflora"
-rownames(seedMass)[grep("Veronica anagallisaquatica",rownames(seedMass))]<-"Veronica anagallis-aquatica"
-rownames(seedMass)[grep("Peritoma arborea",rownames(seedMass))]<-"Cleomella arborea"
 rownames(seedMass)[grep("Hydnocarpus heterophylla",rownames(seedMass))]<-"Hydnocarpus heterophyllus"
+rownames(seedMass)[grep("Ruellia nudiflora",rownames(seedMass))]<-"Ruellia ciliatiflora"
+rownames(seedMass)[grep("Peritoma arborea",rownames(seedMass))]<-"Cleomella arborea"
+rownames(seedMass)[grep("Pitcairnia albifilos",rownames(seedMass))]<-"Pitcairnia albiflos"
+rownames(seedMass)[grep("Veronica anagallisaquatica",rownames(seedMass))]<-"Veronica anagallis-aquatica"
 
 str(seedMass[rownames(proteus_combined)%in%rownames(seedMass),])
 
@@ -128,7 +186,6 @@ cbind(rownames(proteus_combined),rownames(seedMass_merge))
 setdiff(rownames(proteus_combined),rownames(seedMass))
 setdiff(rownames(seedMass),rownames(proteus_combined))
 
-
 # merge
 proteus_combined<-cbind(proteus_combined,seedMass_merge$Seed_weight)
 
@@ -142,7 +199,7 @@ write.csv(proteus_combined,"outputs/4_proteus_combined.csv")
 
 cleaned_data <- proteus_combined
 
-#  get family matches
+# get family matches
 tnrs_out <- TNRS::TNRS(rownames(proteus_combined), matches = "best")
 
 #  add to output

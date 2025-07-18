@@ -232,7 +232,7 @@ rownames(df_umap_final) <- species_names
 colnames(df_umap_final) <- c("dim1","dim2")
 
 p100<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=FlowerSex,shape=Woodiness)) + geom_point(size=3,alpha=0.6) + scale_color_discrete() +
-  theme(legend.position = c(0.2, 0.25), legend.background = element_rect(fill=NA)) + ggtitle("knn = 100")
+  theme(legend.position = c(0.125, 0.25), legend.background = element_rect(fill=NA)) + ggtitle("knn = 100")
 p100
 
 #knn 50

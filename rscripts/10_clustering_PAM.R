@@ -209,6 +209,9 @@ for (i in 1:max(robust_vect_pam)) {
 
 table(robust_vect_pam)
 
+### Number of species not in robust groups ----
+table(is.na(robust_vect_pam))
+
 # complete vector of robust groups and non-robust 
 robust_vect_pam_full<-robust_vect_pam
 
@@ -380,7 +383,7 @@ saveRDS(df_umap_final,file="outputs/10_umap_nc2_nn10.rds")
 # load previously run output
 df_umap_final <- readRDS("outputs/10_umap_nc2_nn10.rds")
 
-#PCoA scatterplot with density polygons
+# PCoA scatterplot
 s1 <- ggplot(
   data.frame(df_umap_final),
   aes(
@@ -427,7 +430,6 @@ s1 <- ggplot(
   #annotate("text", x = -4.5, y = 5.75, label = "(a)", size = 8) +
   coord_cartesian(xlim = c(-5.5, 5.5), ylim = c(-6.5, 4.5), clip = "off") +
   theme(plot.margin = unit(c(3,1,1,3), "lines"))
-
 
 s1
 

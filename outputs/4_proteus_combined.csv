@@ -124,7 +124,6 @@
 "Drosophyllum lusitanicum","woody","non-climbing","non-aquatic","monomorphic","long","mixed","biotic","autonomous","short","bisexual","superior",NA,"actinomorphic","bright",0.9,NA,10,21.1,NA,687,NA,5,1,NA,2.7,3.72
 "Dryas octopetala","woody","non-climbing","non-aquatic","monomorphic","long","mixed","biotic","abiotic","long","bisexual","superior","nectar_pollen","actinomorphic","bright",0.5,NA,164,1,38,631,NA,NA,0,NA,3,0.71
 "Durio zibethinus","woody","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic","biotic","long","bisexual","superior","nectar","actinomorphic","bright",25,NA,60,6,104,NA,NA,5,1,NA,5.5,18094.33
-"Eichhornia crassipes","herbaceous","non-climbing","aquatic","monomorphic","long_short","outcrossing","biotic","abiotic_biotic","long","bisexual","superior",NA,"zygomorphic","bright",0.4,0.55,6,999,NA,NA,1.25,3,1,NA,6,NA
 "Eriocaulon parkeri","herbaceous","non-climbing","non-aquatic","monomorphic","long_short",NA,"biotic",NA,NA,"unisexual","superior",NA,NA,"bright",0.15,NA,4,NA,NA,NA,NA,2,NA,NA,0.2,NA
 "Eriogonum arborescens","woody","non-climbing","non-aquatic","monomorphic","long","mixed","biotic","abiotic","long","bisexual",NA,NA,NA,"bright",2,NA,9,1,NA,NA,0.3,3,NA,NA,0.275,0.63
 "Eryngium alpinum","herbaceous","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic","biotic","long","bisexual","inferior",NA,"actinomorphic","bright",0.45,0.5,5,NA,NA,12050,NA,2,NA,NA,0.2,5.02
@@ -134,7 +133,6 @@
 "Eupomatia bennettii","woody","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic",NA,NA,"bisexual","inferior",NA,NA,"bright",1.5,2.5,8.5,NA,NA,NA,NA,NA,1,NA,3.5,NA
 "Eupomatia laurina","woody","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic","biotic","long","bisexual",NA,"other",NA,"bright",7,1.75,60,3,NA,NA,NA,41,1,NA,2.66666666666667,15.73
 "Fagus grandifolia","woody","non-climbing","non-aquatic","monomorphic","long","outcrossing","abiotic","biotic","long","unisexual","inferior","none_pollen","actinomorphic","dull",25,NA,11,2,NA,NA,NA,3,NA,NA,NA,265.74
-"Ficaria verna","herbaceous","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic","biotic","short","bisexual","superior","nectar_pollen","actinomorphic","bright",0.215,0.26,25,1,38,6050,0.375,15,NA,NA,3.1875,NA
 "Filipendula vulgaris","herbaceous","non-climbing","non-aquatic","monomorphic","long","outcrossing","abiotic_biotic","biotic","long","bisexual","superior","none_pollen","actinomorphic","bright",0.76,NA,25,2,17.5,NA,NA,9,0,NA,1.2,0.99
 "Floerkea proserpinacoides","herbaceous","non-climbing","non-aquatic","monomorphic","short","selfing","autonomous","autonomous","short","bisexual","superior",NA,"actinomorphic","bright_dull",0.175,NA,6,1,NA,NA,NA,2.5,NA,NA,2.75,3.64
 "Fumana ericoides","woody","non-climbing","non-aquatic","monomorphic","long","selfing","biotic","autonomous","short","bisexual","inferior",NA,"actinomorphic","bright",0.3,NA,29,10.25,NA,567,0.7,2,NA,NA,1.75,2.44
@@ -197,6 +195,7 @@
 "Malpighia emarginata","woody","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic","biotic","long","bisexual","superior","other","zygomorphic","bright",7,NA,10,1,NA,NA,NA,3,1,NA,2.25,23.15
 "Manihot esculenta","herbaceous","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic","biotic","short","unisexual","superior",NA,"actinomorphic","bright",5,NA,10,1,NA,NA,NA,3,1,NA,0.2,114
 "Manilkara zapota","woody","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic","biotic","long","bisexual","superior",NA,"actinomorphic","bright",40,NA,5.5,1,NA,NA,6,8.75,1,NA,1.8,126.74
+"Mappia nimmoniana","woody","non-climbing","non-aquatic","dimorphic","long","mixed","biotic","biotic","long","bisexual_unisexual",NA,"nectar_pollen",NA,"bright",15,0.9,3,2,NA,364.5,1.5,1,NA,NA,0.8,NA
 "Marathrum rubrum","herbaceous","non-climbing","aquatic","monomorphic","short","selfing","abiotic","abiotic","long","bisexual","superior","none","actinomorphic","bright_dull",0.15,0.195,8,940,14.5,616,0.525,2,1,NA,0.5,NA
 "Mayaca fluviatilis","herbaceous","non-climbing","aquatic_non-aquatic","monomorphic","long","selfing","autonomous","abiotic","long","bisexual","superior",NA,"actinomorphic","bright",0.6,NA,3,2,NA,NA,0.4,3,1,NA,1,NA
 "Mazus pumilus","herbaceous","non-climbing","non-aquatic","monomorphic","short","selfing","biotic","abiotic","long","bisexual","superior","pollen","zygomorphic","bright",0.1,0.35,4,183,NA,22.07,NA,2,1,NA,0.7,0.01
@@ -213,7 +212,7 @@
 "Moringa oleifera","woody","non-climbing","non-aquatic","monomorphic","long","mixed","biotic","autonomous","short","bisexual","superior",NA,"zygomorphic","bright",12,2,5,NA,NA,523,35,3,1,NA,2,237.33
 "Myriophyllum sibiricum","herbaceous","non-climbing","aquatic","monomorphic","long",NA,"biotic",NA,NA,"bisexual_unisexual","inferior",NA,"actinomorphic","bright",6,0.14,8,1,NA,NA,0.21,4,NA,NA,0.24,NA
 "Myristica fragrans","woody","non-climbing","non-aquatic","dimorphic_monomorphic","long","outcrossing","biotic","biotic","long","unisexual","superior","pollen","actinomorphic","bright",8,NA,9.5,1,NA,797664,NA,1,NA,NA,1,7792.8
-"Myrothamnus moschata","woody","non-climbing","non-aquatic","dimorphic",NA,"outcrossing",NA,NA,NA,"unisexual","superior",NA,NA,NA,NA,NA,4,NA,NA,NA,NA,3.5,0.9,NA,NA,NA
+"Myrothamnus moschatus","woody","non-climbing","non-aquatic","dimorphic",NA,"outcrossing",NA,NA,NA,"unisexual","superior",NA,NA,NA,NA,NA,4,NA,NA,NA,NA,3.5,0.9,NA,NA,NA
 "Myrtus communis","woody","non-climbing","non-aquatic","monomorphic","long","mixed","biotic","biotic","long","bisexual",NA,NA,"actinomorphic","bright",4,NA,145,NA,17.5,NA,NA,NA,1,NA,2.5,7.92
 "Narthecium ossifragum","herbaceous","non-climbing","non-aquatic","monomorphic","long",NA,"biotic","autonomous","short","bisexual","superior",NA,"actinomorphic","bright",0.275,NA,6,NA,NA,NA,NA,NA,NA,NA,2.8,0.1
 "Nelumbo lutea","herbaceous","non-climbing","aquatic","monomorphic","long","mixed","biotic","abiotic","long","bisexual","superior","other_pollen","actinomorphic","bright",2,NA,400,1,NA,NA,1.3,24.75,0,NA,10,NA
@@ -222,7 +221,6 @@
 "Nepenthes macfarlanei","woody","climbing","non-aquatic","dimorphic","long","outcrossing","abiotic_biotic","abiotic","long","unisexual",NA,"nectar_none","actinomorphic",NA,3,NA,5,NA,NA,NA,NA,4,NA,NA,1,NA
 "Nicotiana tabacum","herbaceous","non-climbing","non-aquatic","monomorphic","long_short",NA,"biotic","autonomous","short","bisexual","superior","nectar","actinomorphic_zygomorphic","bright",3,NA,5,NA,38,NA,NA,2,1,NA,4.25,0.07
 "Nolana humifusa","herbaceous","non-climbing","non-aquatic","monomorphic","short","outcrossing","biotic","biotic","long","bisexual","superior","nectar_pollen","actinomorphic","bright",NA,NA,5,NA,NA,NA,NA,16,1,NA,2.6,NA
-"Nothapodytes nimmoniana","woody","non-climbing","non-aquatic","dimorphic","long","mixed","biotic","biotic","long","bisexual_unisexual",NA,"nectar_pollen",NA,"bright",15,0.9,3,2,NA,364.5,1.5,1,NA,NA,0.8,NA
 "Nothofagus dombeyi","woody","non-climbing","non-aquatic","monomorphic","long","outcrossing","abiotic","abiotic","long","unisexual",NA,"none",NA,NA,40,NA,10.5,1,NA,NA,0.55,1,NA,NA,NA,11.9
 "Nuphar advena","herbaceous","non-climbing","aquatic","monomorphic","long",NA,"biotic","abiotic","long","bisexual","superior","pollen","actinomorphic","bright",NA,NA,180,NA,NA,NA,1.9,16,1,NA,4,NA
 "Nymphaea odorata","herbaceous","non-climbing","aquatic","monomorphic","long",NA,"biotic","abiotic_biotic","long","bisexual","intermediate","nectar","actinomorphic_other","bright",NA,NA,77.3333333333333,112.5,NA,NA,NA,20.3333333333333,1,NA,12.5,5.86
@@ -264,6 +262,7 @@
 "Poeppigia procera","woody","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic",NA,NA,"bisexual","superior","pollen","actinomorphic",NA,15,NA,10,8,NA,NA,NA,1,NA,NA,NA,NA
 "Polycarpon tetraphyllum","herbaceous","non-climbing","non-aquatic","monomorphic","short",NA,"biotic","biotic","long","bisexual","superior",NA,"actinomorphic","bright",0.225,NA,2.75,NA,17.5,NA,NA,NA,NA,NA,0.2,0.07
 "Polygala lewtonii","herbaceous","non-climbing","non-aquatic","monomorphic","long","mixed","biotic","biotic","short","bisexual","superior","nectar","zygomorphic","bright",0.2,NA,8,1,NA,NA,NA,2,NA,NA,0.7,NA
+"Pontederia crassipes","herbaceous","non-climbing","aquatic","monomorphic","long_short","outcrossing","biotic","abiotic_biotic","long","bisexual","superior",NA,"zygomorphic","bright",0.4,0.55,6,999,NA,NA,1.25,3,1,NA,6,NA
 "Populus alba","woody","non-climbing","non-aquatic","dimorphic","long","outcrossing","abiotic","abiotic","long","unisexual","superior","none","actinomorphic","dull",20,NA,9,NA,NA,NA,NA,NA,NA,NA,NA,0.32
 "Portulaca oleracea","herbaceous","non-climbing","non-aquatic","monomorphic","short","selfing","biotic","biotic","long","bisexual","intermediate",NA,"actinomorphic","bright",0.3,NA,9.5,60,57.5,NA,NA,4.5,1,NA,0.75,0.14
 "Posidonia australis","herbaceous","non-climbing","aquatic","monomorphic","long","mixed","abiotic","abiotic","long","bisexual","superior","none",NA,"dull",0.3,NA,3,1,528,980000,NA,1,NA,NA,NA,NA
@@ -279,6 +278,7 @@
 "Quintinia hyehenensis","woody","non-climbing","non-aquatic","dimorphic","long","outcrossing",NA,NA,NA,"unisexual","inferior",NA,NA,"bright",6.25,0.2,5,NA,NA,NA,0.2,4.5,NA,NA,0.5,NA
 "Rafflesia keithii",NA,NA,NA,"dimorphic","long","outcrossing","biotic","biotic","long_short","unisexual","inferior",NA,"actinomorphic","bright_dull",NA,NA,40,NA,NA,NA,NA,NA,NA,NA,80,NA
 "Ranunculus acris","herbaceous","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic","biotic","long","bisexual","superior","nectar_pollen","actinomorphic","bright",0.575,NA,60,1,17.5,NA,0.3,20,0,NA,2.15,1.72
+"Ranunculus ficaria","herbaceous","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic","biotic","short","bisexual","superior","nectar_pollen","actinomorphic","bright",0.215,0.26,25,1,38,6050,0.375,15,NA,NA,3.1875,NA
 "Ravenala madagascariensis","woody","non-climbing","non-aquatic","monomorphic","long","mixed","biotic","biotic","long","bisexual","inferior","nectar_pollen","zygomorphic","bright",13.5,NA,6,12.5,NA,NA,NA,3,1,NA,19,243.52
 "Reseda lutea","herbaceous","non-climbing","non-aquatic","monomorphic","long_short","outcrossing","biotic","biotic","long","bisexual","superior",NA,"zygomorphic","bright_dull",40,NA,20,NA,NA,NA,NA,3,NA,NA,0.6,0.76
 "Rhexia virginica","herbaceous","non-climbing","non-aquatic","monomorphic","long",NA,"biotic",NA,NA,"bisexual",NA,NA,"actinomorphic","bright",0.75,NA,8,999,NA,668,0.6,4,NA,NA,3.5,0.02
@@ -295,7 +295,6 @@
 "Salpiglossis sinuata","herbaceous","non-climbing","non-aquatic","monomorphic","short","outcrossing","autonomous_biotic","autonomous","short","bisexual","superior",NA,"zygomorphic","bright",1,NA,4,NA,67.5,NA,0.7,2,1,0.335,5.5,0.1
 "Santalum spicatum","woody","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic","biotic","long","bisexual","inferior","nectar_other","actinomorphic","bright_dull",6,NA,4,1,NA,NA,NA,3,NA,NA,0.6,1556.12
 "Sarracenia purpurea","herbaceous","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic","autonomous","short","bisexual","superior","nectar","actinomorphic","bright_dull",0.25,1.5,65,282,NA,NA,NA,5,1,NA,6,1.76
-"Sauvagesia rhodoleuca","woody","non-climbing","non-aquatic","monomorphic","long",NA,NA,"abiotic","long","bisexual","superior",NA,NA,"bright",1.15,NA,5,NA,NA,NA,NA,3,NA,NA,0.525,NA
 "Saxifraga cernua","herbaceous","non-climbing","non-aquatic","dimorphic_monomorphic","long","outcrossing","biotic","abiotic_biotic","long","bisexual_unisexual","intermediate","nectar","actinomorphic","bright",0.155,NA,10,232,NA,218,NA,2,0.7,NA,15,NA
 "Scaevola montana","woody","non-climbing","non-aquatic","monomorphic",NA,"outcrossing","biotic","biotic","long","bisexual",NA,"nectar",NA,"bright",NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 "Schinus molle","woody","non-climbing","non-aquatic","dimorphic","long","outcrossing","biotic","abiotic_biotic","long","unisexual","superior",NA,"actinomorphic","bright_dull",8.5,0.55,10,1,30.75,NA,0.55,3,1,NA,NA,30.75
@@ -307,6 +306,7 @@
 "Sextonia rubra","woody","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic","autonomous_biotic","long_short","bisexual","superior","other","actinomorphic","bright",40,NA,9,1,NA,NA,NA,1,NA,NA,NA,NA
 "Silene vulgaris","herbaceous","non-climbing","non-aquatic","dimorphic","long","mixed","biotic","abiotic","long","bisexual_unisexual","superior","nectar_other","actinomorphic_zygomorphic","bright",0.6,NA,10,NA,38,218,1.3,NA,1,NA,2.1,1.22
 "Simmondsia chinensis","woody","non-climbing","non-aquatic","dimorphic","long","outcrossing","abiotic","biotic","long","unisexual","superior","none","actinomorphic","bright_dull",2.5,NA,10,NA,NA,NA,NA,3,1,NA,0.4,546.9
+"Sinia rhodoleuca","woody","non-climbing","non-aquatic","monomorphic","long",NA,NA,"abiotic","long","bisexual","superior",NA,NA,"bright",1.15,NA,5,NA,NA,NA,NA,3,NA,NA,0.525,NA
 "Sinojackia xylocarpa","woody","non-climbing","non-aquatic","monomorphic","long","outcrossing","biotic",NA,NA,"bisexual","intermediate",NA,"actinomorphic","bright",6,NA,13,7,NA,NA,2,3,1,NA,1.75,NA
 "Solanum dulcamara","herbaceous","climbing_non-climbing","non-aquatic","monomorphic","long","mixed","biotic","biotic","long","bisexual","superior","pollen","actinomorphic","bright",1.15,0.875,5,15,17.5,NA,1.25,2,1,NA,1.25,26.44
 "Souroubea guianensis","woody","climbing","non-aquatic","monomorphic",NA,"outcrossing","biotic","biotic","long","bisexual",NA,"nectar_other",NA,"bright",NA,1.75,5,NA,NA,NA,NA,NA,NA,NA,1.4,NA

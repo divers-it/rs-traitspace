@@ -70,6 +70,9 @@ issue_species[,c("Name_submitted",
                  "Accepted_name")]
 # NOTE: verified on POWO: https://powo.science.kew.org/
 
+# Number of families according to TNRS ----
+unique(spec_df$Accepted_family)
+
 # reformat standardized list of names
 spec_df <- check_species[,c("Accepted_species","Genus_matched","Accepted_family")]
 maker_tree_tnrs <- phylo.maker(spec_df)

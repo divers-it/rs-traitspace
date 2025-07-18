@@ -73,7 +73,7 @@ sort(df$Numberofstructuralcarpels)
 
 # remove outlier in no. ovules per carpel
 hist(log(df$Numberofovulesperfunctionalcarpel))
-head(sort(df$Numberofovulesperfunctionalcarpel,decreasing = T))
+head(sort(df$Numberofovulesperfunctionalcarpel,decreasing = T),20)
 df$Numberofovulesperfunctionalcarpel[df$Numberofovulesperfunctionalcarpel>998]<-NA
 
 # remove outlier in no. fertile stamens
@@ -113,36 +113,6 @@ ggsave("figures/figure_S1_missing_data_post_clean.png",
        width = 40,
        bg="white",
        units = 'cm')
-
-####
-## Correct species names ----
-####
-
-# get species list
-spec_list <- rownames(df)
-
-Sys.sleep(1)
-# run TNRS to check species (best result only)
-check_species <- TNRS(spec_list, matches="best", sources="wcvp")
-Sys.sleep(1)
-
-# how many name issues?
-table(check_species$Name_submitted == check_species$Accepted_species)
-
-# species with issues
-issue_species <- check_species[check_species$Name_submitted != check_species$Accepted_species,]
-
-# examine species
-issue_species[,c("Name_submitted",
-                 "Accepted_name")]
-# NOTE: verified on POWO: https://powo.science.kew.org/
-
-# set correct row names
-table(rownames(df) == check_species$Name_submitted)
-rownames(df) <- check_species$Accepted_species
-
-# order rows based on new names
-df<-df[order(rownames(df)),]
 
 # Save filtered dataset
 saveRDS(df, file = here::here("outputs/5_df_filt.rds"))

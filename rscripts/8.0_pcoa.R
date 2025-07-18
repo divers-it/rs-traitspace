@@ -256,6 +256,17 @@ for(j in 1:length(ss[,1])){
 data.frame(rownames(df_ors),df_ors$RS)
 table(df_ors$RS)
 
+#### Number of monoecious/dioecious species abiotically pollinated ----
+df_m <- df_ors[df_ors$RS=="Monoecy",]
+table(df_m$Pollination) / length(rownames(df_m))
+
+df_d <- df_ors[df_ors$RS=="Dioecy",]
+table(df_d$Pollination) / length(rownames(df_d))
+
+# check flower size of biotic vs abiotically-pollinated dioecious species
+ggplot(data=df_d, aes(x=flowerSize, group=Pollination, fill=Pollination)) +
+  geom_density(adjust=1.5,alpha = 0.5)
+
 # write original reproductive systems
 ors_for_csv <- data.frame(rownames(df_ors),df_ors$RS)
 colnames(ors_for_csv) <- c("species", "RS")
@@ -383,35 +394,10 @@ a1 <- ggplot(data.frame(dataset_pcoa$vectors), aes(x = Axis.1, y = Axis.2))+
 a1
 
 ####
-### Quantitative traits boxplots ----
+### Figure 4b-c: Quantitative traits boxplots ----
 ####
 
-## Make names nice for plots ----
-new_names <- c("Maximum height",
-               "No. fertile stamens",
-               "No. ovules per carpel",
-               "No. structural carpels",
-               "Fusion of ovaries",
-               "Flower size",
-               "Seed mass",
-               "Woodiness",
-               "Climbing",
-               "Aquatic",
-               "Sexual system",
-               "Lifespan",
-               "Mating system",
-               "Pollination",
-               "Dispersal mode",
-               "Dispersal distance",
-               "Flower sex",
-               "Ovary position",
-               "Floral reward",
-               "Flower symmetry",
-               "Showiness")
-
-# add RS column
-
-## Make names nice for plots ----
+##### Make names nice for plots ----
 new_names <- c("Maximum height",
  "No. fertile stamens",
  "No. ovules per carpel",
@@ -424,7 +410,7 @@ new_names <- c("Maximum height",
  "Aquatic",
  "Sexual system",
  "Lifespan",
- "Mating system",
+ "Mating",
  "Pollination",
  "Dispersal mode",
  "Dispersal distance",
@@ -518,7 +504,7 @@ b1 / b2
 # ggsave("figures/10.1_robust_boxplots.png",width=15,height=10)
 
 ####
-### Qualitative traits stacked barplots ----
+### Figure 4d-h: Qualitative traits stacked barplots ----
 ####
 
 # reset margins

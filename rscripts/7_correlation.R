@@ -31,7 +31,7 @@ new_names <- c("Maximum height",
  "Aquatic",
  "Sexual system",
  "Lifespan",
- "Mating system",
+ "Mating",
  "Pollination",
  "Dispersal mode",
  "Dispersal distance",
@@ -110,7 +110,16 @@ cor_mat_ori <- df %>%
   as.matrix %>%
   as_cordf
 
-# make names nice 
+# check lm is the same as ANOVA
+model.lm <- lm(df$`Maximum height` ~ df$Mating)
+summary(model.lm)
+rsq <- summary(model.lm)$r.squared
+rsq
+
+model.aov <- aov(df$`Maximum height` ~ df$Mating)
+summary(model.aov)
+library(heplots) # for eta
+heplots::etasq(model.aov, partial = FALSE) # partial = TRUE is the same
 
 # melt correlated matrix into long table
 melted_cor_mat_ori <- reshape2::melt(cor_mat_ori)
