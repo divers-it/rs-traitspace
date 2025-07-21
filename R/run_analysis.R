@@ -1,4 +1,4 @@
-run_analysis <- function(dataset, folder = "outputs", name, plot = FALSE) {
+run_analysis <- function(dataset, folder = "outputs/9_dimensionality", name, plot = FALSE) {
 
   #for bug fixing
   #dataset = dataset
@@ -51,7 +51,7 @@ run_analysis <- function(dataset, folder = "outputs", name, plot = FALSE) {
     percent_missing   = percent_list,
     max_comb          = 100,
     n_perm            = 100,
-    cores             = 3,
+    cores             = 2,
     classical_gower   = TRUE,
     pos               = 100
   )
@@ -84,7 +84,7 @@ run_analysis <- function(dataset, folder = "outputs", name, plot = FALSE) {
     metric_scaled     = TRUE,
     classical_gower   = TRUE,
     rep               = 999,
-    cores             = 3
+    cores             = 2
   )
 
   saveRDS(dataset_dim, file = here::here(folder, paste0(name, "_dim.rds")))

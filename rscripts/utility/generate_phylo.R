@@ -1,63 +1,105 @@
 rm(list=ls())
 
-#load packages
+# load/install packages
 library(ape)
+library(TNRS)
+if(!require(V.PhyloMaker2)){
+  devtools::install_github("jinyizju/V.PhyloMaker2")
+}
 library(V.PhyloMaker2)
-library(U.Taxonstand)
 
-#load formatted data
+# load formatted data
 df<-readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
 
-#get species list
+# get species list
 spec_list <- rownames(df)
 
-#read in database
-#The Plant List (TPL) taken from:
-#https://github.com/nameMatch/Database/
-db1<-read.csv("data/Plants_TPL_database_part1.csv")
-db2<-read.csv("data/Plants_TPL_database_part2.csv")
-db3<-read.csv("data/Plants_TPL_database_part3.csv")
-db<-rbind(db1,db2,db3)
+####
+## U.Taxonstand names ----
+####
 
-#get standardized list of taxon names
-tpl_list <- nameMatch(spec_list,spSource=db)
+# NOTE: Not run as results are the same as TNRS
+# # load/install package
+#
+# if(!require(U.Taxonstand)){
+#   devtools::install_github("ecoinfor/U.Taxonstand")
+# }
+# library(U.Taxonstand)
+#
+# # read in database
+# # The Plant List (TPL) taken from:
+# # https://github.com/nameMatch/Database/
+# # NOTE: THESE WILL NEED TO BE DOWNLOADED IF YOU WANT TO RUN U.Taxonstand. 
+# db1<-read.csv("data/Plants_WCVP_database_part1.csv")
+# db2<-read.csv("data/Plants_WCVP_database_part2.csv")
+# db3<-read.csv("data/Plants_WCVP_database_part3.csv")
+# db<-rbind(db1,db2,db3)
+# 
+# # get standardized list of taxon names
+# wcvp_list <- nameMatch(spec_list,spSource=db)
+# 
+# # NOTE: There could be some species with issues
+# wcvp_list[wcvp_list$Fuzzy==1,]
+# wcvp_list[wcvp_list$name.dist>1,]
+# 
+# # reformat standardized list of names
+# spec_df <- wcvp_list[,c("Accepted_SPNAME","Genus_in_database","Family")]
+# 
+# # generate phylogenetic tree from species list
+# # Use scenario 3
+# maker_tree <- phylo.maker(spec_df)
+# maker_tree
 
-#NOTE: There are some species with issues
-tpl_list[tpl_list$Fuzzy==1,]
-tpl_list[tpl_list$name.dist>1,]
+####
+## TNRS names ----
+####
 
-#reformat standardized list of names
-spec_df <- tpl_list[,c("Accepted_SPNAME","Genus_in_database","Family")]
+Sys.sleep(2)
+# run TNRS to check species (best result only)
+check_species <- TNRS::TNRS(spec_list, matches="best", sources="wcvp")
+Sys.sleep(2)
 
-#generate phylogenetic tree from species list
-#Use scenario 3
-maker_tree <- phylo.maker(spec_df)
-str(maker_tree)
+# how many name issues?
+table(check_species$Name_submitted == check_species$Accepted_species)
 
-#make tree object
-maker_tree_s3<-maker_tree$scenario.3
+# species with issues
+issue_species <- check_species[check_species$Name_submitted != check_species$Accepted_species,]
 
-#NAMES TO RESOLVE:
+# examine species
+issue_species[,c("Name_submitted",
+                 "Accepted_name")]
+# NOTE: verified on POWO: https://powo.science.kew.org/
 
-#in tree but not DiveRS data
+# Number of families according to TNRS ----
+unique(spec_df$Accepted_family)
+
+# reformat standardized list of names
+spec_df <- check_species[,c("Accepted_species","Genus_matched","Accepted_family")]
+maker_tree_tnrs <- phylo.maker(spec_df)
+
+# NOT RUN:
+# Are TNRS edges the same as U.Taxonstand? (YES)
+# table(maker_tree$scenario.3$edge.length == maker_tree_tnrs$scenario.3$edge.length)
+
+# make tree object
+maker_tree_s3<-maker_tree_tnrs$scenario.3
+
+### Check if any names need to be resolved ----
+
+# in tree but not DiveRS data
 setdiff(gsub("_"," ",maker_tree_s3$tip.label),rownames(df))
 
-#in DiveRS data but not tree
+# in DiveRS data but not tree
 setdiff(rownames(df),gsub("_"," ",maker_tree_s3$tip.label))
 
-#TEMPORARY FIX:
-#drop tip
-maker_tree_s3<-drop.tip(maker_tree_s3,"Quintinia_apoensis")
-
-#rename species
-maker_tree_s3$tip.label[grep("Molineria_latifolia",maker_tree_s3$tip.label)]<-"Curculigo_latifolia"
-maker_tree_s3$tip.label[grep("Quintinia_kuborensis",maker_tree_s3$tip.label)]<-"Quintinia_hyehenensis"
-
-#visualize tree
+# visualize tree
 plot(maker_tree_s3,type="fan",cex=0.25)
 
-#check names
+# check names match
 rownames(df)==gsub("_"," ",sort(maker_tree_s3$tip.label))
 
-#write tree to file
+# NOT RUN: check matching of names
+# View(cbind(rownames(df),gsub("_"," ",sort(maker_tree_s3$tip.label))))
+
+# write tree to file
 write.tree(maker_tree_s3,file="outputs/pruned_tree.tre")

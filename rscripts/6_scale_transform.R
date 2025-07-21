@@ -1,56 +1,88 @@
 rm(list=ls())
 
-#Load libraries
+# Load libraries
 library(dplyr)
 
-#load formatted data
+# load formatted data
 df<-readRDS(file = here::here("outputs/5_df_filt.rds"))
 
-#make vectors to split numeric and factor columns
+# make vectors to split numeric and factor columns
 nums <- unlist(lapply(df, is.numeric))
 facts <- unlist(lapply(df, is.factor))
 
-#examine data distribution
+# examine data distribution
 boxplot(df[ , nums])
 
-#combine to ensure correct order
+# combine to ensure correct order
 df2<-cbind(df[ , nums],df[ , facts])
 
-#plot histograms of quantitative variables
-pdf("figures/6_histograms.pdf")
+## Histograms of quantitative variables ----
 par(mfrow=c(3,3))
-#look at hists
 for(i in 1:7){
   hist(df2[,i],main=colnames(df2)[i])
 }
-dev.off()
 
-#plot histograms of logged (log10) variables
-pdf("figures/6_histograms_transformed.pdf")
+## Histograms of logged variables ----
 par(mfrow=c(3,3))
-
 for(i in 1:7){
   hist(log(df2[,i]),main=colnames(df2)[i])
 }
-dev.off()
 
-#do log transformations
-#NOTE: not logging ovaries and others that don't work
+## Log transformations ----
+# NOTE: not logging ovaries
 for(i in c(1,2,3,4,6,7)){
   df2[,i]<-log(df2[,i])
 }
 
-#scale and centre numeric traits
-df2<-cbind(scale(df2[ , 1:7],center = T, scale = T),df[ , facts])
+## Logit for proportional data ----
+hist(df2[,'Fusionofovaries'])
+hist(car::logit(df2[,'Fusionofovaries']))
 
-#plot histograms of logged (log10) variables
-pdf("figures/6_histograms_transformed_scaled.pdf")
+# NOTE: doesn't seem to do much to the distribution
+# df2[,'Fusionofovaries'] <- car::logit(df2[,'Fusionofovaries'])
+
+## Scale and centre numeric traits ----
+df2<-cbind(scale(df2[ ,1:7],center = T, scale = T),df[ ,facts])
+
+# plot histograms of scaled, centred, logged variables
 par(mfrow=c(3,3))
-
 for(i in 1:7){
   hist(df2[,i],main=colnames(df2)[i])
 }
-dev.off()
+
+# reset plotting parameters
+par(mfrow=c(1,1))
+
+# # (NOT YET ADDED) Make names nice for plots ----
+# new_names <- c("Maximum_height",
+#   "No._fertile_stamens",
+#   "No._ovules_per_functional_carpel",
+#   "No._structural_carpels",
+#   "Fusion_of_ovaries",
+#   "Flower_size",
+#   "Seed_mass",
+#   "Woodiness",
+#   "Climbing",
+#   "Aquatic",
+#   "Sexual_system",
+#   "Lifespan",
+#   "Mating_system",
+#   "Pollination",
+#   "Dispersal_mode",
+#   "Dispersal_distance",
+#   "Flower_sex",
+#   "Ovary_position",
+#   "Floral_reward",
+#   "Flower_symmetry",
+#   "Showiness")
+# 
+# # check correspondence
+# data.frame(colnames(df2), new_names)
+# 
+# # assign new names
+# colnames(df2) <- new_names
 
 # Save scaled and transformed dataset
 saveRDS(df2, file = here::here("outputs/6_df_filt_trans.rds"))
+
+

@@ -29,8 +29,8 @@ These functions convert variables (columns of a data frame) to a numeric
 }
 \section{Functions}{
 \itemize{
-\item \code{as_categorical}: Convert to categorical variable.
+\item \code{as_categorical()}: Convert to categorical variable.
 
-\item \code{as_ordinal}: Convert to ordinal variable.
+\item \code{as_ordinal()}: Convert to ordinal variable.
+
 }}
-
