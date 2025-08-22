@@ -70,13 +70,19 @@ issue_species[,c("Name_submitted",
                  "Accepted_name")]
 # NOTE: verified on POWO: https://powo.science.kew.org/
 
-# Number of families according to TNRS ----
-unique(spec_df$Accepted_family)
-
 # reformat standardized list of names
 spec_df <- check_species[,c("Accepted_species","Genus_matched","Accepted_family")]
 maker_tree_tnrs <- phylo.maker(spec_df)
 
+# Number of families according to TNRS ----
+unique(spec_df$Accepted_family)
+
+# REVIEW: check status of species
+# Specifically, species matched between the species.list and the backbone phylogeny are indicated as "prune"
+# species absent from the backbone phylogeny, but were successfully binded to the backbone phylogeny are indicated as "bind"
+# species absent from the backbone phylogeny and failed to be binded to the backbone phylogeny are indicated as "fail to bind".
+table(maker_tree_tnrs$species.list$status)
+d
 # NOT RUN:
 # Are TNRS edges the same as U.Taxonstand? (YES)
 # table(maker_tree$scenario.3$edge.length == maker_tree_tnrs$scenario.3$edge.length)

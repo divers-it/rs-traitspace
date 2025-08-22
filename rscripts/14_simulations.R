@@ -16,7 +16,7 @@ species_names <- angio_tree$tip.label
 # continuous_traits <- df_recoded[,c(1:7)]
 # discrete_traits <- df_recoded[,c(8:21)]
 
-# try with original imputed data
+# read imputed data
 df_imputed <- read.csv("outputs/imputed_with_phylo.csv", row.names = 1)
 continuous_traits <- df_imputed[,c(1:7)]
 
@@ -309,6 +309,3 @@ vegan::mantel(as.matrix(gower_final),as.matrix(gower_sim))
 # plot pairs of variables (removing some with high cat count)
 ggpairs(df_sim,cardinality_threshold=16) 
 
-# look at a trait correlation
-tmp<-sim_list[[1]]
-table(tmp$matingsystem,tmp$dioecy)

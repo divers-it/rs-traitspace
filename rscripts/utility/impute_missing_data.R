@@ -57,13 +57,27 @@ sum(x@Eigen$values[1:10])/sum(x@Eigen$values)
 df <- as.data.frame(unclass(df),                     
                        stringsAsFactors = TRUE)
 
-# NOT RUN: Imputation without Phylo data
-# imp <- missForest::missForest(df[2:length(colnames(df))], maxiter = 15, ntree = 100, variablewise = FALSE)
+# REVIEW: Imputation without phylogenetic data ----
+imp <- missForest::missForest(df[2:length(colnames(df))], maxiter = 15, ntree = 100, variablewise = FALSE)
+
+# error
+imp$OOBerror
+
+# output dataset
+imp_df <- imp$ximp[,c(1:(length(colnames(df))-1))]
+
+# add species names
+rownames(imp_df) <- df$species
+
+# write standard csv
+write.csv(imp_df,"outputs/imputed_without_phylo.csv")
+
+### Imputation with phylogenetic data ----
 
 # Combine traits and PVRs
 traits.pvrs <- cbind(df[2:length(colnames(df))], pvrs)
 
-### Imputation with phylogenetic data ----
+# run missforest
 phy_imp <- missForest::missForest(traits.pvrs, maxiter = 15, ntree = 100, variablewise = FALSE)
 
 # error
@@ -75,9 +89,20 @@ phy_imp_df <- phy_imp$ximp[,c(1:(length(colnames(df))-1))]
 # add species names
 rownames(phy_imp_df) <- df$species
 
-# write standard csv
+# write  csv
 write.csv(phy_imp_df,"outputs/imputed_with_phylo.csv")
 
+# REVIEW: Compare phylo and non-phylo imputation ----
+# dissimilarity matrix calculation
+gower_imp <- cluster::daisy(imp_df,
+                  metric = "gower" )
+
+gower_phyimp <- cluster::daisy(phy_imp_df,
+                            metric = "gower" )
+
+# check correlation
+mant <- vegan::mantel(as.matrix(gower_imp),as.matrix(gower_phyimp))
+mant
 
 ####
 ## Simulate missing data in one-hot encoding ----
