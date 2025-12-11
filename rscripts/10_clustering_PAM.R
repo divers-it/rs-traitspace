@@ -441,6 +441,7 @@ a1 + s1 + plot_annotation(tag_levels = 'a',tag_prefix="(",tag_suffix=")") & them
 
 # save plot
 ggsave("figures/figure_3_umap.png",width=20,height=10)
+ggsave("figures/figure_3_umap.pdf",width=20,height=10)
 
 #Proportion of missing data 
 #species that dont belong to robust group

@@ -46,7 +46,7 @@ traitd$Dim3=as.data.frame(traitvectors34)$Dim3
 traitd$Dim4=as.data.frame(traitvectors34)$Dim4
 traitd$trait=rownames(traitd)
 
-speciesv=vegan::scores(dataset_pcoa2,display="species")
+speciesv=vegan::scores(dataset_pcoa2,display="sites")
 speciesd=as.data.frame(speciesv)
 
 # Recalculate relative eigenvalues by removing negative eigenvalues
@@ -161,6 +161,12 @@ patch <- ( p1_fix ) + ( c1d2_fix ) + plot_layout(design = layout)
 patch + plot_annotation(tag_levels = list(c("(a)","(b)",""))) + theme(plot.tag = element_text(size = 14))
 
 ggsave("figures/figure_2_loadings.png",
+       # height=12.5*yax,
+       height=10,
+       width=20
+)
+
+ggsave("figures/figure_2_loadings.pdf",
        # height=12.5*yax,
        height=10,
        width=20

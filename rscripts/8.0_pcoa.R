@@ -676,6 +676,11 @@ ggsave("figures/figure_4_pcoa.png",
        width = 25,
        height = 20)
 
+ggsave("figures/figure_4_pcoa.pdf",
+       width = 25,
+       height = 20)
+
+
 ####
 ## Table S3: Correlations of traits with PCOA axes ----
 ####

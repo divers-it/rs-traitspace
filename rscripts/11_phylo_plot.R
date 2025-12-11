@@ -123,7 +123,7 @@ asterales_pp <- get_phylopic(uuid = uuid[1])
 uuid <- get_uuid(name = "Magnolia", n = 1)
 magnoliales_pp <- get_phylopic(uuid = uuid[1])
 
-uuid <- get_uuid(name = "Panicum miliaceum", n = 1)
+uuid <- get_uuid(name = "Eriocaulon", n = 1)
 poales_pp <- get_phylopic(uuid = uuid[1])
 
 uuid <- get_uuid(name = "Cypripedium", n = 1)
@@ -132,8 +132,8 @@ asparagales_pp <- get_phylopic(uuid = uuid[1])
 uuid <- get_uuid(name = "Cynomorium", n = 1)
 saxifragales_pp <- get_phylopic(uuid = uuid[1])
 
-uuid <- get_uuid(name = "Acer platanoides", n = 1)
-sapindales_pp <- get_phylopic(uuid = uuid[1])
+uuid <- get_uuid(name = "Acer platanoides", n = 2)
+sapindales_pp <- get_phylopic(uuid = uuid[2])
 
 uuid <- get_uuid(name = "Arabidopsis thaliana", n = 1)
 brassicales_pp <- get_phylopic(uuid = uuid[1])
@@ -147,14 +147,14 @@ rosales_pp <- get_phylopic(uuid = uuid[1])
 uuid <- get_uuid(name = "Nepenthes distillatoria", n = 1)
 caryophyllales_pp <- get_phylopic(uuid = uuid[1])
 
-uuid <- get_uuid(name = "Quercus robur", n = 2)
-fagales_pp <- get_phylopic(uuid = uuid[2])
+uuid <- get_uuid(name = "Quercus robur", n = 5)
+fagales_pp <- get_phylopic(uuid = uuid[5])
 
 uuid <- get_uuid(name = "Capsicum annuum", n = 1)
 solanales_pp <- get_phylopic(uuid = uuid[1])
 
 uuid <- get_uuid(name = "Anthurium", n = 2)
-alismatales_pp <- get_phylopic(uuid = uuid[2])
+alismatales_pp <- get_phylopic(uuid = uuid[1])
 
 #### 
 ### GGTREE ----
@@ -284,3 +284,4 @@ g1 +
   add_phylopic(img=lamiales_pp, x=195, y=348, ysize = 12,col = "black")
 
 ggsave("figures/figure_1_phylo.png", width = 15, height=15)
+ggsave("figures/figure_1_phylo.pdf", width = 15, height=15)
