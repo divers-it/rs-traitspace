@@ -5,6 +5,7 @@ library(cluster)
 library(umap)
 library(ggplot2)
 library(ggpubr)
+library(RColorBrewer)
 
 # This script re-generate initial pcoa plots from gower's distance
 # Then it compare them to the same analyses with imputed data and recoding in multistate characters used for phylogenetic analysis
@@ -181,7 +182,7 @@ plot_figure_umap<- function(df,tr,suffix,label_list) {
     color <- scale_colour_viridis_c()
   } else
     color <- scale_color_discrete()
-  ggplot(data=df,aes(x=dim1,y=dim2,col=label)) + geom_point() + color
+  ggplot(data=df,aes(x=dim1,y=dim2,col=label)) + geom_point() + color + theme_bw()
   ggsave(paste0("figures/umap/",tr,"_umap_knn",knn,"_",suffix,".pdf"),width = 7,height = 7)
 }
 
@@ -212,7 +213,7 @@ for(knn in c(10,25,50,100)) {
 }
 
 ####
-# Figure S9: UMAP knn10-100 ----
+# Figure S10: UMAP knn10-100 ----
 ####
 
 #UMAP config
@@ -231,8 +232,8 @@ df_umap_final <- data.frame(umap_final$layout)
 rownames(df_umap_final) <- species_names
 colnames(df_umap_final) <- c("dim1","dim2")
 
-p100<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=FlowerSex,shape=Woodiness)) + geom_point(size=3,alpha=0.6) + scale_color_discrete() +
-  theme(legend.position = c(0.125, 0.25), legend.background = element_rect(fill=NA)) + ggtitle("knn = 100")
+p100<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=FlowerSex,shape=Woodiness)) + geom_point(size=3) + scale_color_manual(values=brewer.pal(3,"Set2"))  + theme_bw()+
+  theme(legend.position = c(0.125, 0.25), legend.background = element_rect(fill=NA)) + ggtitle("knn = 100") 
 p100
 
 #knn 50
@@ -242,7 +243,7 @@ df_umap_final <- data.frame(umap_final$layout)
 rownames(df_umap_final) <- species_names
 colnames(df_umap_final) <- c("dim1","dim2")
 
-p50<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=FlowerSex,shape=Woodiness)) + geom_point(size=3,alpha=0.6) + scale_color_discrete() + theme(legend.position = "none") + ggtitle("knn = 50")
+p50<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=FlowerSex,shape=Woodiness)) + geom_point(size=3) + scale_color_manual(values=brewer.pal(3,"Set2")) + theme_bw() + theme(legend.position = "none") + ggtitle("knn = 50")
 
 #knn 25
 custom_config$n_neighbors <- 25 # number of dimensions targeted
@@ -250,7 +251,7 @@ umap_final <- umap(d = as.matrix(dist_final),config = custom_config)
 df_umap_final <- data.frame(umap_final$layout)
 colnames(df_umap_final) <- c("dim1","dim2")
 
-p25<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=FlowerSex,shape=Woodiness)) + geom_point(size=3,alpha=0.6) + scale_color_discrete() + theme(legend.position = "none") + ggtitle("knn = 25")
+p25<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=FlowerSex,shape=Woodiness)) + geom_point(size=3) + scale_color_manual(values=brewer.pal(3,"Set2")) + theme_bw() + theme(legend.position = "none") + ggtitle("knn = 25")
 
 #knn 10
 custom_config$n_neighbors <- 10 # number of dimensions targeted
@@ -258,7 +259,7 @@ umap_final <- umap(d = as.matrix(dist_final),config = custom_config)
 df_umap_final <- data.frame(umap_final$layout)
 colnames(df_umap_final) <- c("dim1","dim2")
 
-p10<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=FlowerSex,shape=Woodiness)) + geom_point(size=3,alpha=0.6) + scale_color_discrete() + theme(legend.position = "none") + ggtitle("knn = 10")
+p10<-ggplot(data=df_umap_final,aes(x=dim1,y=dim2,col=FlowerSex,shape=Woodiness)) + geom_point(size=3) + scale_color_manual(values=brewer.pal(3,"Set2")) + theme_bw() + theme(legend.position = "none") + ggtitle("knn = 10")
 
 # make combined plot
 ( p100 + p50 ) /

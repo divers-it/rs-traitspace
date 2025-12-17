@@ -256,10 +256,11 @@ for(i in 1:length(clusters_pcoa[1,])){
       geom_point(
         color="black",
         shape=21,
-        alpha=0.5,
+#        alpha=0.5,
         size=2,
         stroke = 0.5
       ) + 
+      scale_fill_manual(values=brewer.pal(i+1,"Set2")) +
       ggtitle(paste(colnames(clusters_pcoa)[i])) +
       # stat_ellipse(geom = "polygon",
       #              aes(fill =  as.factor(clusters_pcoa[,i])), 
@@ -833,8 +834,8 @@ ggsave("figures/figure_S12_robust_groups.png",width=25,height=20)
 ## Figure S9: Qualitative and quantitative values for PAM clusters ----
 ####
 
-# colors order to match Figure S7 (b)
-cols<-brewer.pal(3,"Set1")[c(1,3,2)]
+# colors order to match Figure S9 (b)
+cols<-brewer.pal(3,"Set2")[c(1,3,2)]
 
 #### 
 ### Figure S9b Quantitative trait boxplots per cluster ----
@@ -883,7 +884,7 @@ b1
 b2 <- ggplot(df_labelled, aes(x=cluster, y=flowerSize, fill=cluster)) + 
   geom_boxplot(alpha=0.7, outlier.color=NA) + 
   geom_jitter(shape=21, position=position_jitter(0.1),alpha=0.7) + 
-  scale_fill_discrete() +
+  scale_fill_manual(values=cols) +
   # scale_y_continuous(limits = quantile(df_labelled$flowerSize, c(0.025, 0.975),na.rm = TRUE)) +
   ylab("Flower size") +
   theme(legend.position = "none",
