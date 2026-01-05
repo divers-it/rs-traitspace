@@ -10,6 +10,7 @@ library(RColorBrewer)
 library(ggrepel)
 library(networkD3)
 library(patchwork)
+library(stringr)
 
 # load formatted data
 df <- readRDS(file = here::here("outputs/6_df_filt_trans.rds"))
@@ -420,7 +421,7 @@ s1 <- ggplot(
   ) + 
   labs(
     colour = "Robust group",
-    shape = "PAM cluster (k = 3)"
+    shape = str_wrap("PAM cluster (k = 3)",width=11)
   ) + 
   guides(fill = guide_legend(override.aes = list(size = 6,
                                                  shape=16,
